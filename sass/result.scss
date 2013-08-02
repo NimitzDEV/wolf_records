@@ -1,0 +1,205 @@
+@import "compass";
+
+/* variable */
+$white: #fdfdfd;
+$black: #333;
+$hlight: #00c2ff;
+
+$win: #a43c37;
+$lose: #0088cc;
+
+$vil: #0ba20b; 
+$wlf: #a20b0b;
+$fry: #0034A1;
+
+
+a {
+  /*color: #9E9E9E;*/
+  color: #00c928;
+}
+
+a:hover {
+  color: #0ba20b;
+  text-decoration:underline;
+}
+
+
+
+h3.popover-title {
+  color: $black;
+}
+.popover-content {
+  color: $black;
+  font-size: 12px;
+}
+
+body{
+  background: $white;
+  color: $black;
+  font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo, sans-serif;
+}
+
+
+header {
+  width: 100%;
+  position: fixed;
+  z-index:1030;
+
+
+
+
+
+  #summary {
+    background: #000;
+    @include background-image(radial-gradient(center, ellipse cover, #232425 20%,#000000 100%));
+    padding: 20px 0 5px;
+    text-align:center;
+    color: #fff;
+
+    h1 {
+      font-size: 45px;
+      margin: 10px 0 25px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+
+    span {
+      color: $hlight;
+      font-weight: bold;
+    }
+
+  }
+
+  nav#headerMenu {
+    background:#f0f0f0;
+    padding: 3px 15px;
+    color: #000;
+    font-size: 16px;
+    overflow: hidden;
+
+    ul {
+      margin:0 auto;
+      overflow: hidden;
+      float: left;
+    li {
+      display:block;
+      float:left;
+      padding: 10px 15px 10px;
+       }
+    li:first-child {
+      padding-left: 0px;
+    }
+    }
+
+
+    ul#sub {
+      float: right;
+      font-size:14px;
+      li {
+        padding-left:0;
+      }
+    }
+
+    form {
+      margin: 5px 0 0 0;
+      
+      input[type=text] {
+        margin-bottom: 0;
+        width: 10em;
+      }
+    }
+
+  }
+}
+
+#ad {
+  padding-top: 190px;
+  width: 728px;
+  margin: 0 auto 25px;
+}
+
+
+#list {
+  tr .header {
+    background-image: url('../img/sortBg.gif');
+  }
+  tr .headerSortUp {
+    background-image:url('../img/sortAsc.gif');
+  }
+  tr .headerSortDown {
+    background-image:url('../img/sortDesc.gif');
+  }
+
+  th
+  {
+    border-bottom:1px solid #ccc;
+    color: #000;
+    font-weight:normal;
+    background: #f0ffe8 no-repeat;
+    background-position: 70% 50%;
+    cursor: pointer;
+  }
+  /*tr td:nth-child(7)*/
+  /*{*/
+    /*text-align:center;*/
+  /*}*/
+  td.w {
+    color:$win;
+  }
+  td.l {
+    color: $lose;
+  }
+  td.j{
+
+  }
+  td.i{
+    text-decoration: line-through;
+
+  }
+  td.o{
+
+  }
+  td.noData {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+#role {
+  margin-bottom: 3em;
+  table{
+    float:left;
+    width: auto;
+    margin: 20px 2em 0 0;
+
+    thead{
+      tr {
+        color:$white;
+      }
+      td:first-child {
+        padding-right: 1em;
+      }
+      tr.vil {
+        background: $vil;
+      }
+      tr.wlf {
+        background: $wlf;
+      }
+      tr.fry {
+        background: $fry;
+      }
+    }
+    td {
+      text-align: right;
+      padding: 5px;
+    }
+    td:first-child {
+      text-align:left;
+    }
+  }
+
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="fortmorst">
+    <meta name="description:" content="人狼戦績まとめの説明書です。">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>説明書 | 人狼戦績まとめ</title>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42678919-1', 'waoon.net');
+      ga('send', 'pageview');
+
+    </script>
+<!--[if lt IE 9]>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+  <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+  </head>
+  <body>
+    <header>
+      <h1>説明書</h1>
+    </header>
+
+    <div class="container">
+      <section id="detail">
+            <h2>各項目補足</h2>
+            <dl>
+              <!--
+                <dt>参加区分について</dt>
+                <dd>
+                  <span class="icon-fire"> </span>は勝敗の付く通常の村、
+                  <span class="icon-book"> </span>はRP村など勝敗度外視で遊ぶ村の参加数を指します。<br>
+                </dd>
+              -->
+                <dt>生存係数</dt>
+                <dd>
+                  「生存日数 / エピローグの日」です。<br/>
+                  生存日数は、死亡した日ではなく生存していた日までになります。たとえば3日目処刑ならば2日になります。
+                </dd>
+
+                <dt>編成詳細</dt>
+                <dd>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>編成名</th>
+                        <th>編成内容</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>C編成</td>
+                        <td>占霊狩、囁き狂人、狼3、残り村</td>
+                      </tr>
+                      <tr>
+                        <td>F編成</td>
+                        <td>占霊狩狂、共有者2、狼3、残り村</td>
+                      </tr>
+                      <tr>
+                        <td>G編成</td>
+                        <td>占霊狩狂、狼3、残り村</td>
+                      </tr>
+                      <tr>
+                        <td>少人数狼2</td>
+                        <td>14人以下で狼が2</td>
+                      </tr>
+                      <tr>
+                        <td>少人数狼3</td>
+                        <td>15人以下で狼が3</td>
+                      </tr>
+                      <tr>
+                        <td>少人数C狼2</td>
+                        <td>14人以下で狼が2、狂人が囁き狂人</td>
+                      </tr>
+                      <tr>
+                        <td>少人数C狼3</td>
+                        <td>15人以下で狼が3、狂人が囁き狂人</td>
+                      </tr>
+                      <tr>
+                          <td>少人数狂人なし</td>
+                          <td>15人以下で狂人がいない</td>
+                      </tr>
+                      <tr>
+                          <td>特殊</td>
+                          <td>上記のどれにも当てはまらないもの</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </dd>
+
+                <dt>役職名の統一</dt>
+                <dd>
+                  <!-- 　狩人と守護者のように、同じ能力を持っていても役職の名前が国や村の設定によって異なる場合があります。また、
+                人狼BBSのC国とそれ以外の「狂人」のように、別の能力なのに同じ役職名がついていることもあります。<br/>
+                　戦績一覧テーブル内の役職欄はその村での言い換えに即して取得していますが、役職別参加数では同じ能力を持つ役職を名前を統一し、別の能力を持つ役職を別々に表示しています。-->
+                戦績一覧テーブルの役職欄は、その村のエピローグに表示されている役職名を抽出しています。<br>
+                しかし役職別参加テーブルでは、別の能力を持つ役職を分離して表示しています。<br>
+                たとえば人狼BBSC国の「狂人」とG国の「狂人」は表記は同じでも異なる能力を持つため、前者を「囁き狂人」として別々に表示しています。<br>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>統一名</th>
+                  <th>同じ能力と見なす主な役職</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>囁き狂人</td>
+                  <td>狂人(人狼BBSC国)</td>
+                </tr>
+                <tr>
+                  <td>妖魔</td>
+                  <td>ハムスター人間</td>
+                </tr>
+              </tbody>
+            </table>
+                </dd>
+            </dl>
+      </section>
+
+      <section id="supplement">
+            <h2>村データ補足</h2>
+            <dl>
+                <dt>村データの反映タイミングについて</dt>
+                <dd>
+                  毎日午前4時時点で終了している村を自動取得しています。
+                </dd>
+                <dt>データを取得しない村</dt>
+                <dd>
+                  途中でログが消失するなどして、勝敗が付いていない村はデータを登録していません。
+                  <ul>
+                    <li>人狼BBSのA355, A358, A360-365 (エピに入る前にログ消失・全員突然死扱い)</li>
+                    <li>C451 (ログ吹っ飛び？でほぼ全員突然死)</li>
+                    <li>C520 (10人以上の荒らしIDによる2d突然死)</li>
+                    <li>C1154 (データ巻き戻り？でほぼ全員突然死)</li>
+                  </ul>
+                </dd>
+                <dt>データを手動で修正した村</dt>
+                  <dd>
+                    ログは消失したけれど決着が付いており、まとめサイトなどによって勝敗が分かる村は、データを分かる範囲で手動修正しています。
+                    <ul>
+                      <li>人狼BBSのA340, A341, A353, A354, A356, A357, A359 (決着済のログが巻き戻りにより消失、全員突然死扱い)
+                      </li>
+                    </ul>
+                  </dd>
+            </dl>
+            <h2>プライバシー・ポリシー</h2>
+            <dl>
+                <dt>Google Analyticsの利用について</dt>
+                <dd>
+                このサイトではGoogle Analyticsによるアクセス解析を行っており、ファーストパーティcookieにより匿名のトラフィックデータを収集しています。<br>
+                個人を識別・特定できる情報は取得しておりませんが、気になる方は<a href="https://tools.google.com/dlpage/gaoptout?hl=ja">オプトアウトアドオン</a>の導入をお勧めします。<br>
+                なお、取得した情報はサイトの質向上にのみ利用しております。<br>
+参考：<a href="http://www.google.co.jp/intl/ja/policies/privacy/">プライバシー ポリシー – ポリシーと原則 – Google</a>
+
+                
+                </dd>
+            </dl>
+      
+      </section>
+      <footer>
+        <p>作った人: <a href="https://twitter.com/fortmorst">fortmorst</a>
+         || <a href="http://waoon.net">waoon.net</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
