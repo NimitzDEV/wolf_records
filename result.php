@@ -2,7 +2,8 @@
   require_once('lib/GetDB.php');
   if (!empty($_GET['player']))
   {
-    $db = new GetDB($_GET['player']);
+    $player = htmlspecialchars($_GET['player']);
+    $db = new GetDB($player);
   } else {
     $db = new GetDB('-NODATA-');
 }
@@ -23,7 +24,7 @@
     <link rel="stylesheet" href="css/result.css">
     <title>
       <?
-        echo $db->getPlayer(); //ID取得
+        echo $player; //ID取得
       ?> 
       の人狼戦績 | 人狼戦績まとめ
     </title>
@@ -50,7 +51,7 @@
         <div class="container">
           <h1>
           <?
-            echo $db->getPlayer(); //ID取得
+            echo $player; //ID取得
           ?> 
           </h1>
         <p>

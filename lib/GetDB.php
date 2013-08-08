@@ -25,7 +25,7 @@ class GetDB
   function GetDB($argID)
   {
     //エスケープ
-    $this->player = htmlspecialchars($argID);
+    $this->player = $argID;
   }
 
 
