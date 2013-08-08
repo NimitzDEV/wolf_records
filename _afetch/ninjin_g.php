@@ -16,23 +16,23 @@ $fetchArray = array();
 //
 //保留していた番号の村が終了したかチェック
 //
-$fp = fopen('b_ninjin_g.txt','r');
+$fp = fopen('q_ninjin_g.txt','r');
 
 if(flock($fp,LOCK_SH))
 {
-  $org_buffer = fgets($fp);
-  $buffer     = $org_buffer;
+  $org_queue = fgets($fp);
+  $queue     = $org_queue;
 
-  if ($org_buffer != null){
-    //bufferの村番号を配列にする
-    $preArray= explode(',',$org_buffer);
+  if ($org_queue != null){
+    //queueの村番号を配列にする
+    $preArray= explode(',',$org_queue);
     array_pop($preArray);
     foreach ($preArray as $vno)
     {
       if (checkVilEnd($vno))
       {
-        //終了済の村は後でbufferから消す
-        $buffer = preg_replace('/'.$vno.',/',"",$org_buffer);
+        //終了済の村は後でqueueから消す
+        $queue = preg_replace('/'.$vno.',/',"",$org_queue);
         $fetchArray[] = $vno;
       } else {
         echo 'NOTICE: No.'.$vno.'is still proceeding.'.PHP_EOL;
@@ -40,7 +40,7 @@ if(flock($fp,LOCK_SH))
     }
   } 
 } else {
-  echo 'ERROR: Cannot lock buffer.'.PHP_EOL;
+  echo 'ERROR: Cannot lock queue.'.PHP_EOL;
 }
 fclose($fp);
 
@@ -82,17 +82,17 @@ if ($lastNum > $dbLastNum)
       $fetchArray[] = $vno;
     } else {
       //終了していない村は一旦村番号をメモ
-      $fp = fopen('b_ninjin_g.txt','a');
+      $fp = fopen('q_ninjin_g.txt','a+');
       if(flock($fp,LOCK_SH))
       {
         if(fwrite($fp,$vno.','))
         {
-          echo 'NOTICE: '.$vno.' is proceeding. Inserted buffer.'.PHP_EOL;
+          echo 'NOTICE: '.$vno.' is proceeding. Inserted queue.'.PHP_EOL;
         } else {
-          echo 'ERROR:'.$vno.' Cannot write buffer.'.PHP_EOL;
+          echo 'ERROR:'.$vno.' Cannot write queue.'.PHP_EOL;
         }
       } else {
-        echo 'ERROR:'.$vno.' Cannot lock buffer.'.PHP_EOL;
+        echo 'ERROR:'.$vno.' Cannot lock queue.'.PHP_EOL;
       }
       fclose($fp);
     }
@@ -396,18 +396,18 @@ if (!empty($fetchArray))
   echo 'complete insert.';
 
 
-  //bufferファイルを更新する
-  if ($org_buffer !== $buffer)
+  //queueファイルを更新する
+  if ($org_queue !== $queue)
   {
-    $fp = fopen('b_ninjin_g.txt','r+');
+    $fp = fopen('q_ninjin_g.txt','r+');
     if(flock($fp,LOCK_SH))
     {
       //ファイル内容を削除する
       ftruncate($fp,0);
       //変更内容を書き込む
-      fwrite($fp,$buffer);
+      fwrite($fp,$queue);
     } else {
-      echo 'ERROR: Cannot lock buffer.'.PHP_EOL;
+      echo 'ERROR: Cannot lock queue.'.PHP_EOL;
     }
 
     fclose($fp);
