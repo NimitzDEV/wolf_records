@@ -1,8 +1,8 @@
 <?
 
-require_once('lib/DBAdapter.php');
+require_once('../lib/DBAdapter.php');
 require_once('./common.php');
-require_once('../../simple_html_dom.php');
+require_once('../../lib/simple_html_dom.php');
 
 define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
 define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
