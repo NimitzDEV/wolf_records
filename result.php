@@ -4,11 +4,22 @@
   {
     $player = htmlspecialchars($_GET['player']);
     $db = new GetDB($player);
-  } else {
+  } else
+  {
+    //TODO:エラーページを出す
     $db = new GetDB('-NODATA-');
-}
+  }
 
-    $db->connect();
+  $db->connect();
+
+  if($db->FetchJoinCount())
+  {
+
+  } else
+  {
+    //エラーページを出す
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -23,10 +34,7 @@
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <?
-        echo $player; //ID取得
-      ?> 
-      の人狼戦績 | 人狼戦績まとめ
+      <? echo $player; //ID取得 ?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,70 +54,32 @@
   <body id="record">
     <header>
 
-      <!--サマリ-->
       <div id="summary">
         <div class="container">
           <h1>
-          <?
-            echo $player; //ID取得
-          ?> 
+            <? echo $player; //ID取得 ?>
           </h1>
-        <p>
-          総合参加数 : 
-            <?
-              echo '<span>'.$join = $db->getJoin().'</span>';
-              $gachi = $join; //非ガチ村未実装用
-              //echo ' / ';
-              //if ($join != 0)
-              //{
-                //echo '<span class="icon-fire icon-white">　</span><span>'.$gachi=$db->getGachi().'</span> ';
-                ////echo '<span class="icon-book icon-white">　</span><span>'.$rp=$db->getRP().'</span>';
-
-              //}
-            ?>
-            　<span class="icon-fire icon-white">　</span>勝率 : 
-            <?
-              if ($gachi != 0)
-              {
-                $win = $db->getWin();
-                $avg = round($win / $gachi,3) * 100;
-                echo '<span>'.$avg.'</span>%';
-                unset($avg,$win);
-              } else {
-                echo '0/0 (0%)';
-              }
-            ?>
-            　平均生存係数
-            <span class="icon-fire icon-white">　</span>
-            <?
-              if (!empty($gachi))
-              {
-                echo '<span>'.$db->getGachiLife().'</span>';
-                unset($gachi);
-
-              } else {
-                echo '0.00';
-              }
-            ?>
+          <p>
+          総合参加数 : <span><? echo $db->getJoinSum(); ?></span>
 <!--
-              
-                <span class="icon-book icon-white">　</span>
-              <?
-                if (!empty($rp))
-                {
-                  echo '<span>'.$db->getRPLife().'</span>';
-                  unset($rp);
+           /
+           <span class="icon-fire icon-white">　</span><span><? echo $db->getJoinGachi(); ?></span>
+           <span class="icon-book icon-white">　</span><span><? echo $db->getJoinRP(); ?></span>
+-->
+          　勝率 : <span class="icon-fire icon-white"></span>
+            <span><? echo $db->getJoinWinPercent() ?></span>% 
 
-                } else {
-                  echo '0.00';
-                }
-              ?>
+          　平均生存係数
+            <span class="icon-fire icon-white"></span>
+            <span><? echo $db->getLiveGachi(); ?></span>
+<!--
+            <span class="icon-book icon-white">　</span>
+            <span><? echo $db->getLiveRP(); ?></span>
 -->
           </p>
         </div>
       </div>
 
-      <!--メニュー-->
       <nav id="headerMenu">
         <ul>
           <li>
@@ -162,7 +132,6 @@
       </div>
     </div>
 
-
     <section class="container">
       <table id="list" class="table table-striped table-condensed table-hover tablesorter">
         <thead>
@@ -194,30 +163,29 @@
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
                 switch ($item['result'])
                 {
-                  case GetDB::RSL_WIN:
-                    echo '<td class="w">勝利</td>';
+                  case '勝利':
+                    echo '<td class="w">';
                     break;
-                  case GetDB::RSL_LOSE:
-                    echo '<td class="l">敗北</td>';
+                  case '敗北':
+                    echo '<td class="l">';
                     break;
-                  case GetDB::RSL_JOIN:
-                    echo '<td class="j">参加</td>';
+                  case '参加':
+                    echo '<td class="j">';
                     break;
-                  case GetDB::RSL_INVALID:
-                    echo '<td class="i">無効</td>';
+                  case '無効':
+                    echo '<td class="i">';
                     break;
-                  case GetDB::RSL_ONLOOKER:
-                    echo '<td class="o">見物</td>';
+                  case '見物':
+                    echo '<td class="o">';
                     break;
                 }
-
-                echo '</tr>'.PHP_EOL;
+                echo $item['result'].'</td></tr>';
               }
               unset($table,$item);
-            } else {
-              echo '<tr>';
-              echo '<td class="noData" colspan="8">NO DATA</td>';
-              echo '</tr>';
+            }
+           else
+            {
+              echo '<tr><td class="noData" colspan="8">NO DATA</td></tr>';
             }
           ?>
         </tbody>
