@@ -14,12 +14,11 @@
 
   if($db->FetchJoinCount())
   {
+    $table = $db->getTable();
     $db->fetchTeamCount();
 
-  } else
-  {
-    //エラーページを出す
   }
+  $db->disConnect();
 
 ?>
 
@@ -149,7 +148,6 @@
         </thead>
         <tbody>
           <?
-            $table = $db->getTable();
             if (!empty($table))
             {
               foreach($table as $item)
