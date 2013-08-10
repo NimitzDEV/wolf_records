@@ -2,12 +2,24 @@
   require_once('lib/GetDB.php');
   if (!empty($_GET['player']))
   {
-    $db = new GetDB($_GET['player']);
-  } else {
+    $player = htmlspecialchars($_GET['player']);
+    $db = new GetDB($player);
+  } else
+  {
+    //TODO:エラーページを出す
     $db = new GetDB('-NODATA-');
-}
+  }
 
-    $db->connect();
+  $db->connect();
+
+  if($db->FetchJoinCount())
+  {
+    $table = $db->getTable();
+    $db->fetchTeamCount();
+
+  }
+  $db->disConnect();
+
 ?>
 
 <!DOCTYPE html>
@@ -22,10 +34,7 @@
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <?
-        echo $db->getPlayer(); //ID取得
-      ?> 
-      の人狼戦績 | 人狼戦績まとめ
+      <? echo $player; //ID取得 ?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -45,70 +54,32 @@
   <body id="record">
     <header>
 
-      <!--サマリ-->
       <div id="summary">
         <div class="container">
           <h1>
-          <?
-            echo $db->getPlayer(); //ID取得
-          ?> 
+            <? echo $player; //ID取得 ?>
           </h1>
-        <p>
-          総合参加数 : 
-            <?
-              echo '<span>'.$join = $db->getJoin().'</span>';
-              $gachi = $join; //非ガチ村未実装用
-              //echo ' / ';
-              //if ($join != 0)
-              //{
-                //echo '<span class="icon-fire icon-white">　</span><span>'.$gachi=$db->getGachi().'</span> ';
-                ////echo '<span class="icon-book icon-white">　</span><span>'.$rp=$db->getRP().'</span>';
-
-              //}
-            ?>
-            　<span class="icon-fire icon-white">　</span>勝率 : 
-            <?
-              if ($gachi != 0)
-              {
-                $win = $db->getWin();
-                $avg = round($win / $gachi,3) * 100;
-                echo '<span>'.$avg.'</span>%';
-                unset($avg,$win);
-              } else {
-                echo '0/0 (0%)';
-              }
-            ?>
-            　平均生存係数
-            <span class="icon-fire icon-white">　</span>
-            <?
-              if (!empty($gachi))
-              {
-                echo '<span>'.$db->getGachiLife().'</span>';
-                unset($gachi);
-
-              } else {
-                echo '0.00';
-              }
-            ?>
+          <p>
+          総合参加数 : <span><? echo $db->getJoinSum(); ?></span>
 <!--
-              
-                <span class="icon-book icon-white">　</span>
-              <?
-                if (!empty($rp))
-                {
-                  echo '<span>'.$db->getRPLife().'</span>';
-                  unset($rp);
+           /
+           <span class="icon-fire icon-white"></span><span><? echo $db->getJoinGachi(); ?></span>
+           <span class="icon-book icon-white"></span><span><? echo $db->getJoinRP(); ?></span>
+-->
+          　勝率 : <span class="icon-fire icon-white"></span>
+            <span><? echo $db->getJoinWinPercent() ?></span>% 
 
-                } else {
-                  echo '0.00';
-                }
-              ?>
+          　平均生存係数
+            <span class="icon-fire icon-white"></span>
+            <span><? echo $db->getLiveGachi(); ?></span>
+<!--
+            <span class="icon-book icon-white">　</span>
+            <span><? echo $db->getLiveRP(); ?></span>
 -->
           </p>
         </div>
       </div>
 
-      <!--メニュー-->
       <nav id="headerMenu">
         <ul>
           <li>
@@ -161,7 +132,6 @@
       </div>
     </div>
 
-
     <section class="container">
       <table id="list" class="table table-striped table-condensed table-hover tablesorter">
         <thead>
@@ -178,7 +148,6 @@
         </thead>
         <tbody>
           <?
-            $table = $db->getTable();
             if (!empty($table))
             {
               foreach($table as $item)
@@ -193,30 +162,29 @@
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
                 switch ($item['result'])
                 {
-                  case GetDB::RSL_WIN:
-                    echo '<td class="w">勝利</td>';
+                  case '勝利':
+                    echo '<td class="w">';
                     break;
-                  case GetDB::RSL_LOSE:
-                    echo '<td class="l">敗北</td>';
+                  case '敗北':
+                    echo '<td class="l">';
                     break;
-                  case GetDB::RSL_JOIN:
-                    echo '<td class="j">参加</td>';
+                  case '参加':
+                    echo '<td class="j">';
                     break;
-                  case GetDB::RSL_INVALID:
-                    echo '<td class="i">無効</td>';
+                  case '無効':
+                    echo '<td class="i">';
                     break;
-                  case GetDB::RSL_ONLOOKER:
-                    echo '<td class="o">見物</td>';
+                  case '見物':
+                    echo '<td class="o">';
                     break;
                 }
-
-                echo '</tr>'.PHP_EOL;
+                echo $item['result'].'</td></tr>';
               }
               unset($table,$item);
-            } else {
-              echo '<tr>';
-              echo '<td class="noData" colspan="8">NO DATA</td>';
-              echo '</tr>';
+            }
+           else
+            {
+              echo '<tr><td class="noData" colspan="8">NO DATA</td></tr>';
             }
           ?>
         </tbody>
@@ -224,113 +192,42 @@
     </section>
     <section id="role" class="container">
 <? 
-            if($join != 0)
-            {
-              $table = $db->getTeamTable();
-              if(!empty($table))
-              {
-                  $tTmGachi = $db->getTeamGachi();
-                  $tTmWin = $db->getTeamGachiWin();
-                  //$tTmRP = $db->getTeamRP();
-                foreach($table as $team => $item)
-                {
-                  //class名
-                  switch ($team)
-                  {
-                  case '村人':
-                    $tClass = 'vil';
-                    break;
-                  case '人狼':
-                    $tClass = 'wlf';
-                    break;
-                  case '妖魔':
-                    $tClass = 'fry';
-                    break;
-                  default:
-                    $tClass = 'ukn';
-                    break;
-                  }
+      foreach($db->getTeamArray() as $team)
+      {
+        switch ($team)
+        {
+          case '村人':
+            $tClass = 'vil';
+            break;
+          case '人狼':
+            $tClass = 'wlf';
+            break;
+          case '妖魔':
+            $tClass = 'fry';
+            break;
+          default:
+            $tClass = 'ukn';
+            break;
+        }
 
-                  if (!empty($tTmGachi))
-                  {
-                    $cTmGachi = $tTmGachi[$team];
-                    if(!empty($tTmWin[$team]))
-                    {
-                      $cTmWin = $tTmWin[$team];
-                      $cTmWinP = round($cTmWin/$cTmGachi,3) * 100;
-                    } else {
-                      //負け記録しかない場合
-                      $cTmWin = 0;
-                      $cTmWinP = 0;
-                    }
-                  } else {
-                    $cTmGachi = 0;
-                    $cTmWin = 0;
-                    $cTmWinP = 0;
-                  }
+        echo '<table class="table table-striped table-hover table-condensed"><thead>'; 
+        echo '<tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
+        echo '<td><span class="icon-fire icon-white"></span>'.$db->getTeamWin($team)
+          .'/'.$db->getTeamGachi($team).'</td>';
+        echo '<td>('.$db->getTeamWinP($team).'%)</td>';
+        //echo '<td><span class="icon-book icon-white"></span>'.$db->getTeamRP($team).'</td>';
+        echo '</tr></thead><tbody>';
 
-                  //if (!empty($tTMRP))
-                  //{
-                    //$cTmRP = $tTMRP[$team];
-                  //} else {
-                    //$cTmRP = 0;
-                  //}
-                  
-
-                  echo '<table class="table table-striped table-hover table-condensed"><thead>'; 
-                  echo '<tr class="'.$tClass.'">';
-                  echo '<td>'.$team.'陣営</td>';
-                  echo '<td><span class="icon-fire icon-white"> </span> '.$cTmWin.'/'.$cTmGachi.' ('.$cTmWinP.'%)</td>';
-                  //echo '<td><span class="icon-book icon-white"> </span> '.$cTmRP.'</td>';
-                  echo '</tr></thead><tbody>';
-
-
-                  $tSklGachi = $db->getSklGachi();
-                  $tSklWin = $db->getSklWin();
-                  //$tSklRP = $db->getSklRP();
-                  
-
-                  foreach($item as $skl)
-                  {
-                    if (!empty($tSklGachi[$skl]))
-                    {
-                      $cSklGachi = $tSklGachi[$skl];
-                      if(!empty($tSklWin[$skl]))
-                      {
-                        $cSklWin = $tSklWin[$skl];
-                        $cSklWinP = round($cSklWin/$cSklGachi,3) * 100;
-                      } else {
-                        //負け記録しかない場合
-                        $cSklWin = 0;
-                        $cSklWinP = 0;
-                      }
-                    } else {
-                      $cSklGachi = 0;
-                      $cSklWin = 0;
-                      $cSklWinP = 0;
-                    }
-
-                    //if (!empty($tSklRP[$skl]))
-                    //{
-                      //$cSklRP = $tSklRP[$skl];
-                    //} else {
-                      //$cSklRP = 0;
-                    //}
-                    
-
-                    echo '<tr><td>'.$skl.'</td>';
-                    echo '<td><span class="icon-fire"> </span> '.$cSklWin.'/'.$cSklGachi.' ('.$cSklWinP.'%)</td>';
-                    //echo '<td><span class="icon-book"> </span> '.$cSklRP.'</td></tr>';
-
-                  }
-                  echo '</tbody></table>';
-
-                }
-
-                unset($table,$item,$tTmGachi,$tTmWin,$tTmRP,$tSklGachi,$tSkilWin,$tSklRP);
-              }
-
-            }
+        foreach($db->getSkillArray($team) as $skill)
+        {
+          echo '<tr><td>'.$skill.'</td>';
+          echo '<td><span class="icon-fire"></span>'.$db->getSkillWin($team,$skill)
+            .'/'.$db->getSkillGachi($team,$skill).'</td>';
+          echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
+          //echo '<td><span class="icon-book"> </span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+        }
+        echo '</tbody></table>';
+      }
 ?>
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>

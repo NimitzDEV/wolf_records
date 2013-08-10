@@ -70,23 +70,27 @@ ddで定義したい
 
 ### 役職別
 
-|tmid|team|sklid|skl|result|count(*)|
+|team|skl|result|count(*)|sum|
 |----
-|1|村人|2|占い師|勝利|3|
-|1|村人|2|占い師|敗北|1|
+|村人|占い師|勝利|3|2|
+|村人|占い師|敗北|1|1|
 
-	SELECT u.tmid,t.name AS team, u.sklid, s.name AS skl,  r.name AS result,count(*)
-	FROM users AS u
-	INNER JOIN skill AS s ON u.sklid=s.id
-	INNER JOIN team AS t ON u.tmid=t.id
-	INNER JOIN result AS r ON u.rltid=r.id
-	WHERE player = 'luxx'
-	GROUP BY u.rltid,s.name
-	ORDER BY u.tmid,u.sklid,rltid
+	SELECT t.name team,s.name skl,r.name result,count(*) count,sum.sum
+      FROM users u
+	INNER JOIN skill s ON u.sklid=s.id
+	INNER JOIN team t ON u.tmid=t.id
+	INNER JOIN result r ON u.rltid=r.id
+        INNER JOIN (
+          SELECT tmid,rltid,count(*) sum FROM users WHERE player='luxx' GROUP BY tmid,rltid
+        ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
+      WHERE u.player='luxx'
+      GROUP BY u.rltid,s.name
+      ORDER BY u.tmid,u.sklid,u.rltid
 
-陣営別参加数/勝利数は、↑を配列に入れ直す時にphpでカウントする。
+
 
 #### 陣営別
+* 行った事のない陣営テーブルは表示させない
 * ガチ勝利数/ガチ参加数(ガチ勝率)
 	* 陣営ごとに算出する
 * RP回数
