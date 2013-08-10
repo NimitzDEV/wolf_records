@@ -197,7 +197,7 @@ class GetDB
     return $table;
   }
 
-
+  //役職別一覧取得
   function fetchTeamCount()
   {
     $sql = $this->pdo->prepare("
@@ -224,7 +224,7 @@ class GetDB
         $this->teamCount[$item['team']][$item['result']] = $item['sum'];
       }
       //陣営別に役職を分ける
-      $this->skillCount[$item['team']][$item['skl']][$item['result']] = (int)$item['count'];
+      $this->skillCount[$item['team']][$item['skl']][$item['result']] = $item['count'];
     }
 
     //埋まっていない結果(勝利、敗北、参加)にゼロを入れる

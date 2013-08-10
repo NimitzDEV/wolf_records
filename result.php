@@ -16,7 +16,6 @@
   {
     $table = $db->getTable();
     $db->fetchTeamCount();
-
   }
   $db->disConnect();
 
@@ -26,7 +25,6 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-
 
     <meta name="author" content="fortmorst">
     <meta name="description:" content="人狼戦績一覧を表示します。 ">
@@ -91,7 +89,7 @@
         </ul>
         <form class="navbar-search pull-right" action="./result.php" method="GET">
           <fieldset>
-            <input type="text" class="sarch-query" name="player" placeholder="ID検索">
+            <input type="text" class="search-query" name="player" placeholder="ID検索" required>
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>
@@ -241,6 +239,3 @@
     </script>
   </body>
 </html>
-<?
-  $db->disConnect();
-?>
