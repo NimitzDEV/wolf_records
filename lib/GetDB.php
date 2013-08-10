@@ -11,13 +11,6 @@ class GetDB
 
 --------------------------------------------------------------------------------*/
 
-  //結果 rltid
-  //const RSL_WIN = 1; //勝利
-  //const RSL_LOSE = 2; //敗北
-  //const RSL_JOIN = 3; //参加(勝敗が付かない村)
-  //const RSL_INVALID = 4; //無効(議事国の突然死など)
-  //const RSL_ONLOOKER = 5; //見物
-
   private $pdo;
   private $player;
 
@@ -30,6 +23,10 @@ class GetDB
   private $liveGachi;
   private $liveRP;
 
+  private $teamCount;
+  private $teamArray;
+  private $skillCount;
+
   function GetDB($argID)
   {
     $this->player = $argID;
@@ -40,6 +37,9 @@ class GetDB
     $this->joinRP = 0;
     $this->liveGachi = 0.00;
     $this->liveRP = 0.00;
+    $this->teamCount = array();
+    $this->teamArray = array();
+    $this->skillCount = array();
   }
 
 
@@ -177,87 +177,6 @@ class GetDB
   }
 
 
-
-  //function fetchCountPlayer(&$sql){
-    //$sql->bindParam(':player',$this->player,PDO::PARAM_STR);
-    //$sql->execute();
-    //$count = $sql->fetch(PDO::FETCH_NUM);
-
-
-    //if(empty($count))
-    //{
-      //$count = array("-"); //平均値算出などでデータがない場合
-    //}
-
-    //return $count[0];
-  //}
-  function fetchTable(&$sql){
-    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
-    $sql->execute();
-    $table = $sql->fetchAll();
-    
-
-    return $table;
-
-  }
-
-  function fetchRoleTable($data,$element){
-    
-    if(!empty($data))
-    {
-      foreach ($data as $item)
-      {
-        $table[$item[$element]] = $item['c'];
-      }
-      return $table;
-
-    } else {
-      return false;
-    }
-
-  }
-
-  //総合参加数
-  //function getJoin(){
-    //$sql = $this->pdo->prepare("SELECT count(*) FROM users WHERE player=:player");
-    //return $this->fetchCountPlayer($sql);
-  //}
-
-  //prepare部分変数にする
-  //ガチ参加数
-  //function getGachi(){
-    //$sql = $this->pdo->prepare("SELECT count(*) FROM users WHERE player=:player AND (rltid=1 OR rltid=2)"); 結果が勝利もしくは敗北のみ集計
-
-    //return $this->fetchCountPlayer($sql);
-  //}
-
-  //RP参加数
-  //function getRP(){
-    //$sql = $this->pdo->prepare("SELECT count(*) FROM users WHERE player=:player AND rltid=3"); 結果が参加のみ集計
-
-    //return $this->fetchCountPlayer($sql);
-  //}
-
-  //ガチ勝利数
-  //function getWin(){
-    //$sql = $this->pdo->prepare("SELECT count(*) FROM users WHERE player=:player AND rltid=1"); 
-    //return $this->fetchCountPlayer($sql);
-  //}
-
-  //ガチ生存係数
-  //function getGachiLife(){
-    //$sql = $this->pdo->prepare("SELECT round(avg(life),2) FROM (SELECT * FROM users WHERE rltid=1 OR rltid= 2) as rlt  GROUP BY player HAVING player=:player");結果が勝利もしくは敗北のみ集計
-
-    //return $this->fetchCountPlayer($sql);
-  //}
-
-  //RP生存係数
-  //function getRPLife(){
-    //$sql = $this->pdo->prepare("SELECT round(avg(life),2) FROM (SELECT * FROM users WHERE rltid=3) as rlt GROUP BY player HAVING player=:player");結果が勝利もしくは敗北のみ集計
-
-    //return $this->fetchCountPlayer($sql);
-  //}
-
   //戦績一覧取得
   function getTable(){
     $sql = $this->pdo->prepare("SELECT v.date AS date, c.name AS country, v.vno AS vno, 
@@ -271,62 +190,130 @@ class GetDB
       INNER JOIN result rlt ON u.rltid=rlt.id
       WHERE player=:player ORDER BY v.date DESC,v.vno DESC;");
 
-    return $this->fetchTable($sql);
-
+    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
+    $sql->execute();
+    $table = $sql->fetchAll();
+    
+    return $table;
   }
 
-  function getTeamTable(){
-    //存在する陣営しか出ない
-    $sql = $this->pdo->prepare("SELECT u.tmid,t.name AS team,u.sklid,s.name AS skl FROM users AS u INNER JOIN skill AS s ON u.sklid=s.id INNER JOIN team AS t ON u.tmid=t.id WHERE player = :player GROUP BY s.name ORDER BY u.tmid,u.sklid");
 
-    $table =  $this->fetchTable($sql);
+  function fetchTeamCount()
+  {
+    $sql = $this->pdo->prepare("
+      SELECT t.name team,s.name skl,r.name result,count(*) count,sum.sum
+      FROM users u
+	INNER JOIN skill s ON u.sklid=s.id
+	INNER JOIN team t ON u.tmid=t.id
+	INNER JOIN result r ON u.rltid=r.id
+        INNER JOIN (
+          SELECT tmid,rltid,count(*) sum FROM users WHERE player=:player GROUP BY tmid,rltid
+        ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
+      WHERE u.player=:player
+      GROUP BY u.rltid,s.name
+      ORDER BY u.tmid,u.sklid,u.rltid
+        ");
+    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
+    $sql->execute();
 
-    //陣営別にテーブルを作る
-    //恋の場合、恋人teamテーブルに人狼などのroleセルが入る
-    //ガチRP込みでどれだけ役職があるかを記録して、セルだけ作る
-    foreach ($table as $item){
-      ${$item['tmid']}[] = $item['skl'];
-      $tmTable[$item['team']] = ${$item['tmid']};
+    foreach($sql as $item)
+    {
+      //陣営の勝敗合計を入れる
+      if(!isset($this->teamCount[$item['team']][$item['result']]))
+      {
+        $this->teamCount[$item['team']][$item['result']] = $item['sum'];
+      }
+      //陣営別に役職を分ける
+      $this->skillCount[$item['team']][$item['skl']][$item['result']] = (int)$item['count'];
     }
 
-    return $tmTable;
+    //埋まっていない結果(勝利、敗北、参加)にゼロを入れる
+      $checkArray = array('勝利','敗北','参加');
+      array_walk($checkArray,array($this,'insertResultZero'));
+    //受け渡し用の陣営リストを作る
+      $this->teamArray = array_keys($this->teamCount);
+
   }
 
-
-  function getTeamGachi(){
-    $sql = $this->pdo->prepare("SELECT tmid,t.name AS team,count(*) AS c FROM (SELECT * FROM users WHERE rltid=1 or rltid=2) AS rlt INNER JOIN team AS t ON rlt.tmid=t.id WHERE player = :player GROUP BY tmid ORDER BY tmid");
-
-    return $this->fetchRoleTable($this->fetchTable($sql),'team');
+  function insertResultZero($value,$key)
+  {
+    foreach($this->teamCount as $team=>$result)
+    {
+      if(!array_key_exists($value,$result))
+      {
+        $this->teamCount[$team][$value] = 0;
+      }
+      foreach($this->skillCount[$team] as $skill=>$item)
+      {
+        if(!array_key_exists($value,$item))
+        {
+          $this->skillCount[$team][$skill][$value] = 0;
+        }
+      }
+    }
   }
 
-  function getTeamGachiWin(){
-    $sql = $this->pdo->prepare("SELECT tmid,t.name AS team,count(*) AS c FROM (SELECT * FROM users WHERE rltid=1) AS rlt INNER JOIN team AS t ON rlt.tmid=t.id WHERE player = :player GROUP BY tmid ORDER BY tmid");
-
-    return $this->fetchRoleTable($this->fetchTable($sql),'team');
+  function getTeamArray()
+  {
+    return $this->teamArray;
   }
 
-  
-  function getTeamRP(){
-    $sql = $this->pdo->prepare("SELECT tmid,t.name AS team,count(*) AS c FROM (SELECT * FROM users WHERE rltid=3) AS rlt INNER JOIN team AS t ON rlt.tmid=t.id WHERE player = :player GROUP BY tmid ORDER BY tmid");
-
-    return $this->fetchRoleTable($this->fetchTable($sql),'team');
+  function getTeamWin($team)
+  {
+    return $this->teamCount[$team]['勝利'];
   }
 
-  function getSklGachi(){
-    $sql = $this->pdo->prepare("SELECT u.sklid,s.name AS skl,count(*) AS c FROM users AS u INNER JOIN skill AS s ON u.sklid=s.id WHERE player = :player AND (u.rltid=1 OR u.rltid=2) GROUP BY s.name ORDER BY u.sklid");
-
-    return $this->fetchRoleTable($this->fetchTable($sql),'skl');
-  }
-  
-  function getSklWin(){
-    $sql = $this->pdo->prepare("SELECT u.sklid,s.name AS skl,count(*) AS c FROM users AS u INNER JOIN skill AS s ON u.sklid=s.id WHERE player = :player AND u.rltid=1 GROUP BY s.name ORDER BY u.sklid");
-
-    return $this->fetchRoleTable($this->fetchTable($sql),'skl');
+  function getTeamGachi($team)
+  {
+    return $this->teamCount[$team]['勝利'] + $this->teamCount[$team]['敗北'];
   }
 
-  function getSklRP(){
-    $sql = $this->pdo->prepare("SELECT u.sklid,s.name AS skl,count(*) AS c FROM users AS u INNER JOIN skill AS s ON u.sklid=s.id WHERE player = :player AND u.rltid=3 GROUP BY s.name ORDER BY u.sklid");
+  function getTeamWinP($team)
+  {
+    if($this->teamCount[$team]['勝利'] !== 0)
+    {
+      return round($this->teamCount[$team]['勝利'] / $this->getTeamGachi($team),3) * 100;
+    }
+    else
+    {
+      return 0;
+    }
+  }
 
-    return $this->fetchRoleTable($this->fetchTable($sql),'skl');
+  function getTeamRP($team)
+  {
+    return $this->teamCount[$team]['参加'];
+  }
+
+  function getSkillArray($team)
+  {
+    return array_keys($this->skillCount[$team]);
+  }
+
+  function getSkillWin($team,$skill)
+  {
+    return $this->skillCount[$team][$skill]['勝利'];
+  }
+
+  function getSkillGachi($team,$skill)
+  {
+    return $this->skillCount[$team][$skill]['勝利']+$this->skillCount[$team][$skill]['敗北'];
+  }
+
+  function getSkillWinP($team,$skill)
+  {
+    if($this->skillCount[$team][$skill]['勝利'] !== 0)
+    {
+      return round($this->skillCount[$team][$skill]['勝利'] / $this->getSkillGachi($team,$skill),3) * 100;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+
+  function getSkillRP($team,$skill)
+  {
+    return $this->skillCount[$team][$skill]['参加'];
   }
 }
