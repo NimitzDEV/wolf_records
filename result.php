@@ -27,7 +27,7 @@
     <meta charset="UTF-8">
 
     <meta name="author" content="fortmorst">
-    <meta name="description:" content="人狼戦績一覧を表示します。 ">
+    <meta name="description" content="ID: <? echo $player; //ID取得 ?>さんのWeb人狼戦績の一覧です。">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
