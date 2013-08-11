@@ -45,10 +45,6 @@ header {
   position: fixed;
   z-index:1030;
 
-
-
-
-
   #summary {
     background: #000;
     @include background-image(radial-gradient(center, ellipse cover, #232425 20%,#000000 100%));
@@ -65,10 +61,30 @@ header {
       font-size: 14px;
     }
 
+    dl {
+      position: relative;
+      left: 50%;
+      float: left;
+      margin:0 0 10px 0;
 
-    span {
-      color: $hlight;
-      font-weight: bold;
+      dt,dd {
+        position: relative;
+        font-weight: normal;
+        left: -50%;
+        float: left;
+      }
+      dt:after {
+        content:"：";
+      }
+      dd {
+        margin: 0 15px 0 0;
+        color: $hlight;
+        font-weight: bold;
+      }
+      span
+      {
+        color:$white;
+      }
     }
 
   }

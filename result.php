@@ -57,24 +57,27 @@
           <h1>
             <? echo $player; //ID取得 ?>
           </h1>
-          <p>
-          総合参加数 : <span><? echo $db->getJoinSum(); ?></span>
+          <dl>
+              <dt>総合参加数</dt>
+              <dd>
+                <? echo $db->getJoinSum(); ?>
 <!--
-           /
-           <span class="icon-fire icon-white"></span><span><? echo $db->getJoinGachi(); ?></span>
-           <span class="icon-book icon-white"></span><span><? echo $db->getJoinRP(); ?></span>
+               <span class="icon-fire icon-white"></span><? echo $db->getJoinGachi(); ?>
+               <span class="icon-book icon-white"></span><? echo $db->getJoinRP(); ?>
 -->
-          　勝率 : <span class="icon-fire icon-white"></span>
-            <span><? echo $db->getJoinWinPercent() ?></span>% 
-
-          　平均生存係数
-            <span class="icon-fire icon-white"></span>
-            <span><? echo $db->getLiveGachi(); ?></span>
-<!--
-            <span class="icon-book icon-white">　</span>
-            <span><? echo $db->getLiveRP(); ?></span>
--->
-          </p>
+              </dd>
+              <dt>勝率</dt>
+              <dd>
+                <span class="icon-fire icon-white"></span>
+                <? echo $db->getJoinWinPercent() ?><span>%</span>
+              </dd>
+              <dt>平均生存係数</dt>
+              <dd>
+                <span class="icon-fire icon-white"></span>
+                <? echo $db->getLiveGachi(); ?>
+                <!--<span class="icon-book icon-white"></span><? echo $db->getLiveRP(); ?>-->
+              </dd>
+          </dl>
         </div>
       </div>
 

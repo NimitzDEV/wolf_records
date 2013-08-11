@@ -35,7 +35,7 @@ header {
   position: fixed;
   z-index: 1030;
 }
-/* line 52, ../sass/result.scss */
+/* line 48, ../sass/result.scss */
 header #summary {
   background: #000;
   background-image: -webkit-gradient(radial, 50%, 0, 50%, 100, color-stop(20%, #232425), color-stop(100%, #000000));
@@ -47,21 +47,44 @@ header #summary {
   text-align: center;
   color: #fff;
 }
-/* line 59, ../sass/result.scss */
+/* line 55, ../sass/result.scss */
 header #summary h1 {
   font-size: 45px;
   margin: 10px 0 25px;
 }
-/* line 64, ../sass/result.scss */
+/* line 60, ../sass/result.scss */
 header #summary p {
   font-size: 14px;
 }
-/* line 69, ../sass/result.scss */
-header #summary span {
+/* line 64, ../sass/result.scss */
+header #summary dl {
+  position: relative;
+  left: 50%;
+  float: left;
+  margin: 0 0 10px 0;
+}
+/* line 70, ../sass/result.scss */
+header #summary dl dt, header #summary dl dd {
+  position: relative;
+  font-weight: normal;
+  left: -50%;
+  float: left;
+}
+/* line 76, ../sass/result.scss */
+header #summary dl dt:after {
+  content: "：";
+}
+/* line 79, ../sass/result.scss */
+header #summary dl dd {
+  margin: 0 15px 0 0;
   color: #00c2ff;
   font-weight: bold;
 }
-/* line 76, ../sass/result.scss */
+/* line 85, ../sass/result.scss */
+header #summary dl span {
+  color: #fdfdfd;
+}
+/* line 92, ../sass/result.scss */
 header nav#headerMenu {
   background: #f0f0f0;
   padding: 3px 15px;
@@ -69,68 +92,68 @@ header nav#headerMenu {
   font-size: 16px;
   overflow: hidden;
 }
-/* line 83, ../sass/result.scss */
+/* line 99, ../sass/result.scss */
 header nav#headerMenu ul {
   margin: 0 auto;
   overflow: hidden;
   float: left;
 }
-/* line 87, ../sass/result.scss */
+/* line 103, ../sass/result.scss */
 header nav#headerMenu ul li {
   display: block;
   float: left;
   padding: 10px 15px 10px;
 }
-/* line 92, ../sass/result.scss */
+/* line 108, ../sass/result.scss */
 header nav#headerMenu ul li:first-child {
   padding-left: 0px;
 }
-/* line 98, ../sass/result.scss */
+/* line 114, ../sass/result.scss */
 header nav#headerMenu ul#sub {
   float: right;
   font-size: 14px;
 }
-/* line 101, ../sass/result.scss */
+/* line 117, ../sass/result.scss */
 header nav#headerMenu ul#sub li {
   padding-left: 0;
 }
-/* line 106, ../sass/result.scss */
+/* line 122, ../sass/result.scss */
 header nav#headerMenu form {
   margin: 5px 0 0 0;
 }
-/* line 109, ../sass/result.scss */
+/* line 125, ../sass/result.scss */
 header nav#headerMenu form input[type=text] {
   margin-bottom: 0;
   width: 10em;
 }
 
-/* line 118, ../sass/result.scss */
+/* line 134, ../sass/result.scss */
 #ad {
   padding-top: 190px;
   width: 728px;
   margin: 0 auto 25px;
 }
 
-/* line 125, ../sass/result.scss */
+/* line 141, ../sass/result.scss */
 #list {
   /*tr td:nth-child(7)*/
   /*{*/
   /*text-align:center;*/
   /*}*/
 }
-/* line 126, ../sass/result.scss */
+/* line 142, ../sass/result.scss */
 #list tr .header {
   background-image: url("../img/sortBg.gif");
 }
-/* line 129, ../sass/result.scss */
+/* line 145, ../sass/result.scss */
 #list tr .headerSortUp {
   background-image: url("../img/sortAsc.gif");
 }
-/* line 132, ../sass/result.scss */
+/* line 148, ../sass/result.scss */
 #list tr .headerSortDown {
   background-image: url("../img/sortDesc.gif");
 }
-/* line 137, ../sass/result.scss */
+/* line 153, ../sass/result.scss */
 #list th {
   border-bottom: 1px solid #ccc;
   color: #000;
@@ -139,61 +162,61 @@ header nav#headerMenu form input[type=text] {
   background-position: 70% 50%;
   cursor: pointer;
 }
-/* line 149, ../sass/result.scss */
+/* line 165, ../sass/result.scss */
 #list td.w {
   color: #a43c37;
 }
-/* line 152, ../sass/result.scss */
+/* line 168, ../sass/result.scss */
 #list td.l {
   color: #0088cc;
 }
-/* line 158, ../sass/result.scss */
+/* line 174, ../sass/result.scss */
 #list td.i {
   text-decoration: line-through;
 }
-/* line 165, ../sass/result.scss */
+/* line 181, ../sass/result.scss */
 #list td.noData {
   text-align: center;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
 }
 
-/* line 172, ../sass/result.scss */
+/* line 188, ../sass/result.scss */
 #role {
   margin-bottom: 3em;
 }
-/* line 174, ../sass/result.scss */
+/* line 190, ../sass/result.scss */
 #role table {
   float: left;
   width: auto;
   margin: 20px 2em 0 0;
 }
-/* line 180, ../sass/result.scss */
+/* line 196, ../sass/result.scss */
 #role table thead tr {
   color: #fdfdfd;
 }
-/* line 183, ../sass/result.scss */
+/* line 199, ../sass/result.scss */
 #role table thead td:first-child {
   padding-right: 1em;
 }
-/* line 186, ../sass/result.scss */
+/* line 202, ../sass/result.scss */
 #role table thead tr.vil {
   background: #0ba20b;
 }
-/* line 189, ../sass/result.scss */
+/* line 205, ../sass/result.scss */
 #role table thead tr.wlf {
   background: #a20b0b;
 }
-/* line 192, ../sass/result.scss */
+/* line 208, ../sass/result.scss */
 #role table thead tr.fry {
   background: #0034a1;
 }
-/* line 196, ../sass/result.scss */
+/* line 212, ../sass/result.scss */
 #role table td {
   text-align: right;
   padding: 5px;
 }
-/* line 200, ../sass/result.scss */
+/* line 216, ../sass/result.scss */
 #role table td:first-child {
   text-align: left;
 }
