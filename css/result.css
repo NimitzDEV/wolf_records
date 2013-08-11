@@ -1,41 +1,11 @@
-/* variable */
-/* line 16, ../sass/result.scss */
-a {
-  /*color: #9E9E9E;*/
-  color: #00c928;
-}
-
-/* line 21, ../sass/result.scss */
-a:hover {
-  color: #0ba20b;
-  text-decoration: underline;
-}
-
-/* line 28, ../sass/result.scss */
-h3.popover-title {
-  color: #333333;
-}
-
-/* line 31, ../sass/result.scss */
-.popover-content {
-  color: #333333;
-  font-size: 12px;
-}
-
-/* line 36, ../sass/result.scss */
-body {
-  background: #fdfdfd;
-  color: #333333;
-  font-family: 'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo, sans-serif;
-}
-
-/* line 43, ../sass/result.scss */
+@import url(common.css);
+/* line 18, ../sass/result.scss */
 header {
   width: 100%;
   position: fixed;
   z-index: 1030;
 }
-/* line 48, ../sass/result.scss */
+/* line 23, ../sass/result.scss */
 header #summary {
   background: #000;
   background-image: -webkit-gradient(radial, 50%, 0, 50%, 100, color-stop(20%, #232425), color-stop(100%, #000000));
@@ -47,44 +17,40 @@ header #summary {
   text-align: center;
   color: #fff;
 }
-/* line 55, ../sass/result.scss */
+/* line 30, ../sass/result.scss */
 header #summary h1 {
   font-size: 45px;
   margin: 10px 0 25px;
 }
-/* line 60, ../sass/result.scss */
-header #summary p {
-  font-size: 14px;
-}
-/* line 64, ../sass/result.scss */
+/* line 35, ../sass/result.scss */
 header #summary dl {
   position: relative;
   left: 50%;
   float: left;
   margin: 0 0 10px 0;
 }
-/* line 70, ../sass/result.scss */
+/* line 41, ../sass/result.scss */
 header #summary dl dt, header #summary dl dd {
   position: relative;
   font-weight: normal;
   left: -50%;
   float: left;
 }
-/* line 76, ../sass/result.scss */
+/* line 47, ../sass/result.scss */
 header #summary dl dt:after {
   content: "：";
 }
-/* line 79, ../sass/result.scss */
+/* line 50, ../sass/result.scss */
 header #summary dl dd {
   margin: 0 15px 0 0;
   color: #00c2ff;
   font-weight: bold;
 }
-/* line 85, ../sass/result.scss */
+/* line 56, ../sass/result.scss */
 header #summary dl span {
   color: #fdfdfd;
 }
-/* line 92, ../sass/result.scss */
+/* line 63, ../sass/result.scss */
 header nav#headerMenu {
   background: #f0f0f0;
   padding: 3px 15px;
@@ -92,68 +58,61 @@ header nav#headerMenu {
   font-size: 16px;
   overflow: hidden;
 }
-/* line 99, ../sass/result.scss */
+/* line 70, ../sass/result.scss */
 header nav#headerMenu ul {
   margin: 0 auto;
   overflow: hidden;
   float: left;
 }
-/* line 103, ../sass/result.scss */
+/* line 74, ../sass/result.scss */
 header nav#headerMenu ul li {
   display: block;
   float: left;
   padding: 10px 15px 10px;
 }
-/* line 108, ../sass/result.scss */
+/* line 79, ../sass/result.scss */
 header nav#headerMenu ul li:first-child {
   padding-left: 0px;
 }
-/* line 114, ../sass/result.scss */
+/* line 84, ../sass/result.scss */
 header nav#headerMenu ul#sub {
   float: right;
   font-size: 14px;
 }
-/* line 117, ../sass/result.scss */
+/* line 87, ../sass/result.scss */
 header nav#headerMenu ul#sub li {
   padding-left: 0;
 }
-/* line 122, ../sass/result.scss */
+/* line 92, ../sass/result.scss */
 header nav#headerMenu form {
   margin: 5px 0 0 0;
 }
-/* line 125, ../sass/result.scss */
+/* line 95, ../sass/result.scss */
 header nav#headerMenu form input[type=text] {
   margin-bottom: 0;
   width: 10em;
 }
 
-/* line 134, ../sass/result.scss */
+/* line 104, ../sass/result.scss */
 #ad {
   padding-top: 190px;
   width: 728px;
   margin: 0 auto 25px;
 }
 
-/* line 141, ../sass/result.scss */
-#list {
-  /*tr td:nth-child(7)*/
-  /*{*/
-  /*text-align:center;*/
-  /*}*/
-}
-/* line 142, ../sass/result.scss */
+/* line 112, ../sass/result.scss */
 #list tr .header {
   background-image: url("../img/sortBg.gif");
 }
-/* line 145, ../sass/result.scss */
+/* line 115, ../sass/result.scss */
 #list tr .headerSortUp {
   background-image: url("../img/sortAsc.gif");
 }
-/* line 148, ../sass/result.scss */
+/* line 118, ../sass/result.scss */
 #list tr .headerSortDown {
   background-image: url("../img/sortDesc.gif");
 }
-/* line 153, ../sass/result.scss */
+/* line 123, ../sass/result.scss */
 #list th {
   border-bottom: 1px solid #ccc;
   color: #000;
@@ -162,61 +121,69 @@ header nav#headerMenu form input[type=text] {
   background-position: 70% 50%;
   cursor: pointer;
 }
-/* line 165, ../sass/result.scss */
+/* line 131, ../sass/result.scss */
 #list td.w {
   color: #a43c37;
 }
-/* line 168, ../sass/result.scss */
+/* line 134, ../sass/result.scss */
 #list td.l {
   color: #0088cc;
 }
-/* line 174, ../sass/result.scss */
-#list td.i {
-  text-decoration: line-through;
+/* line 137, ../sass/result.scss */
+#list td.j {
+  color: #591b96;
 }
-/* line 181, ../sass/result.scss */
+/* line 140, ../sass/result.scss */
+#list td.i {
+  color: #939393;
+}
+/* line 143, ../sass/result.scss */
+#list td.o {
+  color: #a0a437;
+}
+/* line 146, ../sass/result.scss */
 #list td.noData {
   text-align: center;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
 }
 
-/* line 188, ../sass/result.scss */
+/* line 153, ../sass/result.scss */
 #role {
   margin-bottom: 3em;
 }
-/* line 190, ../sass/result.scss */
+/* line 155, ../sass/result.scss */
 #role table {
   float: left;
   width: auto;
   margin: 20px 2em 0 0;
 }
-/* line 196, ../sass/result.scss */
+/* line 161, ../sass/result.scss */
 #role table thead tr {
   color: #fdfdfd;
 }
-/* line 199, ../sass/result.scss */
+/* line 164, ../sass/result.scss */
 #role table thead td:first-child {
   padding-right: 1em;
 }
-/* line 202, ../sass/result.scss */
+/* line 167, ../sass/result.scss */
 #role table thead tr.vil {
   background: #0ba20b;
 }
-/* line 205, ../sass/result.scss */
+/* line 170, ../sass/result.scss */
 #role table thead tr.wlf {
   background: #a20b0b;
 }
-/* line 208, ../sass/result.scss */
+/* line 173, ../sass/result.scss */
 #role table thead tr.fry {
   background: #0034a1;
 }
-/* line 212, ../sass/result.scss */
+/* line 177, ../sass/result.scss */
 #role table td {
   text-align: right;
   padding: 5px;
 }
-/* line 216, ../sass/result.scss */
+/* line 181, ../sass/result.scss */
 #role table td:first-child {
   text-align: left;
 }

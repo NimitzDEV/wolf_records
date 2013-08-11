@@ -104,9 +104,6 @@
           <li>
             <a href="document.html"><span class="icon-file"></span>説明書</a>
           </li>
-          <li>
-            <a href="index.html"><span class="icon-circle-arrow-left"></span>トップへ</a>
-          </li>
 <!--
           <li>
             <span class="icon-fire">　</span>: 勝敗のある村
@@ -231,6 +228,15 @@
       }
 ?>
     </section>
+    <div class="container">
+      <footer>
+       <ul>
+           <li>作った人: <a href="https://twitter.com/fortmorst">fortmorst</a></li>
+           <li><a href="index.html">トップページへ</a></li>
+           <li><a href="http://waoon.net">waoon.net</a></li>
+       </ul>
+      </footer>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="lib/tablesorter.min.js"></script>
     <script>

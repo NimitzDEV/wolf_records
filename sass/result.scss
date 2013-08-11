@@ -1,43 +1,18 @@
 @import "compass";
+@import "_variable";
+@import "common.css";
 
-/* variable */
-$white: #fdfdfd;
-$black: #333;
 $hlight: #00c2ff;
 
 $win: #a43c37;
-$lose: #0088cc;
+$lse: #0088cc;
+$jin: #591B96;
+$ivd: #939393;
+$olk: #a0a437;
 
 $vil: #0ba20b; 
 $wlf: #a20b0b;
 $fry: #0034A1;
-
-
-a {
-  /*color: #9E9E9E;*/
-  color: #00c928;
-}
-
-a:hover {
-  color: #0ba20b;
-  text-decoration:underline;
-}
-
-
-
-h3.popover-title {
-  color: $black;
-}
-.popover-content {
-  color: $black;
-  font-size: 12px;
-}
-
-body{
-  background: $white;
-  color: $black;
-  font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo, sans-serif;
-}
 
 
 header {
@@ -55,10 +30,6 @@ header {
     h1 {
       font-size: 45px;
       margin: 10px 0 25px;
-    }
-
-    p {
-      font-size: 14px;
     }
 
     dl {
@@ -100,16 +71,15 @@ header {
       margin:0 auto;
       overflow: hidden;
       float: left;
-    li {
-      display:block;
-      float:left;
-      padding: 10px 15px 10px;
-       }
-    li:first-child {
-      padding-left: 0px;
+      li {
+        display:block;
+        float:left;
+        padding: 10px 15px 10px;
+         }
+      li:first-child {
+        padding-left: 0px;
+      }
     }
-    }
-
 
     ul#sub {
       float: right;
@@ -158,25 +128,20 @@ header {
     background-position: 70% 50%;
     cursor: pointer;
   }
-  /*tr td:nth-child(7)*/
-  /*{*/
-    /*text-align:center;*/
-  /*}*/
   td.w {
     color:$win;
   }
   td.l {
-    color: $lose;
+    color: $lse;
   }
   td.j{
-
+    color: $jin;
   }
   td.i{
-    text-decoration: line-through;
-
+    color: $ivd;
   }
   td.o{
-
+    color: $olk;
   }
   td.noData {
     text-align: center;
