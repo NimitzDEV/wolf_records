@@ -1,20 +1,20 @@
 @import url(common.css);
-/* line 6, ../sass/index.scss */
+/* line 5, ../sass/index.scss */
 header {
   padding: 10px 20px;
   background: #333333;
   color: #fdfdfd;
 }
 
-/* line 13, ../sass/index.scss */
+/* line 11, ../sass/index.scss */
 form {
   margin: 30px auto;
 }
-/* line 17, ../sass/index.scss */
+/* line 15, ../sass/index.scss */
 form input {
   margin: 0.5em auto;
 }
-/* line 22, ../sass/index.scss */
+/* line 20, ../sass/index.scss */
 form input[type=text] {
   height: 1.5em;
   width: 15em;
@@ -22,59 +22,64 @@ form input[type=text] {
   display: block;
   text-align: center;
 }
-/* line 31, ../sass/index.scss */
+/* line 29, ../sass/index.scss */
 form button.btn {
   width: 15%;
   margin: 0 auto;
   display: block;
 }
 
-/* line 39, ../sass/index.scss */
+/* line 37, ../sass/index.scss */
 section p, section dl, section table {
   margin: 0 0 2em 3em;
 }
-/* line 42, ../sass/index.scss */
+/* line 41, ../sass/index.scss */
+section p#err {
+  margin: 2em 0 2em 0;
+  font-size: 16px;
+}
+/* line 45, ../sass/index.scss */
 section ul {
   margin: 0 0 2em 4.3em;
 }
-/* line 45, ../sass/index.scss */
+/* line 48, ../sass/index.scss */
 section h2 {
   border-bottom: 1px solid #999;
   font-size: 25px;
   color: #a20b0b;
   margin: 1.5em 0 1em 0;
 }
-/* line 51, ../sass/index.scss */
+/* line 54, ../sass/index.scss */
 section h3 {
   font-size: 20px;
 }
-/* line 54, ../sass/index.scss */
+/* line 57, ../sass/index.scss */
 section table.table {
   margin-top: 1em;
   width: auto;
 }
-/* line 57, ../sass/index.scss */
+/* line 60, ../sass/index.scss */
 section table.table thead th {
   text-align: center;
 }
-/* line 61, ../sass/index.scss */
+/* line 64, ../sass/index.scss */
 section dt {
   font-size: 18px;
   margin-bottom: 0.3em;
   margin-top: 1.3em;
 }
-/* line 66, ../sass/index.scss */
+/* line 69, ../sass/index.scss */
 section dd {
   margin-bottom: 0.5em;
 }
 
-/* line 74, ../sass/index.scss */
+/* line 77, ../sass/index.scss */
 section#todo dt {
   font-size: 16px;
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 81, ../sass/index.scss */
+/* line 84, ../sass/index.scss */
 section#todo dd {
   margin-top: 0;
 }

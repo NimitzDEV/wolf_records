@@ -2,13 +2,11 @@
 @import "_variable";
 @import "common.css";
 
-
 header {
   padding: 10px 20px;
   background: $black;
   color: $white;
 }
-
 
 form{
   margin: 30px auto;
@@ -38,6 +36,11 @@ form{
 section {
   p,dl,table {
     margin: 0 0 2em 3em;
+  }
+  p#err
+  {
+    margin:2em 0 2em 0;
+    font-size:16px;
   }
   ul {
     margin: 0 0 2em 4.3em;

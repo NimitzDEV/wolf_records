@@ -1,24 +1,26 @@
 <?
   require_once('lib/GetDB.php');
-  if (!empty($_GET['player']))
+  if (isset($_GET['player']) && $_GET['player'] !== "")
   {
     $player = htmlspecialchars($_GET['player']);
     $db = new GetDB($player);
-  } else
-  {
-    //TODO:エラーページを出す
-    $db = new GetDB('-NODATA-');
+    $db->connect();
+
+    if($db->FetchJoinCount())
+    {
+      $table = $db->getTable();
+      $db->fetchTeamCount();
+    }
+    $db->disConnect();
   }
-
-  $db->connect();
-
-  if($db->FetchJoinCount())
+  else
   {
-    $table = $db->getTable();
-    $db->fetchTeamCount();
+    echo '<!DOCTYPE html><meta charset="UTF-8"><link rel="stylesheet" href="css/index.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><body>';
+    echo '<header><h1>エラー</h1></header><div class="container"><section><p id="err">';
+    echo 'IDを入力して下さい。</p></section>';
+    echo '<form action="./result.php" method="GET"><fieldset><input class="search-query" type="text" name="player" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></fieldset></form></div></body>';
+    exit;
   }
-  $db->disConnect();
-
 ?>
 
 <!DOCTYPE html>
