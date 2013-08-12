@@ -3,7 +3,16 @@
   if (isset($_GET['player']) && $_GET['player'] !== "")
   {
     $player = htmlspecialchars($_GET['player']);
-    $db = new GetDB($player);
+
+    if(mb_substr($player,-1,1,"utf-8")==' ')
+    {
+      $db = new GetDB(preg_replace("/ /","&amp;nbsp;",$player));
+    }
+    else
+    {
+      $db = new GetDB($player);
+    }
+    
     $db->connect();
 
     if($db->FetchJoinCount())
@@ -29,12 +38,12 @@
     <meta charset="UTF-8">
 
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <? echo $player; //ID取得 ?>さんのWeb人狼戦績の一覧です。">
+    <meta name="description" content="ID: <? echo $player;?>さんのWeb人狼戦績の一覧です。">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <? echo $player; //ID取得 ?> の人狼戦績 | 人狼戦績まとめ
+      <? echo $player;?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -56,16 +65,14 @@
 
       <div id="summary">
         <div class="container">
-          <h1>
-            <? echo $player; //ID取得 ?>
-          </h1>
+          <h1><? echo $player;?></h1>
           <dl>
               <dt>総合参加数</dt>
               <dd>
                 <? echo $db->getJoinSum(); ?>
 <!--
-               <span class="icon-fire icon-white"></span><? echo $db->getJoinGachi(); ?>
-               <span class="icon-book icon-white"></span><? echo $db->getJoinRP(); ?>
+               <span class="icon-fire icon-white"></span><? //echo $db->getJoinGachi(); ?>
+               <span class="icon-book icon-white"></span><? //echo $db->getJoinRP(); ?>
 -->
               </dd>
               <dt>勝率</dt>
@@ -77,7 +84,7 @@
               <dd>
                 <span class="icon-fire icon-white"></span>
                 <? echo $db->getLiveGachi(); ?>
-                <!--<span class="icon-book icon-white"></span><? echo $db->getLiveRP(); ?>-->
+                <!--<span class="icon-book icon-white"></span><? //echo $db->getLiveRP(); ?>-->
               </dd>
           </dl>
         </div>
@@ -108,10 +115,10 @@
           </li>
 <!--
           <li>
-            <span class="icon-fire">　</span>: 勝敗のある村
+            <span class="icon-fire"></span>: 勝敗のある村
           </li>
           <li>
-            <span class="icon-book">　</span>: 勝敗度外視村
+            <span class="icon-book"></span>: 勝敗度外視村
           </li>
 -->
         </ul>
