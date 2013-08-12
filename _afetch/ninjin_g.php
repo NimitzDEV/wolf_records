@@ -214,6 +214,13 @@ if (!empty($fetchArray))
 
       //得た情報にラベルがわりのキーを付ける
       $castArray = array_combine($cast_value_k,$castArray);
+      
+      //末尾に半角スペースがある場合は、読み込めるように変換する
+      if(mb_substr($castArray['player'],-1,1,"utf-8")==' ')
+      {
+        $castArray['player'] = preg_replace("/ /","&amp;nbsp;",$castArray['player']);
+        echo 'ID has &nbsp:'.$castArray['player']."=>";
+      }
       //値の配列に入れる
       $cast_value[] = $castArray;
       //キー用配列にペルソナ名を入れる
