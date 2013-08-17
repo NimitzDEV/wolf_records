@@ -72,20 +72,18 @@
               <dd>
                 <? echo $db->getJoinSum(); ?>
 <!--
-               <span class="icon-fire icon-white"></span><? //echo $db->getJoinGachi(); ?>
-               <span class="icon-book icon-white"></span><? //echo $db->getJoinRP(); ?>
+               <span class="ig"></span><? //echo $db->getJoinGachi(); ?>
+               <span class="ir"></span><? //echo $db->getJoinRP(); ?>
 -->
               </dd>
               <dt>勝率</dt>
               <dd>
-                <span class="icon-fire icon-white"></span>
-                <? echo $db->getJoinWinPercent() ?><span>%</span>
+                <span class="ig"></span><? echo $db->getJoinWinPercent() ?><span>%</span>
               </dd>
               <dt>平均生存係数</dt>
               <dd>
-                <span class="icon-fire icon-white"></span>
-                <? echo $db->getLiveGachi(); ?>
-                <!--<span class="icon-book icon-white"></span><? //echo $db->getLiveRP(); ?>-->
+                <span class="ig"></span><? echo $db->getLiveGachi(); ?>
+                <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
               </dd>
           </dl>
         </div>
@@ -112,14 +110,14 @@
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
           </li>
           <li>
-            <a href="document.html"><span class="icon-file"></span>説明書</a>
+            <span class="id"></span><a href="document.html">説明書</a>
           </li>
 <!--
           <li>
-            <span class="icon-fire"></span>: 勝敗のある村
+            <span class="ig"></span>: 勝敗のある村
           </li>
           <li>
-            <span class="icon-book"></span>: 勝敗度外視村
+            <span class="ir"></span>: 勝敗度外視村
           </li>
 -->
         </ul>
@@ -220,19 +218,19 @@
 
         echo '<table class="table table-striped table-hover table-condensed"><thead>'; 
         echo '<tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
-        echo '<td><span class="icon-fire icon-white"></span>'.$db->getTeamWin($team)
+        echo '<td><span class="ig"></span>'.$db->getTeamWin($team)
           .'/'.$db->getTeamGachi($team).'</td>';
         echo '<td>('.$db->getTeamWinP($team).'%)</td>';
-        //echo '<td><span class="icon-book icon-white"></span>'.$db->getTeamRP($team).'</td>';
+        //echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
         echo '</tr></thead><tbody>';
 
         foreach($db->getSkillArray($team) as $skill)
         {
           echo '<tr><td>'.$skill.'</td>';
-          echo '<td><span class="icon-fire"></span>'.$db->getSkillWin($team,$skill)
+          echo '<td><span class="ig"></span>'.$db->getSkillWin($team,$skill)
             .'/'.$db->getSkillGachi($team,$skill).'</td>';
           echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
-          //echo '<td><span class="icon-book"> </span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+          //echo '<td><span class="ir"> </span>'.$db->getSkillRP($team,$skill).'</td></tr>';
         }
         echo '</tbody></table>';
       }
