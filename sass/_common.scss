@@ -1,5 +1,7 @@
 @import "compass";
-@import "_variable";
+
+$white: #fdfdfd;
+$black: #333;
 
 @include font-face('Glyphicons Halflings',font-files('glyphiconshalflings-regular.woff','glyphiconshalflings-regular.ttf','glyphiconshalflings-regular.otf'),'glyphiconshalflings-regular.eot');
 
