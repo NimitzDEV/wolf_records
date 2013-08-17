@@ -1,6 +1,6 @@
 @import "compass";
 @import "_variable";
-@import "common.css";
+@import "_common";
 
 $hlight: #00c2ff;
 
@@ -109,14 +109,33 @@ header {
 
 
 #list {
-  tr .header {
-    background-image: url('../img/sortBg.gif');
+  tr .header:after
+  {
+    @include icon;
+    content: "\e150";
+    color: #00c928;
   }
-  tr .headerSortUp {
-    background-image:url('../img/sortAsc.gif');
+
+  tr .headerSortUp
+  {
+    font-weight:bold;
   }
-  tr .headerSortDown {
-    background-image:url('../img/sortDesc.gif');
+  tr .headerSortUp:after
+  {
+    @include icon;
+    content: "\e155";
+    font-weight:normal;
+  }
+
+  tr .headerSortDown
+  {
+    font-weight:bold;
+  }
+  tr .headerSortDown:after
+  {
+    @include icon;
+    content: "\e156";
+    font-weight:normal;
   }
 
   th
@@ -125,7 +144,6 @@ header {
     color: #000;
     font-weight:normal;
     background: #f0ffe8 no-repeat;
-    background-position: 70% 50%;
     cursor: pointer;
   }
   td.w {
