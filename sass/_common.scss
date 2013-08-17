@@ -29,6 +29,12 @@ $black: #333;
   content: "\e043";
 }
 
+.ip:before/* plus */
+{
+  @include icon;
+  content: "\e081";
+}
+
 a {
   color: #00c928;
 }
@@ -41,6 +47,21 @@ body{
   background: $white;
   color: $black;
   font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo, sans-serif;
+}
+
+fieldset
+{
+  /* 複数フォーム */
+  a{
+    display:inline-block;
+    position:relative;
+    color:#006dcc;
+  }
+  a:hover
+  {
+    text-decoration:none;
+    color:#006dcc;
+  }
 }
 
 footer

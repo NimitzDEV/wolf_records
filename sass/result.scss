@@ -91,9 +91,19 @@ header {
     form {
       margin: 5px 0 0 0;
       
-      input[type=text] {
+      input[type=text]
+      {
         margin-bottom: 0;
         width: 10em;
+      }
+      a
+      {
+        left:2px;
+        top:6px;
+      }
+      .ip:before
+      {
+        font-size:24px;
       }
     }
 

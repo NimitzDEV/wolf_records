@@ -100,6 +100,7 @@
         </ul>
         <form class="navbar-search pull-right" action="./result.php" method="GET">
           <fieldset>
+            <a href="#"><span class="ip"></span></a>
             <input type="text" class="search-query" name="player" placeholder="ID検索" required>
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>

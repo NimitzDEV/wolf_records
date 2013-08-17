@@ -14,21 +14,31 @@ form{
   {
     margin: 0.5em auto;
   }
+  fieldset
+  {
+    text-align:center;
+    a
+    {
+      top:15px;
+    }
+    .ip:before
+    {
+      font-size:34px;
+    }
+  }
 
   input[type=text]
   {
     height: 1.5em;
-    width: 15em;
+    width: 13em;
     font-size: 20px;
-    display: block;
     text-align: center;
   }
 
   button.btn
   {
     width: 15%;
-    margin: 0 auto;
-    display: block;
+    margin: 30px auto;
   }
 }
 
