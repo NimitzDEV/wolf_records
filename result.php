@@ -100,8 +100,22 @@
         </ul>
         <form class="navbar-search pull-right" action="./result.php" method="GET">
           <fieldset>
-            <a href="#"><span class="ip"></span></a>
+            <a href="#" class="add"><span class="ip"></span></a>
             <input type="text" class="search-query" name="player" placeholder="ID検索" required>
+            <!--
+                        <div id="moreID" class="modal hide fade">
+                          <div class="modal-header">
+                            <a class="close" href="#" data-dismiss="modal">&times;</a>
+                            <h4>複数ID入力</h4>
+                          </div>
+                          <div class="modal-body">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">検索</button>
+                            <a class="btn" href="#" data-dismiss="modal">閉じる</a>
+                          </div>
+                        </div>
+            -->
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>

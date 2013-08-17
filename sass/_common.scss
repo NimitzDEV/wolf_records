@@ -52,15 +52,30 @@ body{
 fieldset
 {
   /* 複数フォーム */
-  a{
+  a.add{
     display:inline-block;
     position:relative;
     color:#006dcc;
+    outline: none;
+    text-decoration:none;
   }
-  a:hover
+  a.add:hover
   {
     text-decoration:none;
     color:#006dcc;
+  }
+  #moreID
+  {
+    h4
+    {
+      text-align:left;
+      margin: 5px 0;
+    }
+    input[type=text]
+    {
+      font-size:16px;
+      line-height:1.2em;
+    }
   }
 }
 

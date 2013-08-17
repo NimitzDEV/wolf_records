@@ -29,13 +29,15 @@
     <header>
       <h1>人狼戦績まとめ</h1>
     </header>
-
     <div class="container">
-
         <form action="result.php" method="GET">
           <fieldset>
-            <a href="#"><span class="ip"></span></a>
-            <input class="search-query" type="text" name="player" placeholder="IDを入力して下さい" required><br>
+            <ul id="id">
+              <li class="id_var">
+                <input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい"><br>
+              </li>
+            </ul>
+            <a href="#" class="id_add"><span class="ip"></span>もっと増やす</a><br>
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>
@@ -91,5 +93,15 @@
       </footer>
 
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="lib/bootstrap.modal.min.js"></script>
+    <script src="lib/addInputArea.js"></script>
+    <script>
+      jQuery(function($){
+        $('#id').addInputArea({
+          maximum : 5
+          });
+      });
+    </script>
   </body>
 </html>
