@@ -122,7 +122,7 @@ header {
   tr .headerSortUp:after
   {
     @include icon;
-    content: "\e155";
+    content: "\e156";
     font-weight:normal;
   }
 
@@ -133,7 +133,7 @@ header {
   tr .headerSortDown:after
   {
     @include icon;
-    content: "\e156";
+    content: "\e155";
     font-weight:normal;
   }
 
