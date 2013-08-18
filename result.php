@@ -1,36 +1,59 @@
 <?
-  require_once('lib/GetDB.php');
-  if (isset($_GET['player']) && $_GET['player'] !== "")
+require_once('lib/GetDB.php');
+$viewName = '';
+
+function fixEndSpace($argName,&$playerArr)
+{
+  if(mb_substr($argName,-1,1,"utf-8")==' ')
   {
-    $player = htmlspecialchars($_GET['player']);
-
-    if(mb_substr($player,-1,1,"utf-8")==' ')
-    {
-      //末尾に半角スペースが入っている場合は変換する
-      $db = new GetDB(preg_replace("/ /","&amp;nbsp;",$player));
-    }
-    else
-    {
-      $db = new GetDB($player);
-    }
-    
-    $db->connect();
-
-    if($db->FetchJoinCount())
-    {
-      $table = $db->getTable();
-      $db->fetchTeamCount();
-    }
-    $db->disConnect();
+    //末尾に半角スペースが入っている場合は変換する
+    $playerArr[] = preg_replace("/ /","&amp;nbsp;",$argName);
   }
   else
   {
-    echo '<!DOCTYPE html><meta charset="UTF-8"><link rel="stylesheet" href="css/index.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><body>';
-    echo '<header><h1>エラー</h1></header><div class="container"><section><p id="err">';
-    echo 'IDを入力して下さい。</p></section>';
-    echo '<form action="./result.php" method="GET"><fieldset><input class="search-query" type="text" name="player" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></fieldset></form></div></body>';
-    exit;
+    $playerArr[] = $argName;
   }
+}
+
+//旧URL対策
+if (isset($_GET['player']) && $_GET['player'] !== "")
+{
+  $player = htmlspecialchars($_GET['player']);
+  fixEndSpace($player,$playerArr);
+  $viewName = $player;
+}
+//複数IDを配列に入れる
+else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
+{
+  for($i=0;$i<5;$i++)
+  {
+    if (isset($_GET['id_'.$i]) && $_GET['id_'.$i] !== "")
+    {
+      $player = htmlspecialchars($_GET['id_'.$i]);
+      fixEndSpace($player,$playerArr);
+      $viewArray[]= $player;
+    }
+  }
+  $viewName = implode(', ',$viewArray);
+}
+//一番上のフォーム未入力
+else
+{
+  echo '<!DOCTYPE html><meta charset="UTF-8"><link rel="stylesheet" href="css/index.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><body>';
+  echo '<header><h1>エラー</h1></header><div class="container"><section><p id="err">';
+  echo 'IDを入力して下さい。</p></section>';
+  echo '<form action="./result.php" method="GET"><fieldset><input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></fieldset></form></div></body>';
+  exit;
+}
+$db = new GetDB($playerArr);
+$db->connect();
+
+if($db->FetchJoinCount())
+{
+  $table = $db->getTable();
+  $db->fetchTeamCount();
+}
+$db->disConnect();
 ?>
 
 <!DOCTYPE html>
@@ -39,12 +62,12 @@
     <meta charset="UTF-8">
 
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <? echo $player;?>さんのWeb人狼戦績の一覧です。">
+    <meta name="description" content="ID: <? echo $viewName;?>さんのWeb人狼戦績の一覧です。">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <? echo $player;?> の人狼戦績 | 人狼戦績まとめ
+      <? echo $viewName;?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -66,7 +89,7 @@
 
       <div id="summary">
         <div class="container">
-          <h1><? echo $player;?></h1>
+          <h1><? echo $viewName;?></h1>
           <dl>
               <dt>総合参加数</dt>
               <dd>

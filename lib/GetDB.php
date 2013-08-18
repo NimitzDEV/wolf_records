@@ -13,6 +13,7 @@ class GetDB
 
   private $pdo;
   private $player;
+  private $holder;
 
   private $joinSum;
   private $joinGachi;
@@ -40,6 +41,15 @@ class GetDB
     $this->teamCount = array();
     $this->teamArray = array();
     $this->skillCount = array();
+
+    //IDの数ぶんプレースホルダを作る
+    //$this->holder = implode(',',array_fill(0,count($this->player),'?'));
+    for($i=0;$i<count($this->player);$i++)
+    {
+      $holderArray[] = ':player'.$i;
+    }
+    $this->holder = implode(',',$holderArray);
+    
   }
 
 
@@ -72,17 +82,12 @@ class GetDB
 --------------------------------------------------------------------------------*/
 
 
-  //プレイヤーID取得
-  //function getPlayer(){
-    //return $this->player;
-  //}
-
   function fetchJoinCount()
   {
     //DBから情報を取得
-    $sql = $this->pdo->prepare("
+    $stmt = $this->pdo->prepare("
       SELECT r.name, count(*) AS count FROM users AS u INNER JOIN result AS r ON r.id=u.rltid
-      WHERE player=:player GROUP BY rltid
+      WHERE player IN (".$this->holder.") GROUP BY rltid
       UNION
       SELECT CASE rltid
         WHEN 1 THEN 'ガチ生存'
@@ -90,14 +95,12 @@ class GetDB
         WHEN 3 THEN 'RP生存'
         ELSE 'no'
       END AS rlt,
-      truncate(avg(life)+0.005,2) FROM users WHERE player=:player GROUP BY rlt
+      truncate(avg(life)+0.005,2) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
       UNION
-      SELECT rltid,count(*) FROM users WHERE player=:player
+      SELECT rltid,count(*) FROM users WHERE player IN (".$this->holder.");
       ");
-    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
-    $sql->execute();
-    $table = $sql->fetchALL();
-
+      $stmt = $this->exeStmt($stmt);
+    $table = $stmt->fetchALL();
 
     if(isset($table[0]['name']))
     {
@@ -135,6 +138,15 @@ class GetDB
     }
   }
 
+  function exeStmt(&$stmt)
+  {
+    foreach($this->player as $k =>$id)
+    {
+      $stmt->bindValue(':player'.$k,$id,PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    return $stmt;
+  }
   function getJoinWin()
   {
     return $this->joinWin;
@@ -179,7 +191,7 @@ class GetDB
 
   //戦績一覧取得
   function getTable(){
-    $sql = $this->pdo->prepare("SELECT v.date AS date, c.name AS country, v.vno AS vno, 
+    $stmt = $this->pdo->prepare("SELECT v.date AS date, c.name AS country, v.vno AS vno, 
       v.name AS vname,rgl.name AS rgl,u.persona AS persona, 
       u.role AS role,u.end AS end, d.name AS destiny,
       rlt.name AS result,c.url AS url
@@ -188,11 +200,10 @@ class GetDB
       INNER JOIN regulation rgl ON v.rglid=rgl.id 
       INNER JOIN destiny d ON u.dtid=d.id
       INNER JOIN result rlt ON u.rltid=rlt.id
-      WHERE player=:player ORDER BY v.date DESC,v.vno DESC;");
+      WHERE player IN (".$this->holder.") ORDER BY v.date DESC,v.vno DESC;");
 
-    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
-    $sql->execute();
-    $table = $sql->fetchAll();
+    $table = $this->exeStmt($stmt);
+    $table = $table->fetchAll();
     
     return $table;
   }
@@ -200,23 +211,22 @@ class GetDB
   //役職別一覧取得
   function fetchTeamCount()
   {
-    $sql = $this->pdo->prepare("
+    $stmt = $this->pdo->prepare("
       SELECT t.name team,s.name skl,r.name result,count(*) count,sum.sum
       FROM users u
 	INNER JOIN skill s ON u.sklid=s.id
 	INNER JOIN team t ON u.tmid=t.id
 	INNER JOIN result r ON u.rltid=r.id
         INNER JOIN (
-          SELECT tmid,rltid,count(*) sum FROM users WHERE player=:player GROUP BY tmid,rltid
+          SELECT tmid,rltid,count(*) sum FROM users WHERE player IN (".$this->holder.") GROUP BY tmid,rltid
         ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
-      WHERE u.player=:player
+      WHERE u.player IN (".$this->holder.")
       GROUP BY u.rltid,s.name
       ORDER BY u.tmid,u.sklid,u.rltid
         ");
-    $sql->bindParam(':player',$this->player,PDO::PARAM_STR);
-    $sql->execute();
 
-    foreach($sql as $item)
+    $stmt = $this->exeStmt($stmt);
+    foreach($stmt as $item)
     {
       //陣営の勝敗合計を入れる
       if(!isset($this->teamCount[$item['team']][$item['result']]))
