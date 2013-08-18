@@ -1,26 +1,10 @@
 <?
 require_once('lib/GetDB.php');
-$viewName = '';
-
-function fixEndSpace($argName,&$playerArr)
-{
-  if(mb_substr($argName,-1,1,"utf-8")==' ')
-  {
-    //末尾に半角スペースが入っている場合は変換する
-    $playerArr[] = preg_replace("/ /","&amp;nbsp;",$argName);
-  }
-  else
-  {
-    $playerArr[] = $argName;
-  }
-}
 
 //旧URL対策
 if (isset($_GET['player']) && $_GET['player'] !== "")
 {
-  $player = htmlspecialchars($_GET['player']);
-  fixEndSpace($player,$playerArr);
-  $viewName = $player;
+  $viewName = fixGetID($_GET['player'],$playerArr);
 }
 //複数IDを配列に入れる
 else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
@@ -29,9 +13,7 @@ else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
   {
     if (isset($_GET['id_'.$i]) && $_GET['id_'.$i] !== "")
     {
-      $player = htmlspecialchars($_GET['id_'.$i]);
-      fixEndSpace($player,$playerArr);
-      $viewArray[]= $player;
+      $viewArray[] = fixGetID($_GET['id_'.$i],$playerArr);
     }
   }
   $viewName = implode(', ',$viewArray);
@@ -54,6 +36,22 @@ if($db->FetchJoinCount())
   $db->fetchTeamCount();
 }
 $db->disConnect();
+
+function fixGetID($argName,&$playerArr)
+{
+  if(mb_substr($argName,-1,1,"utf-8")==' ')
+  {
+    $player = htmlspecialchars($argName);
+    //末尾に半角スペースが入っている場合は変換する
+    $playerArr[] = preg_replace("/ /","&amp;nbsp;",$player);
+
+    return $player;
+  }
+  else
+  {
+    return $playerArr[] = htmlspecialchars($argName);
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,22 +121,8 @@ $db->disConnect();
         </ul>
         <form class="navbar-search pull-right" action="./result.php" method="GET">
           <fieldset>
-            <a href="#" class="add"><span class="ip"></span></a>
-            <input type="text" class="search-query" name="player" placeholder="ID検索" required>
-            <!--
-                        <div id="moreID" class="modal hide fade">
-                          <div class="modal-header">
-                            <a class="close" href="#" data-dismiss="modal">&times;</a>
-                            <h4>複数ID入力</h4>
-                          </div>
-                          <div class="modal-body">
-                          </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">検索</button>
-                            <a class="btn" href="#" data-dismiss="modal">閉じる</a>
-                          </div>
-                        </div>
-            -->
+            <a href="#moreID" class="add" data-toggle="modal"><span class="ip"></span></a>
+            <input type="text" class="search-query" name="id_0" placeholder="ID検索" required>
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>
@@ -161,6 +145,29 @@ $db->disConnect();
         </ul>
       </nav>
     </header>
+    <div id="moreID" class="modal hide fade in">
+      <div class="modal-header">
+        <a class="close" href="#" data-dismiss="modal">&times;</a>
+        <h4>複数ID入力</h4>
+      </div>
+      <div class="modal-body">
+        <form action="./result.php" method="GET">
+          <fieldset><ul id="id">
+            <li class="id_var">
+              <input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい">
+            </li>
+            <li class="id_var">
+              <input class="search-query" type="text" name="id_1" placeholder="IDを入力して下さい">
+            </li>
+          </ul></fieldset>
+          <a href="#" class="id_add"><span class="ip"></span>もっと入力</a><br>
+          <button type="submit" class="btn btn-primary">検索</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn" href="#" data-dismiss="modal">閉じる</a>
+      </div>
+    </div>
 
     <div class="container">
       <div id="ad">
@@ -285,10 +292,15 @@ $db->disConnect();
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="lib/tablesorter.min.js"></script>
+    <script src="lib/bootstrap.modal.min.js"></script>
+    <script src="lib/addInputArea.js"></script>
     <script>
       $(document).ready(function() 
         { 
           $("#list").tablesorter(); 
+          $('#id').addInputArea({
+            maximum : 5
+          });
         } 
       );            
     </script>

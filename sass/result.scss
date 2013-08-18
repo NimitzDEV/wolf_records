@@ -110,6 +110,34 @@ header {
   }
 }
 
+div#moreID
+{
+  .modal-body
+  {
+    text-align:center;
+    button
+    {
+      margin: 2.5em 0 0 0;
+    }
+  }
+  ul
+  {
+    list-style:none;
+  }
+  li
+  {
+    margin: 1em 0;
+  }
+  input
+  {
+    text-align:center;
+  }
+  .modal-footer
+  {
+    text-align:center;
+  }
+}
+
 #ad {
   padding-top: 190px;
   width: 728px;
