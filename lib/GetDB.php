@@ -118,14 +118,15 @@ class GetDB
   function getDoppel($argURL)
   {
     $urlOrg = preg_replace('/.+result.php\?/',"","$argURL");
+    $string = 'もしかして: ';
 
     foreach($this->doppel as $dTable)
     {
       $dAll[$dTable['base']] = $dTable['doppel'];
       $url = preg_replace('/'.$dTable['base'].'/',$dTable['doppel'],$urlOrg);
-      $urlArray[] = 'もしかして: <a href="result.php?'.$url.'">'.htmlentities($dTable['doppel']).'</a>';
+      $urlArray[] = '<a href="result.php?'.$url.'">'.htmlentities($dTable['doppel']).'</a>';
     }
-    $string = implode(" | ",$urlArray);
+    $string .= implode(" | ",$urlArray);
 
     if(count($dAll) > 1)
     {
