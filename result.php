@@ -103,7 +103,7 @@ else
           <dl>
               <dt>総合参加数</dt>
               <dd>
-                <? echo $db->getJoinSum(); ?>
+                <?= $db->getJoinSum(); ?>
 <!--
                <span class="ig"></span><? //echo $db->getJoinGachi(); ?>
                <span class="ir"></span><? //echo $db->getJoinRP(); ?>
@@ -111,11 +111,11 @@ else
               </dd>
               <dt>勝率</dt>
               <dd>
-                <span class="ig"></span><? echo $db->getJoinWinPercent() ?><span>%</span>
+                <span class="ig"></span><?= $db->getJoinWinPercent() ?><span>%</span>
               </dd>
               <dt>平均生存係数</dt>
               <dd>
-                <span class="ig"></span><? echo $db->getLiveGachi(); ?>
+                <span class="ig"></span><?= $db->getLiveGachi(); ?>
                 <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
               </dd>
           </dl>
