@@ -32,6 +32,7 @@ $db->connect();
 
 if($db->FetchJoinCount())
 {
+  $boolDoppel = $db->fetchDoppelID();
   $table = $db->getTable();
   $db->fetchTeamCount();
 }
@@ -39,7 +40,7 @@ $db->disConnect();
 
 function fixGetID($argName,&$playerArr)
 {
-  if(mb_substr($argName,-1,1,"utf-8")==' ')
+  if(mb_substr($argName,-1,1,"utf-8") === ' ')
   {
     $player = htmlspecialchars($argName);
     //末尾に半角スペースが入っている場合は変換する
@@ -60,12 +61,12 @@ function fixGetID($argName,&$playerArr)
     <meta charset="UTF-8">
 
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <? echo $viewName;?>さんのWeb人狼戦績の一覧です。">
+    <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <? echo $viewName;?> の人狼戦績 | 人狼戦績まとめ
+      <?= $viewName;?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -87,7 +88,18 @@ function fixGetID($argName,&$playerArr)
 
       <div id="summary">
         <div class="container">
-          <h1><? echo $viewName;?></h1>
+<?
+if($db->getBoolDoppel())
+{
+  echo '<h1 class="doppel">'.$viewName.'</h1><p>';
+  echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"]));
+  echo '</p>';
+}
+else
+{
+  echo '<h1>'.$viewName.'</h1>';
+}
+?>
           <dl>
               <dt>総合参加数</dt>
               <dd>

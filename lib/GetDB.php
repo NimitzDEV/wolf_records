@@ -28,6 +28,9 @@ class GetDB
   private $teamArray;
   private $skillCount;
 
+  private $boolDoppel;
+  private $doppel;
+
   function GetDB($argID)
   {
     $this->player = $argID;
@@ -49,7 +52,6 @@ class GetDB
       $holderArray[] = ':player'.$i;
     }
     $this->holder = implode(',',$holderArray);
-    
   }
 
 
@@ -80,6 +82,61 @@ class GetDB
   2. データ取得
 
 --------------------------------------------------------------------------------*/
+  function exeStmt(&$stmt)
+  {
+    foreach($this->player as $k =>$id)
+    {
+      $stmt->bindValue(':player'.$k,$id,PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    return $stmt;
+  }
+
+  function fetchDoppelID()
+  {
+    $stmt = $this->pdo->prepare("
+      SELECT base,doppel FROM doppel WHERE base IN (".$this->holder.");
+    ");
+    $stmt = $this->exeStmt($stmt);
+    $table = $stmt->fetchALL();
+    if(!empty($table))
+    {
+      $this->doppel = $table;
+      $this->boolDoppel = true;
+    }
+    else
+    {
+      $this->boolDoppel = false;
+    }
+  }
+
+  function getBoolDoppel()
+  {
+    return $this->boolDoppel;
+  }
+
+  function getDoppel($argURL)
+  {
+    $urlOrg = preg_replace('/.+result.php\?/',"","$argURL");
+
+    foreach($this->doppel as $dTable)
+    {
+      $dAll[$dTable['base']] = $dTable['doppel'];
+      $url = preg_replace('/'.$dTable['base'].'/',$dTable['doppel'],$urlOrg);
+      $urlArray[] = 'もしかして: <a href="result.php?'.$url.'">'.htmlentities($dTable['doppel']).'</a>';
+    }
+    $string = implode(" | ",$urlArray);
+
+    if(count($dAll) > 1)
+    {
+      foreach($dAll as $before=>$after)
+      {
+        $urlOrg =  preg_replace('/'.$before.'/',$after,$urlOrg);
+      }
+      $string .= ' | <a href="result.php?'.$urlOrg.'">全部変えて試す</a>';
+    }
+    return $string;
+  }
 
 
   function fetchJoinCount()
@@ -98,7 +155,7 @@ class GetDB
       truncate(avg(life)+0.005,2) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
       UNION
       SELECT rltid,count(*) FROM users WHERE player IN (".$this->holder.");
-      ");
+    ");
       $stmt = $this->exeStmt($stmt);
     $table = $stmt->fetchALL();
 
@@ -138,15 +195,6 @@ class GetDB
     }
   }
 
-  function exeStmt(&$stmt)
-  {
-    foreach($this->player as $k =>$id)
-    {
-      $stmt->bindValue(':player'.$k,$id,PDO::PARAM_STR);
-    }
-    $stmt->execute();
-    return $stmt;
-  }
   function getJoinWin()
   {
     return $this->joinWin;
@@ -190,8 +238,10 @@ class GetDB
 
 
   //戦績一覧取得
-  function getTable(){
-    $stmt = $this->pdo->prepare("SELECT v.date AS date, c.name AS country, v.vno AS vno, 
+  function getTable()
+  {
+    $stmt = $this->pdo->prepare("
+      SELECT v.date AS date, c.name AS country, v.vno AS vno, 
       v.name AS vname,rgl.name AS rgl,u.persona AS persona, 
       u.role AS role,u.end AS end, d.name AS destiny,
       rlt.name AS result,c.url AS url
@@ -200,7 +250,8 @@ class GetDB
       INNER JOIN regulation rgl ON v.rglid=rgl.id 
       INNER JOIN destiny d ON u.dtid=d.id
       INNER JOIN result rlt ON u.rltid=rlt.id
-      WHERE player IN (".$this->holder.") ORDER BY v.date DESC,v.vno DESC;");
+      WHERE player IN (".$this->holder.") ORDER BY v.date DESC,v.vno DESC;
+    ");
 
     $table = $this->exeStmt($stmt);
     $table = $table->fetchAll();
@@ -223,7 +274,7 @@ class GetDB
       WHERE u.player IN (".$this->holder.")
       GROUP BY u.rltid,s.name
       ORDER BY u.tmid,u.sklid,u.rltid
-        ");
+    ");
 
     $stmt = $this->exeStmt($stmt);
     foreach($stmt as $item)
