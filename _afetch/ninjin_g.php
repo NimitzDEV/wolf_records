@@ -32,7 +32,7 @@ if(flock($fp,LOCK_SH))
       if (checkVilEnd($vno))
       {
         //終了済の村は後でqueueから消す
-        $queue = preg_replace('/'.$vno.',/',"",$org_queue);
+        $queue = preg_replace('/'.$vno.',/',"",$queue);
         $fetchArray[] = $vno;
       } else {
         echo 'NOTICE: No.'.$vno.'is still proceeding.'.PHP_EOL;
