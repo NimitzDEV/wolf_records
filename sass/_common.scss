@@ -2,6 +2,7 @@
 
 $white: #fdfdfd;
 $black: #333;
+$tablet: "screen and (max-width: 767px)";
 
 @include font-face('Glyphicons Halflings',font-files('glyphiconshalflings-regular.woff','glyphiconshalflings-regular.ttf','glyphiconshalflings-regular.otf'),'glyphiconshalflings-regular.eot');
 
@@ -43,10 +44,13 @@ a:hover {
   color: #0ba20b;
 }
 
+
+
 body{
   background: $white;
   color: $black;
   font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo, sans-serif;
+  line-height:1.5em;
 }
 
 fieldset
@@ -111,3 +115,13 @@ footer
   }
 }
 
+@media #{$tablet} {
+  body {
+    padding:0;
+  }
+  .container-fluid {
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+}

@@ -1,42 +1,38 @@
 @import "compass";
 @import "_common";
 
+
+
 header {
   padding: 10px 20px;
   background: $black;
   color: $white;
 }
 
-form{
+form {
   margin: 30px auto;
 
-  input
-  {
+  input {
     margin: 0.5em auto;
   }
-  fieldset
-  {
+  fieldset {
     text-align:center;
-    a
-    {
+    a {
       top:15px;
     }
-    .ip:before
-    {
+    .ip:before {
       font-size:14px;
     }
   }
 
-  input[type=text]
-  {
+  input[type=text] {
     height: 1.5em;
     width: 13em;
     font-size: 20px;
     text-align: center;
   }
 
-  button.btn
-  {
+  button.btn {
     width: 15%;
     margin: 30px auto;
   }
@@ -46,8 +42,7 @@ section {
   p,dl,table {
     margin: 0 0 2em 3em;
   }
-  p#err
-  {
+  p#err {
     margin:2em 0 2em 0;
     font-size:16px;
   }
@@ -77,6 +72,7 @@ section {
   }
   dd {
     margin-bottom: 0.5em;
+    line-height:inherit;
   }
 
 }
@@ -95,3 +91,22 @@ section#todo
 
   }
 }
+@media #{$tablet} {
+  form {
+    button.btn {
+      width: 60%;
+    }
+    input[type=text] {
+      width: 10em;
+    } 
+  }
+  section {
+    p,dl,table {
+      margin-left:0em;
+    }
+    ul {
+      margin-left:2em;
+    }
+  }
+}
+

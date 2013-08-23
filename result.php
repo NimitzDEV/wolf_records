@@ -21,8 +21,8 @@ else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
 //一番上のフォーム未入力
 else
 {
-  echo '<!DOCTYPE html><meta charset="UTF-8"><link rel="stylesheet" href="css/index.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><body>';
-  echo '<header><h1>エラー</h1></header><div class="container"><section><p id="err">';
+  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><link rel="stylesheet" href="css/index.css"><body>';
+  echo '<header><h1>エラー</h1></header><div class="container-fluid"><section><p id="err">';
   echo 'IDを入力して下さい。</p></section>';
   echo '<form action="./result.php" method="GET"><fieldset><input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></fieldset></form></div></body>';
   exit;
