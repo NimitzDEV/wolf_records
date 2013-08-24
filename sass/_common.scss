@@ -3,6 +3,7 @@
 $white: #fdfdfd;
 $black: #333;
 $tablet: "screen and (max-width: 767px)";
+$sphone: "screen and (max-width: 414px)";/* resultのsummeryが一行で表示出来ない */
 
 @include font-face('Glyphicons Halflings',font-files('glyphiconshalflings-regular.woff','glyphiconshalflings-regular.ttf','glyphiconshalflings-regular.otf'),'glyphiconshalflings-regular.eot');
 
@@ -93,28 +94,34 @@ footer
   margin: 3em 0;
   border-top: 1px $black solid;
 
-  ul
-  {
+  ul {
     margin: 0.5em 0 0 0;
     overflow:hidden;
     
   }
-  li
-  {
+  li {
     display:block;
     float:left;
     margin: 0 0.5em 0 0;
   }
-  li:after
-  {
+  li:after {
     content:' | ';
   }
-  li:last-child:after
-  {
+  li:last-child:after {
     content:'';
   }
 }
 
+@mixin listStripe {
+  li {
+    float:none;
+    text-align:center;
+    background:#f0f0f0;
+  }
+  li:nth-child(even) {
+    background:$white;
+  }
+}
 @media #{$tablet} {
   body {
     padding:0;
@@ -123,5 +130,17 @@ footer
     padding-left:20px;
     padding-right:20px;
   }
+}
 
+@media #{$sphone} {
+  footer {
+    @include listStripe;
+    font-size:15px;
+    a {
+      display:block;
+    }
+    li:after {
+      content:'';
+    }
+  }
 }

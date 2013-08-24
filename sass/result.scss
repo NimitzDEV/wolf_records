@@ -18,68 +18,71 @@ header {
   width: 100%;
   position: fixed;
   z-index:1030;
+  background: #000;
+  color: #fff;
+  @include background-image(radial-gradient(center, ellipse cover, #232425 20%,#000000 100%));
+  padding: 20px 0 0px;
+  text-align:center;
 
-  #summary {
-    background: #000;
-    @include background-image(radial-gradient(center, ellipse cover, #232425 20%,#000000 100%));
-    padding: 20px 0 5px;
-    text-align:center;
-    color: #fff;
-
-    h1 {
-      font-size: 45px;
-      margin: 10px 0 25px;
-    }
-    h1.doppel{
-      margin-bottom:10px;
-    }
-    p {
-      margin-bottom:0;
-    }
-
-    dl {
-      position: relative;
-      left: 50%;
-      float: left;
-      margin:0 0 10px 0;
-
-      dt,dd {
-        position: relative;
-        font-weight: normal;
-        left: -50%;
-        float: left;
-      }
-      dt:after {
-        content:"：";
-      }
-      dd {
-        margin: 0 15px 0 0;
-        color: $hlight;
-        font-weight: bold;
-      }
-      span
-      {
-        color:$white;
-      }
-    }
-
+  h1 {
+    font-size: 45px;
+    margin: 10px 0 25px;
+  }
+  h1.doppel{
+    margin-bottom:10px;
+  }
+  p {
+    margin-bottom:0;
   }
 
-  nav#headerMenu {
+  dl {
+    position: relative;
+    left: 50%;
+    float: left;
+    margin:0 0 10px 0;
+
+    dt,dd {
+      position: relative;
+      font-weight: normal;
+      left: -50%;
+      float: left;
+    }
+    dt:after {
+      content:"：";
+    }
+    dd {
+      margin: 0 15px 0 0;
+      color: $hlight;
+      font-weight: bold;
+    }
+    span {
+      color:$white;
+    }
+  }
+
+  nav {
     background:#f0f0f0;
-    padding: 3px 15px;
+    /*padding: 3px 15px;*/
     color: #000;
-    font-size: 16px;
+    font-size: 18px;
     overflow: hidden;
 
     ul {
+      list-style:none;
+    }
+
+    ul#headerMenu {
       margin:0 auto;
       overflow: hidden;
       float: left;
       li {
         display:block;
         float:left;
-        padding: 10px 15px 10px;
+        /*padding: 10px 15px 10px;*/
+        a {
+          display:block;
+          padding:15px 15px;
+        }
          }
       li:first-child {
         padding-left: 0px;
@@ -97,22 +100,18 @@ header {
     form {
       margin: 5px 0 0 0;
       
-      input[type=text]
-      {
+      input[type=text] {
         margin-bottom: 0;
         width: 10em;
       }
-      a
-      {
+      a {
         left:2px;
         top:6px;
       }
-      .ip:before
-      {
+      .ip:before {
         font-size:24px;
       }
     }
-
   }
 }
 
@@ -240,4 +239,29 @@ div#moreID
     }
   }
 
+}
+
+
+@media #{$sphone} {
+  header#summary {
+    text-align:left;
+    position: static;
+    z-index:auto;
+    nav {
+      padding: 0;
+      ul#headerMenu {
+        margin:0 auto 15px;
+        float:none;
+        @include listStripe;
+      }
+
+      .navbar-search {
+        float:none;
+      }
+
+      ul#sub li {
+        float:left;
+      }
+    }
+  }
 }

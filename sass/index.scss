@@ -78,19 +78,16 @@ section {
 }
 section#todo
 {
-  dt
-  {
+  dt {
     font-size:16px;
     margin-top:0;
     margin-bottom: 0;
-
   }
-  dd
-  {
+  dd {
     margin-top:0;
-
   }
 }
+
 @media #{$tablet} {
   form {
     button.btn {

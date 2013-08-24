@@ -62,6 +62,7 @@ function fixGetID($argName,&$playerArr)
 
     <meta name="author" content="fortmorst">
     <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.css">
     <link rel="stylesheet" href="css/result.css">
@@ -84,10 +85,8 @@ function fixGetID($argName,&$playerArr)
 <![endif]-->
   </head>
   <body id="record">
-    <header>
-
-      <div id="summary">
-        <div class="container">
+    <header id="summary">
+      <div class="container-fluid">
 <?
 if($db->getBoolDoppel())
 {
@@ -100,30 +99,29 @@ else
   echo '<h1>'.$viewName.'</h1>';
 }
 ?>
-          <dl>
-              <dt>総合参加数</dt>
-              <dd>
-                <?= $db->getJoinSum(); ?>
+        <dl>
+          <dt>総合参加数</dt>
+          <dd>
+            <?= $db->getJoinSum(); ?>
 <!--
-               <span class="ig"></span><? //echo $db->getJoinGachi(); ?>
-               <span class="ir"></span><? //echo $db->getJoinRP(); ?>
+           <span class="ig"></span><? //echo $db->getJoinGachi(); ?>
+           <span class="ir"></span><? //echo $db->getJoinRP(); ?>
 -->
-              </dd>
-              <dt>勝率</dt>
-              <dd>
-                <span class="ig"></span><?= $db->getJoinWinPercent() ?><span>%</span>
-              </dd>
-              <dt>平均生存係数</dt>
-              <dd>
-                <span class="ig"></span><?= $db->getLiveGachi(); ?>
-                <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
-              </dd>
-          </dl>
-        </div>
-      </div>
+          </dd>
+          <dt>勝率</dt>
+          <dd>
+            <span class="ig"></span><?= $db->getJoinWinPercent() ?><span>%</span>
+          </dd>
+          <dt>平均生存係数</dt>
+          <dd>
+            <span class="ig"></span><?= $db->getLiveGachi(); ?>
+            <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
+          </dd>
+        </dl>
+       </div>
 
-      <nav id="headerMenu">
-        <ul>
+      <nav>
+        <ul id="headerMenu">
           <li>
             <a href="#record">戦績一覧</a>
           </li>
@@ -138,13 +136,10 @@ else
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>
-        <ul id="sub">
+        <ul id="sub" class="inline">
           <li>
             <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-          </li>
-          <li>
-            <span class="id"></span><a href="document.html">説明書</a>
           </li>
 <!--
           <li>
@@ -293,11 +288,12 @@ else
       }
 ?>
     </section>
-    <div class="container">
+    <div class="container-fluid">
       <footer>
        <ul>
-           <li>作った人: <a href="https://twitter.com/fortmorst">fortmorst</a></li>
+           <li><a href="document.html"><span class="id"></span>説明書</a></li>
            <li><a href="index.html">トップページへ</a></li>
+           <li><a href="https://twitter.com/fortmorst">作った人: fortmorst</a></li>
            <li><a href="http://waoon.net">waoon.net</a></li>
        </ul>
       </footer>
