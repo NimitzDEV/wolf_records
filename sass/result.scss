@@ -16,17 +16,14 @@ $fry: #0034A1;
 
 header {
   width: 100%;
-  position: fixed;
-  z-index:1030;
   background: #000;
   color: #fff;
   @include background-image(radial-gradient(center, ellipse cover, #232425 20%,#000000 100%));
-  padding: 20px 0 0px;
   text-align:center;
 
   h1 {
     font-size: 45px;
-    margin: 10px 0 25px;
+    margin: 30px 0 25px;
   }
   h1.doppel{
     margin-bottom:10px;
@@ -36,16 +33,18 @@ header {
   }
 
   dl {
-    position: relative;
-    left: 50%;
-    float: left;
-    margin:0 0 10px 0;
+    margin: 5px 0;
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*float: left;*/
+    /*margin:0 0 10px 0;*/
 
     dt,dd {
       position: relative;
       font-weight: normal;
-      left: -50%;
-      float: left;
+      display:inline-block;
+      /*left: -50%;*/
+      /*float: left;*/
     }
     dt:after {
       content:"：";
@@ -62,9 +61,8 @@ header {
 
   nav {
     background:#f0f0f0;
-    /*padding: 3px 15px;*/
     color: #000;
-    font-size: 18px;
+    font-size: 16px;
     overflow: hidden;
 
     ul {
@@ -98,18 +96,17 @@ header {
     }
 
     form {
-      margin: 5px 0 0 0;
-      
+      margin: 10px 10px 0 0;
       input[type=text] {
         margin-bottom: 0;
         width: 10em;
       }
       a {
-        left:2px;
-        top:6px;
+        margin:3px 0 0 0;
+        float:left;
       }
       .ip:before {
-        font-size:24px;
+        font-size:30px;
       }
     }
   }
@@ -140,9 +137,13 @@ div#moreID
 }
 
 #ad {
-  padding-top: 190px;
-  width: 728px;
-  margin: 0 auto 25px;
+  margin: 10px auto 25px;
+  text-align:center;
+  font-size: 12px;
+  .recordresultphp-responsive { 
+    width: 320px;
+    height: 50px;
+  }
 }
 
 
@@ -238,24 +239,49 @@ div#moreID
       text-align:left;
     }
   }
-
 }
 
+footer{
+  border-top:none;
+  margin: 0 0 3em;
+  p {
+    text-align:right;
+    border-bottom:1px solid #333;
+    a:hover {
+      text-decoration:none;
+    }
+    .iu:before {
+      font-size:36px;
+    }
+  }
+}
+
+@media #{$tablet} {
+  #list{
+    table {
+      white-space:nowrap;
+    }
+  }
+}
 
 @media #{$sphone} {
   header#summary {
-    text-align:left;
-    position: static;
-    z-index:auto;
+    h1 {
+      margin:20px 0 10px;
+    }
     nav {
       padding: 0;
       ul#headerMenu {
-        margin:0 auto 15px;
         float:none;
-        @include listStripe;
+        li {
+          float:none;
+          text-align:center;
+          background:#f0f0f0;
+        }
+        /*@include listStripe;*/
       }
-
-      .navbar-search {
+      form {
+        display:inline-block;
         float:none;
       }
 
@@ -263,5 +289,23 @@ div#moreID
         float:left;
       }
     }
+  }
+
+  #role {
+    table {
+      width:100%;
+    }
+  }
+}
+
+/* 広告設定 */
+@media(min-width: 500px) {
+  #ad .recordresultphp-responsive {
+    width: 468px; height: 60px;
+  }
+}
+@media(min-width: 800px) {
+  #ad .recordresultphp-responsive {
+    width: 728px; height: 90px;
   }
 }

@@ -54,7 +54,6 @@ function fixGetID($argName,&$playerArr)
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -117,39 +116,25 @@ else
             <span class="ig"></span><?= $db->getLiveGachi(); ?>
             <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
           </dd>
+
         </dl>
-       </div>
+ <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
 
       <nav>
         <ul id="headerMenu">
           <li>
-            <a href="#record">戦績一覧</a>
-          </li>
-          <li>
             <a href="#role">役職別参加数</a>
           </li>
         </ul>
-        <form class="navbar-search pull-right" action="./result.php" method="GET">
+        <form class="pull-right" action="./result.php" method="GET">
           <fieldset>
             <a href="#moreID" class="add" data-toggle="modal"><span class="ip"></span></a>
             <input type="text" class="search-query" name="id_0" placeholder="ID検索" required>
             <button type="submit" class="btn btn-primary">検索</button>
           </fieldset>
         </form>
-        <ul id="sub" class="inline">
-          <li>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-          </li>
-<!--
-          <li>
-            <span class="ig"></span>: 勝敗のある村
-          </li>
-          <li>
-            <span class="ir"></span>: 勝敗度外視村
-          </li>
--->
-        </ul>
       </nav>
     </header>
     <div id="moreID" class="modal hide fade in">
@@ -176,22 +161,21 @@ else
       </div>
     </div>
 
-    <div class="container">
-      <div id="ad">
-        <script type="text/javascript">
-          google_ad_client = "ca-pub-8063117190073359";
-          /* record/result.php */
-          google_ad_slot = "7246012795";
-          google_ad_width = 728;
-          google_ad_height = 90;
-        </script>
-        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
-      </div>
+    <div id="ad">
+      [広告]
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- record/result.php_responsive -->
+<ins class="adsbygoogle recordresultphp-responsive"
+     style="display:inline-block"
+     data-ad-client="ca-pub-8063117190073359"
+     data-ad-slot="3543412796"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     </div>
 
-    <section class="container">
-      <table id="list" class="table table-striped table-condensed table-hover tablesorter">
+    <section id="list" class="container-fluid">
+      <table class="table table-striped table-condensed table-hover tablesorter">
         <thead>
           <tr>
               <th>日付</th>
@@ -248,7 +232,7 @@ else
         </tbody>
       </table>
     </section>
-    <section id="role" class="container">
+    <section id="role" class="container-fluid">
 <? 
       foreach($db->getTeamArray() as $team)
       {
@@ -273,7 +257,7 @@ else
         echo '<td><span class="ig"></span>'.$db->getTeamWin($team)
           .'/'.$db->getTeamGachi($team).'</td>';
         echo '<td>('.$db->getTeamWinP($team).'%)</td>';
-        //echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
+        echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
         echo '</tr></thead><tbody>';
 
         foreach($db->getSkillArray($team) as $skill)
@@ -282,7 +266,7 @@ else
           echo '<td><span class="ig"></span>'.$db->getSkillWin($team,$skill)
             .'/'.$db->getSkillGachi($team,$skill).'</td>';
           echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
-          //echo '<td><span class="ir"> </span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+          echo '<td><span class="ir"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
         }
         echo '</tbody></table>';
       }
@@ -290,6 +274,7 @@ else
     </section>
     <div class="container-fluid">
       <footer>
+<p><a href="#"><span class="iu"></span></a></p>
        <ul>
            <li><a href="document.html"><span class="id"></span>説明書</a></li>
            <li><a href="index.html">トップページへ</a></li>

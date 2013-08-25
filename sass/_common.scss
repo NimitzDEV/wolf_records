@@ -3,7 +3,7 @@
 $white: #fdfdfd;
 $black: #333;
 $tablet: "screen and (max-width: 767px)";
-$sphone: "screen and (max-width: 414px)";/* resultのsummeryが一行で表示出来ない */
+$sphone: "screen and (max-width: 420px)";
 
 @include font-face('Glyphicons Halflings',font-files('glyphiconshalflings-regular.woff','glyphiconshalflings-regular.ttf','glyphiconshalflings-regular.otf'),'glyphiconshalflings-regular.eot');
 
@@ -35,6 +35,11 @@ $sphone: "screen and (max-width: 414px)";/* resultのsummeryが一行で表示�
 {
   @include icon;
   content: "\e081";
+}
+.iu:before /* gachi */
+{
+  @include icon;
+  content: "\e133";
 }
 
 a {
@@ -91,7 +96,7 @@ fieldset
 
 footer
 {
-  margin: 3em 0;
+  margin: 5em 0;
   border-top: 1px $black solid;
 
   ul {
