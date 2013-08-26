@@ -257,7 +257,7 @@ else
         echo '<td><span class="ig"></span>'.$db->getTeamWin($team)
           .'/'.$db->getTeamGachi($team).'</td>';
         echo '<td>('.$db->getTeamWinP($team).'%)</td>';
-        echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
+        //echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
         echo '</tr></thead><tbody>';
 
         foreach($db->getSkillArray($team) as $skill)
@@ -266,7 +266,7 @@ else
           echo '<td><span class="ig"></span>'.$db->getSkillWin($team,$skill)
             .'/'.$db->getSkillGachi($team,$skill).'</td>';
           echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
-          echo '<td><span class="ir"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+          //echo '<td><span class="ir"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
         }
         echo '</tbody></table>';
       }
