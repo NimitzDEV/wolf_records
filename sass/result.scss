@@ -34,17 +34,11 @@ header {
 
   dl {
     margin: 5px 0;
-    /*position: relative;*/
-    /*left: 50%;*/
-    /*float: left;*/
-    /*margin:0 0 10px 0;*/
 
     dt,dd {
       position: relative;
       font-weight: normal;
       display:inline-block;
-      /*left: -50%;*/
-      /*float: left;*/
     }
     dt:after {
       content:"：";
@@ -76,7 +70,6 @@ header {
       li {
         display:block;
         float:left;
-        /*padding: 10px 15px 10px;*/
         a {
           display:block;
           padding:15px 15px;
@@ -141,8 +134,7 @@ div#moreID
   text-align:center;
   font-size: 12px;
   .recordresultphp-responsive { 
-    width: 320px;
-    height: 50px;
+    width: 728px; height: 90px;
   }
 }
 
@@ -299,13 +291,14 @@ footer{
 }
 
 /* 広告設定 */
-@media(min-width: 500px) {
+@media(max-width: 800px) {
   #ad .recordresultphp-responsive {
     width: 468px; height: 60px;
   }
 }
-@media(min-width: 800px) {
+@media(max-width: 420px) {
   #ad .recordresultphp-responsive {
-    width: 728px; height: 90px;
+    width: 320px;
+    height: 50px;
   }
 }
