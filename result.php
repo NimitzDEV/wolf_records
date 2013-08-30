@@ -24,7 +24,7 @@ else
   echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><link rel="stylesheet" href="css/index.css"><body>';
   echo '<header><h1>エラー</h1></header><div class="container-fluid"><section><p id="err">';
   echo 'IDを入力して下さい。</p></section>';
-  echo '<form action="./result.php" method="GET"><fieldset><input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></fieldset></form></div></body>';
+  echo '<form action="./result.php" method="GET"><input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></form></div></body>';
   exit;
 }
 $db = new GetDB($playerArr);
@@ -129,11 +129,9 @@ else
           </li>
         </ul>
         <form class="pull-right" action="./result.php" method="GET">
-          <fieldset>
-            <a href="#moreID" class="add" data-toggle="modal"><span class="ip"></span></a>
-            <input type="text" class="search-query" name="id_0" placeholder="ID検索" required>
-            <button type="submit" class="btn btn-primary">検索</button>
-          </fieldset>
+          <a href="#moreID" class="add" data-toggle="modal"><span class="ip"></span></a>
+          <input type="text" class="search-query" name="id_0" placeholder="ID検索" required>
+          <button type="submit" class="btn btn-primary">検索</button>
         </form>
       </nav>
     </header>
@@ -144,14 +142,14 @@ else
       </div>
       <div class="modal-body">
         <form action="./result.php" method="GET">
-          <fieldset><ul id="id">
+          <ul id="id">
             <li class="id_var">
               <input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい">
             </li>
             <li class="id_var">
               <input class="search-query" type="text" name="id_1" placeholder="IDを入力して下さい">
             </li>
-          </ul></fieldset>
+          </ul>
           <a href="#" class="id_add"><span class="ip"></span>もっと入力</a><br>
           <button type="submit" class="btn btn-primary">検索</button>
         </form>
