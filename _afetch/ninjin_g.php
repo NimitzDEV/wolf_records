@@ -33,6 +33,7 @@ if(flock($fp,LOCK_SH))
       {
         //終了済の村は後でqueueから消す
         $queue = preg_replace('/'.$vno.',/',"",$queue);
+        echo 'Queue is '.$queue.PHP_EOL;
         $fetchArray[] = $vno;
       } else {
         echo 'NOTICE: No.'.$vno.'is still proceeding.'.PHP_EOL;
@@ -411,6 +412,7 @@ if (!empty($fetchArray))
     {
       //ファイル内容を削除する
       ftruncate($fp,0);
+      fseek($fp, 0);
       //変更内容を書き込む
       fwrite($fp,$queue);
     } else {
