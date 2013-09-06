@@ -2,14 +2,11 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-
     <meta name="author" content="fortmorst">
     <meta name="description" content="web人狼の戦績を集計しています">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/index.css">
-
     <title>人狼戦績まとめ</title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -28,40 +25,36 @@
     <header>
       <h1>人狼戦績まとめ</h1>
     </header>
-    <div class="container-fluid">
+    <div class="container">
         <form action="result.php" method="GET">
           <ul id="id">
             <li class="id_var">
-              <input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい"><br>
+              <input type="text" name="id_0" placeholder="IDを入力して下さい"><br>
             </li>
           </ul>
-          <a href="#" class="id_add"><span class="ip"></span>もっと入力</a><br>
-          <button type="submit" class="btn btn-primary">検索</button>
+          <a href="#" class="id_add"><span class="i-plus"></span>もっと入力</a><br>
+          <button type="submit" class="btn-primary">検索</button>
         </form>
 
-      <section class="text" id="description">
+      <section>
         <h2>これは何？</h2>
         <p>
           Web人狼の勝敗結果などを、ID別に閲覧出来るデータベースです。<br>
-          <span class="id"></span><a href="document.html">説明書</a>
+          <a href="document.html"><span class="i-help"></span>説明書</a>
         </p>
         <h2>対応済みの国</h2>
-        <ul>
+        <ul class="list-marker">
           <li>人狼BBS 旧国〜G国</li>
           <li>他後日対応予定</li>
         </ul>
-        <h2>動作ブラウザ</h2>
-          <p>
-            最新版のGoogleChromeやFirefoxなどに対応しています。InternetExplorerはバージョン8以上での閲覧をお勧めします。
-          </p>
       </section>
-      <section id="todo" class="text">
-        <h3>お問い合わせ</h3>
+      <section>
+        <h2>お問い合わせ</h2>
           <p>
             データの誤り、要望等がありましたら<a href="https://twitter.com/fortmorst">Twitterアカウント</a>までお知らせ下さい。<br>
-            身に覚えのない国での戦績がある場合もご一報くださると嬉しいです。
+            身に覚えのない国での戦績がある場合もご一報ください。
           </p>
-        <h3>更新履歴</h3>
+        <h2>更新履歴</h2>
         <dl>
           <dt>2013/08/26</dt>
             <dd>スマートフォンでの閲覧を最適化</dd>
@@ -80,8 +73,8 @@
       </footer>
 
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="lib/addInputArea.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="lib/addInputArea.min.js"></script>
     <script>
       jQuery(function($){
         $('#id').addInputArea({

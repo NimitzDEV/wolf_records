@@ -1,0 +1,19 @@
+@import '../../sass/mixin';
+@import 'mod-var';
+
+@include btn-blue;
+
+body {
+  background: $col_bg;
+  color: $col_text;
+}
+
+
+a {
+  color: $col_a;
+}
+
+a:hover,a:active {
+  color: $col_a_hover;
+}
+

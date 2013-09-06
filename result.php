@@ -21,10 +21,10 @@ else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
 //一番上のフォーム未入力
 else
 {
-  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/bootstrap-responsive.css"><link rel="stylesheet" href="css/index.css"><body>';
-  echo '<header><h1>エラー</h1></header><div class="container-fluid"><section><p id="err">';
+  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="css/index.css"><body>';
+  echo '<header><h1>エラー</h1></header><div class="container"><section><p>';
   echo 'IDを入力して下さい。</p></section>';
-  echo '<form action="./result.php" method="GET"><input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn btn-primary">検索</button></form></div></body>';
+  echo '<form action="./result.php" method="GET"><input type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn-primary">検索</button></form></div></body>';
   exit;
 }
 $db = new GetDB($playerArr);
@@ -45,7 +45,6 @@ function fixGetID($argName,&$playerArr)
     $player = htmlspecialchars($argName);
     //末尾に半角スペースが入っている場合は変換する
     $playerArr[] = preg_replace("/ /","&amp;nbsp;",$player);
-
     return $player;
   }
   else
@@ -58,12 +57,10 @@ function fixGetID($argName,&$playerArr)
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-
     <meta name="author" content="fortmorst">
     <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
       <?= $viewName;?> の人狼戦績 | 人狼戦績まとめ
@@ -73,25 +70,23 @@ function fixGetID($argName,&$playerArr)
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-42678919-1', 'waoon.net');
       ga('send', 'pageview');
-
     </script>
 <!--[if lt IE 9]>
   <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
   <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 <![endif]-->
   </head>
-  <body id="record">
-    <header id="summary">
-      <div class="container-fluid">
+  <body>
+    <header>
+      <div class="container">
 <?
 if($db->getBoolDoppel())
 {
-  echo '<h1 class="doppel">'.$viewName.'</h1><p>';
+  echo '<h1 class="doppel">'.$viewName.'</h1><div>';
   echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"]));
-  echo '</p>';
+  echo '</div>';
 }
 else
 {
@@ -103,18 +98,18 @@ else
           <dd>
             <?= $db->getJoinSum(); ?>
 <!--
-           <span class="ig"></span><? //echo $db->getJoinGachi(); ?>
-           <span class="ir"></span><? //echo $db->getJoinRP(); ?>
+           <span class="i-fire"></span><? //echo $db->getJoinGachi(); ?>
+           <span class="i-book"></span><? //echo $db->getJoinRP(); ?>
 -->
           </dd>
           <dt>勝率</dt>
           <dd>
-            <span class="ig"></span><?= $db->getJoinWinPercent() ?><span>%</span>
+            <span class="i-fire"></span><?= $db->getJoinWinPercent() ?><span>%</span>
           </dd>
           <dt>平均生存係数</dt>
           <dd>
-            <span class="ig"></span><?= $db->getLiveGachi(); ?>
-            <!--<span class="ir"></span><? //echo $db->getLiveRP(); ?>-->
+            <span class="i-fire"></span><?= $db->getLiveGachi(); ?>
+            <!--<span class="i-book"></span><? //echo $db->getLiveRP(); ?>-->
           </dd>
 
         </dl>
@@ -123,57 +118,54 @@ else
       </div>
 
       <nav>
-        <ul id="headerMenu">
-          <li>
-            <a href="#role">役職別参加数</a>
-          </li>
+        <ul>
+          <li><a href="#role">役職別参加数</a></li>
+<!--          <li><a href="document.html">説明書</a></li>-->
         </ul>
-        <form class="pull-right" action="./result.php" method="GET">
-          <a href="#moreID" class="add" data-toggle="modal"><span class="ip"></span></a>
-          <input type="text" class="search-query" name="id_0" placeholder="ID検索" required>
-          <button type="submit" class="btn btn-primary">検索</button>
+        <form action="./result.php" method="GET">
+          <a rel="leanModal" href="#more-ID"><span class="i-plus"></span></a>
+          <input type="text" name="id_0" placeholder="ID検索" required>
+          <button type="submit" class="btn-primary">検索</button>
         </form>
       </nav>
     </header>
-    <div id="moreID" class="modal hide fade in">
+    <div id="more-ID">
       <div class="modal-header">
-        <a class="close" href="#" data-dismiss="modal">&times;</a>
         <h4>複数ID入力</h4>
       </div>
       <div class="modal-body">
         <form action="./result.php" method="GET">
           <ul id="id">
             <li class="id_var">
-              <input class="search-query" type="text" name="id_0" placeholder="IDを入力して下さい">
+              <input type="text" name="id_0" placeholder="IDを入力して下さい">
             </li>
             <li class="id_var">
-              <input class="search-query" type="text" name="id_1" placeholder="IDを入力して下さい">
+              <input type="text" name="id_1" placeholder="IDを入力して下さい">
             </li>
           </ul>
-          <a href="#" class="id_add"><span class="ip"></span>もっと入力</a><br>
-          <button type="submit" class="btn btn-primary">検索</button>
+          <a href="#" class="id_add"><span class="i-plus"></span>もっと入力</a><br>
+          <button type="submit" class="btn-primary">検索</button>
         </form>
       </div>
       <div class="modal-footer">
-        <a class="btn" href="#" data-dismiss="modal">閉じる</a>
+        <button type="button" class="modal_close">閉じる</button>
       </div>
     </div>
-
-    <div id="ad">
-      [広告]
-<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- record/result.php_responsive -->
-<ins class="adsbygoogle recordresultphp-responsive"
-     style="display:inline-block"
-     data-ad-client="ca-pub-8063117190073359"
-     data-ad-slot="3543412796"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <div id="ad"> [広告]
+      <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- record/result.php_responsive -->
+      <ins class="adsbygoogle recordresultphp-responsive"
+           style="display:inline-block"
+           data-ad-client="ca-pub-8063117190073359"
+           data-ad-slot="3543412796"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
-    <section id="list" class="container-fluid">
-      <table class="table table-striped table-condensed table-hover tablesorter">
+  <div class="container">
+    <section>
+      <table id="list" class="tablesorter">
         <thead>
           <tr>
               <th>日付</th>
@@ -230,7 +222,7 @@ else
         </tbody>
       </table>
     </section>
-    <section id="role" class="container-fluid">
+    <section id="role">
 <? 
       foreach($db->getTeamArray() as $team)
       {
@@ -250,29 +242,28 @@ else
             break;
         }
 
-        echo '<table class="table table-striped table-hover table-condensed"><thead>'; 
+        echo '<table><thead>'; 
         echo '<tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
-        echo '<td><span class="ig"></span>'.$db->getTeamWin($team)
+        echo '<td><span class="i-fire"></span>'.$db->getTeamWin($team)
           .'/'.$db->getTeamGachi($team).'</td>';
         echo '<td>('.$db->getTeamWinP($team).'%)</td>';
-        //echo '<td><span class="ir"></span>'.$db->getTeamRP($team).'</td>';
+        //echo '<td><span class="i-book"></span>'.$db->getTeamRP($team).'</td>';
         echo '</tr></thead><tbody>';
 
         foreach($db->getSkillArray($team) as $skill)
         {
           echo '<tr><td>'.$skill.'</td>';
-          echo '<td><span class="ig"></span>'.$db->getSkillWin($team,$skill)
+          echo '<td><span class="i-fire"></span>'.$db->getSkillWin($team,$skill)
             .'/'.$db->getSkillGachi($team,$skill).'</td>';
           echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
-          //echo '<td><span class="ir"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+          //echo '<td><span class="i-book"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
         }
         echo '</tbody></table>';
       }
 ?>
     </section>
-    <div class="container-fluid">
       <footer>
-<p><a href="#"><span class="iu"></span></a></p>
+<p><a href="#"><span class="i-up"></span></a></p>
        <ul>
            <li><a href="document.html"><span class="id"></span>説明書</a></li>
            <li><a href="index.html">トップページへ</a></li>
@@ -281,16 +272,20 @@ else
        </ul>
       </footer>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/tablesorter.min.js"></script>
-    <script src="lib/bootstrap.modal.min.js"></script>
-    <script src="lib/addInputArea.js"></script>
+    <script src="lib/leanModal.min.js"></script>
+    <script src="lib/addInputArea.min.js"></script>
     <script>
       $(document).ready(function() 
         { 
           $("#list").tablesorter(); 
           $('#id').addInputArea({
             maximum : 5
+          });
+          $( 'a[rel*=leanModal]').leanModal({
+            overlay : 0.5,               // 背面の透明度 
+            closeButton: ".modal_close"  // 閉じるボタンのCSS classを指定
           });
         } 
       );            

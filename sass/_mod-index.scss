@@ -1,0 +1,42 @@
+@import '../../sass/var';
+@import '../../sass/mixin';
+@import 'mod-var';
+
+@include list-marker;
+
+header {
+  background: $col_text;
+  color: $col_bg;
+}
+form {
+  text-align:center;
+  input {
+    margin: 0.5em auto 0;
+  }
+  input[type=text] {
+    height: 2em;
+    width: 14em;
+    @include font-size(2.0);
+    text-align: center;
+  }
+  button {
+    width: 15%;
+    margin: 2em auto;
+  }
+}
+
+h2 {
+  color: #a20b0b;
+}
+
+
+@media #{$tablet} {
+  form {
+    button {
+      width: 60%;
+    }
+    input[type=text] {
+      width: 12em;
+    } 
+  }
+}

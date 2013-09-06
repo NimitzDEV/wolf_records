@@ -1,0 +1,29 @@
+//_lib-icon読込前提
+
+
+.header {
+  &:after {
+    font-family:'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    content: "\e150";
+    color: #00c928;
+  }
+}
+
+.headerSortUp
+{
+  font-weight:bold;
+  &:after {
+    content: "\e156";
+    font-weight:normal;
+  }
+}
+
+.headerSortDown
+{
+  font-weight:bold;
+  &:after {
+    content: "\e155";
+    font-weight:normal;
+  }
+}

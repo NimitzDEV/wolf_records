@@ -1,0 +1,239 @@
+@import 'mod-var';
+@import '../../sass/var';
+@import '../../sass/mixin';
+@import '../../sass/lib-icon';
+
+$hlight: #00c2ff;
+
+$win: #a43c37;
+$lse: #0088cc;
+$jin: #591B96;
+$ivd: #939393;
+$olk: #a0a437;
+
+$vil: #0ba20b; 
+$wlf: #a20b0b;
+$fry: #0034A1;
+
+
+header {
+  width: 100%;
+  background: #000;
+  padding: 10px 0 0 0;
+  color: #fff;
+  background-image: -webkit-radial-gradient(center, ellipse cover, #232425 20%,#000000 100%);//>Safari6,>=iOS7
+  background-image: radial-gradient(center, ellipse cover, #232425 20%,#000000 100%);
+  text-align: center;
+  .container {
+    margin-top: 0;
+    h1 {
+      @include font-size(4.5);
+      margin: 0.2em 0 0;
+    }
+  }
+}
+
+dl {
+  margin: 5px 0;
+  dt,dd {
+    display:inline-block;
+  }
+  dt {
+    float:none;
+    text-align: left;
+    margin:0;
+    &:after {
+      content:"：";
+    }
+  }
+  dd {
+    margin: 0 15px 0 0;
+    color: $hlight;
+    font-weight: bold;
+  }
+  span {
+    color:$col_bg;
+  }
+}
+
+nav {
+  form {
+    float: right;
+    margin: 10px 10px 0 0;
+    input {
+      width: 12em;
+      @include font-size(1.4);
+      height: 2.2em;
+    }
+    a{
+      color:#006dcc;
+      outline: none;
+      @include font-size(3.0);
+      float: left;
+      margin: 4px 0 0;
+      &:hover {
+        text-decoration: none;
+        color: #006dcc;
+      }
+    }
+  }
+}
+
+.modal-body {
+  text-align: center;
+  button {
+    margin: 2.5em 0 0 0;
+  }
+  li {
+    margin: 1em 0;
+    input {
+      text-align: center;
+    }
+  }
+}
+
+#ad {
+  margin: 10px auto 25px;
+  text-align:center;
+  @include font-size(1.2);
+  .recordresultphp-responsive { 
+    width: 728px; height: 90px;
+  }
+}
+
+#list {
+  margin: 0 auto;
+  border: 0;
+  width: 95%;
+  th {
+    color: #000;
+    border-left: 0;
+    text-align: left;
+    font-weight:normal;
+    background: #f0ffe8 no-repeat;
+    cursor: pointer;
+    padding: 4px 5px;
+  }
+  td {
+    border-left: 0;
+    padding: 4px 5px;
+  }
+  .w {
+    color:$win;
+  }
+  .l {
+    color: $lse;
+  }
+  .j{
+    color: $jin;
+  }
+  .i{
+    color: $ivd;
+  }
+  .o{
+    color: $olk;
+  }
+  .noData {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+#role {
+  overflow: hidden;
+  table{
+    float:left;
+    width: auto;
+    margin: 20px 2em 0 0;
+    border: 0;
+    thead {
+      color:$col_bg;
+    }
+    td {
+      text-align: right;
+      padding: 5px;
+      border-left: 0;
+      &:first-child {
+        padding-right: 1em;
+        text-align: left;
+      }
+    }
+    .vil {
+      background: $vil;
+    }
+    .wlf {
+      background: $wlf;
+    }
+    .fry {
+      background: $fry;
+    }
+  }
+}
+
+footer{
+  border-top:none;
+  margin: 5em 0 3em;
+  p {
+    margin: 0;
+    border-bottom:1px solid #333;
+    a:hover {
+      text-decoration:none;
+    }
+    .i-up:before {
+      @include font-size(3.2);
+    }
+  }
+}
+
+
+@media #{$tablet} {
+  #list{
+    table {
+      white-space:nowrap;
+      width: 100%;
+    }
+  }
+}
+
+@media #{$sphone} {
+  header {
+    .container h1 {
+      margin:5px 0 10px;
+    }
+    nav {
+      padding: 0;
+      ul {
+        float:none;
+      }
+      li {
+        float:none;
+        text-align:center;
+        background:#f0f0f0;
+        @include list-stripe;
+      }
+      form {
+        display:inline-block;
+        float:none;
+      }
+    }
+  }
+  #role {
+    table {
+      width:100%;
+    }
+  }
+}
+
+/* 広告設定 */
+@media(max-width: 800px) {
+  #ad .recordresultphp-responsive {
+    width: 468px; height: 60px;
+  }
+}
+@media(max-width: 420px) {
+  #ad .recordresultphp-responsive {
+    width: 320px;
+    height: 50px;
+  }
+}

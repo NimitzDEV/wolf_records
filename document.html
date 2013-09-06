@@ -2,12 +2,10 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-
     <meta name="author" content="fortmorst">
     <meta name="description" content="人狼戦績まとめの説明書です。">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/index.css">
     <title>説明書 | 人狼戦績まとめ</title>
     <script>
@@ -27,148 +25,129 @@
     <header>
       <h1>説明書</h1>
     </header>
+    <div class="container">
+      <section>
+        <h2>各項目補足</h2>
+          <h3>同IDもしかして機能</h3>
+          <p>
+            IDは同じでも、国が異なると中の人が違う場合があります。<br>
+            通常はIDが同じなら戦績も統合されてしまいますが、こちらで確認が取れた方は、IDに注釈をつけて戦績を分割しています。<br>
+            身に覚えのない国での参加記録がある方は、ご連絡いただければ修正します。<br>
+            現在管理人が把握している同ID別人の方は<a href="https://github.com/fortmorst/wolf_records/wiki/%E5%90%8CID%E5%88%A5%E4%BA%BA%E3%83%A1%E3%83%A2">こちら</a>でメモしています。訂正がある場合もお手数ですがお知らせ下さい。
+          </p>
 
-    <div class="container-fluid">
-      <section id="detail">
-            <h2>各項目補足</h2>
-            <dl>
-              <!--
-                <dt>参加区分について</dt>
-                <dd>
-                  <span class="ig"> </span>は勝敗の付く通常の村、
-                  <span class="ir"> </span>はRP村など勝敗度外視で遊ぶ村の参加数を指します。<br>
-                </dd>
-              -->
-                <dt>同IDもしかして機能</dt>
-                <dd>
-                IDは同じでも、国が異なると中の人が違う場合があります。<br>
-                通常そう言った方の戦績も統合されてしまいますが、こちらで確認が取れた方は、IDに注釈をつけて戦績を分割しています。<br>
-                身に覚えのない国での参加記録がある方は、ご連絡いただければ修正します。<br>
-                現在管理人が把握している同ID別人の方は<a href="https://github.com/fortmorst/wolf_records/wiki/%E5%90%8CID%E5%88%A5%E4%BA%BA%E3%83%A1%E3%83%A2">こちら</a>でメモしています。訂正がある場合もお手数ですがお知らせ下さい。
+          <h3>平均生存係数</h3>
+          <p>
+            各村の「生存日数 / エピローグの日」の平均値です。1に近づくほど長生きになります。<br/>
+            「生存日数」は、死亡した当日ではなく生存日数を指します。たとえば3日目に処刑されたなら、生存日数は2になります。
+          </p>
 
-                </dd>
+          <h3>編成詳細</h3>
+          <table>
+            <thead> <tr>
+              <th>編成名</th>
+              <th>編成内容</th>
+              </tr> </thead>
+            <tbody>
+              <tr>
+                <td>C編成</td>
+                <td>16人で占霊狩、囁き狂人、狼3</td>
+              </tr>
+              <tr>
+                <td>F編成</td>
+                <td>16人で占霊狩狂、共有者2、狼3</td>
+              </tr>
+              <tr>
+                <td>G編成</td>
+                <td>16人で占霊狩狂、狼3</td>
+              </tr>
+              <tr>
+                <td>少人数狼2</td>
+                <td>14人以下で狼が2</td>
+              </tr>
+              <tr>
+                <td>少人数狼3</td>
+                <td>15人以下で狼が3</td>
+              </tr>
+              <tr>
+                <td>少人数C狼2</td>
+                <td>14人以下で狼が2、狂人が囁き狂人</td>
+              </tr>
+              <tr>
+                <td>少人数C狼3</td>
+                <td>15人以下で狼が3、狂人が囁き狂人</td>
+              </tr>
+              <tr>
+                  <td>少人数狂人なし</td>
+                  <td>15人以下で狂人がいない</td>
+              </tr>
+              <tr>
+                  <td>特殊</td>
+                  <td>上記のどれにも当てはまらないもの</td>
+              </tr>
+            </tbody>
+          </table>
 
-                <dt>平均生存係数</dt>
-                <dd>
-                  各村の「生存日数 / エピローグの日」の平均値です。1に近づくほど長生きになります。<br/>
-                  「生存日数」は、死亡した当日ではなく生存日数を指します。たとえば3日目に処刑されたなら、生存日数は2になります。
-                </dd>
-
-                <dt>編成詳細</dt>
-                <dd>
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>編成名</th>
-                        <th>編成内容</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>C編成</td>
-                        <td>16人で占霊狩、囁き狂人、狼3</td>
-                      </tr>
-                      <tr>
-                        <td>F編成</td>
-                        <td>16人で占霊狩狂、共有者2、狼3</td>
-                      </tr>
-                      <tr>
-                        <td>G編成</td>
-                        <td>16人で占霊狩狂、狼3</td>
-                      </tr>
-                      <tr>
-                        <td>少人数狼2</td>
-                        <td>14人以下で狼が2</td>
-                      </tr>
-                      <tr>
-                        <td>少人数狼3</td>
-                        <td>15人以下で狼が3</td>
-                      </tr>
-                      <tr>
-                        <td>少人数C狼2</td>
-                        <td>14人以下で狼が2、狂人が囁き狂人</td>
-                      </tr>
-                      <tr>
-                        <td>少人数C狼3</td>
-                        <td>15人以下で狼が3、狂人が囁き狂人</td>
-                      </tr>
-                      <tr>
-                          <td>少人数狂人なし</td>
-                          <td>15人以下で狂人がいない</td>
-                      </tr>
-                      <tr>
-                          <td>特殊</td>
-                          <td>上記のどれにも当てはまらないもの</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </dd>
-
-                <dt>役職名の統一</dt>
-                <dd>
-                戦績一覧テーブルの役職欄は、その村のエピローグに表示されている役職名を抽出しています。<br>
-                しかし役職別参加テーブルでは、同名でも別の能力を持つ役職を分離して表示しています。<br>
-                たとえば人狼BBSC国の「狂人」とG国の「狂人」は表記は同じでも異なる能力を持つため、前者を「囁き狂人」として別々に表示しています。<br>
-                <!--また「狩人」と「守護者」のように、別名でも同じ能力を持つ役職はどちらかの名前に統一して表示しています。 -->
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>統一名</th>
-                  <th>同じ能力と見なす主な役職</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>囁き狂人</td>
-                  <td>狂人(人狼BBSC国)</td>
-                </tr>
-                <tr>
-                  <td>妖魔</td>
-                  <td>ハムスター人間</td>
-                </tr>
-              </tbody>
-            </table>
-                </dd>
-            </dl>
+          <h3>役職名の統一</h3>
+          <p>
+          戦績一覧テーブルの役職欄は、その村のエピローグに表示されている役職名を抽出しています。<br>
+          しかし役職別参加テーブルでは、同名でも別の能力を持つ役職を分離して表示しています。<br>
+          たとえば人狼BBSC国の「狂人」とG国の「狂人」は表記は同じでも異なる能力を持つため、前者を「囁き狂人」として別々に表示しています。
+          </p>
+          <table>
+            <thead> <tr>
+                <th>統一名</th>
+                <th>同じ能力と見なす主な役職</th>
+              </tr> </thead>
+            <tbody>
+              <tr>
+                <td>囁き狂人</td>
+                <td>狂人(人狼BBSC国)</td>
+              </tr>
+              <tr>
+                <td>妖魔</td>
+                <td>ハムスター人間</td>
+              </tr>
+            </tbody>
+          </table>
       </section>
 
-      <section id="supplement">
-            <h2>村データ補足</h2>
-            <dl>
-                <dt>村データの反映タイミング</dt>
-                <dd>
-                  毎日午前4時時点で終了している村を自動取得しています。
-                </dd>
-                <dt>データを取得しない村</dt>
-                <dd>
-                  途中でログが消失するなどして、勝敗が付いていない村はデータを登録していません。
-                  <ul>
-                    <li>人狼BBSのA355, A358, A360-365 (エピに入る前にログ消失・全員突然死扱い)</li>
-                    <li>C451 (ログ吹っ飛びでほぼ全員突然死)</li>
-                    <li>C520 (10人以上の荒らしIDによる2d突然死)</li>
-                    <li>C1154 (データ巻き戻りでほぼ全員突然死)</li>
-                  </ul>
-                </dd>
-                <dt>データを手動で修正した村</dt>
-                  <dd>
-                    ログは消失したけれど決着が付いており、まとめサイトなどによって勝敗が分かる村は、データを分かる範囲で手動修正しています。
-                    <ul>
-                      <li>人狼BBSのA340, A341, A353, A354, A356, A357, A359 (決着済のログが巻き戻りにより消失、全員突然死扱い)
-                      </li>
-                    </ul>
-                  </dd>
-            </dl>
-            <h2>プライバシー・ポリシー</h2>
-            <dl>
-                <dt>Google Analyticsの利用について</dt>
-                <dd>
-                このサイトではGoogle Analyticsによるアクセス解析を行っており、ファーストパーティcookieにより匿名のトラフィックデータを収集しています。<br>
-                個人を識別・特定できる情報は取得しておりませんが、気になる方は<a href="https://tools.google.com/dlpage/gaoptout?hl=ja">オプトアウトアドオン</a>の導入をお勧めします。<br>
-                なお、取得した情報はサイトの質向上にのみ利用しております。<br>
-参考：<a href="http://www.google.co.jp/intl/ja/policies/privacy/">プライバシー ポリシー – ポリシーと原則 – Google</a>
-                </dd>
-            </dl>
-      
+      <section>
+      <h2>村データ補足</h2>
+        <h3>村データの反映タイミング</h3>
+        <p>
+          毎日午前4時時点で終了している村を自動取得しています。
+        </p>
+        <h3>データを取得しない村</h3>
+          <p>
+            途中でログが消失するなどして、勝敗が付いていない村はデータを登録していません。
+          </p>
+            <ul class="list-marker">
+              <li>人狼BBSのA355, A358, A360-365 (エピに入る前にログ消失・全員突然死扱い)</li>
+              <li>C451 (ログ吹っ飛びでほぼ全員突然死)</li>
+              <li>C520 (10人以上の荒らしIDによる2d突然死)</li>
+              <li>C1154 (データ巻き戻りでほぼ全員突然死)</li>
+            </ul>
+          <h3>データを手動で修正した村</h3>
+            <p>
+              ログは消失したけれど決着が付いており、まとめサイトなどによって勝敗が分かる村は、データを分かる範囲で手動修正しています。
+            </p>
+              <ul class="list-marker">
+                <li>人狼BBSのA340, A341, A353, A354, A356, A357, A359 (決着済のログが巻き戻りにより消失、全員突然死扱い)
+                </li>
+              </ul>
+        <h2>その他</h2>
+          <h3>動作ブラウザ</h3>
+            <p>
+              最新版のGoogleChromeやFirefoxなどに対応しています。InternetExplorerはバージョン8以上での閲覧をお勧めします。
+            </p>
+          <h3>Google Analyticsについて</h3>
+          <p>
+            このサイトではGoogle Analyticsによるアクセス解析を行っており、ファーストパーティcookieにより匿名のトラフィックデータを収集しています。<br>
+            個人を識別・特定できる情報は取得しておりませんが、気になる方は<a href="https://tools.google.com/dlpage/gaoptout?hl=ja">オプトアウトアドオン</a>の導入をお勧めします。<br>
+            なお、取得した情報はサイトの質向上にのみ利用しております。<br>
+            参考：<a href="http://www.google.co.jp/intl/ja/policies/privacy/">プライバシー ポリシー – ポリシーと原則 – Google</a>
+          </p>
       </section>
       <footer>
        <ul>
