@@ -60,6 +60,7 @@ function fixGetID($argName,&$playerArr)
     <meta name="author" content="fortmorst">
     <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
@@ -117,10 +118,11 @@ else
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
       </div>
 
+<!--
       <nav>
         <ul>
           <li><a href="#role">役職別参加数</a></li>
-<!--          <li><a href="document.html">説明書</a></li>-->
+          <li><a href="document.html">説明書</a></li>
         </ul>
         <form action="./result.php" method="GET">
           <a rel="leanModal" href="#more-ID"><span class="i-plus"></span></a>
@@ -128,6 +130,34 @@ else
           <button type="submit" class="btn-primary">検索</button>
         </form>
       </nav>
+-->
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="navbar-brand">メニュー</div>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <form class="navbar-form navbar-right" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">役職別参加数</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">説明書</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
     </header>
     <div id="more-ID">
       <div class="modal-header">
@@ -276,6 +306,7 @@ else
     <script src="lib/tablesorter.min.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
+    <script src="../lib/slidemenu.min.js"></script>
     <script>
       $(document).ready(function() 
         { 

@@ -56,28 +56,29 @@ dl {
   }
 }
 
-nav {
-  form {
-    float: right;
-    margin: 10px 10px 0 0;
-    input {
-      width: 12em;
-      @include font-size(1.4);
-      height: 2.2em;
-    }
-    a{
-      color:#006dcc;
-      outline: none;
-      @include font-size(3.0);
-      float: left;
-      margin: 4px 0 0;
-      &:hover {
-        text-decoration: none;
-        color: #006dcc;
-      }
-    }
-  }
-}
+/* change */
+/*nav {*/
+  /*form {*/
+    /*float: right;*/
+    /*margin: 10px 10px 0 0;*/
+    /*input {*/
+      /*width: 12em;*/
+      /*@include font-size(1.4);*/
+      /*height: 2.2em;*/
+    /*}*/
+    /*a{*/
+      /*color:#006dcc;*/
+      /*outline: none;*/
+      /*@include font-size(3.0);*/
+      /*float: left;*/
+      /*margin: 4px 0 0;*/
+      /*&:hover {*/
+        /*text-decoration: none;*/
+        /*color: #006dcc;*/
+      /*}*/
+    /*}*/
+  /*}*/
+/*}*/
 
 .modal-body {
   text-align: center;
