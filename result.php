@@ -1,24 +1,22 @@
 <?
 require_once('lib/GetDB.php');
+require_once('lib/CheckID.php');
 
-//旧URL対策
-if (isset($_GET['player']) && $_GET['player'] !== "")
+$cID = new CheckID($_GET);
+
+if($cID->getIsID())
 {
-  $viewName = fixGetID($_GET['player'],$playerArr);
-}
-//複数IDを配列に入れる
-else if(isset($_GET['id_0']) && $_GET['id_0'] !=="")
-{
-  for($i=0;$i<5;$i++)
+  $db = new GetDB($cID->getPlayerArr());
+  $db->connect();
+
+  if($db->FetchJoinCount())
   {
-    if (isset($_GET['id_'.$i]) && $_GET['id_'.$i] !== "")
-    {
-      $viewArray[] = fixGetID($_GET['id_'.$i],$playerArr);
-    }
+    $boolDoppel = $db->fetchDoppelID();
+    $table = $db->getTable();
+    $db->fetchTeamCount();
   }
-  $viewName = implode(', ',$viewArray);
+  $db->disConnect();
 }
-//一番上のフォーム未入力
 else
 {
   echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="css/index.css"><body>';
@@ -27,43 +25,19 @@ else
   echo '<form action="./result.php" method="GET"><input type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn-primary">検索</button></form></div></body>';
   exit;
 }
-$db = new GetDB($playerArr);
-$db->connect();
 
-if($db->FetchJoinCount())
-{
-  $boolDoppel = $db->fetchDoppelID();
-  $table = $db->getTable();
-  $db->fetchTeamCount();
-}
-$db->disConnect();
-
-function fixGetID($argName,&$playerArr)
-{
-  if(mb_substr($argName,-1,1,"utf-8") === ' ')
-  {
-    $player = htmlspecialchars($argName);
-    //末尾に半角スペースが入っている場合は変換する
-    $playerArr[] = preg_replace("/ /","&amp;nbsp;",$player);
-    return $player;
-  }
-  else
-  {
-    return $playerArr[] = htmlspecialchars($argName);
-  }
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
+    <meta name="description" content="ID: <?= $cID->getViewName();?>さんのWeb人狼戦績の一覧です。">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <?= $viewName;?> の人狼戦績 | 人狼戦績まとめ
+      <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -84,13 +58,13 @@ function fixGetID($argName,&$playerArr)
 <?
 if($db->getBoolDoppel())
 {
-  echo '<h1 class="doppel">'.$viewName.'</h1><div>';
+  echo '<h1 class="doppel">'.$cID->getViewName().'</h1><div>';
   echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"]));
   echo '</div>';
 }
 else
 {
-  echo '<h1>'.$viewName.'</h1>';
+  echo '<h1>'.$cID->getViewName().'</h1>';
 }
 ?>
         <dl>
@@ -116,20 +90,6 @@ else
  <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
       </div>
-
-<!--
-      <nav>
-        <ul>
-          <li><a href="#role">役職別参加数</a></li>
-          <li><a href="document.html">説明書</a></li>
-        </ul>
-        <form action="./result.php" method="GET">
-          <a rel="leanModal" href="#more-ID"><span class="i-plus"></span></a>
-          <input type="text" name="id_0" placeholder="ID検索" required>
-          <button type="submit" class="btn-primary">検索</button>
-        </form>
-      </nav>
--->
 <nav>
   <div class="navbar-header">
     <button type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -140,9 +100,9 @@ else
     <a href="#" data-toggle="collapse" data-target=".navbar-collapse">メニュー</a>
   </div>
   <div class="collapse navbar-collapse">
-    <form>
+    <form action="./result.php" method="GET">
       <div class="form-group">
-        <input type="text" placeholder="ID検索">
+        <input type="text" name="id_0" placeholder="ID検索">
       </div>
       <div class="form-group">
         <a rel="leanModal" href="#more-ID"><div class="i-plus"><span>もっと増やす</span></div></a>
