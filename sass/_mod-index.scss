@@ -1,4 +1,3 @@
-@import '../../sass/var';
 @import '../../sass/mixin';
 @import 'mod-var';
 
@@ -30,7 +29,7 @@ h2 {
 }
 
 
-@media #{$tablet} {
+@include tablet {
   form {
     button {
       width: 60%;

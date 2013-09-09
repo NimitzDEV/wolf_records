@@ -60,7 +60,6 @@ function fixGetID($argName,&$playerArr)
     <meta name="author" content="fortmorst">
     <meta name="description" content="ID: <?= $viewName;?>さんのWeb人狼戦績の一覧です。">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
@@ -131,32 +130,32 @@ else
         </form>
       </nav>
 -->
-<nav class="navbar navbar-default" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
+<nav>
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <button type="button" data-toggle="collapse" data-target=".navbar-collapse">
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
-    <div class="navbar-brand">メニュー</div>
+    <a href="#" data-toggle="collapse" data-target=".navbar-collapse">メニュー</a>
   </div>
-
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <form class="navbar-form navbar-right" role="search">
+  <div class="collapse navbar-collapse">
+    <form>
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" placeholder="ID検索">
       </div>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <div class="form-group">
+        <a rel="leanModal" href="#more-ID"><div class="i-plus"><span>もっと増やす</span></div></a>
+        <button type="submit" class="btn-primary">検索</button>
+      </div>
     </form>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">役職別参加数</a></li>
+    <ul>
+      <li><a href="#role">役職別参加数</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">説明書</a></li>
+    <ul>
+      <li><a href="document.html">説明書</a></li>
     </ul>
-  </div><!-- /.navbar-collapse -->
+  </div>
 </nav>
     </header>
     <div id="more-ID">

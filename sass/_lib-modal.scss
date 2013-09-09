@@ -1,4 +1,3 @@
-@import '../../sass/_var';
 @import '../../sass/_mixin';
 
 #more-ID {
@@ -63,7 +62,7 @@
     background: #000;
     display: none;
 }
-@media #{$tablet} {
+@include tablet {
   #more-ID {
     position: fixed;
     top: 20px;

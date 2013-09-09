@@ -1,5 +1,4 @@
 @import 'mod-var';
-@import '../../sass/var';
 @import '../../sass/mixin';
 @import '../../sass/lib-icon';
 
@@ -53,6 +52,37 @@ dl {
   }
   span {
     color:$col_bg;
+  }
+}
+
+nav {
+  color: $col_text;
+  form {
+    .form-group {
+      float: left;
+    }
+    a {
+      float: left;
+      display: inline-block;
+      margin: 0 12px 0 2px;
+      @include font-size(3.0);
+      &:hover,&:focus {
+        text-decoration: none;
+      }
+      span {
+        display: none;
+      }
+    }
+    .i-plus {
+      display: inline-block;
+      &:before {
+        position: relative;
+        top: 5px;
+      }
+    }
+    button {
+      margin-top: 1px;
+    }
   }
 }
 
@@ -142,6 +172,8 @@ dl {
 }
 
 #role {
+  margin: 2.5em auto 0;
+  width: 95%;
   overflow: hidden;
   table{
     float:left;
@@ -188,36 +220,49 @@ footer{
 }
 
 
-@media #{$tablet} {
+@include tablet {
   #list{
     table {
       white-space:nowrap;
       width: 100%;
     }
   }
+  nav form {
+    input {
+      width: 100%;
+    }
+    .form-group {
+      float: none;
+    }
+    .i-plus {
+      @include font-size(1.6);
+      span {
+        display: inline-block;
+      }
+      &:before {
+        top: 2px;
+      }
+    }
+  }
 }
 
-@media #{$sphone} {
+@include sphone {
   header {
     .container h1 {
       margin:5px 0 10px;
     }
-    nav {
-      padding: 0;
-      ul {
-        float:none;
-      }
-      li {
-        float:none;
-        text-align:center;
-        background:#f0f0f0;
-        @include list-stripe;
-      }
-      form {
-        display:inline-block;
-        float:none;
-      }
-    }
+    /*nav {*/
+      /*padding: 0;*/
+      /*ul {*/
+        /*float:none;*/
+      /*}*/
+      /*li {*/
+        /*float:none;*/
+        /*text-align:center;*/
+        /*background:#f0f0f0;*/
+        /*@include list-stripe;*/
+      /*}*/
+    /*}*/
   }
   #role {
     table {
