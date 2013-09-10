@@ -173,33 +173,32 @@ else
             {
               foreach($table as $item)
               {
-                echo '<tr>';
-                echo '<td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
+                switch ($item['result'])
+                {
+                  case '勝利':
+                    $lClass = 'w';
+                    break;
+                  case '敗北':
+                    $lClass = 'l';
+                    break;
+                  case '参加':
+                    $lClass = 'j';
+                    break;
+                  case '無効':
+                    $lClass = 'i';
+                    break;
+                  case '見物':
+                    $lClass = 'o';
+                    break;
+                }
+                echo '<tr><td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
                 echo '<td>'.$item['country'].$item['vno'].'</td>';
                 echo '<td><a href="'.$item['url'].$item['vno'].'">'.$item['vname'].'</a></td>';
                 echo '<td>'.$item['rgl'].'</td>';
                 echo '<td>'.$item['persona'].'</td>';
                 echo '<td>'.$item['role'].'</td>';
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
-                switch ($item['result'])
-                {
-                  case '勝利':
-                    echo '<td class="w">';
-                    break;
-                  case '敗北':
-                    echo '<td class="l">';
-                    break;
-                  case '参加':
-                    echo '<td class="j">';
-                    break;
-                  case '無効':
-                    echo '<td class="i">';
-                    break;
-                  case '見物':
-                    echo '<td class="o">';
-                    break;
-                }
-                echo $item['result'].'</td></tr>';
+                echo '<td class="'.$lClass.'">'.$item['result'].'</td></tr>';
               }
               unset($table,$item);
             }
