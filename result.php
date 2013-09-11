@@ -32,7 +32,8 @@ else
   <head>
     <meta charset="UTF-8">
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <?= $cID->getViewName();?>さんのWeb人狼戦績の一覧です。">
+    <meta name="description" content="ID: <?= $cID->getViewName();?>さんのWeb人狼戦績の一覧ページです。">
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
