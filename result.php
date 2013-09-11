@@ -173,6 +173,14 @@ else
             {
               foreach($table as $item)
               {
+                if((int)$item['rglid'] >=100)
+                {
+                  $rgl = '特殊';
+                }
+                else
+                {
+                  $rgl = $item['rgl'];
+                }
                 switch ($item['result'])
                 {
                   case '勝利':
@@ -194,13 +202,13 @@ else
                 echo '<tr><td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
                 echo '<td>'.$item['country'].$item['vno'].'</td>';
                 echo '<td><a href="'.$item['url'].$item['vno'].'">'.$item['vname'].'</a></td>';
-                echo '<td>'.$item['rgl'].'</td>';
+                echo '<td>'.$rgl.'</td>';
                 echo '<td>'.$item['persona'].'</td>';
                 echo '<td>'.$item['role'].'</td>';
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
                 echo '<td class="'.$lClass.'">'.$item['result'].'</td></tr>';
               }
-              unset($table,$item);
+              unset($table,$item,$lClass);
             }
            else
             {

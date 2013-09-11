@@ -242,10 +242,10 @@ class GetDB
   function getTable()
   {
     $stmt = $this->pdo->prepare("
-      SELECT v.date AS date, c.name AS country, v.vno AS vno, 
-      v.name AS vname,rgl.name AS rgl,u.persona AS persona, 
-      u.role AS role,u.end AS end, d.name AS destiny,
-      rlt.name AS result,c.url AS url
+      SELECT v.date date, c.name country, v.vno vno,
+      v.name vname,rgl.id rglid, rgl.name rgl,u.persona persona,
+      u.role role,u.end end, d.name destiny,
+      rlt.name result,c.url url
       FROM village v INNER JOIN country c ON v.cid=c.id
       INNER JOIN users u ON v.id=u.vid
       INNER JOIN regulation rgl ON v.rglid=rgl.id 
