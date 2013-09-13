@@ -51,6 +51,9 @@ switch($country)
     $vil_list = $html->find('div.main a');
     array_pop($vil_list);
     break;
+  case GUTA:
+    $vil_list = $html->find('table',0)->find('tr.i_hover');
+    break;
   default:
     echo 'ERROR: undefined country ID.';
     exit;
@@ -63,18 +66,10 @@ if(flock($fp,LOCK_EX))
 {
   foreach($vil_list as $item)
   {
-    //村名取得 village[0]=村番号、village[1]=村名
-    $village = explode(" ",$item->plaintext);
-
     switch($country)
     {
       case N_OLD1:
-        //日付がURLになっているため、プロローグではなく終了ページのURLを挿入
-        $pro_URL = $url.'index.rb?vid='.$village[0];
-        break;
       case N_OLD2:
-        $proURL = $url.'index.rb?vid='.$village[0].'&meslog='.$village[0].'_ready_0';
-        break;
       case N_MAIN:
       case N_A:
       case N_B:
@@ -83,12 +78,26 @@ if(flock($fp,LOCK_EX))
       case N_E:
       case N_F:
       case N_G:
-        $url = preg_replace("/index\.rb\?cmd=log/","",$url);
-        $proURL = $url.$item->href;
-        if($country === N_G)
+        //村名取得 village[0]=村番号、village[1]=村名
+        $village = explode(" ",$item->plaintext);
+        switch($country)
         {
-          $village[0] = mb_substr($village[0],1);
+          case N_OLD1:
+            //日付がURLになっているため、プロローグではなく終了ページのURLを挿入
+            $pro_URL = $url.'index.rb?vid='.$village[0];
+            break;
+          case N_OLD2:
+            $proURL = $url.'index.rb?vid='.$village[0].'&meslog='.$village[0].'_ready_0';
+            break;
+          case N_G:
+            $village[0] = mb_substr($village[0],1);
+          default:
+            $url = preg_replace("/index\.rb\?cmd=log/","",$url);
+            $proURL = $url.$item->href;
+            break;
         }
+        break;
+      case GUTA:
         break;
     }
     fwrite($fp,$village[0].','.$village[1].','.$proURL.PHP_EOL);
