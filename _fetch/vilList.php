@@ -101,3 +101,5 @@ else
   exit;
 }
 fclose($fp);
+$html->clear();
+unset($html);
