@@ -28,6 +28,12 @@ $URL_LIST = array(
   "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog"
 );
 
+if(!isset($argv))
+{
+  echo 'ERROR: insert country ID into parameter.';
+  exit;
+}
+
 
 $html = new simple_html_dom();
 $country = $argv[1];
@@ -52,12 +58,24 @@ switch($country)
     array_pop($vil_list);
     break;
   case GUTA:
-    $vil_list = $html->find('table',0)->find('tr.i_hover');
+    //過去ログリストを1ページごとにクラスを作って取得(一度に取得すると解析漏れが出る)
+    //この方法でも42村の</tr>が認識されない。。
+    $page_no = (int)$html->find('table tr.i_hover td',0)->plaintext;
+    $page_no = floor($page_no/50);
+    for($i=1;$i<=$page_no;$i++)
+    {
+      $url = $URL_LIST[$country].'&pageno='.$i;
+      unset($html);
+      $html = new simple_html_dom();
+      $html->load_file($url);
+      $vil_list[] = $html->find('table',0)->find('tr.i_hover');
+    }
     break;
   default:
     echo 'ERROR: undefined country ID.';
     exit;
 }
+unset($html);
 
 //ファイルを新たに作って書き込む
 $fp = fopen('list_'.$country.'.txt','w+');
@@ -84,31 +102,38 @@ if(flock($fp,LOCK_EX))
         {
           case N_OLD1:
             //日付がURLになっているため、プロローグではなく終了ページのURLを挿入
-            $pro_URL = $url.'index.rb?vid='.$village[0];
+            $url_pro = $url.'index.rb?vid='.$village[0];
             break;
           case N_OLD2:
-            $proURL = $url.'index.rb?vid='.$village[0].'&meslog='.$village[0].'_ready_0';
+            $url_pro = $url.'index.rb?vid='.$village[0].'&meslog='.$village[0].'_ready_0';
             break;
           case N_G:
             $village[0] = mb_substr($village[0],1);
           default:
-            $url = preg_replace("/index\.rb\?cmd=log/","",$url);
-            $proURL = $url.$item->href;
+            $url_pro = preg_replace("/index\.rb\?cmd=log/",$item->href,$url);
             break;
         }
+        fwrite($fp,$village[0].','.$village[1].','.$url_pro.PHP_EOL);
         break;
       case GUTA:
+        foreach($item as $pages)
+        {
+          $vil_no = (int)$pages->find('td',0)->plaintext;
+          $vil_name = $pages->find('td',1)->find('a',0)->plaintext;
+          $win = trim($pages->find('td.small',0)->find('i',0)->plaintext);
+          $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+          fwrite($fp,$vil_no.','.$vil_name.','.$win.','.$url_info.PHP_EOL);
+        }
         break;
     }
-    fwrite($fp,$village[0].','.$village[1].','.$proURL.PHP_EOL);
   }
   echo 'success.';
+  fflush($fp);
+  flock($fp,LOCK_UN);
 }
 else
 {
   echo 'ERROR: cannot lock file.';
-  exit;
 }
+unset($vil_list);
 fclose($fp);
-$html->clear();
-unset($html);
