@@ -1,5 +1,5 @@
 <?
-require_once('simple_html_dom.php');
+require_once('../../lib/simple_html_dom.php');
 
 define('N_OLD1','1');
 define('N_MAIN','2');
