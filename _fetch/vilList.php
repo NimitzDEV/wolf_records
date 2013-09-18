@@ -79,6 +79,7 @@ unset($html);
 
 //ファイルを新たに作って書き込む
 $fp = fopen('list_'.$country.'.txt','w+');
+$no_before = 0;
 
 if(flock($fp,LOCK_EX))
 {
@@ -98,6 +99,12 @@ if(flock($fp,LOCK_EX))
       case N_G:
         //村名取得 village[0]=村番号、village[1]=村名
         $village = explode(" ",$item->plaintext);
+        //重複している村番号は飛ばす
+        if($no_before  === $village[0])
+        {
+          continue;
+        }
+        $no_before = $village[0];
         switch($country)
         {
           case N_OLD1:
@@ -114,6 +121,7 @@ if(flock($fp,LOCK_EX))
             break;
         }
         fwrite($fp,$village[0].','.$village[1].','.$url_pro.PHP_EOL);
+        $no_before = $village[0];
         break;
       case GUTA:
         foreach($item as $pages)
