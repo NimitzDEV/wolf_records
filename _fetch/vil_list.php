@@ -106,12 +106,17 @@ if(flock($fp,LOCK_EX))
           $nop = $pages->find('td.small',0)->plaintext;
           $nop = (int)mb_substr($nop,0,strpos($nop,'人'));
           $win = trim($pages->find('td.small',0)->find('i',0)->plaintext);
+          $days = $pages->find('td.small',1)->plaintext +1;
+          $rgl = $pages->find('td.small',2)->find('a',1)->plaintext;
           $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
-          fwrite($fp,$vil_no.','.$vil_name.','.$nop.','.$win.','.$url_info.PHP_EOL);
+          fwrite($fp,$vil_no.','.$vil_name.','.$nop.','.$win.','.$days.','.$rgl.','.$url_info.PHP_EOL);
+        $pages->clear();
+        unset($pages);
         }
         break;
     }
   }
+  unset($item);
   echo 'success.';
   fflush($fp);
   flock($fp,LOCK_UN);
