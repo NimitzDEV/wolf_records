@@ -16,19 +16,19 @@ foreach($base_list as $item_vil)
              'vno'  =>$item_vil[0]
             ,'name' =>$item_vil[1]
             ,'date' =>""
-            ,'nop'  =>""
+            ,'nop'  =>$item_vil[2]
             ,'rglid'=>""
             ,'days' =>""
             ,'wtmid'=>""
   );
 
   //情報欄取得
-  $html = $fetch->fetch_url($item_vil[3]);
+  $html = $fetch->fetch_url($item_vil[4]);
 
   //ガチ村のみ勝利陣営を挿入
   if($html->find('p.multicolumn_left',1)->plaintext  === 'ガチ推理')
   {
-    $village['wtmid'] = $fetch->insert_winteam_id($item_vil[2]);
+    $village['wtmid'] = $fetch->insert_winteam_id($item_vil[3]);
   }
   else
   {
