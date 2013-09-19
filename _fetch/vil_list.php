@@ -103,9 +103,11 @@ if(flock($fp,LOCK_EX))
         {
           $vil_no = (int)$pages->find('td',0)->plaintext;
           $vil_name = $pages->find('td',1)->find('a',0)->plaintext;
+          $nop = $pages->find('td.small',0)->plaintext;
+          $nop = (int)mb_substr($nop,0,strpos($nop,'人'));
           $win = trim($pages->find('td.small',0)->find('i',0)->plaintext);
           $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
-          fwrite($fp,$vil_no.','.$vil_name.','.$win.','.$url_info.PHP_EOL);
+          fwrite($fp,$vil_no.','.$vil_name.','.$nop.','.$win.','.$url_info.PHP_EOL);
         }
         break;
     }
