@@ -37,7 +37,7 @@ switch($country)
     //この方法でも42村の</tr>が認識されない。。
     $page_no = (int)$html->find('table tr.i_hover td',0)->plaintext;
     $page_no = floor($page_no/50);
-    for($i=1;$i<=$page_no;$i++)
+    for($i=0;$i<=$page_no;$i++)
     {
       $url = $URL_LIST[$country].'&pageno='.$i;
       unset($html);
