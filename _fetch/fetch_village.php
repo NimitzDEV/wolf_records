@@ -13,6 +13,8 @@ class Fetch_Village
   const TM_LWOLF     = 6; //一匹狼陣営
   const TM_PIPER     = 7; //笛吹き陣営
   const TM_EFB       = 8; //邪気陣営
+  const TM_EVIL      = 9; //裏切りの陣営
+  const TM_FISH      = 10;//据え膳
 
   //編成 regulation
   const RGL_C    =  1;      //C編成
@@ -34,14 +36,30 @@ class Fetch_Village
   const RGL_G_ST = 17;      //聖痕入りG
   const RGL_ETC  = 100;     //特殊
 
+  //結果 result
+  const RSL_WIN  = 1;
+  const RSL_LOSE = 2;
+  const RSL_JOIN = 3;       //参加(非ガチ村)
+  const RSL_INVALID = 4;     //無効(新議事での突然死)
+  const RSL_ONLOOKER = 5;   //見物
+
+  //テキスト分割行
+  const LIMIT = 400;
+
   private $country
         , $fp_village
         , $fp_users
-        , $last_line;
+        , $count_v
+        , $lastline_v
+        , $nop
+        , $loop_village
+        , $loop_users;
 
   function __construct($country)
   {
     $this->country = $country;
+    $this->loop_village = 0;
+    $this->loop_users = 0;
   }
 
   function read_list()
@@ -62,7 +80,7 @@ class Fetch_Village
     }
     fclose($list);
 
-    $this->last_line = count($vil_list);
+    $this->lastline_v = count($vil_list);
 
     return $vil_list;
   }
@@ -76,7 +94,8 @@ class Fetch_Village
 
   function open_list($type)
   {
-    $this->{'fp_'.$type} = fopen($this->country.$type.'.sql','w+');
+    $this->{'loop_'.$type}++;
+    $this->{'fp_'.$type} = fopen($this->country.$type.'_'.$this->{'loop_'.$type}.'.sql','w+');
     flock($this->{'fp_'.$type},LOCK_EX);
     switch($type)
     {
@@ -88,31 +107,47 @@ class Fetch_Village
     }
   }
 
-  function write_list($type,$array,$val)
+  function write_list($type,$array,$val,$nop=0)
   {
     $line = implode("','",$array);
     switch($type)
     {
       case 'village';
         $line = "('".$this->country."','".$line."')";
+        $this->nop = $nop;
+        if($val === $this->lastline_v)
+        {
+          $this->close_list($line,$type);
+          return;
+        }
+        $this->count_v = $val;
         break;
       case 'users';
         $line = "('".$line."')";
+        if($val === $this->nop && $this->count_v === $this->lastline_v)
+        {
+          $this->close_list($line,$type);
+          return;
+        }
         break;
     }
-    if($val+1 !== $this->last_line)
+
+    if($val === $this::LIMIT * $this->{'loop_'.$type})
     {
-      $line = $line.",\n";
+      //規定行を越えたら次のファイルに移動
+      $this->close_list($line,$type);
+      $this->open_list($type);
     }
     else
     {
-      $line = $line.";\n";
+      $line = $line.",\n";
+      fwrite($this->{'fp_'.$type},$line);
     }
-    fwrite($this->{'fp_'.$type},$line);
   }
 
-  function close_list($type)
+  function close_list($line,$type)
   {
+    fwrite($this->{'fp_'.$type},$line.";");
     flock($this->{'fp_'.$type},LOCK_UN);
     fflush($this->{'fp_'.$type});
     fclose($this->{'fp_'.$type});
