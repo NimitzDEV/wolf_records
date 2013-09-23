@@ -7,8 +7,44 @@ define('VID',0);       //villageテーブルの終了済ID
 
 $fetch = new fetch_Village(COUNTRY);
 
-//裏切りの陣営分岐用 深い霧は別途分岐を書く
+//裏切りの陣営としてカウントするレギュレーション 深い霧は別途分岐を書く
 $TM_EVIL = array($fetch::RGL_E,$fetch::RGL_ETC);
+//陣営リスト
+$TM_NORMAL = array(
+      "村人"=>$fetch::TM_VILLAGER
+    , "人狼"=>$fetch::TM_WOLF
+    , "妖精"=>$fetch::TM_FAIRY
+    , "恋人"=>$fetch::TM_LOVERS
+    , "一匹"=>$fetch::TM_LWOLF
+    , "笛吹"=>$fetch::TM_PIPER
+    , "邪気"=>$fetch::TM_EFB
+    , "裏切"=>$fetch::TM_EVIL
+    , "据え"=>$fetch::TM_FISH
+  );
+$TM_AMBER = array(
+      "町人"=>$fetch::TM_VILLAGER
+    , "魔術"=>$fetch::TM_WOLF
+    , "琥珀"=>$fetch::TM_FAIRY
+    , "星に"=>$fetch::TM_LOVERS
+    , "星の"=>$fetch::TM_LOVERS //エピ表記
+    , "はぐ"=>$fetch::TM_LWOLF
+    , "吟遊"=>$fetch::TM_PIPER
+    , "賭博"=>$fetch::TM_EFB
+    , "不和"=>$fetch::TM_EVIL
+    , "据え"=>$fetch::TM_FISH
+);
+
+//レギュレーション
+$RGL = array(
+    '標準'=>$fetch::RGL_LEO
+  , '深い霧の森'=>$fetch::RGL_MIST
+  , '人狼BBS C国'=>$fetch::RGL_C
+  , '人狼BBS F国'=>$fetch::RGL_F
+  , '人狼BBS G国'=>$fetch::RGL_G
+  , '人狼審問 試験壱型'=>$fetch::RGL_TES1
+  , '人狼審問 試験弐型'=>$fetch::RGL_TES2
+  , '自由設定'=>$fetch::RGL_ETC
+);
 
 $base_list = $fetch->read_list();
 
@@ -23,7 +59,7 @@ foreach($base_list as $val_vil=>$item_vil)
             ,'name' =>$item_vil[1]
             ,'date' =>""
             ,'nop'  =>$item_vil[2]
-            ,'rglid'=>""
+            ,'rglid'=>$RGL[$item_vil[5]]
             ,'days' =>$item_vil[4]
             ,'wtmid'=>""
   );
@@ -35,79 +71,18 @@ foreach($base_list as $val_vil=>$item_vil)
   //ガチ村のみ勝利陣営を挿入
   if($wtmid === 'ガチ推理' OR $wtmid === '推理＆RP')
   {
-    switch($item_vil[3])
-    {
-      case '村人の勝利':
-        $village['wtmid'] = $fetch::TM_VILLAGER;
-        break;
-      case '人狼の勝利':
-        $village['wtmid'] = $fetch::TM_WOLF;
-        break;
-      case '妖精の勝利':
-        $village['wtmid'] = $fetch::TM_FAIRY;
-        break;
-      case '恋人達の勝利':
-        $village['wtmid'] = $fetch::TM_LOVERS;
-        break;
-      case '一匹狼の勝利':
-        $village['wtmid'] = $fetch::TM_LWOLF;
-        break;
-      case '笛吹き勝利':
-        $village['wtmid'] = $fetch::TM_PIPER;
-        break;
-      case '邪気の勝利':
-        $village['wtmid'] = $fetch::TM_EFB;
-        break;
-      case '勝利者なし':
-        $village['wtmid'] = $fetch::TM_NONE;
-        break;
-      default:
-        echo 'ERROR: '.$village['vno'].' has undefined winteam.'.PHP_EOL;
-        break;
-    }
+    $village['wtmid'] = $TM_NORMAL[mb_substr($item_vil[3],0,2)];
   }
   else
   {
     $village['wtmid'] = $fetch::TM_NONE;
   }
 
-  //編成
-  switch($item_vil[5])
+  //ガチ村の自由設定は手動で修正する
+  if($village['wtmid'] !== 0 && $village['rglid'] === $fetch::RGL_ETC)
   {
-    case '標準':
-      $village['rglid'] = $fetch::RGL_LEO;
-      break;
-    case '深い霧の夜':
-      $village['rglid'] = $fetch::RGL_MIST;
-      break;
-    case '人狼BBS C国':
-      $village['rglid'] = $fetch::RGL_C;
-      break;
-    case '人狼BBS F国':
-      $village['rglid'] = $fetch::RGL_F;
-      break;
-    case '人狼BBS G国':
-      $village['rglid'] = $fetch::RGL_G;
-      break;
-    case '人狼審問 試験壱型':
-      $village['rglid'] = $fetch::RGL_TES1;
-      break;
-    case '人狼審問 試験弐型':
-      $village['rglid'] = $fetch::RGL_TES2;
-      break;
-    case '自由設定':
-      $village['rglid'] = $fetch::RGL_ETC;
-      if($village['wtmid'] !== 0)
-      {
-        echo $village['vno'].' is 自由設定 && ガチ'.PHP_EOL;
-      }
-      break;
-    default:
-      echo 'ERROR: '.$village['vno'].' has undefined regulation.'.PHP_EOL;
-      break;
+    echo $village['vno'].' is 自由設定 && ガチ'.PHP_EOL;
   }
-
-
 
   //初日取得
   $html->clear();
@@ -162,44 +137,8 @@ foreach($base_list as $val_vil=>$item_vil)
     }
     else
     {
-      switch(mb_substr($role,0,2))
-      {
-        case '村人':
-          $users['tmid'] = $fetch::TM_VILLAGER;
-          break;
-        case '人狼':
-          $$users['tmid'] = $fetch::TM_WOLF;
-          break;
-        case '妖精':
-          $users['tmid'] = $fetch::TM_FAIRY;
-          break;
-        case '恋人':
-          $users['tmid'] = $fetch::TM_LOVERS;
-          break;
-        case '一匹':
-          $users['tmid'] = $fetch::TM_LWOLF;
-          break;
-        case '笛吹':
-          $users['tmid'] = $fetch::TM_PIPER;
-          break;
-        case '邪気':
-          $users['tmid'] = $fetch::TM_EFB;
-          break;
-        case '据え':
-          $users['tmid'] = $fetch::TM_FISH;
-          break;
-        case '裏切':
-          //三陣営目がいない村では、裏切り陣営を人狼陣営カウントにする
-          if(in_array($village['rglid'],$TM_EVIL) OR ($village['rglid'] === $fetch::RGL_MIST AND ($village['nop'] <8 OR $village['nop'] >18)))
-          {
-            $users['tmid'] = $fetch::TM_EVIL;
-          }
-          else
-          {
-            $users['tmid'] = $fetch::TM_WOLF;
-          }
-          break;
-      }
+      $users['tmid'] = $TM_NORMAL[mb_substr($role,0,2)];
+      echo $users['tmid'].'##';
     }
 
 
