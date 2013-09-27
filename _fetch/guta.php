@@ -4,9 +4,14 @@ require_once('./fetch_village.php');
 
 define('COUNTRY',11);  //国ID
 define('VID',100);       //villageテーブルの開始ID
-$GACHI = array(//お祭り騒ぎのガチリスト
-  438,437,416,388,379,
 
+//お祭り騒ぎのガチリスト
+$GACHI = array(
+  455,448,446,445,438,437,429,426,416,388,379,340,339,334,322,319,307,297,287,281,280,275,265,256,248,244,243,241,202,201,186,182,172,170,156,154,153,136,127,124,114,112,108,63,60,41,37,33,16
+);
+//秘話村リスト
+$SECRET = array(
+421,378,258,199,197,177,169,153,122,92,78,64,60,52,50,49,44
 );
 
 $fetch = new fetch_Village(COUNTRY);
@@ -195,9 +200,6 @@ $RGL = array(
    '標準'=>$fetch::RGL_LEO
   ,'新標準'=>$fetch::RGL_LEO
   ,'深い霧の夜'=>$fetch::RGL_MIST
-  ,'人狼BBS C国'=>$fetch::RGL_C
-  ,'人狼BBS F国'=>$fetch::RGL_F
-  ,'人狼BBS G国'=>$fetch::RGL_G
   ,'人狼審問 試験壱型'=>$fetch::RGL_TES1
   ,'人狼審問 試験弐型'=>$fetch::RGL_TES2
   ,'自由設定'=>$fetch::RGL_ETC
@@ -211,19 +213,45 @@ $RGL_SP = array(
 );
 //自由設定でも特殊レギュにしない編成
 $RGL_FREE = array(
-    '村人x6 占い師x1 霊能者x1 人狼x2 '=>$fetch::RGL_S_2
-   ,'村人x5 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 '=>$fetch::RGL_S_2
-   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3 '=>$fetch::RGL_C_ST
-   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3 '=>$fetch::RGL_C_ST
-   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 Ｃ国狂人x1 人狼x3 '=>$fetch::RGL_C_ST
-   ,'村人x8 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1 '=>$fetch::RGL_E
-   ,'村人x6 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1 '=>$fetch::RGL_E
-   ,'村人x5 狂信者x1 人狼x1 '=>$fetch::RGL_HERO
-   ,'村人x4 狂信者x1 人狼x1 '=>$fetch::RGL_HERO
+    '村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C
+   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C_ST
+   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C_ST
+   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 Ｃ国狂人x1 人狼x3'=>$fetch::RGL_C_ST
+   ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_G
+   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_G_ST
+   ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>$fetch::RGL_E
+   ,'村人x8 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
+   ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
+   ,'村人x7 共有者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
+   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
+   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_TES1
+   ,'村人x7 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_S_3
+   ,'村人x5 占い師x1 霊能者x1 人狼x2'=>$fetch::RGL_S_2
+   ,'村人x5 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
+   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
+   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
+   ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$fetch::RGL_S_C2
+   ,'村人x8 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x2'=>$fetch::RGL_S_C2
+   ,'村人x5 占い師x1 人狼x1'=>$fetch::RGL_S_1
+   ,'村人x6 占い師x1 霊能者x1 人狼x2'=>$fetch::RGL_S_L0
+   ,'村人x5 占い師x1 霊能者x1 人狼x2 栗鼠妖精x1'=>$fetch::RGL_S_E
+   ,'村人x6 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_S_E
+   ,'村人x4 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
+   ,'村人x6 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
+   ,'村人x4 聖痕者x1 占い師x1 守護者x1 狂人x1 人狼x2 栗鼠妖精x1'=>$fetch::RGL_S_E
+   ,'村人x7 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
+   ,'村人x9 占い師x1 霊能者x1 人狼x3 恋愛天使x1'=>$fetch::RGL_LOVE
+   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
+   ,'村人x6 共鳴者x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 首無騎士x3 恋愛天使x1'=>$fetch::RGL_LOVE
+   ,'村人x7 占い師x1 狩人x1 霊能者x1 狂信者x1 人狼x2 キューピッドx1'=>$fetch::RGL_LOVE
+   ,'村人x5 狂信者x1 人狼x1'=>$fetch::RGL_HERO
+   ,'村人x4 狂信者x1 人狼x1'=>$fetch::RGL_HERO
+   ,'村人x5 人狼x1'=>$fetch::RGL_HERO
+   ,'村人x1 霊能者x6 人狼x2'=>$fetch::RGL_ROLLER
    ,'村人x4 占い師x1 霊能者x1 人狼x2 遊び人x1 '=>$fetch::RGL_LPLY
-   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 遊び人x1 '=>$fetch::RGL_LPLY
-   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 遊び人x1 '=>$fetch::RGL_LPLY
-   ,'村人,占い師,霊能者,狂人,人狼,遊び人,'=>$fetch::RGL_LPLY
+   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 遊び人x1'=>$fetch::RGL_LPLY
+   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 遊び人x1'=>$fetch::RGL_LPLY
+   ,'村人x9 占い師x1 霊能者x1 囁き狂人x1 人狼x3 遊び人x1'=>$fetch::RGL_LPLY
 );
 
 //結末
@@ -266,7 +294,7 @@ foreach($base_list as $val_vil=>$item_vil)
              'vno'  =>$item_vil[0]
             ,'name' =>$item_vil[1]
             ,'date' =>""
-            ,'nop'  =>$item_vil[2]
+            ,'nop'  =>(int)$item_vil[2]
             ,'rglid'=>""
             ,'days' =>$item_vil[4]
             ,'wtmid'=>""
@@ -283,11 +311,15 @@ foreach($base_list as $val_vil=>$item_vil)
     $village['rglid'] = $RGL_SP[$rglid];
     echo "#".$village['vno'].' is '.$rglid.".Should check evil team.##";
   }
+  else if(in_array($village['vno'],$SECRET))
+  {
+    //秘話村を挿入
+    $village['rglid'] = $fetch::RGL_SECRET;
+  }
   else if($item_vil[5] === '自由設定')
   {
     //自由設定でも特定の編成はレギュレーションを指定する
-    //$free = preg_replace("/x\d+ /",",",$html->find('dl.mes_text_report dd',3)->plaintext);
-    $free = $html->find('dl.mes_text_report dd',3)->plaintext;
+    $free = trim($html->find('dl.mes_text_report dd',3)->plaintext);
     if(array_key_exists($free,$RGL_FREE))
     {
       $village['rglid'] = $RGL_FREE[$free];
@@ -300,7 +332,105 @@ foreach($base_list as $val_vil=>$item_vil)
   }
   else
   {
-    $village['rglid'] = $RGL[$item_vil[5]];
+    switch($item_vil[5])
+    {
+      case "新標準":
+      case "標準":
+        if($village['nop'] <= 7)
+        {
+          $village['rglid'] = $fetch::RGL_S_1;
+        }
+        else
+        {
+          $village['rglid'] = $fetch::RGL_LEO;
+        }
+        break;
+      case "深い霧の夜":
+        $village['rglid'] = $RGL[$item_vil[5]];
+        break;
+      case "人狼審問 試験壱型":
+        switch(true)
+        {
+          case ($village['nop']  >= 13):
+            $village['rglid'] = $fetch::RGL_TES1;
+            break;
+          case ($village['nop'] <=12 && $village['nop'] >= 8):
+            $village['rglid'] = $fetch::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $fetch::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼審問 試験弐型":
+        switch(true)
+        {
+          case ($village['nop']  >= 10):
+            $village['rglid'] = $fetch::RGL_TES2;
+            break;
+          case ($village['nop']  === 8 || $village['nop']  === 9):
+            $village['rglid'] = $fetch::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $fetch::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS C国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $fetch::RGL_C;
+            break;
+          case ($village['nop']  === 15):
+            $village['rglid'] = $fetch::RGL_S_C3;
+            break;
+          case ($village['nop'] <=14 && $village['nop'] >= 10):
+            $village['rglid'] = $fetch::RGL_S_C2;
+            break;
+          case ($village['nop']  === 8 || $village['nop'] === 9):
+            $village['rglid'] = $fetch::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $fetch::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS F国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $fetch::RGL_F;
+            break;
+          case ($village['nop']  === 15):
+            $village['rglid'] = $fetch::RGL_S_3;
+            break;
+          case ($village['nop'] <=14 && $village['nop'] >= 8):
+            $village['rglid'] = $fetch::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $fetch::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS G国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $fetch::RGL_G;
+            break;
+          case ($village['nop']  <= 15 && $village['nop'] >= 13):
+            $village['rglid'] = $fetch::RGL_S_3;
+            break;
+          case ($village['nop'] <=12 && $village['nop'] >= 8):
+            $village['rglid'] = $fetch::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $fetch::RGL_S_1;
+            break;
+        }
+        break;
+    }
   }
 
   //言い換え
@@ -322,6 +452,7 @@ foreach($base_list as $val_vil=>$item_vil)
       }
       break;
     case "お祭り騒ぎ":
+    case "未設定":
       if(in_array($village['vno'],$GACHI))
       {
         $village['wtmid'] = $TM_NORMAL[mb_substr($item_vil[3],0,2)];
@@ -329,7 +460,7 @@ foreach($base_list as $val_vil=>$item_vil)
       }
       else
       {
-        echo '#'.$village['vno'].'. '.$village['name'].' is お祭り騒ぎ#';
+        echo '#'.$village['vno'].'. '.$village['name'].' is '.$wtmid.'#';
       }
     default:
       $village['wtmid'] = $fetch::TM_RP;

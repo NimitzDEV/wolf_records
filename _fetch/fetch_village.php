@@ -23,11 +23,13 @@ class Fetch_Village
   const RGL_C    =  1;      //C編成
   const RGL_F    =  2;      //F編成
   const RGL_G    =  3;      //G編成
+  const RGL_E    =  6;      //妖魔入り
+  const RGL_S_1  = 28;      //少人数狼1
   const RGL_S_2  =  4;      //少人数狼2
   const RGL_S_3  =  5;      //少人数狼3
-  const RGL_E    =  6;      //妖魔入り
-  const RGL_S_C2 =  7;      //少人数狼2
-  const RGL_S_C3 =  8;      //少人数狼3
+  const RGL_S_C2 =  7;      //少人数狼2C
+  const RGL_S_C3 =  8;      //少人数狼3C
+  const RGL_S_E  = 26;      //少人数妖魔入り
   const RGL_S_L0 =  9;      //少人数狂人なし
   const RGL_W2   = 10;      //狼2共有あり
   const RGL_C_ST = 25;      //聖痕入りC
@@ -41,6 +43,7 @@ class Fetch_Village
   const RGL_HERO = 22;      //占い師なし
   const RGL_EFB  = 23;      //邪気悪魔入り
 
+  const RGL_SECRET= 27;     //秘話村
   const RGL_MILL = 18;      //ミラーズホロウ
   const RGL_DEATH= 19;      //死んだら負け
   const RGL_TA   = 20;      //Trouble☆Aliens
