@@ -146,8 +146,8 @@ class Fetch_Village
   private $country
         , $fp_village
         , $fp_users
-        , $count_v
-        , $count_u
+        , $count_village
+        , $count_users
         , $lastline_v
         , $nop
         , $loop_village
@@ -202,6 +202,7 @@ class Fetch_Village
         break;
       case 'users';
         fwrite($this->fp_users,"INSERT INTO users (vid,persona,player,role,dtid,end,sklid,tmid,life,rltid) VALUES\n");
+        break;
     }
   }
 
@@ -213,7 +214,7 @@ class Fetch_Village
       case 'village';
         $line = '("'.$this->country.'","'.$line.'")';
         $this->nop = (int)$nop;
-        $this->count_v = $val;
+        $this->count_village = $val;
         if($val === $this->lastline_v)
         {
           $this->close_list($line,$type);
@@ -222,8 +223,8 @@ class Fetch_Village
         break;
       case 'users';
         $line = '("'.$line.'")';
-        $this->count_u++;
-        if($val === $this->nop && $this->count_v === $this->lastline_v)
+        $this->count_users++;
+        if($val === $this->nop && $this->count_village === $this->lastline_v)
         {
           $this->close_list($line,$type);
           return;
@@ -231,7 +232,7 @@ class Fetch_Village
         break;
     }
 
-    if($this->count_u === $this::LIMIT * $this->{'loop_'.$type})
+    if($this->{'count_'.$type} === $this::LIMIT * $this->{'loop_'.$type})
     {
       //規定行を越えたら次のファイルに移動
       $this->close_list($line,$type);

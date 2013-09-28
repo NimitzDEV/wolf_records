@@ -3,7 +3,7 @@
 require_once('./fetch_village.php');
 
 define('COUNTRY',11);  //国ID
-define('VID',100);       //villageテーブルの開始ID
+define('VID',6367);       //villageテーブルの開始ID
 
 //お祭り騒ぎのガチリスト
 $GACHI = array(
@@ -17,7 +17,7 @@ $SECRET = array(
 $fetch = new fetch_Village(COUNTRY);
 
 //裏切りの陣営としてカウントするレギュレーション 深い霧は別途分岐を書く
-$TM_EVIL = array($fetch::RGL_E,$fetch::RGL_EFB,$fetch::RGL_ETC);
+$TM_EVIL = array($fetch::RGL_E,$fetch::RGL_S_E,$fetch::RGL_EFB,$fetch::RGL_ETC);
 
 //陣営リスト
 $TM_NORMAL = array(
@@ -239,6 +239,7 @@ $RGL_FREE = array(
    ,'村人x4 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
    ,'村人x6 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
    ,'村人x4 聖痕者x1 占い師x1 守護者x1 狂人x1 人狼x2 栗鼠妖精x1'=>$fetch::RGL_S_E
+   ,'村人x4 占い師x1 狂信者x1 人狼x1 栗鼠妖精x1'=>$fetch::RGL_S_E
    ,'村人x7 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
    ,'村人x9 占い師x1 霊能者x1 人狼x3 恋愛天使x1'=>$fetch::RGL_LOVE
    ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
@@ -478,11 +479,28 @@ foreach($base_list as $val_vil=>$item_vil)
     $is_evil = false;
   }
 
+  //ID公開村かどうか
+  $is_ID = $html->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
+
   //初日取得
   $html->clear();
   $url = preg_replace("/cmd=vinfo/","turn=0&row=10&mode=all&move=page&pageno=1",$item_vil[6]);
   $html = $fetch->fetch_url($url);
-  $village['date'] = mb_substr($html->find('p.mes_date',0)->plaintext,5,10);
+
+  //開始日(プロローグ第一声)
+  $date = $html->find('p.mes_date',0)->plaintext;
+  //ID公開村では取得方法を変える
+  if($is_ID === "公開する")
+  {
+    $date = $html->find('p.mes_date',0)->plaintext;
+    $date = mb_substr($date,mb_strpos($date,"2"),10);
+  }
+  else
+  {
+    $date = mb_substr($html->find('p.mes_date',0)->plaintext,5,10);
+  }
+  //MySQL用に日付の区切りを/から-に変換
+  $village['date'] = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
 
   //エピローグ取得
   $html->clear();
@@ -493,112 +511,112 @@ foreach($base_list as $val_vil=>$item_vil)
   //村を書き込む
   $fetch->write_list('village',$village,$val_vil+1,count($cast));
 
-  //foreach($cast as $val_cast => $item_cast)
-  //{
-    //$users = array(
-               //'vid'    =>$val_vil + VID
-              //,'persona'=>trim($item_cast->find("td",0)->plaintext)
-              //,'player' =>trim($item_cast->find("td",1)->plaintext)
-              //,'role'  =>""
-              //,'dtid'=>""
-              //,'end' =>""
-              //,'sklid'=>""
-              //,'tmid'=>""
-              //,'life'=>""
-              //,'rltid'=>""
-    //);
+  foreach($cast as $val_cast => $item_cast)
+  {
+    $users = array(
+               'vid'    =>$val_vil + VID
+              ,'persona'=>trim($item_cast->find("td",0)->plaintext)
+              ,'player' =>trim($item_cast->find("td",1)->plaintext)
+              ,'role'   =>""
+              ,'dtid'   =>""
+              ,'end'    =>""
+              ,'sklid'  =>""
+              ,'tmid'   =>""
+              ,'life'   =>""
+              ,'rltid'  =>""
+    );
     
-    //$result = $item_cast->find("td",3)->plaintext;
-    //$result = mb_substr($result,0,mb_strpos($result,"\n")-1);
-    //$result = explode(' ',$result);
+    $result = $item_cast->find("td",3)->plaintext;
+    $result = mb_substr($result,0,mb_strpos($result,"\n")-1);
+    $result = explode(' ',$result);
 
-    ////陣営と役職を取得
-    //$users['role'] = mb_substr($result[2],mb_strpos($result[2],'：')+1);
+    //陣営と役職を取得
+    $users['role'] = mb_substr($result[2],mb_strpos($result[2],'：')+1);
 
-    //if(mb_substr($users['role'],-2) === "居た")
-    //{
-      ////見物人設定
-      //$users['role'] = '見物人';
-      //$users['dtid'] = $fetch::DES_ONLOOKER;
-      //$users['end'] = 1;
-      //$users['sklid'] = $fetch::SKL_ONLOOKER;
-      //$users['tmid'] = $fetch::TM_ONLOOKER;
-      //$users['life'] = 0;
-      //$users['rltid'] = $fetch::RSL_ONLOOKER;
-    //}
-    //else
-    //{
-      ////日数
-      //if($result[0] === '生存者')
-      //{
-        //$users['end'] = $village['days'];
-      //}
-      //else
-      //{
-        //$users['end'] = (int)preg_replace("/(.+)日/","$1",$item_cast->find("td",2)->plaintext);
-      //}
+    if(mb_substr($users['role'],-2) === "居た")
+    {
+      //見物人設定
+      $users['role'] = '見物人';
+      $users['dtid'] = $fetch::DES_ONLOOKER;
+      $users['end'] = 1;
+      $users['sklid'] = $fetch::SKL_ONLOOKER;
+      $users['tmid'] = $fetch::TM_ONLOOKER;
+      $users['life'] = 0;
+      $users['rltid'] = $fetch::RSL_ONLOOKER;
+    }
+    else
+    {
+      //日数
+      if($result[0] === '生存者')
+      {
+        $users['end'] = $village['days'];
+      }
+      else
+      {
+        $users['end'] = (int)preg_replace("/(.+)日/","$1",$item_cast->find("td",2)->plaintext);
+      }
 
-      ////非ガチ村は勝敗をつけずに「参加」にする
-      //if($village['wtmid'] === 0)
-      //{
-        //$users['rltid'] = $fetch::RSL_JOIN;
-      //}
-      //else
-      //{
-        //$users['rltid'] = $RSL[$result[1]];
-      //}
+      //非ガチ村は勝敗をつけずに「参加」にする
+      if($village['wtmid'] === 0)
+      {
+        $users['rltid'] = $fetch::RSL_JOIN;
+      }
+      else
+      {
+        $users['rltid'] = $RSL[$result[1]];
+      }
 
-      ////役職欄に絆などついている場合
-      //if(mb_strpos($users['role'],"、") === false)
-      //{
-        //$sklid = $users['role'];
-      //}
-      //else
-      //{
-        //$sklid = mb_substr($users['role'],0,mb_strpos($users['role'],"、"));
-      //}
-      //switch($rp)
-      //{
-      //case "昏き宵闇の琥珀":
-        //$users['sklid']= $SKL_AMBER[$sklid];
-        //$users['dtid'] = $DES_AMBER[$result[0]];
-        //$users['tmid'] = $TM_AMBER[mb_substr($result[2],0,2)];
-        //break;
-      //case "ミラーズホロウ":
-        //$users['sklid']= $SKL_MILLERS[$sklid];
-        //$users['dtid'] = $DES_NORMAL[$result[0]];
-        //$users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
-        //break;
-      //default:
-        //$users['sklid'] = $SKL_NORMAL[$sklid];
-        //$users['dtid'] = $DES_NORMAL[$result[0]];
-        //$users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
-        //break;
-      //}
+      //役職欄に絆などついている場合
+      if(mb_strpos($users['role'],"、") === false)
+      {
+        $sklid = $users['role'];
+      }
+      else
+      {
+        $sklid = mb_substr($users['role'],0,mb_strpos($users['role'],"、"));
+      }
+      switch($rp)
+      {
+      case "昏き宵闇の琥珀":
+        $users['sklid']= $SKL_AMBER[$sklid];
+        $users['dtid'] = $DES_AMBER[$result[0]];
+        $users['tmid'] = $TM_AMBER[mb_substr($result[2],0,2)];
+        break;
+      case "ミラーズホロウ":
+        $users['sklid']= $SKL_MILLERS[$sklid];
+        $users['dtid'] = $DES_NORMAL[$result[0]];
+        $users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
+        break;
+      default:
+        $users['sklid'] = $SKL_NORMAL[$sklid];
+        $users['dtid'] = $DES_NORMAL[$result[0]];
+        $users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
+        break;
+      }
 
-      ////第三陣営がいない村では裏切りの陣営を人狼陣営扱いにする
-      //if($users['tmid'] === $fetch::TM_EVIL && $is_evil === false)
-      //{
-        //$users['tmid'] = $fetch::TM_WOLF;
-      //}
+      //第三陣営がいない村では裏切りの陣営を人狼陣営扱いにする
+      if($users['tmid'] === $fetch::TM_EVIL && $is_evil === false)
+      {
+        $users['tmid'] = $fetch::TM_WOLF;
+      }
 
-      ////生存係数挿入
-      //if($users['dtid'] === $fetch::DES_ALIVE)
-      //{
-        //$users['life'] = 1.00;
-      //}
-      //else
-      //{
-        //$users['life'] = round(($users['end']-1) / $village['days'],2);
-      //}
+      //生存係数挿入
+      if($users['dtid'] === $fetch::DES_ALIVE)
+      {
+        $users['life'] = 1.00;
+      }
+      else
+      {
+        $users['life'] = round(($users['end']-1) / $village['days'],2);
+      }
 
-    //}
+    }
 
-    //$fetch->write_list('users',$users,$val_cast+1);
+    $fetch->write_list('users',$users,$val_cast+1);
 
-    //$item_cast->clear();
-    //unset($item_cast);
-  //}
+    $item_cast->clear();
+    unset($item_cast);
+  }
 
   $html->clear();
   unset($html);
