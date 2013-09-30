@@ -273,7 +273,7 @@ class GetDB
           SELECT tmid,rltid,count(*) sum FROM users WHERE player IN (".$this->holder.") GROUP BY tmid,rltid
         ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
       WHERE u.player IN (".$this->holder.")
-      GROUP BY u.rltid,s.name
+      GROUP BY u.rltid,t.name,s.name
       ORDER BY u.tmid,u.sklid,u.rltid
     ");
 
