@@ -3,7 +3,7 @@
 require_once('./fetch_village.php');
 
 define('COUNTRY',11);  //国ID
-define('VID',6367);       //villageテーブルの開始ID
+define('VID',6368);       //villageテーブルの開始ID
 
 //お祭り騒ぎのガチリスト
 $GACHI = array(
