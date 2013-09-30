@@ -71,12 +71,11 @@ else
         <dl>
           <dt>総合参加数</dt>
           <dd>
-            <?= $db->getJoinSum(); ?>
-<!--
-           <span class="i-fire"></span><? //echo $db->getJoinGachi(); ?>
-           <span class="i-book"></span><? //echo $db->getJoinRP(); ?>
--->
+           <?= $db->getJoinSum(); ?>
+           <span class="i-fire"></span><? echo $db->getJoinGachi(); ?>
+           <span class="i-book"></span><? echo $db->getJoinRP(); ?>
           </dd>
+<br>
           <dt>勝率</dt>
           <dd>
             <span class="i-fire"></span><?= $db->getJoinWinPercent() ?><span>%</span>
@@ -84,7 +83,7 @@ else
           <dt>平均生存係数</dt>
           <dd>
             <span class="i-fire"></span><?= $db->getLiveGachi(); ?>
-            <!--<span class="i-book"></span><? //echo $db->getLiveRP(); ?>-->
+            <span class="i-book"></span><? echo $db->getLiveRP(); ?>
           </dd>
 
         </dl>
@@ -98,7 +97,10 @@ else
       <span></span>
       <span></span>
     </button>
-    <a href="#" data-toggle="collapse" data-target=".navbar-collapse">メニュー</a>
+    <span class="tips">
+          <span class="i-fire"></span>勝敗あり
+          <span class="i-book"></span>勝負度外視
+      </span>
   </div>
   <div class="collapse navbar-collapse">
     <form action="./result.php" method="GET">
@@ -174,14 +176,7 @@ else
             {
               foreach($table as $item)
               {
-                if((int)$item['rglid'] >=100)
-                {
-                  $rgl = '特殊';
-                }
-                else
-                {
-                  $rgl = $item['rgl'];
-                }
+                $vname = mb_strimwidth($item['vname'],0,38,"..","UTF-8");
                 switch ($item['result'])
                 {
                   case '勝利':
@@ -202,8 +197,8 @@ else
                 }
                 echo '<tr><td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
                 echo '<td>'.$item['country'].$item['vno'].'</td>';
-                echo '<td><a href="'.$item['url'].$item['vno'].'">'.$item['vname'].'</a></td>';
-                echo '<td>'.$rgl.'</td>';
+                echo '<td class="vname"><a href="'.$item['url'].$item['vno'].'" title="'.$item['vname'].'">'.$vname.'</a></td>';
+                echo '<td>'.$item['rgl'].'</td>';
                 echo '<td>'.$item['persona'].'</td>';
                 echo '<td>'.$item['role'].'</td>';
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
@@ -220,44 +215,52 @@ else
       </table>
     </section>
     <section id="role">
+<div>
 <? 
-      foreach($db->getTeamArray() as $team)
-      {
-        switch ($team)
-        {
-          case '村人':
-            $tClass = 'vil';
-            break;
-          case '人狼':
-            $tClass = 'wlf';
-            break;
-          case '妖魔':
-            $tClass = 'fry';
-            break;
-          default:
-            $tClass = 'ukn';
-            break;
-        }
+$TEAM_ARRAY = array(
+   "村人"=>'village'
+  ,"人狼"=>"wolf"
+  ,"妖魔"=>"fairy"
+  ,"恋人"=>"lovers"
+  ,"一匹狼"=>"lwolf"
+  ,"笛吹き"=>"piper"
+  ,"邪気"=>"efb"
+  ,"裏切り"=>"evil"
+  ,"据え膳"=>"fish"
+);
 
-        echo '<table><thead>'; 
-        echo '<tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
-        echo '<td><span class="i-fire"></span>'.$db->getTeamWin($team)
-          .'/'.$db->getTeamGachi($team).'</td>';
-        echo '<td>('.$db->getTeamWinP($team).'%)</td>';
-        //echo '<td><span class="i-book"></span>'.$db->getTeamRP($team).'</td>';
+
+      foreach($db->getTeamArray() as $count=>$team)
+      {
+        if($team  === "見物人")
+        {
+          continue;
+        }
+        $tClass = $TEAM_ARRAY[$team];
+        $team_rp  = $db->getTeamRP($team);
+
+        if(($count+1) %5 === 0)
+        {
+          echo '<table class="clear">';
+        }
+        else
+        {
+          echo '<table>';
+        }
+        echo '<thead><tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
+        echo $db->get_team_tr($team);
         echo '</tr></thead><tbody>';
 
         foreach($db->getSkillArray($team) as $skill)
         {
           echo '<tr><td>'.$skill.'</td>';
-          echo '<td><span class="i-fire"></span>'.$db->getSkillWin($team,$skill)
-            .'/'.$db->getSkillGachi($team,$skill).'</td>';
-          echo '<td>('.$db->getSkillWinP($team,$skill).'%)</td>';
-          //echo '<td><span class="i-book"></span>'.$db->getSkillRP($team,$skill).'</td></tr>';
+          echo $db->get_skill_tr($team,$skill);
+          echo '</tr>';
         }
         echo '</tbody></table>';
       }
 ?>
+</div>
     </section>
       <footer>
 <p><a href="#"><span class="i-up"></span></a></p>

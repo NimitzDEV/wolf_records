@@ -10,9 +10,6 @@ $jin: #591B96;
 $ivd: #939393;
 $olk: #a0a437;
 
-$vil: #0ba20b; 
-$wlf: #a20b0b;
-$fry: #0034A1;
 
 
 header {
@@ -42,7 +39,7 @@ dl {
     text-align: left;
     margin:0;
     &:after {
-      content:"：";
+      content:":";
     }
   }
   dd {
@@ -84,31 +81,13 @@ nav {
       margin-top: 1px;
     }
   }
+  .tips {
+    position: relative;
+    display: block;
+    padding: 13px 15px;
+    float: left;
+  }
 }
-
-/* change */
-/*nav {*/
-  /*form {*/
-    /*float: right;*/
-    /*margin: 10px 10px 0 0;*/
-    /*input {*/
-      /*width: 12em;*/
-      /*@include font-size(1.4);*/
-      /*height: 2.2em;*/
-    /*}*/
-    /*a{*/
-      /*color:#006dcc;*/
-      /*outline: none;*/
-      /*@include font-size(3.0);*/
-      /*float: left;*/
-      /*margin: 4px 0 0;*/
-      /*&:hover {*/
-        /*text-decoration: none;*/
-        /*color: #006dcc;*/
-      /*}*/
-    /*}*/
-  /*}*/
-/*}*/
 
 .modal-body {
   text-align: center;
@@ -132,6 +111,10 @@ nav {
   }
 }
 
+%result {
+  width: 4em;
+}
+
 #list {
   margin: 0 auto;
   border: 0;
@@ -149,19 +132,28 @@ nav {
     border-left: 0;
     padding: 4px 5px;
   }
+  .vname {
+    width: 22em;
+  }
+
   .w {
+    @extend %result;
     color:$win;
   }
   .l {
+    @extend %result;
     color: $lse;
   }
   .j{
+    @extend %result;
     color: $jin;
   }
   .i{
+    @extend %result;
     color: $ivd;
   }
   .o{
+    @extend %result;
     color: $olk;
   }
   .noData {
@@ -175,6 +167,11 @@ nav {
   margin: 2.5em auto 0;
   width: 95%;
   overflow: hidden;
+
+  .clear {
+    clear: both;
+  }
+
   table{
     float:left;
     width: auto;
@@ -185,21 +182,39 @@ nav {
     }
     td {
       text-align: right;
-      padding: 5px;
+      padding: 5px 7px;
       border-left: 0;
       &:first-child {
         padding-right: 1em;
         text-align: left;
       }
     }
-    .vil {
-      background: $vil;
+    .village {
+      background: #0ba20b; //緑
     }
-    .wlf {
-      background: $wlf;
+    .wolf {
+      background: #a20b0b; //赤
     }
-    .fry {
-      background: $fry;
+    .fairy {
+      background: #0034A1; //青
+    }
+    .lovers {
+      background: #F066C7; //桃
+    }
+    .lwolf {
+      background: #555;    //灰
+    }
+    .piper {
+      background: #CAC800; //黄
+    }
+    .efb {
+      background: #7939B3; //紫
+    }
+    .evil {
+      background: #E18400; //橙
+    }
+    .fish {
+      background: #0A9092; //水
     }
   }
 }
@@ -251,18 +266,6 @@ footer{
     .container h1 {
       margin:5px 0 10px;
     }
-    /*nav {*/
-      /*padding: 0;*/
-      /*ul {*/
-        /*float:none;*/
-      /*}*/
-      /*li {*/
-        /*float:none;*/
-        /*text-align:center;*/
-        /*background:#f0f0f0;*/
-        /*@include list-stripe;*/
-      /*}*/
-    /*}*/
   }
   #role {
     table {
