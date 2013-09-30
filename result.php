@@ -71,10 +71,11 @@ else
         <dl>
           <dt>総合参加数</dt>
           <dd>
-            <?= $db->getJoinSum(); ?>
+           <?= $db->getJoinSum(); ?>
            <span class="i-fire"></span><? echo $db->getJoinGachi(); ?>
            <span class="i-book"></span><? echo $db->getJoinRP(); ?>
           </dd>
+<br>
           <dt>勝率</dt>
           <dd>
             <span class="i-fire"></span><?= $db->getJoinWinPercent() ?><span>%</span>
@@ -96,7 +97,10 @@ else
       <span></span>
       <span></span>
     </button>
-    <a href="#" data-toggle="collapse" data-target=".navbar-collapse">メニュー</a>
+    <span class="tips">
+          <span class="i-fire"></span>勝敗あり
+          <span class="i-book"></span>勝負度外視
+      </span>
   </div>
   <div class="collapse navbar-collapse">
     <form action="./result.php" method="GET">
