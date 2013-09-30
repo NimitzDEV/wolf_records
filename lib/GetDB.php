@@ -31,6 +31,11 @@ class GetDB
   private $boolDoppel;
   private $doppel;
 
+  private $cell_format;
+  const FORMAT_BOTH = 3;
+  const FORMAT_GACHI = 1;
+  const FORMAT_RP  = 2;
+
   function GetDB($argID)
   {
     $this->player = $argID;
@@ -312,6 +317,92 @@ class GetDB
           $this->skillCount[$team][$skill][$value] = 0;
         }
       }
+    }
+  }
+
+  function get_team_tr($team)
+  {
+    $gachi = $this->getTeamGachi($team);
+    $rp = $this->getTeamRP($team);
+
+    if($gachi !== 0 && $rp !== 0)
+    {
+      //両方ある
+      $this->cell_format = $this::FORMAT_BOTH;
+      return <<<EOF
+        <td><span class="i-fire"></span>{$this->getTeamWin($team)}/{$this->getTeamGachi($team)}</td>
+        <td>{$this->getTeamWinP($team)}%</td>
+        <td><span class="i-book"></span>{$this->getTeamRP($team)}</td>
+EOF;
+    }
+    else if ($rp === 0)
+    {
+      //ガチのみ
+      $this->cell_format = $this::FORMAT_GACHI;
+      return <<<EOF
+        <td><span class="i-fire"></span>{$this->getTeamWin($team)}/{$this->getTeamGachi($team)}</td>
+        <td>{$this->getTeamWinP($team)}%</td>
+EOF;
+    }
+    else
+    {
+      //RPのみ
+      $this->cell_format = $this::FORMAT_RP;
+      return <<<EOF
+        <td><span class="i-book"></span>{$this->getTeamRP($team)}</td>
+EOF;
+    }
+  }
+
+  function get_skill_tr($team,$skill)
+  {
+    $gachi = $this->getSkillGachi($team,$skill);
+    $rp = $this->getSkillRP($team,$skill);
+
+    switch(true)
+    {
+      case($gachi !== 0 && $rp !== 0):
+        //両方ある
+        return <<<EOF
+           <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
+           <td>{$this->getSkillWinP($team,$skill)}%</td>
+           <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
+EOF;
+        break;
+      case($rp === 0):
+        if($this->cell_format === $this::FORMAT_BOTH)
+        {
+          //この役職はガチのみだが他の役職にはRPがある
+          return <<<EOF
+          <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
+          <td>{$this->getSkillWinP($team,$skill)}%</td>
+          <td></td>
+EOF;
+        }
+        else
+        {
+          return <<<EOF
+          <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
+          <td>{$this->getSkillWinP($team,$skill)}%</td>
+EOF;
+        }
+        break;
+      case($gachi === 0):
+        if($this->cell_format === $this::FORMAT_BOTH)
+        {
+          return <<<EOF
+          <td></td>
+          <td></td>
+          <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
+EOF;
+        }
+        else
+        {
+          return <<<EOF
+          <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
+EOF;
+        }
+        break;
     }
   }
 
