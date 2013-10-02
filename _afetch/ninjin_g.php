@@ -38,10 +38,10 @@ if(flock($fp,LOCK_SH))
       {
         //終了済の村は後でqueueから消す
         $queue = preg_replace('/'.$vno.',/',"",$queue);
-        echo 'Queue is '.$queue.PHP_EOL;
+        //echo 'Queue is '.$queue.PHP_EOL;
         $fetchArray[] = $vno;
       } else {
-        echo 'NOTICE: No.'.$vno.'is still proceeding.'.PHP_EOL;
+        //echo 'NOTICE: No.'.$vno.'is still proceeding.'.PHP_EOL;
       }
     }
   } 
@@ -93,7 +93,7 @@ if ($lastNum > $dbLastNum)
       {
         if(fwrite($fp,$vno.','))
         {
-          echo 'NOTICE: '.$vno.' is proceeding. Inserted queue.'.PHP_EOL;
+          //echo 'NOTICE: '.$vno.' is proceeding. Inserted queue.'.PHP_EOL;
         } else {
           echo 'ERROR:'.$vno.' Cannot write queue.'.PHP_EOL;
         }
@@ -357,20 +357,7 @@ if (!empty($fetchArray))
 
     //書き込み関数に渡す配列に挿入
     $vilList[] = array(9,$vno,$vilName,$vilDate,$nop,$rgl,$days,$result);
-    //$vilList[] = array(
-      //'cid'=>9,
-      //'vno'=>$vno,      //村番号
-      //'name'=>$vilName,  //村名
-      //'date'=>$vilDate,   //開始日
-      //'nop'=>$nop,        //参加者人数
-      //'rglid'=>$rgl,           //編成
-      //'days'=>$days,      //総日数
-      //'wtmid'=>$result,   //勝利陣営
-    //);
     $usrList[] = $cast;
-
-    //echo 'Got Vno.'.$vno.'.'.PHP_EOL;
-
   }
   $html->clear;
   unset($html);
@@ -414,7 +401,7 @@ if (!empty($fetchArray))
   }
 
   $pdo = null;
-  echo 'complete insert.';
+  //echo 'complete insert.';
 
 
   //queueファイルを更新する
@@ -436,7 +423,7 @@ if (!empty($fetchArray))
   }
 
 } else {
-  echo 'not fetch.';
+  //echo 'not fetch.';
   unset($html);
 }
 
@@ -487,7 +474,6 @@ function insertVillage($pdo,$vilList)
     $stmt->execute(array($vno));
     $stmt->fetch(PDO::FETCH_BOUND);
 
-    //echo 'No. '.$vno.' is inserted. vilID is'.$vilID.'=>USER'.PHP_EOL;
     return $vilID;
   } else {
     echo 'ERROR: No. '.$vno.' not inserted.=EOL='.PHP_EOL;
@@ -510,7 +496,6 @@ function insertUser($pdo,$vilID,$cast)
 
     if($sqlBool)
     {
-      //echo '>>'.$item[1].' ('.$item[1].') in vilID:'.$vilID.' inserted.'.PHP_EOL;
     }else{
       echo '>>ERROR:'.$item[1].'/'.$item[2].' in vilID:'.$vilID.' was NOT inserted'.PHP_EOL;
     }
