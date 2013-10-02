@@ -1,6 +1,5 @@
 <?php
 require_once('../../lib/simple_html_dom.php');
-require_once('./country.php');
 
 class Fetch_Village
 {
