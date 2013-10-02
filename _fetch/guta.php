@@ -1,9 +1,10 @@
 <?php
 
+require_once('../_afetch/data.php');
 require_once('./fetch_village.php');
 
 define('COUNTRY',11);  //国ID
-define('VID',6368);       //villageテーブルの開始ID
+define('VID',6368);    //villageテーブルの開始ID
 
 //お祭り騒ぎのガチリスト
 $GACHI = array(
@@ -15,272 +16,273 @@ $SECRET = array(
 );
 
 $fetch = new fetch_Village(COUNTRY);
+$data  = new Data();
 
 //裏切りの陣営としてカウントするレギュレーション 深い霧は別途分岐を書く
-$TM_EVIL = array($fetch::RGL_E,$fetch::RGL_S_E,$fetch::RGL_EFB,$fetch::RGL_ETC);
+$TM_EVIL = array($data::RGL_E,$data::RGL_S_E,$data::RGL_EFB,$data::RGL_ETC);
 
 //陣営リスト
 $TM_NORMAL = array(
-   "村人"=>$fetch::TM_VILLAGER
-  ,"人狼"=>$fetch::TM_WOLF
-  ,"妖精"=>$fetch::TM_FAIRY
-  ,"恋人"=>$fetch::TM_LOVERS
-  ,"一匹"=>$fetch::TM_LWOLF
-  ,"笛吹"=>$fetch::TM_PIPER
-  ,"邪気"=>$fetch::TM_EFB
-  ,"裏切"=>$fetch::TM_EVIL
-  ,"据え"=>$fetch::TM_FISH
-  ,"勝利"=>$fetch::TM_NONE
+   "村人"=>$data::TM_VILLAGER
+  ,"人狼"=>$data::TM_WOLF
+  ,"妖精"=>$data::TM_FAIRY
+  ,"恋人"=>$data::TM_LOVERS
+  ,"一匹"=>$data::TM_LWOLF
+  ,"笛吹"=>$data::TM_PIPER
+  ,"邪気"=>$data::TM_EFB
+  ,"裏切"=>$data::TM_EVIL
+  ,"据え"=>$data::TM_FISH
+  ,"勝利"=>$data::TM_NONE
   );
 $TM_AMBER = array(
-   "町人"=>$fetch::TM_VILLAGER
-  ,"魔術"=>$fetch::TM_WOLF
-  ,"琥珀"=>$fetch::TM_FAIRY
-  ,"星に"=>$fetch::TM_LOVERS
-  ,"星の"=>$fetch::TM_LOVERS //エピ表記
-  ,"はぐ"=>$fetch::TM_LWOLF
-  ,"吟遊"=>$fetch::TM_PIPER
-  ,"賭博"=>$fetch::TM_EFB
-  ,"不和"=>$fetch::TM_EVIL
-  ,"据え"=>$fetch::TM_FISH
+   "町人"=>$data::TM_VILLAGER
+  ,"魔術"=>$data::TM_WOLF
+  ,"琥珀"=>$data::TM_FAIRY
+  ,"星に"=>$data::TM_LOVERS
+  ,"星の"=>$data::TM_LOVERS //エピ表記
+  ,"はぐ"=>$data::TM_LWOLF
+  ,"吟遊"=>$data::TM_PIPER
+  ,"賭博"=>$data::TM_EFB
+  ,"不和"=>$data::TM_EVIL
+  ,"据え"=>$data::TM_FISH
 );
 
 //役職
 //http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=trsdiff
 $SKL_NORMAL = array(
-   "村人"=>$fetch::SKL_VILLAGER
-  ,"聖痕者"=>$fetch::SKL_STIGMA
-  ,"結社員"=>$fetch::SKL_MASON
-  ,"共有者"=>$fetch::SKL_MASON
-  ,"共鳴者"=>$fetch::SKL_TELEPATH
-  ,"占い師"=>$fetch::SKL_SEER
-  ,"信仰占師"=>$fetch::SKL_SEERWIN
-  ,"気占師"=>$fetch::SKL_SEERAURA
-  ,"賢者"=>$fetch::SKL_SAGE
-  ,"狩人"=>$fetch::SKL_HUNTER
-  ,"守護者"=>$fetch::SKL_HUNTER
-  ,"霊能者"=>$fetch::SKL_MEDIUM
-  ,"信仰霊能者"=>$fetch::SKL_MEDIWIN
-  ,"導師"=>$fetch::SKL_PRIEST
-  ,"降霊者"=>$fetch::SKL_NECRO
-  ,"追従者"=>$fetch::SKL_FOLLOWER
-  ,"煽動者"=>$fetch::SKL_AGITATOR
-  ,"賞金稼"=>$fetch::SKL_BOUNTY
-  ,"人犬"=>$fetch::SKL_WEREDOG
-  ,"王子様"=>$fetch::SKL_PRINCE
-  ,"狼血族"=>$fetch::SKL_LINEAGE
-  ,"憑かれた人"=>$fetch::SKL_LINEAGE
-  ,"医師"=>$fetch::SKL_DOCTOR
-  ,"呪人"=>$fetch::SKL_CURSED
-  ,"預言者"=>$fetch::SKL_PROPHET
-  ,"病人"=>$fetch::SKL_SICK
-  ,"錬金術師"=>$fetch::SKL_ALCHEMIST
-  ,"魔女"=>$fetch::SKL_WITCH
-  ,"少女"=>$fetch::SKL_GIRL
-  ,"生贄"=>$fetch::SKL_SG
-  ,"長老"=>$fetch::SKL_ELDER
-  ,"邪魔之民"=>$fetch::SKL_JAMMER
-  ,"念波之民"=>$fetch::SKL_LUNAPATH
-  ,"コウモリ人間"=>$fetch::SKL_LUNAPATH
-  ,"狂人"=>$fetch::SKL_LUNATIC
-  ,"狂信者"=>$fetch::SKL_FANATIC
-  ,"人形使い"=>$fetch::SKL_MUPPETER
-  ,"囁き狂人"=>$fetch::SKL_LUNAWHS
-  ,"Ｃ国狂人"=>$fetch::SKL_LUNAWHS
-  ,"半狼"=>$fetch::SKL_HALFWOLF
-  ,"魔神官"=>$fetch::SKL_LUNAPRI
-  ,"魔術師"=>$fetch::SKL_LUNASAGE
-  ,"首無騎士"=>$fetch::SKL_HEADLESS
-  ,"首なし騎士"=>$fetch::SKL_HEADLESS
-  ,"人狼"=>$fetch::SKL_WOLF
-  ,"智狼"=>$fetch::SKL_WISEWOLF
-  ,"呪狼"=>$fetch::SKL_CURSEWOLF
-  ,"白狼"=>$fetch::SKL_WHITEWOLF
-  ,"仔狼"=>$fetch::SKL_CHILDWOLF
-  ,"衰狼"=>$fetch::SKL_DYINGWOLF
-  ,"黙狼"=>$fetch::SKL_SILENT
-  ,"栗鼠妖精"=>$fetch::SKL_FAIRY
-  ,"ハムスター人間"=>$fetch::SKL_FAIRY
-  ,"擬狼妖精"=>$fetch::SKL_MIMIC
-  ,"風花妖精"=>$fetch::SKL_SNOW
-  ,"悪戯妖精"=>$fetch::SKL_PIXY
-  ,"ピクシー"=>$fetch::SKL_PIXY
-  ,"邪気悪魔"=>$fetch::SKL_EFB
-  ,"恋愛天使"=>$fetch::SKL_QP
-  ,"キューピッド"=>$fetch::SKL_QP
-  ,"片想い"=>$fetch::SKL_PASSION
-  ,"弟子"=>$fetch::SKL_PUPIL
-  ,"神話マニア"=>$fetch::SKL_PUPIL
-  ,"盗賊"=>$fetch::SKL_THIEF
-  ,"一匹狼"=>$fetch::SKL_LWOLF
-  ,"笛吹き"=>$fetch::SKL_PIPER
-  ,"鱗魚人"=>$fetch::SKL_FISH
-  ,"遊び人"=>$fetch::SKL_PLAYBOY
+   "村人"=>$data::SKL_VILLAGER
+  ,"聖痕者"=>$data::SKL_STIGMA
+  ,"結社員"=>$data::SKL_MASON
+  ,"共有者"=>$data::SKL_MASON
+  ,"共鳴者"=>$data::SKL_TELEPATH
+  ,"占い師"=>$data::SKL_SEER
+  ,"信仰占師"=>$data::SKL_SEERWIN
+  ,"気占師"=>$data::SKL_SEERAURA
+  ,"賢者"=>$data::SKL_SAGE
+  ,"狩人"=>$data::SKL_HUNTER
+  ,"守護者"=>$data::SKL_HUNTER
+  ,"霊能者"=>$data::SKL_MEDIUM
+  ,"信仰霊能者"=>$data::SKL_MEDIWIN
+  ,"導師"=>$data::SKL_PRIEST
+  ,"降霊者"=>$data::SKL_NECRO
+  ,"追従者"=>$data::SKL_FOLLOWER
+  ,"煽動者"=>$data::SKL_AGITATOR
+  ,"賞金稼"=>$data::SKL_BOUNTY
+  ,"人犬"=>$data::SKL_WEREDOG
+  ,"王子様"=>$data::SKL_PRINCE
+  ,"狼血族"=>$data::SKL_LINEAGE
+  ,"憑かれた人"=>$data::SKL_LINEAGE
+  ,"医師"=>$data::SKL_DOCTOR
+  ,"呪人"=>$data::SKL_CURSED
+  ,"預言者"=>$data::SKL_PROPHET
+  ,"病人"=>$data::SKL_SICK
+  ,"錬金術師"=>$data::SKL_ALCHEMIST
+  ,"魔女"=>$data::SKL_WITCH
+  ,"少女"=>$data::SKL_GIRL
+  ,"生贄"=>$data::SKL_SG
+  ,"長老"=>$data::SKL_ELDER
+  ,"邪魔之民"=>$data::SKL_JAMMER
+  ,"念波之民"=>$data::SKL_LUNAPATH
+  ,"コウモリ人間"=>$data::SKL_LUNAPATH
+  ,"狂人"=>$data::SKL_LUNATIC
+  ,"狂信者"=>$data::SKL_FANATIC
+  ,"人形使い"=>$data::SKL_MUPPETER
+  ,"囁き狂人"=>$data::SKL_LUNAWHS
+  ,"Ｃ国狂人"=>$data::SKL_LUNAWHS
+  ,"半狼"=>$data::SKL_HALFWOLF
+  ,"魔神官"=>$data::SKL_LUNAPRI
+  ,"魔術師"=>$data::SKL_LUNASAGE
+  ,"首無騎士"=>$data::SKL_HEADLESS
+  ,"首なし騎士"=>$data::SKL_HEADLESS
+  ,"人狼"=>$data::SKL_WOLF
+  ,"智狼"=>$data::SKL_WISEWOLF
+  ,"呪狼"=>$data::SKL_CURSEWOLF
+  ,"白狼"=>$data::SKL_WHITEWOLF
+  ,"仔狼"=>$data::SKL_CHILDWOLF
+  ,"衰狼"=>$data::SKL_DYINGWOLF
+  ,"黙狼"=>$data::SKL_SILENT
+  ,"栗鼠妖精"=>$data::SKL_FAIRY
+  ,"ハムスター人間"=>$data::SKL_FAIRY
+  ,"擬狼妖精"=>$data::SKL_MIMIC
+  ,"風花妖精"=>$data::SKL_SNOW
+  ,"悪戯妖精"=>$data::SKL_PIXY
+  ,"ピクシー"=>$data::SKL_PIXY
+  ,"邪気悪魔"=>$data::SKL_EFB
+  ,"恋愛天使"=>$data::SKL_QP
+  ,"キューピッド"=>$data::SKL_QP
+  ,"片想い"=>$data::SKL_PASSION
+  ,"弟子"=>$data::SKL_PUPIL
+  ,"神話マニア"=>$data::SKL_PUPIL
+  ,"盗賊"=>$data::SKL_THIEF
+  ,"一匹狼"=>$data::SKL_LWOLF
+  ,"笛吹き"=>$data::SKL_PIPER
+  ,"鱗魚人"=>$data::SKL_FISH
+  ,"遊び人"=>$data::SKL_PLAYBOY
 );
 //ミラーズホロウ
 $SKL_MILLERS = array(
-   "村人"=>$fetch::SKL_VILLAGER
-  ,"預言者"=>$fetch::SKL_SAGE
-  ,"守護者"=>$fetch::SKL_HUNTER
-  ,"狩人"=>$fetch::SKL_BOUNTY
-  ,"魔女"=>$fetch::SKL_WITCH
-  ,"少女"=>$fetch::SKL_GIRL
-  ,"スケープゴート"=>$fetch::SKL_SG
-  ,"長老"=>$fetch::SKL_ELDER
-  ,"人狼"=>$fetch::SKL_WOLF
-  ,"キューピッド"=>$fetch::SKL_QP
-  ,"盗賊"=>$fetch::SKL_THIEF
-  ,"笛吹き"=>$fetch::SKL_PIPER
+   "村人"=>$data::SKL_VILLAGER
+  ,"預言者"=>$data::SKL_SAGE
+  ,"守護者"=>$data::SKL_HUNTER
+  ,"狩人"=>$data::SKL_BOUNTY
+  ,"魔女"=>$data::SKL_WITCH
+  ,"少女"=>$data::SKL_GIRL
+  ,"スケープゴート"=>$data::SKL_SG
+  ,"長老"=>$data::SKL_ELDER
+  ,"人狼"=>$data::SKL_WOLF
+  ,"キューピッド"=>$data::SKL_QP
+  ,"盗賊"=>$data::SKL_THIEF
+  ,"笛吹き"=>$data::SKL_PIPER
 );
 //昏き宵闇の琥珀
 $SKL_AMBER = array(
-   "町人"=>$fetch::SKL_VILLAGER
-  ,"不在証明アリ"=>$fetch::SKL_STIGMA
-  ,"刑事"=>$fetch::SKL_MASON
-  ,"警部"=>$fetch::SKL_TELEPATH
-  ,"真名探り"=>$fetch::SKL_SEER
-  ,"見鬼"=>$fetch::SKL_SEERWIN
-  ,"異能探知"=>$fetch::SKL_SEERAURA
-  ,"魔術名鑑"=>$fetch::SKL_SAGE
-  ,"護符職人"=>$fetch::SKL_HUNTER
-  ,"好事家"=>$fetch::SKL_MEDIUM
-  ,"琥珀研究科"=>$fetch::SKL_MEDIWIN
-  ,"安楽椅子探偵"=>$fetch::SKL_PRIEST
-  ,"ラヂオマニア"=>$fetch::SKL_NECRO
-  ,"怯える者"=>$fetch::SKL_FOLLOWER
-  ,"遺志を託す者"=>$fetch::SKL_AGITATOR
-  ,"呪術マニア"=>$fetch::SKL_BOUNTY
-  ,"魔力耐性者"=>$fetch::SKL_WEREDOG
-  ,"無原罪の者"=>$fetch::SKL_PRINCE
-  ,"魔力保持者"=>$fetch::SKL_LINEAGE
-  ,"癒し手"=>$fetch::SKL_DOCTOR
-  ,"呪われた者"=>$fetch::SKL_CURSED
-  ,"琥珀病患者"=>$fetch::SKL_PROPHET
-  ,"魔封じの者"=>$fetch::SKL_SICK
-  ,"魔術師殺し"=>$fetch::SKL_ALCHEMIST
-  ,"呪薬師"=>$fetch::SKL_WITCH
-  ,"夢歩き"=>$fetch::SKL_GIRL
-  ,"怨霊憑き"=>$fetch::SKL_SG
-  ,"強き魔封じの者"=>$fetch::SKL_ELDER
-  ,"真名隠し"=>$fetch::SKL_JAMMER
-  ,"成り代わり"=>$fetch::SKL_SNATCH
-  ,"念話術師"=>$fetch::SKL_LUNAPATH
-  ,"悪徳琥珀商人"=>$fetch::SKL_LUNATIC
-  ,"魔術師を目撃した者"=>$fetch::SKL_FANATIC
-  ,"死人遣い"=>$fetch::SKL_MUPPETER
-  ,"魔術師の愛弟子"=>$fetch::SKL_LUNAWHS
-  ,"見習い魔術師"=>$fetch::SKL_HALFWOLF
-  ,"故売屋"=>$fetch::SKL_LUNAPRI
-  ,"見通す目"=>$fetch::SKL_LUNASAGE
-  ,"欲深き魔術師"=>$fetch::SKL_HEADLESS
-  ,"魔術師"=>$fetch::SKL_WOLF
-  ,"秘術師"=>$fetch::SKL_WISEWOLF
-  ,"呪術師"=>$fetch::SKL_CURSEWOLF
-  ,"魔導師"=>$fetch::SKL_WHITEWOLF
-  ,"付与魔術師"=>$fetch::SKL_CHILDWOLF
-  ,"瀕死の魔術師"=>$fetch::SKL_DYINGWOLF
-  ,"新人魔術師"=>$fetch::SKL_SILENT
-  ,"琥珀妖精"=>$fetch::SKL_FAIRY
-  ,"欺く琥珀妖精"=>$fetch::SKL_MIMIC
-  ,"年老いた妖精"=>$fetch::SKL_SNOW
-  ,"悪意ある妖精"=>$fetch::SKL_PIXY
-  ,"賭博屋"=>$fetch::SKL_EFB
-  ,"占星術師"=>$fetch::SKL_QP
-  ,"懸想する者"=>$fetch::SKL_PASSION
-  ,"物真似師"=>$fetch::SKL_PUPIL
-  ,"生ける屍"=>$fetch::SKL_THIEF
-  ,"はぐれ魔術師"=>$fetch::SKL_LWOLF
-  ,"吟遊詩人"=>$fetch::SKL_PIPER
-  ,"人魚"=>$fetch::SKL_FISH
-  ,"占星術フリーク"=>$fetch::SKL_PLAYBOY
+   "町人"=>$data::SKL_VILLAGER
+  ,"不在証明アリ"=>$data::SKL_STIGMA
+  ,"刑事"=>$data::SKL_MASON
+  ,"警部"=>$data::SKL_TELEPATH
+  ,"真名探り"=>$data::SKL_SEER
+  ,"見鬼"=>$data::SKL_SEERWIN
+  ,"異能探知"=>$data::SKL_SEERAURA
+  ,"魔術名鑑"=>$data::SKL_SAGE
+  ,"護符職人"=>$data::SKL_HUNTER
+  ,"好事家"=>$data::SKL_MEDIUM
+  ,"琥珀研究科"=>$data::SKL_MEDIWIN
+  ,"安楽椅子探偵"=>$data::SKL_PRIEST
+  ,"ラヂオマニア"=>$data::SKL_NECRO
+  ,"怯える者"=>$data::SKL_FOLLOWER
+  ,"遺志を託す者"=>$data::SKL_AGITATOR
+  ,"呪術マニア"=>$data::SKL_BOUNTY
+  ,"魔力耐性者"=>$data::SKL_WEREDOG
+  ,"無原罪の者"=>$data::SKL_PRINCE
+  ,"魔力保持者"=>$data::SKL_LINEAGE
+  ,"癒し手"=>$data::SKL_DOCTOR
+  ,"呪われた者"=>$data::SKL_CURSED
+  ,"琥珀病患者"=>$data::SKL_PROPHET
+  ,"魔封じの者"=>$data::SKL_SICK
+  ,"魔術師殺し"=>$data::SKL_ALCHEMIST
+  ,"呪薬師"=>$data::SKL_WITCH
+  ,"夢歩き"=>$data::SKL_GIRL
+  ,"怨霊憑き"=>$data::SKL_SG
+  ,"強き魔封じの者"=>$data::SKL_ELDER
+  ,"真名隠し"=>$data::SKL_JAMMER
+  ,"成り代わり"=>$data::SKL_SNATCH
+  ,"念話術師"=>$data::SKL_LUNAPATH
+  ,"悪徳琥珀商人"=>$data::SKL_LUNATIC
+  ,"魔術師を目撃した者"=>$data::SKL_FANATIC
+  ,"死人遣い"=>$data::SKL_MUPPETER
+  ,"魔術師の愛弟子"=>$data::SKL_LUNAWHS
+  ,"見習い魔術師"=>$data::SKL_HALFWOLF
+  ,"故売屋"=>$data::SKL_LUNAPRI
+  ,"見通す目"=>$data::SKL_LUNASAGE
+  ,"欲深き魔術師"=>$data::SKL_HEADLESS
+  ,"魔術師"=>$data::SKL_WOLF
+  ,"秘術師"=>$data::SKL_WISEWOLF
+  ,"呪術師"=>$data::SKL_CURSEWOLF
+  ,"魔導師"=>$data::SKL_WHITEWOLF
+  ,"付与魔術師"=>$data::SKL_CHILDWOLF
+  ,"瀕死の魔術師"=>$data::SKL_DYINGWOLF
+  ,"新人魔術師"=>$data::SKL_SILENT
+  ,"琥珀妖精"=>$data::SKL_FAIRY
+  ,"欺く琥珀妖精"=>$data::SKL_MIMIC
+  ,"年老いた妖精"=>$data::SKL_SNOW
+  ,"悪意ある妖精"=>$data::SKL_PIXY
+  ,"賭博屋"=>$data::SKL_EFB
+  ,"占星術師"=>$data::SKL_QP
+  ,"懸想する者"=>$data::SKL_PASSION
+  ,"物真似師"=>$data::SKL_PUPIL
+  ,"生ける屍"=>$data::SKL_THIEF
+  ,"はぐれ魔術師"=>$data::SKL_LWOLF
+  ,"吟遊詩人"=>$data::SKL_PIPER
+  ,"人魚"=>$data::SKL_FISH
+  ,"占星術フリーク"=>$data::SKL_PLAYBOY
 );
 
 //レギュレーション
 $RGL = array(
-   '標準'=>$fetch::RGL_LEO
-  ,'新標準'=>$fetch::RGL_LEO
-  ,'深い霧の夜'=>$fetch::RGL_MIST
-  ,'人狼審問 試験壱型'=>$fetch::RGL_TES1
-  ,'人狼審問 試験弐型'=>$fetch::RGL_TES2
-  ,'自由設定'=>$fetch::RGL_ETC
+   '標準'=>$data::RGL_LEO
+  ,'新標準'=>$data::RGL_LEO
+  ,'深い霧の夜'=>$data::RGL_MIST
+  ,'人狼審問 試験壱型'=>$data::RGL_TES1
+  ,'人狼審問 試験弐型'=>$data::RGL_TES2
+  ,'自由設定'=>$data::RGL_ETC
 );
 //特殊ルール
 $RGL_SP = array(
-  'ミラーズホロウ'=>$fetch::RGL_MILL
-  ,'死んだら負け'=>$fetch::RGL_DEATH
-  ,'Trouble☆Aliens'=>$fetch::RGL_TA
-  ,'深い霧の夜'=>$fetch::RGL_MIST
+  'ミラーズホロウ'=>$data::RGL_MILL
+  ,'死んだら負け'=>$data::RGL_DEATH
+  ,'Trouble☆Aliens'=>$data::RGL_TA
+  ,'深い霧の夜'=>$data::RGL_MIST
 );
 //自由設定でも特殊レギュにしない編成
 $RGL_FREE = array(
-    '村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C
-   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C_ST
-   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$fetch::RGL_C_ST
-   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 Ｃ国狂人x1 人狼x3'=>$fetch::RGL_C_ST
-   ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_G
-   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_G_ST
-   ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>$fetch::RGL_E
-   ,'村人x8 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
-   ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
-   ,'村人x7 共有者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
-   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_E
-   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_TES1
-   ,'村人x7 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$fetch::RGL_S_3
-   ,'村人x5 占い師x1 霊能者x1 人狼x2'=>$fetch::RGL_S_2
-   ,'村人x5 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
-   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
-   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$fetch::RGL_S_2
-   ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$fetch::RGL_S_C2
-   ,'村人x8 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x2'=>$fetch::RGL_S_C2
-   ,'村人x5 占い師x1 人狼x1'=>$fetch::RGL_S_1
-   ,'村人x6 占い師x1 霊能者x1 人狼x2'=>$fetch::RGL_S_L0
-   ,'村人x5 占い師x1 霊能者x1 人狼x2 栗鼠妖精x1'=>$fetch::RGL_S_E
-   ,'村人x6 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$fetch::RGL_S_E
-   ,'村人x4 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
-   ,'村人x6 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$fetch::RGL_S_E
-   ,'村人x4 聖痕者x1 占い師x1 守護者x1 狂人x1 人狼x2 栗鼠妖精x1'=>$fetch::RGL_S_E
-   ,'村人x4 占い師x1 狂信者x1 人狼x1 栗鼠妖精x1'=>$fetch::RGL_S_E
-   ,'村人x7 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
-   ,'村人x9 占い師x1 霊能者x1 人狼x3 恋愛天使x1'=>$fetch::RGL_LOVE
-   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 恋愛天使x1'=>$fetch::RGL_LOVE
-   ,'村人x6 共鳴者x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 首無騎士x3 恋愛天使x1'=>$fetch::RGL_LOVE
-   ,'村人x7 占い師x1 狩人x1 霊能者x1 狂信者x1 人狼x2 キューピッドx1'=>$fetch::RGL_LOVE
-   ,'村人x5 狂信者x1 人狼x1'=>$fetch::RGL_HERO
-   ,'村人x4 狂信者x1 人狼x1'=>$fetch::RGL_HERO
-   ,'村人x5 人狼x1'=>$fetch::RGL_HERO
-   ,'村人x1 霊能者x6 人狼x2'=>$fetch::RGL_ROLLER
-   ,'村人x4 占い師x1 霊能者x1 人狼x2 遊び人x1 '=>$fetch::RGL_LPLY
-   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 遊び人x1'=>$fetch::RGL_LPLY
-   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 遊び人x1'=>$fetch::RGL_LPLY
-   ,'村人x9 占い師x1 霊能者x1 囁き狂人x1 人狼x3 遊び人x1'=>$fetch::RGL_LPLY
+    '村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$data::RGL_C
+   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>$data::RGL_C_ST
+   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>$data::RGL_C_ST
+   ,'村人x8 聖痕者x1 占い師x1 守護者x1 霊能者x1 Ｃ国狂人x1 人狼x3'=>$data::RGL_C_ST
+   ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_G
+   ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_G_ST
+   ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>$data::RGL_E
+   ,'村人x8 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$data::RGL_E
+   ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$data::RGL_E
+   ,'村人x7 共有者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3 ハムスター人間x1'=>$data::RGL_E
+   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$data::RGL_E
+   ,'村人x7 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_TES1
+   ,'村人x7 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_S_3
+   ,'村人x5 占い師x1 霊能者x1 人狼x2'=>$data::RGL_S_2
+   ,'村人x5 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+   ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
+   ,'村人x8 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
+   ,'村人x5 占い師x1 人狼x1'=>$data::RGL_S_1
+   ,'村人x6 占い師x1 霊能者x1 人狼x2'=>$data::RGL_S_L0
+   ,'村人x5 占い師x1 霊能者x1 人狼x2 栗鼠妖精x1'=>$data::RGL_S_E
+   ,'村人x6 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>$data::RGL_S_E
+   ,'村人x4 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$data::RGL_S_E
+   ,'村人x6 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x2 ハムスター人間x1'=>$data::RGL_S_E
+   ,'村人x4 聖痕者x1 占い師x1 守護者x1 狂人x1 人狼x2 栗鼠妖精x1'=>$data::RGL_S_E
+   ,'村人x4 占い師x1 狂信者x1 人狼x1 栗鼠妖精x1'=>$data::RGL_S_E
+   ,'村人x7 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2 恋愛天使x1'=>$data::RGL_LOVE
+   ,'村人x9 占い師x1 霊能者x1 人狼x3 恋愛天使x1'=>$data::RGL_LOVE
+   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 恋愛天使x1'=>$data::RGL_LOVE
+   ,'村人x6 共鳴者x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 首無騎士x3 恋愛天使x1'=>$data::RGL_LOVE
+   ,'村人x7 占い師x1 狩人x1 霊能者x1 狂信者x1 人狼x2 キューピッドx1'=>$data::RGL_LOVE
+   ,'村人x5 狂信者x1 人狼x1'=>$data::RGL_HERO
+   ,'村人x4 狂信者x1 人狼x1'=>$data::RGL_HERO
+   ,'村人x5 人狼x1'=>$data::RGL_HERO
+   ,'村人x1 霊能者x6 人狼x2'=>$data::RGL_ROLLER
+   ,'村人x4 占い師x1 霊能者x1 人狼x2 遊び人x1 '=>$data::RGL_LPLY
+   ,'村人x5 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2 遊び人x1'=>$data::RGL_LPLY
+   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 遊び人x1'=>$data::RGL_LPLY
+   ,'村人x9 占い師x1 霊能者x1 囁き狂人x1 人狼x3 遊び人x1'=>$data::RGL_LPLY
 );
 
 //結末
 $DES_NORMAL = array(
-   "生存者"=>$fetch::DES_ALIVE
-  ,"突然死"=>$fetch::DES_RETIRED
-  ,"処刑死"=>$fetch::DES_HANGED
-  ,"襲撃死"=>$fetch::DES_EATEN
-  ,"呪詛死"=>$fetch::DES_CURSED
-  ,"衰退死"=>$fetch::DES_DROOP
-  ,"後追死"=>$fetch::DES_SUICIDE
-  ,"恐怖死"=>$fetch::DES_FEARED
+   "生存者"=>$data::DES_ALIVE
+  ,"突然死"=>$data::DES_RETIRED
+  ,"処刑死"=>$data::DES_HANGED
+  ,"襲撃死"=>$data::DES_EATEN
+  ,"呪詛死"=>$data::DES_CURSED
+  ,"衰退死"=>$data::DES_DROOP
+  ,"後追死"=>$data::DES_SUICIDE
+  ,"恐怖死"=>$data::DES_FEARED
 );
 $DES_AMBER = array(
-   "生存者"=>$fetch::DES_ALIVE
-  ,"突然死"=>$fetch::DES_RETIRED//不明
-  ,"殺害"=>$fetch::DES_HANGED
-  ,"琥珀化"=>$fetch::DES_EATEN
-  ,"呪詛死"=>$fetch::DES_CURSED //そのまま
-  ,"衰退死"=>$fetch::DES_DROOP  //不明
-  ,"後追死"=>$fetch::DES_SUICIDE//不明
-  ,"恐怖死"=>$fetch::DES_FEARED//不明
+   "生存者"=>$data::DES_ALIVE
+  ,"突然死"=>$data::DES_RETIRED//不明
+  ,"殺害"=>$data::DES_HANGED
+  ,"琥珀化"=>$data::DES_EATEN
+  ,"呪詛死"=>$data::DES_CURSED //そのまま
+  ,"衰退死"=>$data::DES_DROOP  //不明
+  ,"後追死"=>$data::DES_SUICIDE//不明
+  ,"恐怖死"=>$data::DES_FEARED//不明
 );
 
 $RSL = array(
-   "勝利"=>$fetch::RSL_WIN
-  ,"敗北"=>$fetch::RSL_LOSE
-  ,""=>$fetch::RSL_INVALID //無効(突然死)
+   "勝利"=>$data::RSL_WIN
+  ,"敗北"=>$data::RSL_LOSE
+  ,""=>$data::RSL_INVALID //無効(突然死)
 );
 
 $base_list = $fetch->read_list();
@@ -315,7 +317,7 @@ foreach($base_list as $val_vil=>$item_vil)
   else if(in_array($village['vno'],$SECRET))
   {
     //秘話村を挿入
-    $village['rglid'] = $fetch::RGL_SECRET;
+    $village['rglid'] = $data::RGL_SECRET;
   }
   else if($item_vil[5] === '自由設定')
   {
@@ -339,11 +341,11 @@ foreach($base_list as $val_vil=>$item_vil)
       case "標準":
         if($village['nop'] <= 7)
         {
-          $village['rglid'] = $fetch::RGL_S_1;
+          $village['rglid'] = $data::RGL_S_1;
         }
         else
         {
-          $village['rglid'] = $fetch::RGL_LEO;
+          $village['rglid'] = $data::RGL_LEO;
         }
         break;
       case "深い霧の夜":
@@ -353,13 +355,13 @@ foreach($base_list as $val_vil=>$item_vil)
         switch(true)
         {
           case ($village['nop']  >= 13):
-            $village['rglid'] = $fetch::RGL_TES1;
+            $village['rglid'] = $data::RGL_TES1;
             break;
           case ($village['nop'] <=12 && $village['nop'] >= 8):
-            $village['rglid'] = $fetch::RGL_S_2;
+            $village['rglid'] = $data::RGL_S_2;
             break;
           default:
-            $village['rglid'] = $fetch::RGL_S_1;
+            $village['rglid'] = $data::RGL_S_1;
             break;
         }
         break;
@@ -367,13 +369,13 @@ foreach($base_list as $val_vil=>$item_vil)
         switch(true)
         {
           case ($village['nop']  >= 10):
-            $village['rglid'] = $fetch::RGL_TES2;
+            $village['rglid'] = $data::RGL_TES2;
             break;
           case ($village['nop']  === 8 || $village['nop']  === 9):
-            $village['rglid'] = $fetch::RGL_S_2;
+            $village['rglid'] = $data::RGL_S_2;
             break;
           default:
-            $village['rglid'] = $fetch::RGL_S_1;
+            $village['rglid'] = $data::RGL_S_1;
             break;
         }
         break;
@@ -381,19 +383,19 @@ foreach($base_list as $val_vil=>$item_vil)
         switch(true)
         {
           case ($village['nop']  >= 16):
-            $village['rglid'] = $fetch::RGL_C;
+            $village['rglid'] = $data::RGL_C;
             break;
           case ($village['nop']  === 15):
-            $village['rglid'] = $fetch::RGL_S_C3;
+            $village['rglid'] = $data::RGL_S_C3;
             break;
           case ($village['nop'] <=14 && $village['nop'] >= 10):
-            $village['rglid'] = $fetch::RGL_S_C2;
+            $village['rglid'] = $data::RGL_S_C2;
             break;
           case ($village['nop']  === 8 || $village['nop'] === 9):
-            $village['rglid'] = $fetch::RGL_S_2;
+            $village['rglid'] = $data::RGL_S_2;
             break;
           default:
-            $village['rglid'] = $fetch::RGL_S_1;
+            $village['rglid'] = $data::RGL_S_1;
             break;
         }
         break;
@@ -401,16 +403,16 @@ foreach($base_list as $val_vil=>$item_vil)
         switch(true)
         {
           case ($village['nop']  >= 16):
-            $village['rglid'] = $fetch::RGL_F;
+            $village['rglid'] = $data::RGL_F;
             break;
           case ($village['nop']  === 15):
-            $village['rglid'] = $fetch::RGL_S_3;
+            $village['rglid'] = $data::RGL_S_3;
             break;
           case ($village['nop'] <=14 && $village['nop'] >= 8):
-            $village['rglid'] = $fetch::RGL_S_2;
+            $village['rglid'] = $data::RGL_S_2;
             break;
           default:
-            $village['rglid'] = $fetch::RGL_S_1;
+            $village['rglid'] = $data::RGL_S_1;
             break;
         }
         break;
@@ -418,16 +420,16 @@ foreach($base_list as $val_vil=>$item_vil)
         switch(true)
         {
           case ($village['nop']  >= 16):
-            $village['rglid'] = $fetch::RGL_G;
+            $village['rglid'] = $data::RGL_G;
             break;
           case ($village['nop']  <= 15 && $village['nop'] >= 13):
-            $village['rglid'] = $fetch::RGL_S_3;
+            $village['rglid'] = $data::RGL_S_3;
             break;
           case ($village['nop'] <=12 && $village['nop'] >= 8):
-            $village['rglid'] = $fetch::RGL_S_2;
+            $village['rglid'] = $data::RGL_S_2;
             break;
           default:
-            $village['rglid'] = $fetch::RGL_S_1;
+            $village['rglid'] = $data::RGL_S_1;
             break;
         }
         break;
@@ -464,7 +466,7 @@ foreach($base_list as $val_vil=>$item_vil)
         echo '#'.$village['vno'].'. '.$village['name'].' is '.$wtmid.'#';
       }
     default:
-      $village['wtmid'] = $fetch::TM_RP;
+      $village['wtmid'] = $data::TM_RP;
       break;
   }
 
@@ -537,12 +539,12 @@ foreach($base_list as $val_vil=>$item_vil)
     {
       //見物人設定
       $users['role'] = '見物人';
-      $users['dtid'] = $fetch::DES_ONLOOKER;
+      $users['dtid'] = $data::DES_ONLOOKER;
       $users['end'] = 1;
-      $users['sklid'] = $fetch::SKL_ONLOOKER;
-      $users['tmid'] = $fetch::TM_ONLOOKER;
+      $users['sklid'] = $data::SKL_ONLOOKER;
+      $users['tmid'] = $data::TM_ONLOOKER;
       $users['life'] = 0;
-      $users['rltid'] = $fetch::RSL_ONLOOKER;
+      $users['rltid'] = $data::RSL_ONLOOKER;
     }
     else
     {
@@ -559,7 +561,7 @@ foreach($base_list as $val_vil=>$item_vil)
       //非ガチ村は勝敗をつけずに「参加」にする
       if($village['wtmid'] === 0)
       {
-        $users['rltid'] = $fetch::RSL_JOIN;
+        $users['rltid'] = $data::RSL_JOIN;
       }
       else
       {
@@ -595,13 +597,13 @@ foreach($base_list as $val_vil=>$item_vil)
       }
 
       //第三陣営がいない村では裏切りの陣営を人狼陣営扱いにする
-      if($users['tmid'] === $fetch::TM_EVIL && $is_evil === false)
+      if($users['tmid'] === $data::TM_EVIL && $is_evil === false)
       {
-        $users['tmid'] = $fetch::TM_WOLF;
+        $users['tmid'] = $data::TM_WOLF;
       }
 
       //生存係数挿入
-      if($users['dtid'] === $fetch::DES_ALIVE)
+      if($users['dtid'] === $data::DES_ALIVE)
       {
         $users['life'] = 1.00;
       }
