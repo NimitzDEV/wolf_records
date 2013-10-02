@@ -1,8 +1,8 @@
-<?
+<?php
 
 require_once('../lib/DBAdapter.php');
-require_once('./common.php');
 require_once('../../lib/simple_html_dom.php');
+require_once('./data.php');
 
 define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
 define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
@@ -63,7 +63,6 @@ $lastNum = $html->find('a',1)->plaintext;
 $lastNum =(int) preg_replace('/G(\d+) .+/','$1',$lastNum);
 
 $html->clear;
-unset($html);
 
 
 //DBから一番最後に取得した村番号を取得
@@ -109,7 +108,7 @@ if ($lastNum > $dbLastNum)
 //取得していない番号を取得
 if (!empty($fetchArray))
 {
-  $html = new simple_html_dom();
+  $data = new data();
   foreach($fetchArray as $vno)
   {
     //
@@ -173,15 +172,15 @@ if (!empty($fetchArray))
     switch($nop)
     {
       case 16:
-        $rgl = RGL_G;
+        $rgl = $data::RGL_G;
         break;
       case 15:
       case 14:
       case 13:
-        $rgl = RGL_S_3;
+        $rgl = $data::RGL_S_3;
         break;
       default:
-        $rgl = RGL_S_2;
+        $rgl = $data::RGL_S_2;
         break;
     }
 
@@ -192,10 +191,10 @@ if (!empty($fetchArray))
     switch($resAnnounce)
     {
       case '全ての': //村勝利
-        $result = TM_VILLAGER;
+        $result = $data::TM_VILLAGER;
         break;
       case 'もう人': //狼勝利
-        $result = TM_WOLF;
+        $result = $data::TM_WOLF;
         break;
       default:
         break;
@@ -280,12 +279,12 @@ if (!empty($fetchArray))
     //
     //取得したdestinyとendを配列に格納する
     //
-    makeCastDestiny($cast,$cast_retired,DES_RETIRED);
-    makeCastDestiny($cast,$cast_hanged,DES_HANGED);
-    makeCastDestiny($cast,$cast_eaten,DES_EATEN);
+    makeCastDestiny($cast,$cast_retired,$data::DES_RETIRED);
+    makeCastDestiny($cast,$cast_hanged,$data::DES_HANGED);
+    makeCastDestiny($cast,$cast_eaten,$data::DES_EATEN);
 
     //生存処理、skill,team,life,result
-    $destiny = array("destiny"=>DES_ALIVE);
+    $destiny = array("destiny"=>$data::DES_ALIVE);
     $end = array("end"=>$days);
 
     foreach($cast as $miscItem)
@@ -303,28 +302,28 @@ if (!empty($fetchArray))
       switch($cast[$persona]['role'])
       {
       case '人狼':
-        $skill = array('skill'=>SKL_WOLF);
-        $team = array('team'=>TM_WOLF);
+        $skill = array('skill'=>$data::SKL_WOLF);
+        $team = array('team'=>$data::TM_WOLF);
         break;
       case '狂人':
-        $skill= array('skill'=>SKL_LUNATIC);
-        $team = array('team'=>TM_WOLF);
+        $skill= array('skill'=>$data::SKL_LUNATIC);
+        $team = array('team'=>$data::TM_WOLF);
         break;
       default:
-        $team = array('team'=>TM_VILLAGER);
+        $team = array('team'=>$data::TM_VILLAGER);
         switch($cast[$persona]['role'])
         {
         case '村人':
-          $skill = array('skill'=>SKL_VILLAGER);
+          $skill = array('skill'=>$data::SKL_VILLAGER);
           break;
         case '占い師':
-          $skill = array('skill'=>SKL_SEER);
+          $skill = array('skill'=>$data::SKL_SEER);
           break;
         case '霊能者':
-          $skill = array('skill'=>SKL_MEDIUM);
+          $skill = array('skill'=>$data::SKL_MEDIUM);
           break;
         case '狩人':
-          $skill = array('skill'=>SKL_HUNTER);
+          $skill = array('skill'=>$data::SKL_HUNTER);
           break;
         }
         break;
@@ -334,7 +333,7 @@ if (!empty($fetchArray))
       $cast[$miscItem['persona']] += $team;
 
       //生存係数を挿入
-      if($cast[$miscItem['persona']]['destiny'] === DES_ALIVE)
+      if($cast[$miscItem['persona']]['destiny'] === $data::DES_ALIVE)
       { 
         //生存者は1
         $life = 1.00;
@@ -348,9 +347,9 @@ if (!empty($fetchArray))
       //勝敗を挿入
       if($cast[$persona]['team'] === $result)
       {
-        $castResult = array('result'=>RSL_WIN);
+        $castResult = array('result'=>$data::RSL_WIN);
       } else {
-        $castResult = array('result'=>RSL_LOSE);
+        $castResult = array('result'=>$data::RSL_LOSE);
       }
       $cast[$miscItem['persona']] += $castResult;
     }
