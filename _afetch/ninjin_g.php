@@ -8,6 +8,11 @@ define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
 define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
 define ("URL_EPI","http://www.wolfg.x0.com/");
 
+$DOPPEL = array(
+   "asaki"=>"asaki&lt;G国&gt;"
+  ,"motimoti"=>"motimoti&lt;G薔薇国&gt;"
+);
+
 
 //キャスト表の値のキー
 $cast_value_k = array("persona","player","role");
@@ -99,7 +104,6 @@ if ($lastNum > $dbLastNum)
     }
   }
 }
-
 
 
 //取得していない番号を取得
@@ -222,6 +226,14 @@ if (!empty($fetchArray))
         $castArray['player'] = preg_replace("/ /","&amp;nbsp;",$castArray['player']);
         echo 'ID has &nbsp:'.$castArray['player']."=>";
       }
+
+      //重複IDがあれば変更する
+      if(array_key_exists($castArray['player'],$DOPPEL))
+      {
+        echo 'This ID is DOPPEL. '.$castArray['player'].'->'.$DOPPEL[$castArray['player']].' =>';
+        $castArray['player'] = $DOPPEL[$castArray['player']];
+      }
+
       //値の配列に入れる
       $cast_value[] = $castArray;
       //キー用配列にペルソナ名を入れる
@@ -231,6 +243,7 @@ if (!empty($fetchArray))
     //ペルソナ名をキーに詳細情報を引き出す配列を作る
     $cast = array_combine($cast_keys,$cast_value);
     unset($castItem,$castArray,$cast_keys,$cast_value);
+
 
     //死因と寿命を入れる配列を作成
     //この辺あとで直す->ひとまとめの入れ子配列にする
