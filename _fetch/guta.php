@@ -1,7 +1,8 @@
 <?php
 
 require_once('../_afetch/data.php');
-require_once('./fetch_village.php');
+require_once('./txt_list.php');
+require_once('../../lib/simple_html_dom.php');
 
 define('COUNTRY',11);  //国ID
 define('VID',6368);    //villageテーブルの開始ID
@@ -15,7 +16,8 @@ $SECRET = array(
 421,378,258,199,197,177,169,153,122,92,78,64,60,52,50,49,44
 );
 
-$fetch = new fetch_Village(COUNTRY);
+$fetch = new simple_html_dom();
+$list  = new Txt_List(COUNTRY);
 $data  = new Data();
 
 //裏切りの陣営としてカウントするレギュレーション 深い霧は別途分岐を書く
@@ -285,10 +287,10 @@ $RSL = array(
   ,""=>$data::RSL_INVALID //無効(突然死)
 );
 
-$base_list = $fetch->read_list();
+$base_list = $list->read_list();
 
-$fetch->open_list('village');
-$fetch->open_list('users');
+$list->open_list('village');
+$list->open_list('users');
 
 foreach($base_list as $val_vil=>$item_vil)
 {
@@ -304,10 +306,10 @@ foreach($base_list as $val_vil=>$item_vil)
   );
 
   //情報欄取得
-  $html = $fetch->fetch_url($item_vil[6]);
+  $fetch->load_file($item_vil[6]);
 
   //レギュレーション挿入
-  $rglid= trim($html->find('dl.mes_text_report dt',1)->plaintext);
+  $rglid= trim($fetch->find('dl.mes_text_report dt',1)->plaintext);
   if(array_key_exists($rglid,$RGL_SP))
   {
     //特殊ルールがあるならレギュレーション扱いで挿入する
@@ -322,7 +324,7 @@ foreach($base_list as $val_vil=>$item_vil)
   else if($item_vil[5] === '自由設定')
   {
     //自由設定でも特定の編成はレギュレーションを指定する
-    $free = trim($html->find('dl.mes_text_report dd',3)->plaintext);
+    $free = trim($fetch->find('dl.mes_text_report dd',3)->plaintext);
     if(array_key_exists($free,$RGL_FREE))
     {
       $village['rglid'] = $RGL_FREE[$free];
@@ -437,9 +439,9 @@ foreach($base_list as $val_vil=>$item_vil)
   }
 
   //言い換え
-  $rp= trim($html->find('dl.mes_text_report dt',0)->plaintext);
+  $rp= trim($fetch->find('dl.mes_text_report dt',0)->plaintext);
   //ガチ村のみ勝利陣営を挿入
-  $wtmid = $html->find('p.multicolumn_left',1)->plaintext;
+  $wtmid = $fetch->find('p.multicolumn_left',1)->plaintext;
   switch($wtmid)
   {
     case "ガチ推理":
@@ -482,36 +484,36 @@ foreach($base_list as $val_vil=>$item_vil)
   }
 
   //ID公開村かどうか
-  $is_ID = $html->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
+  $is_ID = $fetch->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
 
   //初日取得
-  $html->clear();
+  $fetch->clear();
   $url = preg_replace("/cmd=vinfo/","turn=0&row=10&mode=all&move=page&pageno=1",$item_vil[6]);
-  $html = $fetch->fetch_url($url);
+  $fetch->load_file($url);
 
   //開始日(プロローグ第一声)
-  $date = $html->find('p.mes_date',0)->plaintext;
+  $date = $fetch->find('p.mes_date',0)->plaintext;
   //ID公開村では取得方法を変える
   if($is_ID === "公開する")
   {
-    $date = $html->find('p.mes_date',0)->plaintext;
+    $date = $fetch->find('p.mes_date',0)->plaintext;
     $date = mb_substr($date,mb_strpos($date,"2"),10);
   }
   else
   {
-    $date = mb_substr($html->find('p.mes_date',0)->plaintext,5,10);
+    $date = mb_substr($fetch->find('p.mes_date',0)->plaintext,5,10);
   }
   //MySQL用に日付の区切りを/から-に変換
   $village['date'] = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
 
   //エピローグ取得
-  $html->clear();
+  $fetch->clear();
   $url = preg_replace("/0&row=10/",$village['days']."&row=50",$url);
-  $html = $fetch->fetch_url($url);
-  $cast = $html->find('tbody tr.i_active');
+  $fetch->load_file($url);
+  $cast = $fetch->find('tbody tr.i_active');
   
   //村を書き込む
-  $fetch->write_list('village',$village,$val_vil+1,count($cast));
+  $list->write_list('village',$village,$val_vil+1,count($cast));
 
   foreach($cast as $val_cast => $item_cast)
   {
@@ -614,13 +616,13 @@ foreach($base_list as $val_vil=>$item_vil)
 
     }
 
-    $fetch->write_list('users',$users,$val_cast+1);
+    $list->write_list('users',$users,$val_cast+1);
 
     $item_cast->clear();
     unset($item_cast);
   }
 
-  $html->clear();
-  unset($html);
+  $fetch->clear();
   echo $village['vno']. ' is end.'.PHP_EOL;
 }
+unset($fetch);

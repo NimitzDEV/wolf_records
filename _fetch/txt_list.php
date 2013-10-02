@@ -1,7 +1,6 @@
 <?php
-require_once('../../lib/simple_html_dom.php');
 
-class Fetch_Village
+class Txt_List
 {
   //テキスト分割行
   const LIMIT = 400;
@@ -44,13 +43,6 @@ class Fetch_Village
     $this->lastline_v = count($vil_list);
 
     return $vil_list;
-  }
-
-  function fetch_url($url)
-  {
-    $html = new simple_html_dom();
-    $html->load_file($url);
-    return $html;
   }
 
   function open_list($type)
