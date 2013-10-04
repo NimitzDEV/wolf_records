@@ -3,6 +3,7 @@
 require_once('../../lib/simple_html_dom.php');
 require_once('./data.php');
 require_once('./check_village.php');
+require_once('./insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
@@ -11,21 +12,20 @@ define("CID",11);
 define("URL_VIL","http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?vid=");
 define("URL_LOG","http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog");
 
+$db    = new Insert_DB(CID);
 $check = new Check_Village(COUNTRY,CID,URL_VIL,URL_LOG);
 $check->check_queue();
 $check->check_fetch_vno();
-$check->fetch_detail();
-
-$fetched_v = $check->get_village();
-
-if(!$fetched_v)
+if($check->get_village())
+{
+  $check->fetch_detail();
+  $fetched_v = $check->get_village();
+}
+else
 {
   echo 'not fetch.';
   exit;
 }
-//var_dump($fetched_vno);
-
-
 
 $fetch = new simple_html_dom();
 $data  = new Data();
@@ -299,7 +299,8 @@ foreach($fetched_v as $val_vil=>$item_vil)
 {
   //初期化
   $village = array(
-             'vno'  =>$item_vil[0]
+             'cid'  =>CID
+            ,'vno'  =>$item_vil[0]
             ,'name' =>$item_vil[1]
             ,'date' =>""
             ,'nop'  =>(int)$item_vil[2]
@@ -508,10 +509,9 @@ foreach($fetched_v as $val_vil=>$item_vil)
   $fetch->load_file($url);
   $cast = $fetch->find('tbody tr.i_active');
   
-  //村を書き込む
-  $list_village[] = $village;
 
   //キャスト表を配列にする
+  $list_users = array();
   foreach($cast as $val_cast => $item_cast)
   {
     $users = array(
@@ -617,10 +617,15 @@ foreach($fetched_v as $val_vil=>$item_vil)
     $item_cast->clear();
     unset($item_cast);
   }
-
   $fetch->clear();
-  echo $village['vno']. ' is end.'.PHP_EOL;
+
+  //村を書き込む
+  $db->connect();
+  if($db->insert_db($village,$list_users))
+  {
+    echo $village['vno']. ' is all inserted.'.PHP_EOL;
+    $check->remove_queue($village['vno']);
+  }
+  $db->disconnect();
 }
 unset($fetch);
-
-var_dump($list_users);

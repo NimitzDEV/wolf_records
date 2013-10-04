@@ -11,7 +11,7 @@ class Check_Village
           ,$url_log
           ,$url_vil
           ,$queue_org
-          ,$queue_crr
+          ,$queue_del
           ,$list_vno
           ,$village
           ,$village_d
@@ -38,19 +38,17 @@ class Check_Village
     if(flock($fp,LOCK_EX))
     {
       $this->queue_org = fgets($fp);
-      $this->queue_crr = $this->queue_org;
 
-      if($this->queue_crr!== null)
+      if($this->queue_org !== null)
       {
-        $queue_array = explode(',',$this->queue_crr);
+        $queue_array = explode(',',$this->queue_org);
         array_pop($queue_array);
         foreach($queue_array as $vno)
         {
           if($this->check_end($vno))
           {
-            //存在した村番号を削除
-            $this->queue_crr = preg_replace('/'.$vno.',/',"",$this->queue_crr);
             $this->village[] = (int)$vno;
+            $this->queue_del[] = (int)$vno;
           }
           else
           {
@@ -68,6 +66,32 @@ class Check_Village
     fflush($fp);
     flock($fp,LOCK_UN);
     fclose($fp);
+  }
+
+  function remove_queue($vno)
+  {
+    if(in_array($vno,$this->queue_del))
+    {
+      $fp = fopen('q_'.$this->country.'.txt','r+');
+      if(flock($fp,LOCK_EX))
+      {
+        $queue = fgets($fp);
+        $queue = preg_replace('/'.$vno.',/',"",$queue);
+
+        //変更内容を書き込む
+        ftruncate($fp,0);
+        fseek($fp, 0);
+        fwrite($fp,$queue);
+      }
+      else
+      {
+        echo 'ERROR: Cannot lock queue.'.$vno.' was not deleted from queue.'.PHP_EOL;
+        fclose($fp);
+      }
+      fflush($fp);
+      flock($fp,LOCK_UN);
+      fclose($fp);
+    }
   }
 
   function check_end($vno)
