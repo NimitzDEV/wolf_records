@@ -2,34 +2,28 @@
 
 require_once('../lib/DBAdapter.php');
 require_once('../../lib/simple_html_dom.php');
+mb_internal_encoding("UTF-8");
 
 class Check_Village
 {
-  private $country;
-  private $cid;
-  private $url_log;
-  private $url_vil;
-  private $queue_org;
-  private $queue_crr;
-  private $village;
-  private $html;
+  private $country
+          ,$cid
+          ,$url_log
+          ,$url_vil
+          ,$queue_org
+          ,$queue_crr
+          ,$list_vno
+          ,$village
+          ,$village_d
+          ,$html;
 
-  function __construct($country)
+  function __construct($country,$cid,$url_vil,$url_log)
   {
     $this->country = $country;
-    switch($this->country)
-    {
-      case 'ninjin_g':
-        $this->url_log = "http://www.wolfg.x0.com/index.rb?cmd=log";
-        $this->url_vil = "http://www.wolfg.x0.com/index.rb?vid=";
-        $this->cid     = 9;
-        break;
-      case 'guta':
-        $this->url_log = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog";
-        $this->url_vil = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?vid=";
-        $this->cid     = 11;
-        break;
-    }
+    $this->cid     = $cid;
+    $this->url_vil = $url_vil;
+    $this->url_log = $url_log;
+
     $this->html = new simple_html_dom();
   }
 
@@ -56,7 +50,7 @@ class Check_Village
           {
             //存在した村番号を削除
             $this->queue_crr = preg_replace('/'.$vno.',/',"",$this->queue_crr);
-            $this->village[] = $vno;
+            $this->village[] = (int)$vno;
           }
           else
           {
@@ -106,18 +100,18 @@ class Check_Village
 
   function check_fetch_vno()
   {
-    $list_vno = $this->check_list_vno();
+    $this->list_vno = $this->check_list_vno();
     $db_vno = $this->check_db_vno();
 
-    if($list_vno > $db_vno)
+    if($this->list_vno > $db_vno)
     {
-      $fetch_n  = $list_vno - $db_vno;
+      $fetch_n  = $this->list_vno - $db_vno;
       for ($i=1;$i<=$fetch_n;$i++)
       {
         $vno = 0;
         $vno = $db_vno + $i;
 
-        if(check_end($vno))
+        if($this->check_end($vno))
         {
           $this->village[] = $vno;
         }
@@ -152,6 +146,29 @@ class Check_Village
         }
       }
     }
+  }
+
+  function fetch_detail()
+  {
+    $this->html->load_file($this->url_log);
+    foreach($this->village as $vno)
+    {
+      $offset = $this->list_vno - $vno;
+      $village = $this->html->find('table',0)->find('tr.i_hover',$offset);
+
+      $vil_no = (int)$village->find('td',0)->plaintext;
+      $vil_name = $village->find('td',1)->find('a',0)->plaintext;
+      $nop = $village->find('td.small',0)->plaintext;
+      $nop = (int)mb_substr($nop,0,strpos($nop,'人'));
+      $win = trim($village->find('td.small',0)->find('i',0)->plaintext);
+      $days = $village->find('td.small',1)->plaintext +1;
+      $rgl = $village->find('td.small',2)->find('a',1)->plaintext;
+      $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$this->url_log);
+
+      $vil_detail[] = array($vil_no,$vil_name,$nop,$win,$days,$rgl,$url_info);
+    }
+    $this->village = $vil_detail;
+    $this->html->clear();
   }
 
   function check_list_vno()

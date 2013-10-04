@@ -4,17 +4,28 @@ require_once('../../lib/simple_html_dom.php');
 require_once('./data.php');
 require_once('./check_village.php');
 
-$check = new Check_Village('guta');
+mb_internal_encoding("UTF-8");
+
+define("COUNTRY","guta");
+define("CID",11);
+define("URL_VIL","http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?vid=");
+define("URL_LOG","http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog");
+
+$check = new Check_Village(COUNTRY,CID,URL_VIL,URL_LOG);
 $check->check_queue();
 $check->check_fetch_vno();
+$check->fetch_detail();
 
-$fetch_vno = $check->get_village();
+$fetched_v = $check->get_village();
 
-if(!$fetch_vno)
+if(!$fetched_v)
 {
   echo 'not fetch.';
   exit;
 }
+//var_dump($fetched_vno);
+
+
 
 $fetch = new simple_html_dom();
 $data  = new Data();
@@ -284,6 +295,332 @@ $RSL = array(
   ,""=>$data::RSL_INVALID //無効(突然死)
 );
 
-foreach($fetch_vno as $val_vil=>$item_vil)
+foreach($fetched_v as $val_vil=>$item_vil)
 {
+  //初期化
+  $village = array(
+             'vno'  =>$item_vil[0]
+            ,'name' =>$item_vil[1]
+            ,'date' =>""
+            ,'nop'  =>(int)$item_vil[2]
+            ,'rglid'=>""
+            ,'days' =>$item_vil[4]
+            ,'wtmid'=>""
+  );
+
+  //情報欄取得
+  $fetch->load_file($item_vil[6]);
+
+  //レギュレーション挿入
+  $rglid= trim($fetch->find('dl.mes_text_report dt',1)->plaintext);
+  if(array_key_exists($rglid,$RGL_SP))
+  {
+    //特殊ルールがあるならレギュレーション扱いで挿入する
+    $village['rglid'] = $RGL_SP[$rglid];
+    echo "#".$village['vno'].' is '.$rglid.".Should check evil team.##";
+  }
+  else if(preg_match("/秘話/",$village['name']))
+  {
+    //秘話村を挿入
+    echo 'NOTICE: '.$vno.' may be 秘話村.';
+    //$village['rglid'] = $data::RGL_SECRET;
+  }
+  else if($item_vil[5] === '自由設定')
+  {
+    //自由設定でも特定の編成はレギュレーションを指定する
+    $free = trim($fetch->find('dl.mes_text_report dd',3)->plaintext);
+    if(array_key_exists($free,$RGL_FREE))
+    {
+      $village['rglid'] = $RGL_FREE[$free];
+    }
+    else
+    {
+      echo "#".$village['vno'].' has '.$free."#";
+      $village['rglid'] = $RGL[$item_vil[5]];
+    }
+  }
+  else
+  {
+    switch($item_vil[5])
+    {
+      case "新標準":
+      case "標準":
+        if($village['nop'] <= 7)
+        {
+          $village['rglid'] = $data::RGL_S_1;
+        }
+        else
+        {
+          $village['rglid'] = $data::RGL_LEO;
+        }
+        break;
+      case "深い霧の夜":
+        $village['rglid'] = $RGL[$item_vil[5]];
+        break;
+      case "人狼審問 試験壱型":
+        switch(true)
+        {
+          case ($village['nop']  >= 13):
+            $village['rglid'] = $data::RGL_TES1;
+            break;
+          case ($village['nop'] <=12 && $village['nop'] >= 8):
+            $village['rglid'] = $data::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $data::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼審問 試験弐型":
+        switch(true)
+        {
+          case ($village['nop']  >= 10):
+            $village['rglid'] = $data::RGL_TES2;
+            break;
+          case ($village['nop']  === 8 || $village['nop']  === 9):
+            $village['rglid'] = $data::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $data::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS C国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $data::RGL_C;
+            break;
+          case ($village['nop']  === 15):
+            $village['rglid'] = $data::RGL_S_C3;
+            break;
+          case ($village['nop'] <=14 && $village['nop'] >= 10):
+            $village['rglid'] = $data::RGL_S_C2;
+            break;
+          case ($village['nop']  === 8 || $village['nop'] === 9):
+            $village['rglid'] = $data::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $data::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS F国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $data::RGL_F;
+            break;
+          case ($village['nop']  === 15):
+            $village['rglid'] = $data::RGL_S_3;
+            break;
+          case ($village['nop'] <=14 && $village['nop'] >= 8):
+            $village['rglid'] = $data::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $data::RGL_S_1;
+            break;
+        }
+        break;
+      case "人狼BBS G国":
+        switch(true)
+        {
+          case ($village['nop']  >= 16):
+            $village['rglid'] = $data::RGL_G;
+            break;
+          case ($village['nop']  <= 15 && $village['nop'] >= 13):
+            $village['rglid'] = $data::RGL_S_3;
+            break;
+          case ($village['nop'] <=12 && $village['nop'] >= 8):
+            $village['rglid'] = $data::RGL_S_2;
+            break;
+          default:
+            $village['rglid'] = $data::RGL_S_1;
+            break;
+        }
+        break;
+    }
+  }
+
+  //言い換え
+  $rp= trim($fetch->find('dl.mes_text_report dt',0)->plaintext);
+  //ガチ村のみ勝利陣営を挿入
+  $wtmid = $fetch->find('p.multicolumn_left',1)->plaintext;
+  switch($wtmid)
+  {
+    case "ガチ推理":
+    case "推理＆RP":
+      switch($rp)
+      {
+      case "昏き宵闇の琥珀":
+        $village['wtmid'] = $TM_AMBER[mb_substr($item_vil[3],0,2)];
+        break;
+      default:
+        $village['wtmid'] = $TM_NORMAL[mb_substr($item_vil[3],0,2)];
+        break;
+      }
+      break;
+    case "お祭り騒ぎ":
+    case "未設定":
+        echo '#'.$village['vno'].'. '.$village['name'].' is '.$wtmid.'#';
+    default:
+      $village['wtmid'] = $data::TM_RP;
+      break;
+  }
+
+  //狂人は裏切りの陣営かどうか
+  //ルールではなく編成が深い霧の夜なら人数によって可変
+  if(in_array($village['rglid'],$TM_EVIL) || ($item_vil[5] === "深い霧の夜" && ($village['nop'] <8 || $village['nop'] >18)))
+  {
+    $is_evil = true;
+  }
+  else
+  {
+    $is_evil = false;
+  }
+
+  //ID公開村かどうか
+  $is_ID = $fetch->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
+
+  //初日取得
+  $fetch->clear();
+  $url = preg_replace("/cmd=vinfo/","turn=0&row=10&mode=all&move=page&pageno=1",$item_vil[6]);
+  $fetch->load_file($url);
+
+  //開始日(プロローグ第一声)
+  $date = $fetch->find('p.mes_date',0)->plaintext;
+  //ID公開村では取得方法を変える
+  if($is_ID === "公開する")
+  {
+    $date = $fetch->find('p.mes_date',0)->plaintext;
+    $date = mb_substr($date,mb_strpos($date,"2"),10);
+  }
+  else
+  {
+    $date = mb_substr($fetch->find('p.mes_date',0)->plaintext,5,10);
+  }
+  //MySQL用に日付の区切りを/から-に変換
+  $village['date'] = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
+
+  //エピローグ取得
+  $fetch->clear();
+  $url = preg_replace("/0&row=10/",$village['days']."&row=50",$url);
+  $fetch->load_file($url);
+  $cast = $fetch->find('tbody tr.i_active');
+  
+  //村を書き込む
+  $list_village[] = $village;
+
+  //キャスト表を配列にする
+  foreach($cast as $val_cast => $item_cast)
+  {
+    $users = array(
+              'persona'=>trim($item_cast->find("td",0)->plaintext)
+              ,'player' =>trim($item_cast->find("td",1)->plaintext)
+              ,'role'   =>""
+              ,'dtid'   =>""
+              ,'end'    =>""
+              ,'sklid'  =>""
+              ,'tmid'   =>""
+              ,'life'   =>""
+              ,'rltid'  =>""
+    );
+    
+    $result = $item_cast->find("td",3)->plaintext;
+    $result = mb_substr($result,0,mb_strpos($result,"\n")-1);
+    $result = explode(' ',$result);
+
+    //陣営と役職を取得
+    $users['role'] = mb_substr($result[2],mb_strpos($result[2],'：')+1);
+
+    if(mb_substr($users['role'],-2) === "居た")
+    {
+      //見物人設定
+      $users['role'] = '見物人';
+      $users['dtid'] = $data::DES_ONLOOKER;
+      $users['end'] = 1;
+      $users['sklid'] = $data::SKL_ONLOOKER;
+      $users['tmid'] = $data::TM_ONLOOKER;
+      $users['life'] = 0;
+      $users['rltid'] = $data::RSL_ONLOOKER;
+    }
+    else
+    {
+      //日数
+      if($result[0] === '生存者')
+      {
+        $users['end'] = $village['days'];
+      }
+      else
+      {
+        $users['end'] = (int)preg_replace("/(.+)日/","$1",$item_cast->find("td",2)->plaintext);
+      }
+
+      //非ガチ村は勝敗をつけずに「参加」にする
+      if($village['wtmid'] === 0)
+      {
+        $users['rltid'] = $data::RSL_JOIN;
+      }
+      else
+      {
+        $users['rltid'] = $RSL[$result[1]];
+      }
+
+      //役職欄に絆などついている場合
+      if(mb_strpos($users['role'],"、") === false)
+      {
+        $sklid = $users['role'];
+      }
+      else
+      {
+        $sklid = mb_substr($users['role'],0,mb_strpos($users['role'],"、"));
+      }
+      switch($rp)
+      {
+      case "昏き宵闇の琥珀":
+        $users['sklid']= $SKL_AMBER[$sklid];
+        $users['dtid'] = $DES_AMBER[$result[0]];
+        $users['tmid'] = $TM_AMBER[mb_substr($result[2],0,2)];
+        break;
+      case "ミラーズホロウ":
+        $users['sklid']= $SKL_MILLERS[$sklid];
+        $users['dtid'] = $DES_NORMAL[$result[0]];
+        $users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
+        break;
+      default:
+        $users['sklid'] = $SKL_NORMAL[$sklid];
+        $users['dtid'] = $DES_NORMAL[$result[0]];
+        $users['tmid'] = $TM_NORMAL[mb_substr($result[2],0,2)];
+        break;
+      }
+
+      //第三陣営がいない村では裏切りの陣営を人狼陣営扱いにする
+      if($users['tmid'] === $data::TM_EVIL && $is_evil === false)
+      {
+        $users['tmid'] = $data::TM_WOLF;
+      }
+
+      //生存係数挿入
+      if($users['dtid'] === $data::DES_ALIVE)
+      {
+        $users['life'] = 1.00;
+      }
+      else
+      {
+        $users['life'] = round(($users['end']-1) / $village['days'],2);
+      }
+
+    }
+
+    $list_users[] = $users;
+
+    $item_cast->clear();
+    unset($item_cast);
+  }
+
+  $fetch->clear();
+  echo $village['vno']. ' is end.'.PHP_EOL;
 }
+unset($fetch);
+
+var_dump($list_users);
