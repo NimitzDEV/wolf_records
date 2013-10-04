@@ -215,7 +215,6 @@ else
       </table>
     </section>
     <section id="role">
-<div>
 <? 
 $TEAM_ARRAY = array(
    "村人"=>'village'
@@ -239,14 +238,14 @@ $TEAM_ARRAY = array(
         $tClass = $TEAM_ARRAY[$team];
         $team_rp  = $db->getTeamRP($team);
 
-        if(($count+1) %5 === 0)
-        {
-          echo '<table class="clear">';
-        }
-        else
-        {
-          echo '<table>';
-        }
+        //if(($count+1) %5 === 0)
+        //{
+          //echo '<div class="role"><table class="clear">';
+        //}
+        //else
+        //{
+          echo '<div class="role"><table>';
+        //}
         echo '<thead><tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
         echo $db->get_team_tr($team);
         echo '</tr></thead><tbody>';
@@ -257,10 +256,9 @@ $TEAM_ARRAY = array(
           echo $db->get_skill_tr($team,$skill);
           echo '</tr>';
         }
-        echo '</tbody></table>';
+        echo '</tbody></table></div>';
       }
 ?>
-</div>
     </section>
       <footer>
 <p><a href="#"><span class="i-up"></span></a></p>

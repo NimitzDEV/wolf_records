@@ -169,11 +169,19 @@ nav {
   overflow: hidden;
 
   .clear {
-    clear: both;
+    /*clear: both;*/
+  }
+  .role {
+    float: left;
+    &:after {
+      content:"";
+      display: block;
+      clear: both;
+    }
   }
 
   table{
-    float:left;
+    /*float:left;*/
     width: auto;
     margin: 20px 2em 0 0;
     border: 0;
@@ -236,7 +244,7 @@ footer{
 
 
 @include tablet {
-  #list{
+  #lisy{
     table {
       white-space:nowrap;
       width: 100%;
@@ -259,17 +267,21 @@ footer{
       }
     }
   }
+
+  #role {
+    .role {
+      float: none;
+    }
+    table {
+      width:100%;
+    }
+  }
 }
 
 @include sphone {
   header {
     .container h1 {
       margin:5px 0 10px;
-    }
-  }
-  #role {
-    table {
-      width:100%;
     }
   }
 }
