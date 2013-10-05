@@ -142,7 +142,7 @@ class Check_Village
         else
         {
           //終了していない村は一旦村番号をメモ
-          $fp = fopen('q_'.$country.'.txt','a+');
+          $fp = fopen('q_'.$this->country.'.txt','a+');
           if(flock($fp,LOCK_SH))
           {
             if(fwrite($fp,$vno.','))
