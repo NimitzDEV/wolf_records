@@ -224,12 +224,6 @@ foreach($fetched_v as $vno)
     $cast[$item_cast['persona']] += $result;
   }
 
-  //書き込み関数に渡す配列に挿入
-  //$vilList[] = array(9,$vno,$vilName,$date,$nop,$rgl,$days,$result);
-  //$usrList[] = $cast;
-  //
-  //var_dump($cast);
-
   //村を書き込む
   $db->connect();
   if($db->insert_db($village,$cast))
