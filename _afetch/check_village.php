@@ -23,6 +23,7 @@ class Check_Village
     $this->cid     = $cid;
     $this->url_vil = $url_vil;
     $this->url_log = $url_log;
+    $this->queue_del = array();
 
     $this->html = new simple_html_dom();
   }

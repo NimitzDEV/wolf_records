@@ -3,6 +3,7 @@
 require_once('../../lib/simple_html_dom.php');
 require_once('./data.php');
 require_once('./check_village.php');
+require_once('./insert_destiny.php');
 require_once('./insert_db.php');
 
 mb_internal_encoding("UTF-8");
@@ -26,7 +27,6 @@ else
   exit;
 }
 
-$fetch = new simple_html_dom();
 $data  = new Data();
 
 $CAST_VALUE_KEY = array("persona","player","role");
@@ -34,13 +34,6 @@ $DOPPEL = array(
    "asaki"=>"asaki&lt;G国&gt;"
   ,"motimoti"=>"motimoti&lt;G薔薇国&gt;"
 );
-
-//var_dump($fetched_v);
-
-//キャスト表の値のキー
-//$cast_value_k = array("persona","player","role");
-//$fetchArray = array();
-
 
 //取得していない番号を取得
 foreach($fetched_v as $vno)
@@ -59,6 +52,7 @@ foreach($fetched_v as $vno)
 
   //プロローグから取得
   $proURL = URL_VIL.$vno."&meslog=000_ready";
+  $fetch = new simple_html_dom();
   $fetch->load_file($proURL);
 
   //ゲルト第一声から開始日時取得
@@ -162,61 +156,17 @@ foreach($fetched_v as $vno)
 
   //ペルソナ名をキーに詳細情報を引き出す配列を作る
   $cast = array_combine($cast_keys,$cast_value);
-  unset($item_cast,$cast_keys,$cast_value);
+  unset($item_cast,$cast_keys,$cast_value,$fetch);
 
-  //死因と寿命を入れる配列を作成
-  //この辺あとで直す->ひとまとめの入れ子配列にする
-  //どうせ共用関数に入れる
-  $cast_retired = array();
-  $cast_hanged = array();
-  $cast_eaten = array();
+  //destiny, end
+  $destiny = new Insert_Destiny(URL_VIL,$village['vno'],$village['days']);
+  $destiny->make_destiny($cast);
+  unset($destiny);
 
-  $announce = $html->find('div.announce');
-
-  //最終日の吊り襲撃を入れる
-  sortDestiny($announce,$days,$cast_retired,$cast_hanged,$cast_eaten,$cast);
-  //進行中のURLを作成
-  $prgURL = mb_substr($proURL,0,-7,"utf-8"); //末尾の0_readyを削除(000_ready)
-  //
-  //進行中のdestinyを取得
-  //
-  for($i=1, $prgDays=$days-1; $i<=$prgDays; $i++)
+  //skill,team,life,result
+  foreach($cast as $item_cast)
   {
-    if($i >= 10) //進行日数が二桁になる場合
-    {
-      $prgURL10 = mb_substr($prgURL,0,-1,"utf-8"); //末尾のゼロを削除
-      $url = $prgURL10.$i.'_progress';
-    } else{
-      $url = $prgURL.$i.'_progress';
-    }
-    $html->load_file($url);
-    $announcePrg = $html->find('div.announce');
-
-    sortDestiny($announcePrg,$i+1,$cast_retired,$cast_hanged,$cast_eaten,$cast);
-    unset($announcePrg);
-  }
-
-  //
-  //取得したdestinyとendを配列に格納する
-  //
-  makeCastDestiny($cast,$cast_retired,$data::DES_RETIRED);
-  makeCastDestiny($cast,$cast_hanged,$data::DES_HANGED);
-  makeCastDestiny($cast,$cast_eaten,$data::DES_EATEN);
-
-  //生存処理、skill,team,life,result
-  $destiny = array("destiny"=>$data::DES_ALIVE);
-  $end = array("end"=>$days);
-
-  foreach($cast as $miscItem)
-  {
-    $persona = $miscItem['persona'];
-
-    //destinyが埋まっていない人を生存とする
-    if(empty($miscItem['destiny']))
-    {
-      $cast[$miscItem['persona']] += $destiny;
-      $cast[$miscItem['persona']] += $end;
-    }
+    $persona = $item_cast['persona'];
 
     //役職によって能力と陣営を挿入する
     switch($cast[$persona]['role'])
@@ -249,198 +199,43 @@ foreach($fetched_v as $vno)
       break;
     }
 
-    $cast[$miscItem['persona']] += $skill;
-    $cast[$miscItem['persona']] += $team;
+    $cast[$item_cast['persona']] += $skill;
+    $cast[$item_cast['persona']] += $team;
 
     //生存係数を挿入
-    if($cast[$miscItem['persona']]['destiny'] === $data::DES_ALIVE)
+    if($cast[$item_cast['persona']]['destiny'] === $data::DES_ALIVE)
     { 
       //生存者は1
       $life = 1.00;
     } else {
       //死亡者は死亡日の前日(=生きていた日)/全日程
-      $life = round(($cast[$persona]['end']-1) / $days,2);
+      $life = round(($cast[$persona]['end']-1) / $village['days'],2);
     }
     $life = array('life'=>$life);
-    $cast[$miscItem['persona']] += $life;
+    $cast[$item_cast['persona']] += $life;
 
     //勝敗を挿入
-    if($cast[$persona]['team'] === $result)
+    if($cast[$persona]['team'] === $village['wtmid'])
     {
-      $castResult = array('result'=>$data::RSL_WIN);
+      $result = array('result'=>$data::RSL_WIN);
     } else {
-      $castResult = array('result'=>$data::RSL_LOSE);
+      $result = array('result'=>$data::RSL_LOSE);
     }
-    $cast[$miscItem['persona']] += $castResult;
+    $cast[$item_cast['persona']] += $result;
   }
 
   //書き込み関数に渡す配列に挿入
-  $vilList[] = array(9,$vno,$vilName,$date,$nop,$rgl,$days,$result);
-  $usrList[] = $cast;
-}
-$fetch->clear;
-unset($fetch);
-exit;
-
-
+  //$vilList[] = array(9,$vno,$vilName,$date,$nop,$rgl,$days,$result);
+  //$usrList[] = $cast;
   //
-  //DBに入力
-  //
-  $pdo = connect();
+  //var_dump($cast);
 
-
-  foreach($vilList as $key=>$item)
+  //村を書き込む
+  $db->connect();
+  if($db->insert_db($village,$cast))
   {
-    $vilID = insertVillage($pdo,$item);
-    if ($vilID != 0)
-    {
-      insertUser($pdo,$vilID,$usrList[$key]);
-    } else {
-      continue;
-    }
+    echo $village['vno']. ' is all inserted.'.PHP_EOL;
+    $check->remove_queue($village['vno']);
   }
-
-  $pdo = null;
-  //echo 'complete insert.';
-
-
-  //queueファイルを更新する
-  if ($org_queue !== $queue)
-  {
-    $fp = fopen('q_ninjin_g.txt','r+');
-    if(flock($fp,LOCK_SH))
-    {
-      //ファイル内容を削除する
-      ftruncate($fp,0);
-      fseek($fp, 0);
-      //変更内容を書き込む
-      fwrite($fp,$queue);
-    } else {
-      echo 'ERROR: Cannot lock queue.'.PHP_EOL;
-    }
-
-    fclose($fp);
-  }
-
-
-
-
-function connect()
-{
-  try{
-    $pdo = new DBAdapter();
-    return $pdo;
-  } catch (pdoexception $e){
-    var_dump($e->getMessage());
-    exit;
-  }
-
+  $db->disconnect();
 }
-
-function checkVilEnd($vno)
-{
-  $fetchURL = URL_VIL.$vno;
-  $html = new simple_html_dom();
-  $html->load_file($fetchURL);
-  $endFlg = $html->find('span.time',0)->plaintext;
-
-  $html->clear;
-  unset($html);
-
-  if ($endFlg ==='終了 ')
-  {
-    return true;
-  } else {
-    return false;
-  }
-
-}
-
-function insertVillage($pdo,$vilList)
-{
-  $vno = $vilList[1];
-  //村を入力
-  $sql = $pdo->prepare("INSERT INTO village(cid,vno,name,date,nop,rglid,days,wtmid) VALUES (?,?,?,?,?,?,?,?)");
-  $sqlBool = $sql->execute($vilList);
-
-  if($sqlBool)
-  {
-    $stmt = $pdo->prepare("SELECT id FROM village WHERE cid=9 AND vno=?");
-    $stmt->bindColumn(1,$vilID);
-    $stmt->execute(array($vno));
-    $stmt->fetch(PDO::FETCH_BOUND);
-
-    return $vilID;
-  } else {
-    echo 'ERROR: No. '.$vno.' not inserted.=EOL='.PHP_EOL;
-    return 0;
-  }
-}
-
-
-function insertUser($pdo,$vilID,$cast)
-{
-  foreach($cast as $item)
-  {
-    $sql = $pdo->prepare("
-      INSERT INTO users (vid,persona,player,role,dtid,end,sklid,tmid,life,rltid) values (?,?,?,?,?,?,?,?,?,?)");
-
-    //連想配列ではexecuteできない
-    $item= array_values($item);
-    array_unshift($item,$vilID);
-    $sqlBool = $sql->execute($item);
-
-    if($sqlBool)
-    {
-    }else{
-      echo '>>ERROR:'.$item[1].'/'.$item[2].' in vilID:'.$vilID.' was NOT inserted'.PHP_EOL;
-    }
-  }
-}
-
-
-
-function sortDestiny($announce,$desDay,&$cast_retired,&$cast_hanged,&$cast_eaten,$cast)
-{
-  foreach($announce as $annItem)
-  {
-    $strswt = trim($annItem->plaintext);
-    //負の値から取得を始める場合、文字数も指定しないと取得できない
-    $strswt = mb_substr($strswt,-6,6,"utf-8");
-    $strswt = preg_replace("/\r\n/","",$strswt);
-
-    switch($strswt)
-    {
-    case "突然死した。":
-      $ann = preg_replace("/^ ?(.+) は、突然死した。 ?/", "$1", $annItem->plaintext);
-      $cast_retired += array($ann=>$desDay);
-      break;
-    case "処刑された。":
-      $ann = preg_replace("/(.+\r\n){1,}\r\n(.+) は村人達の手により処刑された。 ?/", "$2", $annItem->plaintext);
-      $cast_hanged += array($ann=>$desDay);
-      break;
-    case "発見された。":
-        $ann = preg_replace("/.+朝、(.+) が無残.+\r\n ?/", "$1", $annItem->plaintext);
-        $cast_eaten += array($ann=>$desDay);
-      break;
-    default:
-      break;
-    }   
-  }   
-}
-
-function makeCastDestiny(&$cast,&$cast_destiny,$desID)
-{
-  if(empty($cast_destiny))
-  {
-    return;
-  }
-  $destiny = array("destiny"=>$desID);
-  foreach($cast_destiny as $persona=>$endDay)
-  {
-    $end = array("end"=>$endDay);
-    $cast[$persona] += $destiny;
-    $cast[$persona] += $end;
-  }
-}
-
