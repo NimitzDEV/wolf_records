@@ -295,7 +295,7 @@ $RSL = array(
   ,""=>$data::RSL_INVALID //無効(突然死)
 );
 
-foreach($fetched_v as $val_vil=>$item_vil)
+foreach($fetched_v as $item_vil)
 {
   //初期化
   $village = array(
@@ -512,7 +512,7 @@ foreach($fetched_v as $val_vil=>$item_vil)
 
   //キャスト表を配列にする
   $list_users = array();
-  foreach($cast as $val_cast => $item_cast)
+  foreach($cast as $item_cast)
   {
     $users = array(
               'persona'=>trim($item_cast->find("td",0)->plaintext)
