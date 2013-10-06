@@ -12,20 +12,22 @@ define('N_F','8');
 define('N_G','9');
 define('N_OLD2','10');
 define('GUTA','11');
+define('GUTA_OLD','12');
 
 $URL_LIST = array(
-  "",
-  "http://ninjinix.x0.com/wolf_old/",
-  "http://ninjinix.x0.com/wolf0/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolfa/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolfb/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolfc/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolfd/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolfe/index.rb?cmd=log",
-  "http://ninjin002.x0.com/wolff/index.rb?cmd=log",
-  "http://wolfg.x0.com/index.rb?cmd=log",
-  "http://ninjinix.x0.com/wolf/",
-  "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog"
+  ""
+  ,"http://ninjinix.x0.com/wolf_old/"
+  ,"http://ninjinix.x0.com/wolf0/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolfa/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolfb/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolfc/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolfd/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolfe/index.rb?cmd=log"
+  ,"http://ninjin002.x0.com/wolff/index.rb?cmd=log"
+  ,"http://wolfg.x0.com/index.rb?cmd=log"
+  ,"http://ninjinix.x0.com/wolf/"
+  ,"http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog"
+  ,"http://www3.marimo.or.jp/~fgmaster/sow/sow.cgi?pageno=0&cmd=oldlog&rowall=on"
 );
 
 if(!isset($argv))
@@ -71,6 +73,9 @@ switch($country)
       $vil_list[] = $html->find('table',0)->find('tr.i_hover');
     }
     break;
+  case GUTA_OLD:
+    $vil_list = $html->find('tbody td[colspan=6] a');
+    break;
   default:
     echo 'ERROR: undefined country ID.';
     exit;
@@ -83,7 +88,7 @@ $no_before = 0;
 
 if(flock($fp,LOCK_EX))
 {
-  foreach($vil_list as $item)
+  foreach($vil_list as $value=>$item)
   {
     switch($country)
     {
@@ -129,7 +134,7 @@ if(flock($fp,LOCK_EX))
           $vil_no = (int)$pages->find('td',0)->plaintext;
           $vil_name = $pages->find('td',1)->find('a',0)->plaintext;
           $nop = $pages->find('td.small',0)->plaintext;
-          $nop = (int)mb_substr($nop,0,strpos($nop,'人'));
+          $nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
           $win = trim($pages->find('td.small',0)->find('i',0)->plaintext);
           $days = $pages->find('td.small',1)->plaintext +1;
           $rgl = $pages->find('td.small',2)->find('a',1)->plaintext;
@@ -137,6 +142,16 @@ if(flock($fp,LOCK_EX))
           fwrite($fp,$vil_no.','.$vil_name.','.$nop.','.$win.','.$days.','.$rgl.','.$url_info.PHP_EOL);
         $pages->clear();
         unset($pages);
+        }
+        break;
+      case GUTA_OLD:
+        if($value %2  === 0)
+        {
+          $title = $item->plaintext;
+          $vil_no = mb_substr($title,0,mb_strpos($title,' '));
+          $vil_name = mb_substr($title,mb_strpos($title,' '));
+          $url_info = preg_replace("/pageno=0&cmd=oldlog&rowall=on/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+          fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
         }
         break;
     }
