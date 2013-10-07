@@ -492,7 +492,6 @@ foreach($base_list as $val_vil=>$item_vil)
   $fetch->load_file($url);
 
   //開始日(プロローグ第一声)
-  $date = $fetch->find('p.mes_date',0)->plaintext;
   //ID公開村では取得方法を変える
   if($is_ID === "公開する")
   {
