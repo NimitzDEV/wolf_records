@@ -149,7 +149,7 @@ if(flock($fp,LOCK_EX))
         {
           $title = $item->plaintext;
           $vil_no = mb_substr($title,0,mb_strpos($title,' '));
-          $vil_name = mb_substr($title,mb_strpos($title,' '));
+          $vil_name = trim(mb_substr($title,mb_strpos($title,' ')));
           $url_info = preg_replace("/pageno=0&cmd=oldlog&rowall=on/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
           fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
         }
