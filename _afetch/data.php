@@ -102,6 +102,7 @@ class Data
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //C狂
   const SKL_FANATIC  = 36;  //狂信者
+  const SKL_LUNAMIM  = 63;  //狂鳴者
   const SKL_LUNAPATH = 35;  //叫迷狂人
   const SKL_JAMMER   = 34;  //邪魔之民
   const SKL_MUPPETER = 37;  //人形使い
@@ -109,6 +110,7 @@ class Data
   const SKL_LUNASAGE = 40;  //魔術師
   const SKL_LUNAPRI  = 39;  //魔神官
   const SKL_SNATCH   = 60;  //宿借之民
+  const SKL_LUNASIL  = 62;  //聞き耳狂人
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
