@@ -512,7 +512,7 @@ foreach($base_list as $val_vil=>$item_vil)
   $cast = $fetch->find('tbody tr.i_active');
   
   //村を書き込む
-  $list->write_list('village',$village,$val_vil+1,count($cast));
+  $list->write_list('village',$village,$val_vil+1);
 
   foreach($cast as $val_cast => $item_cast)
   {

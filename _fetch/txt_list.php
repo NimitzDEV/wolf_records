@@ -61,14 +61,14 @@ class Txt_List
     }
   }
 
-  function write_list($type,$array,$val,$nop=0)
+  function write_list($type,$array,$val)
   {
     $line = implode('","',$array);
     switch($type)
     {
       case 'village';
         $line = '("'.$this->country.'","'.$line.'")';
-        $this->nop = (int)$nop;
+        $this->nop = $array['nop'];
         $this->count_village = $val;
         if($val === $this->lastline_v)
         {
