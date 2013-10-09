@@ -50,22 +50,38 @@ class Insert_DB
   function insert_village($village)
   {
     $vno = $village[1];
-    $stmt = $this->pdo->prepare("
-      INSERT INTO village(cid,vno,name,date,nop,rglid,days,wtmid) VALUES (?,?,?,?,?,?,?,?)
-    ");
 
-    if($stmt->execute($village))
+    //村が登録済でないかチェック
+    $stmt = $this->pdo->prepare("SELECT vno FROM village where cid=:cid AND vno=:vno");
+    $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
+    $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
+    $stmt->execute();
+    if(!$stmt->fetch(PDO::FETCH_NUM))
     {
-      $stmt = $this->pdo->prepare("SELECT id FROM village WHERE cid=:cid AND vno=:vno");
-      $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
-      $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
-      $stmt->bindColumn(1,$vid);
-      $stmt->execute();
-      $stmt->fetch(PDO::FETCH_BOUND);
+      $stmt = $this->pdo->prepare("
+        INSERT INTO village(cid,vno,name,date,nop,rglid,days,wtmid) VALUES (?,?,?,?,?,?,?,?)
+      ");
 
-      return $vid;
-    } else {
-      echo 'ERROR: No. '.$vno.' not inserted.=EOL='.PHP_EOL;
+      if($stmt->execute($village))
+      {
+        $stmt = $this->pdo->prepare("SELECT id FROM village WHERE cid=:cid AND vno=:vno");
+        $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
+        $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
+        $stmt->bindColumn(1,$vid);
+        $stmt->execute();
+        $stmt->fetch(PDO::FETCH_BOUND);
+
+        return $vid;
+      }
+      else
+      {
+        echo 'ERROR: No. '.$vno.' not inserted.=EOL='.PHP_EOL;
+        return false;
+      }
+    }
+    else
+    {
+      echo 'ERROR: vno.'.$vno.' is already inserted.';
       return false;
     }
   }

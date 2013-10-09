@@ -173,29 +173,6 @@ class Check_Village
     }
   }
 
-  function fetch_detail()
-  {
-    $this->html->load_file($this->url_log);
-    foreach($this->village as $vno)
-    {
-      $offset = $this->list_vno - $vno;
-      $village = $this->html->find('table',0)->find('tr.i_hover',$offset);
-
-      $vil_no = (int)$village->find('td',0)->plaintext;
-      $vil_name = $village->find('td',1)->find('a',0)->plaintext;
-      $nop = $village->find('td.small',0)->plaintext;
-      $nop = (int)mb_substr($nop,0,strpos($nop,'人'));
-      $win = trim($village->find('td.small',0)->find('i',0)->plaintext);
-      $days = $village->find('td.small',1)->plaintext +1;
-      $rgl = $village->find('td.small',2)->find('a',1)->plaintext;
-      $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$this->url_log);
-
-      $vil_detail[] = array($vil_no,$vil_name,$nop,$win,$days,$rgl,$url_info);
-    }
-    $this->village = $vil_detail;
-    $this->html->clear();
-  }
-
   function check_list_vno()
   {
     $this->html->load_file($this->url_log);

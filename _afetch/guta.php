@@ -18,7 +18,6 @@ $check->check_queue();
 $check->check_fetch_vno();
 if($check->get_village())
 {
-  $check->fetch_detail();
   $fetched_v = $check->get_village();
 }
 else
@@ -294,39 +293,71 @@ $RSL = array(
   ,"敗北"=>$data::RSL_LOSE
   ,""=>$data::RSL_INVALID //無効(突然死)
 );
+$WTM_NORMAL = array(
+    "全ての人物が消え失せた時、其処"=>$data::TM_NONE
+   ,"全ての人狼を退治した……。人狼"=>$data::TM_VILLAGER
+   ,"村人達は自らの過ちに気付いた。"=>$data::TM_WOLF
+   ,"全ての人狼を退治した……。だが"=>$data::TM_FAIRY
+   ,"その時、人狼は勝利を確信し、そ"=>$data::TM_FAIRY
+   ,"村人も、人狼も、妖精でさえも、"=>$data::TM_LOVERS
+   ,"村人達は、そして人狼達も自らの"=>$data::TM_LWOLF
+   ,"村人達は気付いてしまった。もう"=>$data::TM_PIPER
+   ,"運命はたった独りだけを選んだ。"=>$data::TM_EFB
+ );
+ $WTM_AMBER = array(
+   "魔術師を全て殺すことが出来た。"=>$data::TM_VILLAGER
+  ,"魔術師達は、残った人々を琥珀に"=>$data::TM_WOLF
+  ,"魔術師を殺し終わった後。仲間を"=>$data::TM_FAIRY
+  ,"町人も、魔術師も、琥珀妖精でさ"=>$data::TM_LOVERS
+ );
 
 foreach($fetched_v as $item_vil)
 {
   //初期化
   $village = array(
              'cid'  =>CID
-            ,'vno'  =>$item_vil[0]
-            ,'name' =>$item_vil[1]
+            ,'vno'  =>$item_vil
+            ,'name' =>""
             ,'date' =>""
-            ,'nop'  =>(int)$item_vil[2]
+            ,'nop'  =>""
             ,'rglid'=>""
-            ,'days' =>$item_vil[4]
+            ,'days' =>""
             ,'wtmid'=>""
   );
+  $url = URL_VIL.$item_vil."&cmd=vinfo";
 
   //情報欄取得
-  $fetch->load_file($item_vil[6]);
+  $fetch->load_file($url);
+  
+  //村名取得
+  $village['name'] = $fetch->find('p.multicolumn_left',0)->plaintext;
+
+  //人数取得
+  $nop = $fetch->find('p.multicolumn_left',7)->plaintext;
+  $village['nop'] = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
+
+  //日数取得
+  $days = trim($fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
+  $days = mb_convert_encoding($days,"UTF-8","auto");
+  $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
 
   //レギュレーション挿入
-  $rglid= trim($fetch->find('dl.mes_text_report dt',1)->plaintext);
-  if(array_key_exists($rglid,$RGL_SP))
+  $rule= trim($fetch->find('dl.mes_text_report dt',1)->plaintext);
+  $rglid = trim($fetch->find('dl.mes_text_report dt',2)->plaintext);
+  $rglid = mb_substr($rglid,mb_strpos($rglid,"：")+1);
+
+  if(array_key_exists($rule,$RGL_SP))
   {
     //特殊ルールがあるならレギュレーション扱いで挿入する
-    $village['rglid'] = $RGL_SP[$rglid];
-    echo "#".$village['vno'].' is '.$rglid.".Should check evil team.##";
+    $village['rglid'] = $RGL_SP[$rule];
+    echo "#".$village['vno'].' is '.$rule.".Should check evil team.##";
   }
   else if(preg_match("/秘話/",$village['name']))
   {
     //秘話村を挿入
     echo 'NOTICE: '.$vno.' may be 秘話村.';
-    //$village['rglid'] = $data::RGL_SECRET;
   }
-  else if($item_vil[5] === '自由設定')
+  else if($rglid === '自由設定')
   {
     //自由設定でも特定の編成はレギュレーションを指定する
     $free = trim($fetch->find('dl.mes_text_report dd',3)->plaintext);
@@ -337,12 +368,12 @@ foreach($fetched_v as $item_vil)
     else
     {
       echo "#".$village['vno'].' has '.$free."#";
-      $village['rglid'] = $RGL[$item_vil[5]];
+      $village['rglid'] = $RGL[$rglid];
     }
   }
   else
   {
-    switch($item_vil[5])
+    switch($rglid)
     {
       case "新標準":
       case "標準":
@@ -356,7 +387,7 @@ foreach($fetched_v as $item_vil)
         }
         break;
       case "深い霧の夜":
-        $village['rglid'] = $RGL[$item_vil[5]];
+        $village['rglid'] = $RGL[$rglid];
         break;
       case "人狼審問 試験壱型":
         switch(true)
@@ -443,35 +474,9 @@ foreach($fetched_v as $item_vil)
     }
   }
 
-  //言い換え
-  $rp= trim($fetch->find('dl.mes_text_report dt',0)->plaintext);
-  //ガチ村のみ勝利陣営を挿入
-  $wtmid = $fetch->find('p.multicolumn_left',1)->plaintext;
-  switch($wtmid)
-  {
-    case "ガチ推理":
-    case "推理＆RP":
-      switch($rp)
-      {
-      case "昏き宵闇の琥珀":
-        $village['wtmid'] = $TM_AMBER[mb_substr($item_vil[3],0,2)];
-        break;
-      default:
-        $village['wtmid'] = $TM_NORMAL[mb_substr($item_vil[3],0,2)];
-        break;
-      }
-      break;
-    case "お祭り騒ぎ":
-    case "未設定":
-        echo '#'.$village['vno'].'. '.$village['name'].' is '.$wtmid.'#';
-    default:
-      $village['wtmid'] = $data::TM_RP;
-      break;
-  }
-
   //狂人は裏切りの陣営かどうか
   //ルールではなく編成が深い霧の夜なら人数によって可変
-  if(in_array($village['rglid'],$TM_EVIL) || ($item_vil[5] === "深い霧の夜" && ($village['nop'] <8 || $village['nop'] >18)))
+  if(in_array($village['rglid'],$TM_EVIL) || ($rglid === "深い霧の夜" && ($village['nop'] <8 || $village['nop'] >18)))
   {
     $is_evil = true;
   }
@@ -480,12 +485,16 @@ foreach($fetched_v as $item_vil)
     $is_evil = false;
   }
 
+  //言い換え
+  $rp= trim($fetch->find('dl.mes_text_report dt',0)->plaintext);
+  //村の方針を取得しておく
+  $policy = $fetch->find('p.multicolumn_left',1)->plaintext;
   //ID公開村かどうか
   $is_ID = $fetch->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
 
   //初日取得
   $fetch->clear();
-  $url = preg_replace("/cmd=vinfo/","turn=0&row=10&mode=all&move=page&pageno=1",$item_vil[6]);
+  $url = preg_replace("/cmd=vinfo/","turn=0&row=10&mode=all&move=page&pageno=1",$url);
   $fetch->load_file($url);
 
   //開始日(プロローグ第一声)
@@ -507,6 +516,33 @@ foreach($fetched_v as $item_vil)
   $fetch->clear();
   $url = preg_replace("/0&row=10/",$village['days']."&row=50",$url);
   $fetch->load_file($url);
+
+  //ガチ村のみ勝利陣営を挿入
+  $wtmid = trim($fetch->find('p.info',-1)->plaintext);
+  //$wtmid = mb_substr(trim($wtmid),-6);
+  $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),0,15);
+
+  switch($policy)
+  {
+    case "ガチ推理":
+    case "推理＆RP":
+      switch($rp)
+      {
+      case "昏き宵闇の琥珀":
+        $village['wtmid'] = $WTM_AMBER[$wtmid];
+        break;
+      default:
+        $village['wtmid'] = $WTM_NORMAL[$wtmid];
+        break;
+      }
+      break;
+    case "お祭り騒ぎ":
+    case "未設定":
+        echo '#'.$village['vno'].'. '.$village['name'].' is '.$policy.'#';
+    default:
+      $village['wtmid'] = $data::TM_RP;
+      break;
+  }
   $cast = $fetch->find('tbody tr.i_active');
   
 
