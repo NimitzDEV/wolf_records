@@ -33,7 +33,7 @@ $URL_LIST = array(
 if(!isset($argv))
 {
   echo 'ERROR: insert country ID into parameter.';
-  exit;
+  exit(1);
 }
 
 
@@ -160,10 +160,14 @@ if(flock($fp,LOCK_EX))
   echo 'success.';
   fflush($fp);
   flock($fp,LOCK_UN);
+  unset($vil_list);
+  fclose($fp);
+  exit(0);  //(´・ω・`)`)
 }
 else
 {
   echo 'ERROR: cannot lock file.';
+  unset($vil_list);
+  fclose($fp);
+  exit(1);
 }
-unset($vil_list);
-fclose($fp);
