@@ -297,6 +297,7 @@ $WTM_NORMAL = array(
     "全ての人物が消え失せた時、其処"=>$data::TM_NONE
    ,"全ての人狼を退治した……。人狼"=>$data::TM_VILLAGER
    ,"村人達は自らの過ちに気付いた。"=>$data::TM_WOLF
+   ,"もう人狼に抵抗できるほど村人は"=>$data::TM_WOLF
    ,"全ての人狼を退治した……。だが"=>$data::TM_FAIRY
    ,"その時、人狼は勝利を確信し、そ"=>$data::TM_FAIRY
    ,"村人も、人狼も、妖精でさえも、"=>$data::TM_LOVERS
