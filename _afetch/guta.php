@@ -356,7 +356,8 @@ foreach($fetched_v as $item_vil)
   else if(preg_match("/秘話/",$village['name']))
   {
     //秘話村を挿入
-    echo 'NOTICE: '.$vno.' may be 秘話村.';
+    echo 'NOTICE: '.$village['vno'].' may be 秘話村.';
+    $village['rglid'] = $data::RGL_SECRET;
   }
   else if($rglid === '自由設定')
   {
