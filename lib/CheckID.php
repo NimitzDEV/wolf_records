@@ -39,10 +39,10 @@ class CheckID
   {
     if(mb_substr($argName,-1,1,"utf-8") === ' ')
     {
-      $player = htmlspecialchars($argName);
       //末尾に半角スペースが入っている場合は変換する
+      $player = htmlspecialchars($argName);
       $this->playerArr[] = preg_replace("/ /","&amp;nbsp;",$player);
-      return $player;
+      return preg_replace("/ /","&nbsp;",$player);
     }
     else
     {
