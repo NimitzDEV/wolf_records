@@ -80,6 +80,7 @@ else
           <dd>
             <span class="i-fire"></span><?= $db->getJoinWinPercent() ?><span>%</span>
           </dd>
+<br class="mod-sphone">
           <dt>平均生存係数</dt>
           <dd>
             <span class="i-fire"></span><?= $db->getLiveGachi(); ?>

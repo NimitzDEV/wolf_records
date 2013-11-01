@@ -50,6 +50,9 @@ dl {
   span {
     color:$col_bg;
   }
+  .mod-sphone {
+    display: none;
+  }
 }
 
 nav {
@@ -282,6 +285,9 @@ footer{
   header {
     .container h1 {
       margin:5px 0 10px;
+    }
+    .mod-sphone {
+      display: inline;
     }
   }
 }
