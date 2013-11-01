@@ -526,8 +526,8 @@ foreach($fetched_v as $item_vil)
 
   switch($policy)
   {
-    case "ガチ推理":
-    case "推理＆RP":
+    case "ガチ推理（陣営勝敗最優先）":
+    case "推理＆RP（勝負しながらキャラプレイも楽しむ）":
       switch($rp)
       {
       case "昏き宵闇の琥珀":
@@ -538,7 +538,7 @@ foreach($fetched_v as $item_vil)
         break;
       }
       break;
-    case "お祭り騒ぎ":
+    case "お祭り騒ぎ（勝敗不問で気軽に馬鹿騒ぎ）":
     case "未設定":
         echo '#'.$village['vno'].'. '.$village['name'].' is '.$policy.'#';
     default:
