@@ -86,6 +86,10 @@ switch($country)
   case GUTA_OLD:
     $vil_list = $html->find('tbody td[colspan=6] a');
     break;
+  case GIJI_M:
+    //find('tbody',0)だとなぜか取得できない
+    $vil_list = $html->find('table',0)->find('tr.i_hover');
+    break;
   default:
     echo 'ERROR: undefined country ID.';
     exit;
@@ -163,6 +167,12 @@ if(flock($fp,LOCK_EX))
           $url_info = preg_replace("/pageno=0&cmd=oldlog&rowall=on/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
           fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
         }
+        break;
+      case GIJI_M:
+        $vil_no = (int)$item->find('td',0)->plaintext;
+        $vil_name = $item->find('td a',0)->plaintext;
+        $url_info = preg_replace("/cmd=oldlog&rowall=on/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+        fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
         break;
     }
   }
