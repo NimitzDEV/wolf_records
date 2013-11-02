@@ -13,6 +13,11 @@ define('N_G','9');
 define('N_OLD2','10');
 define('GUTA','11');
 define('GUTA_OLD','12');
+define('GIJI_M','13');
+define('GIJI_CABALA',14);
+define('GIJI_P',15);
+define('GIJI_X',16);
+define('GIJI_C',17);
 
 $URL_LIST = array(
   ""
@@ -28,6 +33,11 @@ $URL_LIST = array(
   ,"http://ninjinix.x0.com/wolf/"
   ,"http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog"
   ,"http://www3.marimo.or.jp/~fgmaster/sow/sow.cgi?pageno=0&cmd=oldlog&rowall=on"
+  ,"http://morphe.sakura.ne.jp/morphe/sow.cgi?cmd=oldlog&rowall=on"
+  ,"http://cabala.halfmoon.jp/cafe/sow.cgi?cmd=oldlog"
+  ,"http://perjury.rulez.jp/sow.cgi?cmd=oldlog"
+  ,"http://xebec.x0.to/xebec/sow.cgi?cmd=oldlog"
+  ,"http://crazy-crazy.sakura.ne.jp/crazy/sow.cgi?cmd=oldlog"
 );
 
 if(!isset($argv))
