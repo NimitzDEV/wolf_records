@@ -539,7 +539,7 @@ foreach($fetched_v as $item_vil)
       }
       break;
     case "お祭り騒ぎ（勝敗不問で気軽に馬鹿騒ぎ）":
-    case "未設定":
+    case "未設定（下記より選択をお願いします）":
         echo '#'.$village['vno'].'. '.$village['name'].' is '.$policy.'#';
     default:
       $village['wtmid'] = $data::TM_RP;
