@@ -33,7 +33,7 @@ $URL_LIST = array(
   ,"http://ninjinix.x0.com/wolf/"
   ,"http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog"
   ,"http://www3.marimo.or.jp/~fgmaster/sow/sow.cgi?pageno=0&cmd=oldlog&rowall=on"
-  ,"http://morphe.sakura.ne.jp/morphe/sow.cgi?cmd=oldlog&rowall=on"
+  ,"http://morphe.sakura.ne.jp/morphe/sow.cgi?cmd=oldlog"
   ,"http://cabala.halfmoon.jp/cafe/sow.cgi?cmd=oldlog"
   ,"http://perjury.rulez.jp/sow.cgi?cmd=oldlog"
   ,"http://xebec.x0.to/xebec/sow.cgi?cmd=oldlog"
@@ -70,10 +70,22 @@ switch($country)
     array_pop($vil_list);
     break;
   case GUTA:
+  case GIJI_M:
+  case GIJI_P:
+  case GIJI_X:
+  case GIJI_C:
     //過去ログリストを1ページごとにクラスを作って取得(一度に取得すると解析漏れが出る)
-    //この方法でも42村の</tr>が認識されない。。
+    //この方法でもぐた42村の</tr>が認識されない。。
+    if($country === GUTA)
+    {
+      $split = 50;
+    }
+    else
+    {
+      $split = 30;
+    }
     $page_no = (int)$html->find('table tr.i_hover td',0)->plaintext;
-    $page_no = floor($page_no/50);
+    $page_no = floor($page_no/$split);
     for($i=0;$i<=$page_no;$i++)
     {
       $url = $URL_LIST[$country].'&pageno='.$i;
@@ -85,10 +97,6 @@ switch($country)
     break;
   case GUTA_OLD:
     $vil_list = $html->find('tbody td[colspan=6] a');
-    break;
-  case GIJI_M:
-    //find('tbody',0)だとなぜか取得できない
-    $vil_list = $html->find('table',0)->find('tr.i_hover');
     break;
   default:
     echo 'ERROR: undefined country ID.';
@@ -154,8 +162,8 @@ if(flock($fp,LOCK_EX))
           $rgl = $pages->find('td.small',2)->find('a',1)->plaintext;
           $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
           fwrite($fp,$vil_no.','.$vil_name.','.$nop.','.$win.','.$days.','.$rgl.','.$url_info.PHP_EOL);
-        $pages->clear();
-        unset($pages);
+          $pages->clear();
+          unset($pages);
         }
         break;
       case GUTA_OLD:
@@ -169,10 +177,18 @@ if(flock($fp,LOCK_EX))
         }
         break;
       case GIJI_M:
-        $vil_no = (int)$item->find('td',0)->plaintext;
-        $vil_name = $item->find('td a',0)->plaintext;
-        $url_info = preg_replace("/cmd=oldlog&rowall=on/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
-        fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
+      case GIJI_P:
+      case GIJI_X:
+      case GIJI_C:
+        foreach($item as $pages)
+        {
+          $vil_no = (int)$pages->find('td',0)->plaintext;
+          $vil_name = $pages->find('td a',0)->plaintext;
+          $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+          fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
+          $pages->clear();
+          unset($pages);
+        }
         break;
     }
   }
