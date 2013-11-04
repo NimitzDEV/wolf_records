@@ -74,6 +74,7 @@ switch($country)
   case GIJI_P:
   case GIJI_X:
   case GIJI_C:
+  case GIJI_CABALA:
     //過去ログリストを1ページごとにクラスを作って取得(一度に取得すると解析漏れが出る)
     //この方法でもぐた42村の</tr>が認識されない。。
     if($country === GUTA)
@@ -84,7 +85,7 @@ switch($country)
     {
       $split = 30;
     }
-    $page_no = (int)$html->find('table tr.i_hover td',0)->plaintext;
+    $page_no = (int)$html->find('table tr td',0)->plaintext;
     $page_no = floor($page_no/$split);
     for($i=0;$i<=$page_no;$i++)
     {
@@ -92,7 +93,7 @@ switch($country)
       unset($html);
       $html = new simple_html_dom();
       $html->load_file($url);
-      $vil_list[] = $html->find('table',0)->find('tr.i_hover');
+      $vil_list[] = $html->find('table',0)->find('tr');
     }
     break;
   case GUTA_OLD:
@@ -178,13 +179,25 @@ if(flock($fp,LOCK_EX))
         break;
       case GIJI_M:
       case GIJI_P:
-      case GIJI_X:
+      case GIJI_X: //最後にデータのない村を取ってくる？
       case GIJI_C:
-        foreach($item as $pages)
+      case GIJI_CABALA:
+        foreach($item as $count=>$pages)
         {
+          if($count  === 0)
+          {
+            continue;
+          }
           $vil_no = (int)$pages->find('td',0)->plaintext;
           $vil_name = $pages->find('td a',0)->plaintext;
-          $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+          if($country  === GIJI_CABALA)
+          {
+            $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&cmd=vinfo",$URL_LIST[$country]);
+          }
+          else
+          {
+            $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."#mode=info_open_player",$URL_LIST[$country]);
+          }
           fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
           $pages->clear();
           unset($pages);
