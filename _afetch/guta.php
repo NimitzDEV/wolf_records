@@ -482,8 +482,6 @@ foreach($fetched_v as $item_vil)
   $rp= trim($fetch->find('dl.mes_text_report dt',0)->plaintext);
   //村の方針を取得しておく
   $policy = $fetch->find('p.multicolumn_left',1)->plaintext;
-  //ID公開村かどうか
-  $is_ID = $fetch->find('div.mes_maker',2)->find('p.multicolumn_left',4)->plaintext;
 
   //初日取得
   $fetch->clear();
@@ -492,15 +490,7 @@ foreach($fetched_v as $item_vil)
 
   //開始日(プロローグ第一声)
   $date = $fetch->find('p.mes_date',0)->plaintext;
-  //ID公開村では取得方法を変える
-  if($is_ID === "公開する")
-  {
-    $date = mb_substr($date,mb_strpos($date,"2"),10);
-  }
-  else
-  {
-    $date = mb_substr($fetch->find('p.mes_date',0)->plaintext,5,10);
-  }
+  $date = mb_substr($date,mb_strpos($date,"2"),10);
   //MySQL用に日付の区切りを/から-に変換
   $village['date'] = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
 
