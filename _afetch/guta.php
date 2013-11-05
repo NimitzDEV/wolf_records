@@ -208,15 +208,6 @@ $SKL_AMBER = array(
   ,"占星術フリーク"=>$data::SKL_PLAYBOY
 );
 
-//レギュレーション
-$RGL = array(
-   '標準'=>$data::RGL_LEO
-  ,'新標準'=>$data::RGL_LEO
-  ,'深い霧の夜'=>$data::RGL_MIST
-  ,'人狼審問 試験壱型'=>$data::RGL_TES1
-  ,'人狼審問 試験弐型'=>$data::RGL_TES2
-  ,'自由設定'=>$data::RGL_ETC
-);
 //特殊ルール
 $RGL_SP = array(
   'ミラーズホロウ'=>$data::RGL_MILL
@@ -370,7 +361,7 @@ foreach($fetched_v as $item_vil)
     else
     {
       echo "#".$village['vno'].' has '.$free."#";
-      $village['rglid'] = $RGL[$rglid];
+      $village['rglid'] = $data::RGL_ETC;
     }
   }
   else
@@ -389,7 +380,7 @@ foreach($fetched_v as $item_vil)
         }
         break;
       case "深い霧の夜":
-        $village['rglid'] = $RGL[$rglid];
+        $village['rglid'] = $data::RGL_MIST;
         break;
       case "人狼審問 試験壱型":
         switch(true)
@@ -504,7 +495,6 @@ foreach($fetched_v as $item_vil)
   //ID公開村では取得方法を変える
   if($is_ID === "公開する")
   {
-    $date = $fetch->find('p.mes_date',0)->plaintext;
     $date = mb_substr($date,mb_strpos($date,"2"),10);
   }
   else
