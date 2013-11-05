@@ -61,14 +61,14 @@ class Txt_List
     }
   }
 
-  function write_list($type,$array,$val)
+  function write_list($type,$array,$val,$nop=0)
   {
     $line = implode('","',$array);
     switch($type)
     {
       case 'village';
         $line = '("'.$this->country.'","'.$line.'")';
-        $this->nop = $array['nop'];
+        $this->nop = $nop;//見物人込みの人数
         $this->count_village = $val;
         if($val === $this->lastline_v)
         {
