@@ -19,10 +19,6 @@ $country = $argv[1];
 $list  = new Txt_List($country);
 $data  = new Data();
 
-//RP鯖のガチ
-$GACHI = array(
-);
-
 //特殊ルール
 $RGL_SP = array(
    'ミラーズホロウ'=>$data::RGL_MILL
@@ -358,23 +354,32 @@ foreach($base_list as $val_vil=>$item_vil)
 
   //エピローグ取得
   $fetch->clear();
-  $url = preg_replace("/0&row=10/",$village['days']."&row=50",$url);
+  $url = preg_replace("/0&row=10/",$village['days']."&row=30",$url);
   $fetch->load_file($url);
 
-  //morphe・特定村のみ勝利陣営挿入
+  //morpheは村の方針でガチ/RPを分岐
   if($country == 13)
   {
-    $wtmid = trim($fetch->find('p.info',-1)->plaintext);
-    $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
     switch($policy)
     {
-      //村の方針でガチ/RPを分岐
       case "とくになし":
       case "[言] 殺伐、暴言あり":
       case "[遖] あっぱれネタ風味":
       case "[張] うっかりハリセン":
       case "[全] 大人も子供も初心者も、みんな安心":
       case "[危] 無茶ぶり上等":
+        //勝利陣営
+        $wtmid = trim($fetch->find('p.info',-1)->plaintext);
+        if(preg_match("/村の更新日が延長されました/",$wtmid))
+        {
+          $do_i = -2;
+          do
+          {
+            $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
+            $do_i--;
+          } while(preg_match("/村の更新日が延長されました/",$wtmid));
+        }
+        $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
         switch($rp)
         {
         case "ParanoiA":
