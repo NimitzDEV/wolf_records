@@ -496,12 +496,20 @@ foreach($fetched_v as $item_vil)
 
   //エピローグ取得
   $fetch->clear();
-  $url = preg_replace("/0&row=10/",$village['days']."&row=50",$url);
+  $url = preg_replace("/0&row=10/",$village['days']."&row=30",$url);
   $fetch->load_file($url);
 
   //ガチ村のみ勝利陣営を挿入
   $wtmid = trim($fetch->find('p.info',-1)->plaintext);
-  //$wtmid = mb_substr(trim($wtmid),-6);
+  if(preg_match("/村の更新日が延長されました/",$wtmid))
+  {
+    $do_i = -2;
+    do
+    {
+      $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
+      $do_i--;
+    } while(preg_match("/村の更新日が延長されました/",$wtmid));
+  }
   $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),0,15);
 
   switch($policy)
