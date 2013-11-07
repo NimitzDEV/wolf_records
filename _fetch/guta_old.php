@@ -207,10 +207,10 @@ foreach($base_list as $val_vil=>$item_vil)
   }
 
   //村を書き込む
-  $list->write_list('village',$village,$val_vil+1);
-
   $cast = $fetch->find('table.vindex tbody tr');
   array_shift($cast);
+  $list->write_list('village',$village,$val_vil+1,count($cast));
+
   $cast_value = array();
   $cast_keys = array();
   foreach($cast as $val_cast => $item_cast)
@@ -296,9 +296,11 @@ foreach($base_list as $val_vil=>$item_vil)
   $end = new Insert_End($url,$village['days']);
   $end->make_end($cast,$rp);
 
-  foreach($cast as $val_cast=>$item_cast)
+  $count_cast = 0;
+
+  foreach($cast as $item_cast)
   {
-    //$persona = $item_cast['persona'];
+    $count_cast++;
     //生存係数挿入
     if($item_cast['dtid'] === $data::DES_ALIVE)
     {
@@ -308,7 +310,7 @@ foreach($base_list as $val_vil=>$item_vil)
     {
       $item_cast['life'] = round(($item_cast['end']-1) / $village['days'],2);
     }
-    $list->write_list('users',$item_cast,$val_cast+1);
+    $list->write_list('users',$item_cast,$count_cast);
   }
 
 
