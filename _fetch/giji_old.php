@@ -12,7 +12,7 @@ require_once('../_afetch/data.php');
 require_once('./txt_list.php');
 require_once('../../lib/simple_html_dom.php');
 
-define('VID',8000);    //villageテーブルの開始ID
+define('VID',6889);    //villageテーブルの開始ID
 
 $fetch = new simple_html_dom();
 $country = $argv[1];
@@ -29,9 +29,18 @@ $RGL_SP = array(
 );
 //自由設定でも特殊レギュにしない編成
 $RGL_FREE = array(
-   '村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+   '村人x3 占い師x1 狂人x1 人狼x1'=>$data::RGL_S_1
+  ,'村人x2 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+  ,'村人x4 占い師x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+  ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
+  ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_S_3
+  ,'村人x4 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
+  ,'村人x5 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
+  ,'村人x5 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
+  ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
   ,'村人x5 占い師x1 霊能者x1 人狼x2 栗鼠妖精x1'=>$data::RGL_S_E
+  ,'村人x5 占い師x1 狩人x1 霊能者x1 狂信者x1 人狼x2'=>$data::RGL_TES2
   ,'村人x1 霊能者x5 人狼x2'=>$data::RGL_ROLLER
 );
 
@@ -41,6 +50,7 @@ $WTM_NORMAL = array(
    "の人物が消え失せた時、其処"=>$data::TM_NONE
   ,"の人狼を退治した……。人狼"=>$data::TM_VILLAGER
   ,"達は自らの過ちに気付いた。"=>$data::TM_WOLF
+  ,"村を覆い、村人達は自らの過"=>$data::TM_WOLF //物語
   ,"の人狼を退治した……。だが"=>$data::TM_FAIRY
   ,"時、人狼は勝利を確信し、そ"=>$data::TM_FAIRY
   ,"も、人狼も、妖精でさえも、"=>$data::TM_LOVERS
@@ -94,7 +104,7 @@ $SKILL = array(
   ,"信仰占師"=>$data::SKL_SEERWIN
   ,"気占師"=>$data::SKL_SEERAURA
   ,"賢者"=>$data::SKL_SAGE
-  ,"狩人"=>$data::SKL_HUNTER
+  ,"狩人"=>$data::SKL_HUNTER //物語
   ,"守護者"=>$data::SKL_HUNTER
   ,"霊能者"=>$data::SKL_MEDIUM
   ,"信仰霊能者"=>$data::SKL_MEDIWIN
@@ -133,6 +143,7 @@ $SKILL = array(
   ,"仔狼"=>$data::SKL_CHILDWOLF
   ,"衰狼"=>$data::SKL_DYINGWOLF
   ,"黙狼"=>$data::SKL_SILENT
+  ,"ハムスター人間"=>$data::SKL_FAIRY //物語
   ,"栗鼠妖精"=>$data::SKL_FAIRY
   ,"擬狼妖精"=>$data::SKL_MIMIC
   ,"風花妖精"=>$data::SKL_SNOW
@@ -382,12 +393,12 @@ foreach($base_list as $val_vil=>$item_vil)
         $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
         switch($rp)
         {
-        case "ParanoiA":
-          $village['wtmid'] = $WTM_ZAP[$wtmid];
-          break;
-        default:
-          $village['wtmid'] = $WTM_NORMAL[$wtmid];
-          break;
+          case "ParanoiA":
+            $village['wtmid'] = $WTM_ZAP[$wtmid];
+            break;
+          default:
+            $village['wtmid'] = $WTM_NORMAL[$wtmid];
+            break;
         }
         echo $village['vno'].'.'.$village['name'].' is guessed GACHI.->';
         break;
