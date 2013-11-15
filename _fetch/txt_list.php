@@ -36,7 +36,17 @@ class Txt_List
     while($line = fgets($list))
     {
       $line = preg_replace("/\n/","",$line);
-      $vil_list[] = explode(",",$line);
+      $line = explode(",",$line);
+      //タイトルにコンマがある村対策
+      if(count($line) >= 4)
+      {
+        $line_mod = array();
+        $line_mod[] = array_shift($line);
+        $line_mod[2] = array_pop($line);
+        $line_mod[1] = implode($line);
+        $line = $line_mod;
+      }
+      $vil_list[] = $line;
     }
     fclose($list);
 
