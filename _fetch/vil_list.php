@@ -103,6 +103,7 @@ switch($country)
     echo 'ERROR: undefined country ID.';
     exit;
 }
+$html->clear;
 unset($html);
 
 //ファイルを新たに作って書き込む
@@ -190,7 +191,7 @@ if(flock($fp,LOCK_EX))
           }
           $vil_no = (int)$pages->find('td',0)->plaintext;
           $vil_name = $pages->find('td a',0)->plaintext;
-          if($country  === GIJI_CABALA)
+          if($country == GIJI_CABALA)
           {
             $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."#mode=info_open_player",$URL_LIST[$country]);
           }
@@ -206,11 +207,11 @@ if(flock($fp,LOCK_EX))
     }
   }
   unset($item);
-  echo 'success.';
   fflush($fp);
   flock($fp,LOCK_UN);
   unset($vil_list);
   fclose($fp);
+  echo 'success.';
   exit(0);  //(´・ω・`)`)
 }
 else
