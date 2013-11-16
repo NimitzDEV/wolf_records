@@ -105,6 +105,10 @@ class Check_Village
         $last_page = trim($this->html->find('span.time',0)->plaintext);
         break;
       case 'guta':
+      case 'perjury':
+      case 'xebec':
+      case 'crazy':
+      case 'morphe':
         $last_page = $this->html->find('p.caution',0);
         if($last_page)
         {
@@ -183,6 +187,10 @@ class Check_Village
         $list_vno =(int) preg_replace('/G(\d+) .+/','$1',$list_vno);
         break;
       case 'guta':
+      case 'perjury':
+      case 'xebec':
+      case 'crazy':
+      case 'morphe':
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
         break;
     }
