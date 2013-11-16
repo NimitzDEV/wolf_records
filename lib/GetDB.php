@@ -250,7 +250,7 @@ class GetDB
       SELECT v.date date, c.name country, v.vno vno,
       v.name vname,rgl.id rglid, rgl.name rgl,u.persona persona,
       u.role role,u.end end, d.name destiny,
-      rlt.name result,c.url url
+      rlt.name result,c.url url, v.wtmid wtmid
       FROM village v INNER JOIN country c ON v.cid=c.id
       INNER JOIN users u ON v.id=u.vid
       INNER JOIN regulation rgl ON v.rglid=rgl.id 

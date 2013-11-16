@@ -196,9 +196,17 @@ else
                     $lClass = 'o';
                     break;
                 }
+                if($item['wtmid'])
+                {
+                  $icon = 'i-fire';
+                }
+                else
+                {
+                  $icon = 'i-book';
+                }
                 echo '<tr><td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
                 echo '<td>'.$item['country'].$item['vno'].'</td>';
-                echo '<td class="vname"><a href="'.$item['url'].$item['vno'].'" title="'.$item['vname'].'">'.$vname.'</a></td>';
+                echo '<td class="vname '.$icon.'"><a href="'.$item['url'].$item['vno'].'" title="'.$item['vname'].'">'.$vname.'</a></td>';
                 echo '<td>'.$item['rgl'].'</td>';
                 echo '<td>'.$item['persona'].'</td>';
                 echo '<td>'.$item['role'].'</td>';
