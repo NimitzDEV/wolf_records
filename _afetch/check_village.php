@@ -46,10 +46,16 @@ class Check_Village
         array_pop($queue_array);
         foreach($queue_array as $vno)
         {
-          if($this->check_end($vno))
+          $is_end = $this->check_end($vno);
+          if($is_end && check_not_ruined($vno))
           {
             $this->village[] = (int)$vno;
             $this->queue_del[] = (int)$vno;
+          }
+          else if($is_end)
+          {
+            $this->queue_del[] = (int)$vno;
+            echo $country.$vno.' is ruined.'.PHP_EOL;
           }
           else
           {
@@ -127,6 +133,35 @@ class Check_Village
     }
   }
 
+  function check_not_ruined()
+  {
+    if($this->country === 'ninjin_g')
+    {
+      return true;
+    }
+    $url = $this->url_vil.$vno;
+    $this->html->load_file($url);
+    switch($this->country)
+    {
+      case 'guta':
+      case 'perjury':
+      case 'xebec':
+      case 'crazy':
+      case 'morphe':
+        $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
+        break;
+    }
+    $this->html->clear();
+    if($last_day  === "エピローグ")
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
   function check_fetch_vno()
   {
     $this->list_vno = $this->check_list_vno();
@@ -139,10 +174,15 @@ class Check_Village
       {
         $vno = 0;
         $vno = $db_vno + $i;
+        $is_end = $this->check_end($vno);
 
-        if($this->check_end($vno))
+        if($is_end && check_not_ruined($vno))
         {
           $this->village[] = $vno;
+        }
+        else if($is_end)
+        {
+          echo $country.$vno.' is ruined.'.PHP_EOL;
         }
         else
         {
