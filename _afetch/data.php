@@ -46,6 +46,7 @@ class Data
   const RGL_DEATH= 19;      //死んだら負け
   const RGL_TA   = 20;      //Trouble☆Aliens
   const RGL_MIST = 14;      //深い霧の夜
+  const RGL_PLOT = 29;      //陰謀に集う胡蝶
   const RGL_ETC  = 24;      //特殊
 
 
