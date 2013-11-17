@@ -27,6 +27,7 @@ $RGL_FREE = array(
   ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>$data::RGL_S_2
   ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_S_3
+  ,'村人x7 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>$data::RGL_S_3
   ,'村人x4 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
   ,'村人x5 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
   ,'村人x5 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>$data::RGL_S_C2
