@@ -47,7 +47,7 @@ class Check_Village
         foreach($queue_array as $vno)
         {
           $is_end = $this->check_end($vno);
-          if($is_end && check_not_ruined($vno))
+          if($is_end && $this->check_not_ruined($vno))
           {
             $this->village[] = (int)$vno;
             $this->queue_del[] = (int)$vno;
@@ -133,7 +133,7 @@ class Check_Village
     }
   }
 
-  function check_not_ruined()
+  function check_not_ruined($vno)
   {
     if($this->country === 'ninjin_g')
     {
