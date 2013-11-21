@@ -176,7 +176,7 @@ class Check_Village
         $vno = $db_vno + $i;
         $is_end = $this->check_end($vno);
 
-        if($is_end && check_not_ruined($vno))
+        if($is_end && $this->check_not_ruined($vno))
         {
           $this->village[] = $vno;
         }
