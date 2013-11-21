@@ -193,7 +193,7 @@ if(flock($fp,LOCK_EX))
           $vil_name = $pages->find('td a',0)->plaintext;
           if($country == GIJI_CABALA)
           {
-            $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."#mode=info_open_player",$URL_LIST[$country]);
+            $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&rowall=on&turn=0#potofs_order=stat_type&hide_potofs=&row=10&order=asc&page=1&mode=talk_all_open_player",$URL_LIST[$country]);
           }
           else
           {
