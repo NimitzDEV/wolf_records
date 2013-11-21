@@ -260,8 +260,14 @@ foreach($base_list as $val_vil=>$item_vil)
             ,'wtmid'=>""
   );
 
+  //ペルソナ欄が空欄ならジェレミーにする
+  if($users['persona']  === " ")
+  {
+    $users['persona'] = "紐 ジェレミー";
+  }
+
   //村建て日
-  $date = preg_replace('/.+"logid": "SS00000",.*?"date": new Date\(1000 \* (\d+)\).+/s',"$1",$base);
+  $date = preg_replace('/.+"updateddt":    new Date\(1000 \* (\d+)\),.+/s',"$1",$base);
   $village['date'] = date('Y-m-d',$date);
 
   //キャスト表
@@ -318,7 +324,7 @@ foreach($base_list as $val_vil=>$item_vil)
         }
         break;
       case "mistery":
-        $village['rglid'] = $RGL[$item_vil[5]];
+        $village['rglid'] = $data::RGL_MIST;
         break;
       case "test1st":
         switch(true)
