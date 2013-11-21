@@ -260,12 +260,6 @@ foreach($base_list as $val_vil=>$item_vil)
             ,'wtmid'=>""
   );
 
-  //ペルソナ欄が空欄ならジェレミーにする
-  if($users['persona']  === " ")
-  {
-    $users['persona'] = "紐 ジェレミー";
-  }
-
   //村建て日
   $date = preg_replace('/.+"updateddt":    new Date\(1000 \* (\d+)\),.+/s',"$1",$base);
   $village['date'] = date('Y-m-d',$date);
@@ -279,7 +273,7 @@ foreach($base_list as $val_vil=>$item_vil)
   $nop_all = count($cast);
   //見物人カウント
   preg_match_all('/SOW_RECORD\.CABALA\.roles\[999\],/',$base,$onlooker);
-  $village['nop'] = $nop_all - count($onlooker);
+  $village['nop'] = $nop_all - count($onlooker[0]);
 
   //レギュレーション挿入
   $rule = preg_replace('/.+"game_name": "([^"]*)",.+/s',"$1",$base);
@@ -374,7 +368,7 @@ foreach($base_list as $val_vil=>$item_vil)
             break;
         }
         break;
-      case "wbbc_f":
+      case "wbbs_f":
         switch(true)
         {
           case ($village['nop']  >= 16):
@@ -440,6 +434,12 @@ foreach($base_list as $val_vil=>$item_vil)
       ,'life'   =>""
       ,'rltid'  =>""
     );
+
+    //ペルソナ欄が空欄ならジェレミーにする
+    if($users['persona']  === " ")
+    {
+      $users['persona'] = "紐 ジェレミー";
+    }
 
     //裏切り陣営チェック
     if($users['tmid'] === $data::TM_EVIL && in_array($village['vno'],$EVIL))
