@@ -105,24 +105,16 @@ class Check_Village
   {
     $url = $this->url_vil.$vno;
     $this->html->load_file($url);
-    switch($this->country)
+    if($this->country  === 'ninjin_g')
     {
-      case 'ninjin_g':
-        $last_page = trim($this->html->find('span.time',0)->plaintext);
-        break;
-      case 'guta':
-      case 'perjury':
-      case 'xebec':
-      case 'crazy':
-      case 'morphe':
-        $last_page = $this->html->find('p.caution',0);
-        if($last_page)
-        {
-          $last_page = trim(mb_substr($last_page->plaintext,0,3));
-        }
-        break;
+      $last_page = trim($this->html->find('span.time',0)->plaintext);
+    }
+    else
+    {
+      $last_page = mb_substr($this->html->find('title',0)->plaintext,0,2);
     }
     $this->html->clear();
+
     if($last_page === "終了")
     {
       return true;
@@ -141,24 +133,32 @@ class Check_Village
     }
     $url = $this->url_vil.$vno;
     $this->html->load_file($url);
-    switch($this->country)
+    if($this->country === 'plot' || $this->country  === 'ciel')
     {
-      case 'guta':
-      case 'perjury':
-      case 'xebec':
-      case 'crazy':
-      case 'morphe':
-        $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
-        break;
-    }
-    $this->html->clear();
-    if($last_day  === "エピローグ")
-    {
-      return false;
+      $base = $this->html->find('script',-2)->innertext;
+      $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$base);
+      $this->html->clear();
+      if($last_day == '1')
+      {
+        return false;
+      }
+      else
+      {
+        return true;
+      }
     }
     else
     {
-      return true;
+      $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
+      $this->html->clear();
+      if($last_day  === "エピローグ")
+      {
+        return false;
+      }
+      else
+      {
+        return true;
+      }
     }
   }
 
@@ -232,6 +232,11 @@ class Check_Village
       case 'crazy':
       case 'morphe':
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
+        break;
+      case 'plot':
+      case 'ciel':
+        $list_vno = $this->html->find('tr',1)->find('td',0)->innertext;
+        $list_vno = (int)preg_replace("/^(\d+) <a.+/","$1",$list_vno);
         break;
     }
     $this->html->clear();
