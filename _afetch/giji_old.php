@@ -444,6 +444,7 @@ foreach($COUNTRYS as $cid)
     }
 
     $cast = $fetch->find('tbody tr.i_active');
+    $list_users = array();
     //キャスト表を配列にする
     foreach($cast as $item_cast)
     {
