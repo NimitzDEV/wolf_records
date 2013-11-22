@@ -135,7 +135,7 @@ class Check_Village
     $this->html->load_file($url);
     if($this->country === 'plot' || $this->country  === 'ciel')
     {
-      $base = $this->html->find('script',-2)->innertext;
+      $base = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
       $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$base);
       $this->html->clear();
       if($last_day == '1')
