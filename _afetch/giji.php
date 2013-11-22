@@ -7,7 +7,10 @@ require_once('./insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
-$COUNTRYS = array(14,18);
+//一旦ciel停止
+//$COUNTRYS = [14,18];
+$COUNTRYS = [14];
+
 $data  = new Data();
 
 //特殊ルール
