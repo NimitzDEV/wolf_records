@@ -18,6 +18,12 @@ define('GIJI_CABALA',14);
 define('GIJI_P',15);
 define('GIJI_X',16);
 define('GIJI_C',17);
+define('GIJI_N',19);
+define('GIJI_U',20);
+define('GIJI_AS',21);
+define('GIJI_RP',22);
+define('GIJI_RPA',23);
+define('GIJI_PAN',24);
 
 $URL_LIST = array(
   ""
@@ -38,6 +44,13 @@ $URL_LIST = array(
   ,"http://perjury.rulez.jp/sow.cgi?cmd=oldlog"
   ,"http://xebec.x0.to/xebec/sow.cgi?cmd=oldlog"
   ,"http://crazy-crazy.sakura.ne.jp/crazy/sow.cgi?cmd=oldlog"
+  ,""
+  ,"http://giji.check.jp/stories?folder=WOLF"
+  ,"http://giji.check.jp/stories?folder=ULTIMATE"
+  ,"http://giji.check.jp/stories?folder=ALLSTAR"
+  ,"http://giji.check.jp/stories?folder=RP"
+  ,"http://giji.check.jp/stories?folder=PRETENSE"
+  ,"http://giji.check.jp/stories?folder=PAN"
 );
 
 if(!isset($argv))
@@ -98,6 +111,16 @@ switch($country)
     break;
   case GUTA_OLD:
     $vil_list = $html->find('tbody td[colspan=6] a');
+    break;
+  case GIJI_N:
+  case GIJI_U:
+  case GIJI_AS:
+  case GIJI_RP:
+  case GIJI_RPA:
+  case PAN:
+    $base = $html->find('script',-2)->innertext;
+    $vil_list = explode('{"_',$base);
+    array_shift($vil_list);
     break;
   default:
     echo 'ERROR: undefined country ID.';
@@ -194,7 +217,6 @@ if(flock($fp,LOCK_EX))
           if($country == GIJI_CABALA)
           {
             $url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."#mode=info_open_player",$URL_LIST[$country]);
-            //$url_info = preg_replace("/cmd=oldlog/","vid=".$vil_no."&rowall=on&turn=0#potofs_order=stat_type&hide_potofs=&row=10&order=asc&page=1&mode=talk_all_open_player",$URL_LIST[$country]);
           }
           else
           {
@@ -204,6 +226,19 @@ if(flock($fp,LOCK_EX))
           $pages->clear();
           unset($pages);
         }
+        break;
+      case GIJI_N:
+      case GIJI_U:
+      case GIJI_AS:
+      case GIJI_RP:
+      case GIJI_RPA:
+      case PAN:
+        // ,"http://giji.check.jp/stories?folder=WOLF"
+        $vil_no = preg_replace('/.+,"vid":(\d+),".+/',"$1",$item);
+        $vil_name = preg_replace('/.+,"name":"([^"]*)",.+/',"$1",$item);
+        $url_state = preg_replace('/id":"([^"]*)",.+/',"$1",$item);
+        $url_info = preg_replace("/stories\?folder=.+/",$url_state."/0/messages#mode=info_open_player",$URL_LIST[$country]);
+        fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
         break;
     }
   }
