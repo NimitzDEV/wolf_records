@@ -19,7 +19,7 @@ if($cID->getIsID())
 }
 else
 {
-  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="css/index.css"><body>';
+  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/index.css"><body>';
   echo '<header><h1>エラー</h1></header><div class="container"><section><p>';
   echo 'IDを入力して下さい。</p></section>';
   echo '<form action="./result.php" method="GET"><input type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn-primary">検索</button></form></div></body>';
@@ -35,7 +35,6 @@ else
     <meta name="description" content="ID: <?= $cID->getViewName();?>さんのWeb人狼戦績の一覧ページです。">
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="css/result.css">
     <title>
       <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
