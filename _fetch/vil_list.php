@@ -117,7 +117,7 @@ switch($country)
   case GIJI_AS:
   case GIJI_RP:
   case GIJI_RPA:
-  case PAN:
+  case GIJI_PAN:
     $base = $html->find('script',-2)->innertext;
     $vil_list = explode('{"_',$base);
     array_shift($vil_list);
@@ -232,7 +232,7 @@ if(flock($fp,LOCK_EX))
       case GIJI_AS:
       case GIJI_RP:
       case GIJI_RPA:
-      case PAN:
+      case GIJI_PAN:
         // ,"http://giji.check.jp/stories?folder=WOLF"
         $vil_no = preg_replace('/.+,"vid":(\d+),".+/',"$1",$item);
         $vil_name = preg_replace('/.+,"name":"([^"]*)",.+/',"$1",$item);
