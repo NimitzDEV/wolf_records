@@ -127,6 +127,7 @@ class Data
   const SKL_PIXY     = 50;  //悪戯妖精
   const SKL_MIMIC    = 48;  //擬狼妖精
   const SKL_SNOW     = 49;  //風花妖精
+  const SKL_JAMFAIRY = 64;  //邪魔妖精
 
   const SKL_QP       = 52;  //QP
   const SKL_PASSION  = 53;  //片想い
