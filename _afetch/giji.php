@@ -558,7 +558,6 @@ foreach($COUNTRYS as $cid)
       }
 
       $list_users[] = $users;
-      $item_cast->clear();
       unset($item_cast);
     }
     $fetch->clear();
