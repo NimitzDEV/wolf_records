@@ -246,24 +246,26 @@ foreach($COUNTRYS as $cid)
       echo 'NOTICE: '.$village['vno'].' may be 秘話村.';
       $village['rglid'] = $data::RGL_SECRET;
     }
-    else if($rglid === '自由設定')
-    {
-      //自由設定でも特定の編成はレギュレーションを指定する
-      $free = trim($fetch->find('dl.mes_text_report dd',3)->plaintext);
-      if(array_key_exists($free,$RGL_FREE))
-      {
-        $village['rglid'] = $RGL_FREE[$free];
-      }
-      else
-      {
-        echo "#".$village['vno'].' has '.$free."#";
-        $village['rglid'] = $data::RGL_ETC;
-      }
-    }
     else
     {
       switch($rglid)
       {
+        case "自由設定":
+          //自由設定でも特定の編成はレギュレーションを指定する
+          $free = trim($fetch->find('dl.mes_text_report dd',3)->plaintext);
+          if(array_key_exists($free,$RGL_FREE))
+          {
+            $village['rglid'] = $RGL_FREE[$free];
+          }
+          else
+          {
+            if($country == 13)
+            {
+              echo "#".$village['vno'].' has '.$free."#";
+            }
+            $village['rglid'] = $data::RGL_ETC;
+          }
+          break;
         case "標準":
           if($village['nop'] <= 7)
           {
