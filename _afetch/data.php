@@ -99,6 +99,7 @@ class Data
   const SKL_ELDER    = 33;  //長老
   const SKL_PROPHET  = 27;  //預言者
   const SKL_DOCTOR   = 25;  //医師
+  const SKL_SEERONCE = 66;  //夢占師
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //C狂
