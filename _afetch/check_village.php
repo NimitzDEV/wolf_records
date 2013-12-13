@@ -227,6 +227,7 @@ class Check_Village
         $list_vno =(int) preg_replace('/G(\d+) .+/','$1',$list_vno);
         break;
       case 'guta':
+      case 'guta_p':
       case 'perjury':
       case 'xebec':
       case 'crazy':
