@@ -293,6 +293,7 @@ foreach($base_list as $val_vil=>$item_vil)
         }
         break;
       case "default":
+        //標準編成の内容が国によって異なるので手動で確認する
         echo 'NOTICE: '.$village['vno'].' is DEFAULT regulation.';
         if($village['nop'] <= 7)
         {
@@ -411,7 +412,7 @@ foreach($base_list as $val_vil=>$item_vil)
   //勝敗
   switch($country)
   {
-    case 19://標準
+    case 19:
       $village['wtmid'] = $TEAM[preg_replace('/.+"winner":"([^"]*)".+/',"$1",$base_array[5])];
       break;
     case 20:
@@ -433,7 +434,7 @@ foreach($base_list as $val_vil=>$item_vil)
   }
 
   //肩書き抽出準備
-  //
+  //途中で入村メッセージが変更されている村は、完全には取得できない
   $dummy_base = explode('"mestype":"INFONOM"',$base_array[5]);
   $dummy_base = preg_replace('/.*?"face_id":"([a-z]{1,2}\d{2}|\d+)","log":"([^"]*)","logid":"(I|S)[^"]*".+/',"$2",$dummy_base[1]);
   $dummy_base = mb_substr($dummy_base,-8);
