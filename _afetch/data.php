@@ -131,9 +131,10 @@ class Data
   const SKL_JAMFAIRY = 64;  //邪魔妖精
   const SKL_SNAFAIRY = 65;  //宿借妖精
 
-  const SKL_QP       = 52;  //QP
+  const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
   const SKL_PLAYBOY  = 59;  //遊び人
+  const SKL_LOVER    = 67;  //求愛者
 
   const SKL_EFB      = 51;  //邪気悪魔
   const SKL_LWOLF    = 56;  //一匹狼
