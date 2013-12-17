@@ -469,9 +469,11 @@ foreach($base_list as $val_vil=>$item_vil)
   $title = array_combine($title_name,$title_base[2]);
   if($country == 24)
   {
-    var_dump($title);
+    foreach($title as $title_item)
+    {
+      echo $title_item.PHP_EOL;
+    }
   }
-  //var_dump($title_base);
 
   //村を書き込む
   //見物人込みの人数を参加者行数として送る
