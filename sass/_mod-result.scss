@@ -247,11 +247,9 @@ footer{
 
 
 @include tablet {
-  #lisy{
-    table {
+  #list {
       white-space:nowrap;
       width: 100%;
-    }
   }
   nav form {
     input {
