@@ -36,6 +36,7 @@ else
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/result.css">
+    <link rel="stylesheet" href="css/responsive-tables.css">
     <title>
       <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
     </title>
@@ -157,7 +158,7 @@ else
 
   <div class="container">
     <section>
-      <table id="list" class="tablesorter">
+      <table id="list" class="tablesorter responsive">
         <thead>
           <tr>
               <th>日付</th>
@@ -280,6 +281,7 @@ $TEAM_ARRAY = array(
       </footer>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="lib/responsive-tables.js"></script>
     <script src="lib/tablesorter.min.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
