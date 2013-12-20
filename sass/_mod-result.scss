@@ -247,9 +247,13 @@ footer{
 
 
 @include tablet {
+  .scroll {
+    overflow:scroll;
+    width: 100%;
+  }
   #list {
-      white-space:nowrap;
-      width: 100%;
+    width: 100%;
+    white-space:nowrap;
   }
   nav form {
     input {
