@@ -118,7 +118,14 @@ nav {
   width: 4em;
 }
 
+.toggle_scroll {
+  width: 95%;
+  margin: 0 auto;
+  display: none;
+}
+
 #list {
+  white-space: nowrap;
   margin: 0 auto;
   border: 0;
   width: 95%;
@@ -171,9 +178,6 @@ nav {
   width: 95%;
   overflow: hidden;
 
-  .clear {
-    /*clear: both;*/
-  }
   .role {
     float: left;
     &:after {
@@ -184,7 +188,6 @@ nav {
   }
 
   table{
-    /*float:left;*/
     width: auto;
     margin: 20px 2em 0 0;
     border: 0;
@@ -247,10 +250,6 @@ footer{
 
 
 @include tablet {
-  #list {
-      white-space:nowrap;
-      width: 100%;
-  }
   nav form {
     input {
       width: 100%;
