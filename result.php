@@ -157,6 +157,9 @@ else
 
   <div class="container">
     <section class="scroll">
+      <div class="toggle_scroll">
+        <a href="#">表を縮小可能にする</a>
+      </div>
       <table id="list" class="tablesorter">
         <thead>
           <tr>
@@ -280,12 +283,13 @@ $TEAM_ARRAY = array(
       </footer>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="lib/checkWidth.js"></script>
     <script src="lib/tablesorter.min.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
     <script src="../lib/slidemenu.min.js"></script>
     <script>
-      $(document).ready(function() 
+      $(function() 
         { 
           $("#list").tablesorter(); 
           $('#id').addInputArea({
@@ -297,6 +301,9 @@ $TEAM_ARRAY = array(
           });
         } 
       );            
+      $(window).on("load resize",function(){
+          $().checkWidth();
+      });
     </script>
   </body>
 </html>
