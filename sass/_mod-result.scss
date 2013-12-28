@@ -118,17 +118,29 @@ nav {
   width: 4em;
 }
 
-.toggle_scroll {
+#scroll {
   width: 95%;
   margin: 0 auto;
-  display: none;
+  .toggle_scroll {
+    overflow: auto;
+    margin: 0 auto;
+    display: none;
+  }
+}
+
+.dynatable-per-page-page {
+  margin-right: 1em;
+  float: right;
+}
+.dynatable-per-page-list {
+  margin-top: -3px;
 }
 
 #list {
   white-space: nowrap;
   margin: 0 auto;
   border: 0;
-  width: 95%;
+  width: 100%;
   th {
     color: #000;
     border-left: 0;

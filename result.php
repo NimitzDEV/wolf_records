@@ -36,7 +36,6 @@ else
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/result.css">
-    <link rel="stylesheet" href="css/dynatable.css">
     <title>
       <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
     </title>
@@ -157,7 +156,7 @@ else
     </div>
 
   <div class="container">
-    <section class="scroll">
+    <section id="scroll">
       <div class="toggle_scroll">
         <a href="#">表を縮小可能にする</a>
       </div>
