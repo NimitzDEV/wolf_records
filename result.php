@@ -36,6 +36,7 @@ else
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/result.css">
+    <link rel="stylesheet" href="css/dynatable.css">
     <title>
       <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
     </title>
@@ -284,14 +285,16 @@ $TEAM_ARRAY = array(
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/checkWidth.js"></script>
-    <script src="lib/tablesorter.min.js"></script>
+    <!--<script src="lib/tablesorter.min.js"></script>-->
+    <script src="lib/dynatable.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
     <script src="../lib/slidemenu.min.js"></script>
     <script>
       $(function() 
         { 
-          $("#list").tablesorter(); 
+          $("#list").dynatable();
+          //$("#list").tablesorter(); 
           $('#id').addInputArea({
             maximum : 5
           });
