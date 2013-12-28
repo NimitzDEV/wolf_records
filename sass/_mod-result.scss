@@ -137,6 +137,9 @@ nav {
     background: #f0ffe8 no-repeat;
     cursor: pointer;
     padding: 4px 5px;
+    a {
+      display: block;
+    }
   }
   td {
     border-left: 0;
