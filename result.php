@@ -156,7 +156,7 @@ else
     </div>
 
   <div class="container">
-    <section class="scroll">
+    <section id="scroll">
       <div class="toggle_scroll">
         <a href="#">表を縮小可能にする</a>
       </div>
@@ -214,7 +214,7 @@ else
                 echo '<td>'.$item['persona'].'</td>';
                 echo '<td>'.$item['role'].'</td>';
                 echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
-                echo '<td class="'.$lClass.'">'.$item['result'].'</td></tr>';
+                echo '<td><span class="'.$lClass.'">'.$item['result'].'</span></td></tr>';
               }
               unset($table,$item,$lClass);
             }
@@ -250,14 +250,7 @@ $TEAM_ARRAY = array(
         $tClass = $TEAM_ARRAY[$team];
         $team_rp  = $db->getTeamRP($team);
 
-        //if(($count+1) %5 === 0)
-        //{
-          //echo '<div class="role"><table class="clear">';
-        //}
-        //else
-        //{
-          echo '<div class="role"><table>';
-        //}
+        echo '<div class="role"><table>';
         echo '<thead><tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
         echo $db->get_team_tr($team);
         echo '</tr></thead><tbody>';
@@ -284,14 +277,14 @@ $TEAM_ARRAY = array(
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/checkWidth.js"></script>
-    <script src="lib/tablesorter.min.js"></script>
+    <script src="lib/dynatable.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
     <script src="../lib/slidemenu.min.js"></script>
     <script>
       $(function() 
         { 
-          $("#list").tablesorter(); 
+          $("#list").dynatable();
           $('#id').addInputArea({
             maximum : 5
           });

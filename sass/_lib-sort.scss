@@ -27,3 +27,19 @@
     font-weight:normal;
   }
 }
+
+
+.dynatable-arrowup
+{
+  font-family:'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  content: "\e156";
+  font-weight:normal;
+}
+.dynatable-arrowdown
+{
+  font-family:'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  content: "\e155";
+  font-weight:normal;
+}
