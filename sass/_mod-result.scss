@@ -303,16 +303,3 @@ footer{
     }
   }
 }
-
-/* 広告設定 */
-@media(max-width: 800px) {
-  #ad .recordresultphp-responsive {
-    width: 468px; height: 60px;
-  }
-}
-@media(max-width: 420px) {
-  #ad .recordresultphp-responsive {
-    width: 320px;
-    height: 50px;
-  }
-}

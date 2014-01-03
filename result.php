@@ -144,12 +144,13 @@ else
       </div>
     </div>
     <div id="ad"> [広告]
-      <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <!-- record/result.php_responsive -->
-      <ins class="adsbygoogle recordresultphp-responsive"
-           style="display:inline-block"
+      <ins class="adsbygoogle"
+           style="display:block"
            data-ad-client="ca-pub-8063117190073359"
-           data-ad-slot="3543412796"></ins>
+           data-ad-slot="3543412796"
+           data-ad-format="horizontal"></ins>
       <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
