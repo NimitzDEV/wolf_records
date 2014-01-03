@@ -1,4 +1,4 @@
-<?
+<?php
 require_once('lib/GetDB.php');
 require_once('lib/CheckID.php');
 
@@ -19,10 +19,9 @@ if($cID->getIsID())
 }
 else
 {
-  echo '<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/index.css"><body>';
-  echo '<header><h1>エラー</h1></header><div class="container"><section><p>';
-  echo 'IDを入力して下さい。</p></section>';
-  echo '<form action="./result.php" method="GET"><input type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn-primary">検索</button></form></div></body>';
+  echo <<<EOF
+<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/index.css"><body><header><h1>エラー</h1></header><div class="container"><section><p>IDを入力して下さい。</p></section><form action="./result.php" method="GET"><input type="text" name="id_0" placeholder="IDを入力して下さい" required><br><button type="submit" class="btn-primary">検索</button></form></div></body>
+EOF;
   exit;
 }
 
@@ -58,12 +57,11 @@ else
   <body>
     <header>
       <div class="container">
-<?
+<?php
 if($db->getBoolDoppel())
 {
   echo '<h1 class="doppel">'.$cID->getViewName().'</h1><div>';
-  echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"]));
-  echo '</div>';
+  echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"])).'</div>';
 }
 else
 {
@@ -74,8 +72,8 @@ else
           <dt>総合参加数</dt>
           <dd>
            <?= $db->getJoinSum(); ?>
-           <span class="i-fire"></span><? echo $db->getJoinGachi(); ?>
-           <span class="i-book"></span><? echo $db->getJoinRP(); ?>
+           <span class="i-fire"></span><?= $db->getJoinGachi(); ?>
+           <span class="i-book"></span><?= $db->getJoinRP(); ?>
           </dd>
 <br>
           <dt>勝率</dt>
@@ -86,13 +84,13 @@ else
           <dt>平均生存係数</dt>
           <dd>
             <span class="i-fire"></span><?= $db->getLiveGachi(); ?>
-            <span class="i-book"></span><? echo $db->getLiveRP(); ?>
+            <span class="i-book"></span><?= $db->getLiveRP(); ?>
           </dd>
 
         </dl>
- <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="none">ツイート</a>
       </div>
-<nav>
+  <nav>
   <div class="navbar-header">
     <button type="button" data-toggle="collapse" data-target=".navbar-collapse">
       <span></span>
@@ -177,7 +175,7 @@ else
           </tr>
         </thead>
         <tbody>
-          <?
+          <?php
             if (!empty($table))
             {
               foreach($table as $item)
@@ -230,7 +228,7 @@ else
       </table>
     </section>
     <section id="role">
-<? 
+<?php
 $TEAM_ARRAY = array(
    "村人"=>'village'
   ,"人狼"=>"wolf"

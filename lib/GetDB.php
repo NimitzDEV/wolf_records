@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('DBAdapter.php');
 
@@ -51,8 +51,8 @@ class GetDB
     $this->skillCount = array();
 
     //IDの数ぶんプレースホルダを作る
-    //$this->holder = implode(',',array_fill(0,count($this->player),'?'));
-    for($i=0;$i<count($this->player);$i++)
+    $count = count($this->player);
+    for($i=0;$i<$count;$i++)
     {
       $holderArray[] = ':player'.$i;
     }
