@@ -57,6 +57,7 @@ dl {
 
 nav {
   color: $col_text;
+  margin-bottom: 0;
   form {
     .form-group {
       float: left;
@@ -106,7 +107,7 @@ nav {
 }
 
 #ad {
-  margin: 10px auto 25px;
+  margin: 0 auto 25px;
   text-align:center;
   @include font-size(1.2);
   .recordresultphp-responsive { 
