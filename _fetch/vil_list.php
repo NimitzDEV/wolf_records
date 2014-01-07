@@ -24,6 +24,7 @@ define('GIJI_AS',21);
 define('GIJI_RP',22);
 define('GIJI_RPA',23);
 define('GIJI_PAN',24);
+define('MELON',26);
 
 $URL_LIST = array(
   ""
@@ -51,6 +52,8 @@ $URL_LIST = array(
   ,"http://giji.check.jp/stories?folder=RP"
   ,"http://giji.check.jp/stories?folder=PRETENSE"
   ,"http://giji.check.jp/stories?folder=PAN"
+  ,""
+  ,"http://melon-cirrus.sakura.ne.jp/sow/sow.cgi?cmd=oldlog"
 );
 
 if(!isset($argv))
@@ -121,6 +124,19 @@ switch($country)
     $base = $html->find('script',-2)->innertext;
     $vil_list = explode('{"_',$base);
     array_shift($vil_list);
+    break;
+  case MELON:
+    $split = 20;
+    $page_no = $html->find('table tbody tr td a',0)->plaintext;
+    $page_no = floor((int)mb_substr($page_no,0,mb_strpos($page_no,' ')) / $split);
+    for($i=0;$i<=$page_no;$i++)
+    {
+      $url = $URL_LIST[$country].'&n='.$i;
+      unset($html);
+      $html = new simple_html_dom();
+      $html->load_file($url);
+      $vil_list[] = $html->find('table tbody',0)->find('tr');
+    }
     break;
   default:
     echo 'ERROR: undefined country ID.';
@@ -233,12 +249,32 @@ if(flock($fp,LOCK_EX))
       case GIJI_RP:
       case GIJI_RPA:
       case GIJI_PAN:
-        // ,"http://giji.check.jp/stories?folder=WOLF"
         $vil_no = preg_replace('/.+,"vid":(\d+),".+/',"$1",$item);
         $vil_name = preg_replace('/.+,"name":"([^"]*)",.+/',"$1",$item);
         $url_state = preg_replace('/id":"([^"]*)",.+/',"$1",$item);
         $url_info = preg_replace("/stories\?folder=.+/",$url_state."/0/messages#mode=info_open_player",$URL_LIST[$country]);
         fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
+        break;
+      case MELON:
+        foreach($item as $count=>$pages)
+        {
+          if($count  === 0)
+          {
+            continue;
+          }
+          //廃村チェック
+          if(!mb_strstr($pages->find('td',3)->plaintext,'日'))
+          {
+            continue;
+          }
+          $title = $pages->find('td a',0)->plaintext;
+          $vil_no = mb_substr($title,0,mb_strpos($title,' '));
+          $vil_name = mb_substr($title,mb_strpos($title,' ')+1); 
+          $url_info = preg_replace('/cmd=oldlog/','v='.$vil_no.'&cmd=vinfo',$URL_LIST[$country]);
+          fwrite($fp,$vil_no.','.$vil_name.','.$url_info.PHP_EOL);
+          $pages->clear();
+          unset($pages);
+        }
         break;
     }
   }
