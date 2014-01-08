@@ -35,6 +35,7 @@ class Data
   const RGL_LEO  = 11;      //決定者入り
   const RGL_TES1 = 12;      //試験壱
   const RGL_TES2 = 13;      //試験弐
+  const RGL_TES3 = 31;      //試験参
   const RGL_LOVE = 15;      //恋人入り
   const RGL_LPLY = 16;      //遊び人入り
   const RGL_ROLLER=21;      //素村が霊能者
@@ -44,6 +45,7 @@ class Data
   const RGL_SECRET= 27;     //秘話村
   const RGL_MILL = 18;      //ミラーズホロウ
   const RGL_DEATH= 19;      //死んだら負け
+  const RGL_LOSE = 32;      //負けたら勝ち
   const RGL_TA   = 20;      //Trouble☆Aliens
   const RGL_MIST = 14;      //深い霧の夜
   const RGL_PLOT = 29;      //陰謀に集う胡蝶
