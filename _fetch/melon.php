@@ -13,7 +13,9 @@ $data  = new Data();
 
 
 $FREE_NAME = ['自由設定','いろいろ','ごった煮','オリジナル','選択科目','フリーダム','特殊事件','特殊業務','闇鍋'];
-$RGL_FREE = [];
+$RGL_FREE = [
+  '（ 村人: 7人 占い師: 1人 霊能者: 1人 狩人: 1人 ） （ 人狼: 2人 狂信者: 1人 ）'=>$data::RGL_TES3
+];
 
 $base_list = $list->read_list();
 
@@ -36,6 +38,9 @@ foreach($base_list as $val_vil=>$item_vil)
   //情報欄取得
   $fetch->load_file($item_vil[2]);
 
+  //人数
+  $village['nop'] = (int)preg_replace('/(\d+)人.+/','\1',$fetch->find('p.multicolumn_left',1)->plaintext);
+
   //レギュレーション挿入
   $rglid_check = $fetch->find('p.multicolumn_right',1)->plaintext;
   $rglid = preg_replace('/^ ([^ ]+) .+/','\1',$rglid_check);
@@ -44,13 +49,13 @@ foreach($base_list as $val_vil=>$item_vil)
     //自由設定でも特定の編成はレギュレーションを指定する
     $free = mb_substr($rglid_check,mb_strpos($rglid_check,'　')+1);
     $free = preg_replace('/ ＋（ 見物人: \d*人 ） /','',$free);
-    echo $village['vno'].'->'.$free.PHP_EOL;
     if(array_key_exists($free,$RGL_FREE))
     {
       $village['rglid'] = $RGL_FREE[$free];
     }
     else
     {
+      echo $village['vno'].'->'.$free.PHP_EOL;
       $village['rglid'] = $data::RGL_ETC;
     }
   }
@@ -204,7 +209,7 @@ foreach($base_list as $val_vil=>$item_vil)
   //言い換え
   $rp = $fetch->find('p.multicolumn_left',9)->plaintext;
 
-  //var_dump($role);
+  var_dump($village);
 
   $fetch->clear();
   //echo $village['vno']. ' is end.'.PHP_EOL;
