@@ -202,7 +202,7 @@ foreach($base_list as $val_vil=>$item_vil)
   }
 
   //言い換え
-  $role = $fetch->find('p.multicolumn_left',9)->plaintext;
+  $rp = $fetch->find('p.multicolumn_left',9)->plaintext;
 
   //var_dump($role);
 
