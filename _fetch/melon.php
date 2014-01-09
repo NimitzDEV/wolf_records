@@ -172,7 +172,7 @@ foreach($base_list as $val_vil=>$item_vil)
     }
     else
     {
-      echo $village['vno'].'->'.$free.PHP_EOL;
+      //echo $village['vno'].'->'.$free.PHP_EOL;
       $village['rglid'] = $data::RGL_ETC;
     }
   }
@@ -324,13 +324,43 @@ foreach($base_list as $val_vil=>$item_vil)
         break;
       default:
         echo 'NOTICE: '.$village['vno'].' has unknown regulation.->'.$rglid.PHP_EOL;
+        break;
     }
   }
 
+  //日数取得
+  $days = trim($fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
+  $days = mb_convert_encoding($days,"UTF-8","auto");
+  $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
+
   //言い換え
   $rp = $fetch->find('p.multicolumn_left',9)->plaintext;
+  //村の方針 推理アイコンがなければfalse
+  $policy = mb_strstr($fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
+
+  //初日取得
+  $fetch->clear();
+  $url = preg_replace("/cmd=vinfo/","t=0&r=10&o=a&mv=p&n=1",$item_vil[2]);
+  $fetch->load_file($url);
+
+  //開始日(プロローグ第一声)
+  $date = $fetch->find('div.mes_date',0)->plaintext;
+  $date = mb_substr($date,7,10);
+  //MySQL用に日付の区切りを/から-に変換
+  $village['date'] = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
+
+  //エピローグ取得
+  $fetch->clear();
+  $url = preg_replace("/0&r=10/",$village['days']."&row=30",$url);
+  $fetch->load_file($url);
+
+  //勝利陣営
+  $wtmid = trim($fetch->find('p.info',2)->plaintext);
+  $test = mb_substr($wtmid,0,10);
 
   //var_dump($village);
+  //var_dump($wtmid);
+  echo $rp.'->'.$test.'->'.$wtmid.PHP_EOL;
 
   $fetch->clear();
   //echo $village['vno']. ' is end.'.PHP_EOL;
