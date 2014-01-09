@@ -134,6 +134,24 @@ $RGL_FREE = [
   ,'（ むらびと: 4人 うらないし: 1人 れいのー: 1人 しゅご: 1人 ） （ じんろー: 2人 きょーじん: 1人 ） （ きゅーこんしゃ: 1人 ）'=>$data::RGL_LOVE
 ];
 
+$RP_LIST = [
+   '人狼物語'=>'SOW'
+  ,'まったり'=>'MELON'
+  ,'適当系'=>'FOOL'
+  ,'妖怪物語'=>'SOW_Y'
+  ,'人狼審問'=>'JUNA'
+  ,'人狼BBS'=>'WBBS'
+  ,'ビジネスオフィス'=>'OFFICE'
+  ,'人狼劇場'=>'THEATER'
+  ,'アリスのお茶会'=>'ALICE'
+  ,'魔神村'=>'MAJIN'
+  ,'騎士団領への旅路'=>'TOUR'
+  ,'宵闇の琥珀'=>'KOHAKU'
+  ,'国史学園'=>'KOKUSI'
+  ,'旧校舎の怪談'=>'GB'
+  ,'煌びやかな賭博場'=>'CASINO'
+];
+
 $base_list = $list->read_list();
 
 $list->open_list('village');
