@@ -150,6 +150,10 @@ $RP_LIST = [
   ,'国史学園'=>'KOKUSI'
   ,'旧校舎の怪談'=>'GB'
   ,'煌びやかな賭博場'=>'CASINO'
+  ,'月見村の狼(限定)'=>'MOON'
+];
+
+$WTM_SOW  = [
 ];
 
 $base_list = $list->read_list();
@@ -352,7 +356,7 @@ foreach($base_list as $val_vil=>$item_vil)
   $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
 
   //言い換え
-  $rp = $fetch->find('p.multicolumn_left',9)->plaintext;
+  $rp = $RP_LIST[$fetch->find('p.multicolumn_left',9)->plaintext];
   //村の方針 推理アイコンがなければfalse
   $policy = mb_strstr($fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
 
@@ -369,16 +373,25 @@ foreach($base_list as $val_vil=>$item_vil)
 
   //エピローグ取得
   $fetch->clear();
-  $url = preg_replace("/0&r=10/",$village['days']."&row=30",$url);
+  $url = preg_replace("/0&r=10/",$village['days']."&r=30",$url);
   $fetch->load_file($url);
 
   //勝利陣営
-  $wtmid = trim($fetch->find('p.info',2)->plaintext);
-  $test = mb_substr($wtmid,0,10);
+  $wtmid = preg_replace('/\r\n/','',trim($fetch->find('p.info',-1)->plaintext));
+  if(preg_match("/村の更新日が延長されました/",$wtmid))
+  {
+    $do_i = -2;
+    do
+    {
+      $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
+      $do_i--;
+    } while(preg_match("/村の更新日が延長されました/",$wtmid));
+  }
+  $test = mb_substr($wtmid,-10);
 
   //var_dump($village);
   //var_dump($wtmid);
-  echo $rp.'->'.$test.'->'.$wtmid.PHP_EOL;
+  echo $village['vno'].'.'.$rp.'->'.$test.'->'.$wtmid.PHP_EOL;
 
   $fetch->clear();
   //echo $village['vno']. ' is end.'.PHP_EOL;
