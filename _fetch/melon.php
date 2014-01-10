@@ -562,18 +562,31 @@ foreach($base_list as $val_vil=>$item_vil)
     //--を支配人/見物人にする
     if($role === '--')
     {
+      $users['dtid'] = $data::DES_ONLOOKER;
+      $users['end'] = 1;
+      $users['tmid'] = $data::TM_ONLOOKER;
+      $users['life'] = 0;
+      $users['rltid'] = $data::RSL_ONLOOKER;
       if($dtid === '--')
       {
         $users['role'] = '支配人';
-      }
-      else if($rp === 'MELON')
-      {
-        $users['role'] = 'やじうま';
+        $users['sklid'] = $data::SKL_OWNER;
       }
       else
       {
-        $users['role'] = '見物人';
+        $users['sklid'] = $data::SKL_ONLOOKER;
+        if($rp === 'MELON')
+        {
+          $users['role'] = 'やじうま';
+        }
+        else
+        {
+          $users['role'] = '見物人';
+        }
       }
+    }
+    else
+    {
     }
 
     var_dump($users);
