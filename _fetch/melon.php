@@ -261,6 +261,23 @@ $WTM_MARKET = [
   '生き残っていた……。'=>$data::TM_FAIRY
 ];
 
+//結末
+$DESTINY = [
+   "処刑"=>$data::DES_HANGED
+  ,"突然死"=>$data::DES_RETIRED
+  ,"襲撃"=>$data::DES_EATEN
+  ,"呪殺"=>$data::DES_CURSED
+  ,"後追"=>$data::DES_SUICIDE
+];
+//勝敗
+$RSL = [
+   "勝利"=>$data::RSL_WIN
+  ,"敗北"=>$data::RSL_LOSE
+  ,"--"=>$data::RSL_INVALID //無効(突然死)
+];
+
+//能力、陣営
+
 $base_list = $list->read_list();
 
 $list->open_list('village');
@@ -587,6 +604,19 @@ foreach($base_list as $val_vil=>$item_vil)
     }
     else
     {
+      $users['rltid'] = $RSL[$item_cast->find("td",2)->plaintext];
+      if($dtid === '生存')
+      {
+        $users['dtid'] = $data::DES_ALIVE;
+        $users['end'] = $village['days'];
+        $users['life'] = 1;
+      }
+      else
+      {
+        $users['dtid'] = $DESTINY[mb_substr($dtid,mb_strpos($dtid,'d')+1)];
+        $users['end'] = (int)mb_substr($dtid,0,mb_strpos($dtid,'d'));
+        $users['life'] = round(($users['end']-1) / $village['days'],2);
+      }
     }
 
     var_dump($users);
