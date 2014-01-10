@@ -150,10 +150,115 @@ $RP_LIST = [
   ,'国史学園'=>'KOKUSI'
   ,'旧校舎の怪談'=>'GB'
   ,'煌びやかな賭博場'=>'CASINO'
+  ,'F2077再戦企画'=>'F2077'
   ,'月見村の狼(限定)'=>'MOON'
+  ,'裏切りのゲーム盤（限定）'=>'BETRAY'
+  ,'ネヴァジスタ(限定)'=>'NEVER'
+  ,'VO8(限定)'=>'VO8'
+  ,'商店街BBS(限定)'=>'MARKET'
 ];
 
-$WTM_SOW  = [
+$WTM_SKIP = [
+   '/村の設定が変更されました。/','/遺言状が公開されました。/','/遺言メモが公開/','/おさかな、美味しかったね！/','/魚人はとても美味/','/とってもきれいだね！/','/運動会は晴天です！/'
+  ,'/見物しに/','/がやってきたよ/'
+];
+
+$WTM_SOW = [
+   '人狼を退治したのだ！'=>$data::TM_VILLAGER
+  ,'を立ち去っていった。'=>$data::TM_WOLF
+  ,'いていなかった……。'=>$data::TM_FAIRY
+  ,'にも無力なのだ……。'=>$data::TM_LOVERS
+  ,'領域だったのだ……。'=>$data::TM_LOVERS
+];
+$WTM_MELON = [
+   'かいけつ！やったね！'=>$data::TM_VILLAGER
+  ,'かいけつならずだよ！'=>$data::TM_WOLF
+  ,'つ！…したっぽいよ？'=>$data::TM_FAIRY
+  ,'がひろがったみたい？'=>$data::TM_FAIRY
+  ,'ゅ〜ん&#9825;'=>$data::TM_LOVERS
+  ,'きどうなっちゃうの？'=>$data::TM_LOVERS
+];
+$WTM_FOOL = [
+   'が勝ちやがりました。'=>$data::TM_VILLAGER
+  ,'ようだ。おめでとう。'=>$data::TM_WOLF
+  ,'けている（らしい）。'=>$data::TM_FAIRY
+  ,'んだよ！（意味不明）'=>$data::TM_FAIRY
+  ,'は世界を救うんだよ！'=>$data::TM_LOVERS
+  ,'狼だって救うんだよ！'=>$data::TM_LOVERS
+];
+$WTM_SOW_Y = [
+   '戻ってくると思うよ。'=>$data::TM_VILLAGER
+  ,'なくなっちゃったよ。'=>$data::TM_WOLF
+  ,'ちを見ているよ……。'=>$data::TM_FAIRY
+];
+$WTM_JUNA = [
+   '人狼に勝利したのだ！'=>$data::TM_VILLAGER
+  ,'めて去って行った……'=>$data::TM_WOLF
+  ,'くことはなかった……'=>$data::TM_FAIRY
+  ,'すすべがなかった……'=>$data::TM_FAIRY
+  ,'真の愛に目覚めた……'=>$data::TM_LOVERS
+];
+$WTM_WBBS = [
+   'る日々は去ったのだ！'=>$data::TM_VILLAGER
+  ,'の村を去っていった。'=>$data::TM_WOLF
+  ,'生き残っていた……。'=>$data::TM_FAIRY
+  ,'に世界はあるの……。'=>$data::TM_LOVERS
+];
+$WTM_OFFICE = [
+   'る支社に戻りました！'=>$data::TM_VILLAGER
+  ,'ってしまいました…。'=>$data::TM_WOLF
+  ,'てしまったようです。'=>$data::TM_FAIRY
+];
+$WTM_THEATER = [//先頭12文字
+   '素敵狼さんを全員捕まえち'=>$data::TM_VILLAGER
+  ,'もう狼さんの魅力に抵抗出'=>$data::TM_WOLF
+  ,'素敵狼さんを全員捕まえた'=>$data::TM_LOVERS
+];
+$WTM_ALICE = [
+   'いお茶会の再開です！'=>$data::TM_VILLAGER
+  ,'ありませんでした…。'=>$data::TM_WOLF
+  ,'んか要らないのです。'=>$data::TM_LOVERS
+];
+$WTM_MAJIN = [
+  '年の間閉ざされる……'=>$data::TM_WOLF
+];
+$WTM_TOUR = [
+   '。村人側の勝利です！'=>$data::TM_VILLAGER
+  ,'。人狼側の勝利です！'=>$data::TM_WOLF
+  ,'にも無力なのだ……。'=>$data::TM_LOVERS
+];
+$WTM_KOHAKU = [
+   '平和な日々が訪れる。'=>$data::TM_VILLAGER
+  ,'まで愛でるとしよう。'=>$data::TM_WOLF
+];
+$WTM_KOKUSI = [
+   '人狼を退治したのだ！'=>$data::TM_VILLAGER
+  ,'を立ち去っていった。'=>$data::TM_WOLF
+];
+$WTM_GB = [
+  '悪霊を始末したのだ！'=>$data::TM_VILLAGER
+];
+$WTM_CASINO = [
+  'る村人はいないのだ！'=>$data::TM_WOLF
+  ,'にも無力なのだ……。'=>$data::TM_LOVERS
+];
+$WTM_F2077 = [
+  'めでとうございます！'=>$data::TM_VILLAGER
+];
+$WTM_MOON = [
+  'を取り戻したのです！'=>$data::TM_VILLAGER
+];
+$WTM_BETRAY = [
+  'の＞を捕らえたのだ！'=>$data::TM_VILLAGER
+];
+$WTM_NEVER = [
+  'と戻っていきました。'=>$data::TM_WOLF
+];
+$WTM_VO8 = [
+  'ーの姿が！ハム勝利！'=>$data::TM_FAIRY
+];
+$WTM_MARKET = [
+  '生き残っていた……。'=>$data::TM_FAIRY
 ];
 
 $base_list = $list->read_list();
@@ -373,25 +478,46 @@ foreach($base_list as $val_vil=>$item_vil)
 
   //エピローグ取得
   $fetch->clear();
-  $url = preg_replace("/0&r=10/",$village['days']."&r=30",$url);
+  $url = preg_replace("/0&r=10/",$village['days']."&r=40",$url);
   $fetch->load_file($url);
 
   //勝利陣営
-  $wtmid = preg_replace('/\r\n/','',trim($fetch->find('p.info',-1)->plaintext));
-  if(preg_match("/村の更新日が延長されました/",$wtmid))
+  if(!$policy)
   {
-    $do_i = -2;
-    do
-    {
-      $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
-      $do_i--;
-    } while(preg_match("/村の更新日が延長されました/",$wtmid));
+    $village['wtmid'] = $data::TM_RP;
   }
-  $test = mb_substr($wtmid,-10);
+  else
+  {
+    $wtmid = trim($fetch->find('p.info',-1)->plaintext);
+    //遅刻見物人のシスメなどを除外
+    $count_replace = 0;
+    preg_replace($WTM_SKIP,'',$wtmid,1,$count_replace);
+    if($count_replace)
+    {
+      $do_i = -2;
+      do
+      {
+        $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
+        $do_i--;
+        preg_replace($WTM_SKIP,'',$wtmid,1,$count_replace);
+      } while($count_replace);
+    }
+    $wtmid = preg_replace('/\r\n/','',$wtmid);
+    //人狼劇場言い換えのみ、先頭12文字で取得する
+    if($rp === 'THEATER')
+    {
+      $wtmid = mb_substr($wtmid,0,12);
+    }
+    else
+    {
+      $wtmid = mb_substr($wtmid,-10);
+    }
+    $village['wtmid'] = ${'WTM_'.$rp}[$wtmid];
+  }
 
-  //var_dump($village);
+
+  var_dump($village);
   //var_dump($wtmid);
-  echo $village['vno'].'.'.$rp.'->'.$test.'->'.$wtmid.PHP_EOL;
 
   $fetch->clear();
   //echo $village['vno']. ' is end.'.PHP_EOL;
