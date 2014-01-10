@@ -515,6 +515,17 @@ foreach($base_list as $val_vil=>$item_vil)
     $village['wtmid'] = ${'WTM_'.$rp}[$wtmid];
   }
 
+  //村を書き込む
+  $cast = $fetch->find('table tr');
+  array_shift($cast);
+  $count_cast = count($cast);
+  //見物人がいるなら見出し分を引く
+  if($count_cast !== $village['nop'])
+  {
+    $count_cast--;
+  }
+  //見物人込みの人数を参加者行数として送る
+  $list->write_list('village',$village,$val_vil+1,$count_cast);
 
   var_dump($village);
   //var_dump($wtmid);
