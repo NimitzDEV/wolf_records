@@ -522,13 +522,64 @@ foreach($base_list as $val_vil=>$item_vil)
   //見物人がいるなら見出し分を引く
   if($count_cast !== $village['nop'])
   {
-    $count_cast--;
+    $arr_guest = [];
+    foreach($cast as $val_guest => $item_guest)
+    {
+      $guest = $item_guest->find('th',0);
+      if($guest)
+      {
+        $arr_guest[] = $val_guest;
+      }
+    }
+    foreach($arr_guest as $item_guest)
+    {
+      unset($cast[$item_guest]);
+    }
+    $count_cast = count($cast);
   }
   //見物人込みの人数を参加者行数として送る
   $list->write_list('village',$village,$val_vil+1,$count_cast);
 
-  var_dump($village);
-  //var_dump($wtmid);
+  foreach($cast as $val_cast => $item_cast)
+  {
+    $users = array(
+       'vid'    =>$val_vil + VID
+      ,'persona'=>trim($item_cast->find("td",0)->plaintext)
+      ,'player' =>trim($item_cast->find("td",1)->plaintext)
+      ,'role'   =>""
+      ,'dtid'   =>""
+      ,'end'    =>""
+      ,'sklid'  =>""
+      ,'tmid'   =>""
+      ,'life'   =>""
+      ,'rltid'  =>""
+    );
+
+    //役職の改行以降をカットする
+    $role = $item_cast->find("td",4)->plaintext;
+    $dtid = $item_cast->find("td",3)->plaintext;
+    $users['role'] = preg_replace('/\r\n.+/','',$role);
+    //--を支配人/見物人にする
+    if($role === '--')
+    {
+      if($dtid === '--')
+      {
+        $users['role'] = '支配人';
+      }
+      else if($rp === 'MELON')
+      {
+        $users['role'] = 'やじうま';
+      }
+      else
+      {
+        $users['role'] = '見物人';
+      }
+    }
+
+    var_dump($users);
+  }
+
+  //var_dump($village);
 
   $fetch->clear();
   //echo $village['vno']. ' is end.'.PHP_EOL;
