@@ -102,6 +102,8 @@ class Data
   const SKL_PROPHET  = 27;  //預言者
   const SKL_DOCTOR   = 25;  //医師
   const SKL_SEERONCE = 66;  //夢占師
+  const SKL_NOTARY   = 68;  //公証人
+  const SKL_DARKH    = 69;  //闇狩人
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //C狂
@@ -115,6 +117,8 @@ class Data
   const SKL_LUNAPRI  = 39;  //魔神官
   const SKL_SNATCH   = 60;  //宿借之民
   const SKL_LUNASIL  = 62;  //聞き耳狂人
+  const SKL_SEAL     = 71;  //封印狂人
+  const SKL_LUNASEER = 72;  //辻占狂人
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -124,6 +128,7 @@ class Data
   const SKL_CHILDWOLF= 45;  //仔狼
   const SKL_DYINGWOLF= 46;  //衰狼
   const SKL_SILENT   = 47;  //黙狼
+  const SKL_POSWOLF  = 70;  //憑狼
 
   const SKL_FAIRY    =  9;  //妖魔
   const SKL_BAT      = 61;  //蝙蝠人間
@@ -132,17 +137,22 @@ class Data
   const SKL_SNOW     = 49;  //風花妖精
   const SKL_JAMFAIRY = 64;  //邪魔妖精
   const SKL_SNAFAIRY = 65;  //宿借妖精
+  const SKL_VAMPIRE  = 74;  //吸血鬼
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
   const SKL_PLAYBOY  = 59;  //遊び人
   const SKL_LOVER    = 67;  //求婚者
+  const SKL_FIANCE   = 75;  //婚約者
 
   const SKL_EFB      = 51;  //邪気悪魔
   const SKL_LWOLF    = 56;  //一匹狼
   const SKL_PIPER    = 57;  //笛吹き
   const SKL_FISH     = 58;  //鱗魚人
+  const SKL_TERU     = 76;  //照坊主
   const SKL_PUPIL    = 54;  //弟子
   const SKL_THIEF    = 55;  //盗賊
+  const SKL_SUCKER   = 73;  //血人
   const SKL_ONLOOKER = 10;  //見物人
+  const SKL_OWNER    = 77;  //支配人
 }
