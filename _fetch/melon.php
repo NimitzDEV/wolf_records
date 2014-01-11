@@ -277,6 +277,36 @@ $RSL = [
 ];
 
 //能力、陣営
+$SKILL = [
+   [$data::SKL_VILLAGER,$data::TM_VILLAGER]
+  ,[$data::SKL_SEER,$data::TM_VILLAGER]
+  ,[$data::SKL_MEDIUM,$data::TM_VILLAGER]
+  ,[$data::SKL_HUNTER,$data::TM_VILLAGER]
+  ,[$data::SKL_MASON,$data::TM_VILLAGER]
+  ,[$data::SKL_TELEPATH,$data::TM_VILLAGER]
+  ,[$data::SKL_STIGMA,$data::TM_VILLAGER]
+  ,[$data::SKL_NOTARY,$data::TM_VILLAGER]
+  ,[$data::SKL_DARKH,$data::TM_VILLAGER]
+  ,[$data::SKL_WOLF,$data::TM_WOLF]
+  ,[$data::SKL_CURSEWOLF,$data::TM_WOLF]
+  ,[$data::SKL_WISEWOLF,$data::TM_WOLF]
+  ,[$data::SKL_POSWOLF,$data::TM_WOLF]
+  ,[$data::SKL_LUNATIC,$data::TM_WOLF]
+  ,[$data::SKL_FANATIC,$data::TM_WOLF]
+  ,[$data::SKL_LUNAWHS,$data::TM_WOLF]
+  ,[$data::SKL_LUNAPATH,$data::TM_WOLF]
+  ,[$data::SKL_SEAL,$data::TM_WOLF]
+  ,[$data::SKL_LUNASEER,$data::TM_WOLF]
+  ,[$data::SKL_FAIRY,$data::TM_FAIRY]
+  ,[$data::SKL_BAT,$data::TM_FAIRY]
+  ,[$data::SKL_PIXY,$data::TM_FAIRY]
+  ,[$data::SKL_SUCKER,$data::TM_NONE]
+  ,[$data::SKL_VAMPIRE,$data::TM_FAIRY]
+  ,[$data::SKL_LOVER,$data::TM_LOVERS]
+  ,[$data::SKL_FIANCE,$data::TM_LOVERS]
+  ,[$data::SKL_FISH,$data::TM_FISH]
+  ,[$data::SKL_TERU,$data::TM_TERU]
+];
 
 $base_list = $list->read_list();
 
