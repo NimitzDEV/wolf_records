@@ -13,6 +13,7 @@ class Data
   const TM_EFB       =  8; //邪気陣営
   const TM_EVIL      =  9; //裏切りの陣営
   const TM_FISH      = 10; //据え膳
+  const TM_TERU      = 13; //照坊主
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
     
