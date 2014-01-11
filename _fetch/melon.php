@@ -785,13 +785,11 @@ foreach($base_list as $val_vil=>$item_vil)
         $users['rltid'] = $RSL[$item_cast->find("td",2)->plaintext];
       }
     }
-
-    var_dump($users);
+    $list->write_list('users',$users,$val_cast+1);
+    $item_cast->clear();
+    unset($item_cast);
   }
-
-  //var_dump($village);
-
   $fetch->clear();
-  //echo $village['vno']. ' is end.'.PHP_EOL;
+  echo $village['vno']. ' is end.'.PHP_EOL;
 }
 unset($fetch);
