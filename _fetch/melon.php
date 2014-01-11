@@ -719,17 +719,30 @@ foreach($base_list as $val_vil=>$item_vil)
     }
     else
     {
-      $sklid = preg_replace('/\(.+/','',$users['role']);
       //特殊言い換え役職が存在しない言い換えセットは物語準拠
       if(array_search($rp,$RP_DEFAULT) !== false)
       {
         $rp = 'SOW';
       }
+      //婚約者は元の役職扱いにする
+      if(mb_strstr($users['role'],${'SKL_'.$rp}[25]))
+      {
+        $sklid = preg_replace('/^.+\((.+)\)/','\1',$users['role']);
+        $users['tmid'] = $data::TM_LOVERS;
+      }
+      else
+      {
+        $sklid = preg_replace('/\(.+/','',$users['role']);
+      }
+      //能力が登録済かチェック
       $skl_key = array_search($sklid,${'SKL_'.$rp});
       if($skl_key !== false)
       {
         $users['sklid'] = $SKILL[$skl_key][0];
-        $users['tmid'] = $SKILL[$skl_key][1];
+        if($users['tmid'] !== $data::TM_LOVERS)
+        {
+          $users['tmid'] = $SKILL[$skl_key][1];
+        }
       }
       else if(mb_strstr($sklid,${'SKL_'.$rp}[6]))
       {
@@ -744,7 +757,7 @@ foreach($base_list as $val_vil=>$item_vil)
         $users['sklid'] = $SKILL[0][0];
         $users['tmid'] = $SKILL[0][1];
       }
-
+      //結末
       if($dtid === '生存')
       {
         $users['dtid'] = $data::DES_ALIVE;
@@ -757,6 +770,7 @@ foreach($base_list as $val_vil=>$item_vil)
         $users['end'] = (int)mb_substr($dtid,0,mb_strpos($dtid,'d'));
         $users['life'] = round(($users['end']-1) / $village['days'],2);
       }
+      //勝敗
       if(!$policy)
       {
         $users['rltid'] = $data::RSL_JOIN;
