@@ -307,6 +307,67 @@ $SKILL = [
   ,[$data::SKL_FISH,$data::TM_FISH]
   ,[$data::SKL_TERU,$data::TM_TERU]
 ];
+$RP_DEFAULT = ['WBBS','THEATER','MAJIN','TOUR','F2077','BETRAY','NEVER','VO8','MARKET'];
+$SKL_SOW = [
+   '村人','占い師','霊能者','狩人','共有者','共鳴者','聖痕者','公証人','闇狩人'
+   ,'人狼','呪狼','智狼','憑狼','狂人','狂信者','Ｃ国狂人','叫迷狂人','封印狂人','辻占狂人'
+   ,'ハムスター人間','蝙蝠人間','小悪魔','血人','吸血鬼'
+   ,'求婚者','婚約者','魚人','照坊主'
+];
+
+$SKL_MELON = [
+   'むらびと','うらないし','れいのー','しゅご','けっしゃ','きょーめいしゃ','ホクロもち','こーしょーにん','やみしゅご'
+  ,'じんろー','じゅろー','ちろー','ひょうろー','きょうじん','きょーしんしゃ','ヒソヒソきょーじん','おたけびきょーじん','ふーいんきょーじん','つじうらきょーじん'
+  ,'よーま','てんま','ようせい','ちびと','きゅーけつき'
+  ,'きゅーこんしゃ','こんやくしゃ','さかなびと','てるぼーず'
+];
+$SKL_FOOL = [
+   'ただの人','エスパー','イタコ','ストーカー','夫婦','おしどり夫婦','痣もち','公証人','闇ストーカー'
+  ,'おおかみ','逆恨み狼','グルメ','憑狼','人狼スキー','人狼教信者','人狼教神官','叫迷狂人','封印狂人','辻占狂人'
+  ,'ハム','コウモリ','イタズラっ子','血人','吸血鬼'
+  ,'求婚者','婚約者','魚人','照坊主'
+];
+$SKL_SOW_Y = [
+    'ただの妖怪','鏡持ち','口寄せ','銭投げ','仙人','山彦','聖獣','公証人','闇銭'
+   ,'貧乏神','死神','疫病神','付喪神','狂鬼','信鬼','囁鬼','叫迷狂人','封印狂人','辻占狂人'
+   ,'飯綱','鳴家','生霊','血人','吸血鬼'
+   ,'求婚者','婚約者','魚人','照坊主'
+];
+$SKL_JUNA = [
+    '村人','占い師','霊能者','守護者','結社員','共鳴者','聖痕者','公証人','闇守護'
+   ,'人狼','呪狼','智狼','憑狼','狂人','狂信者','囁き狂人','叫迷狂人','封印狂人','辻占狂人'
+   ,'妖魔','天魔','悪戯妖精','血人','吸血鬼'
+   ,'求婚者','婚約者','魚人','照坊主'
+];
+$SKL_OFFICE = [
+  '支社社員','監査役','筆頭株主','保守派','労組幹部','秘匿恋愛者','名誉会長','公証人','闇保守派','本社人事','本社人事課長','本社人事次長','本社人事部長','人事補佐Ａ','人事補佐Ｂ','人事補佐Ｃ','叫迷狂人','封印狂人','辻占狂人','産業スパイ梅','産業スパイ桃','産業スパイ桜','血人','吸血鬼','求婚者','婚約者','魚人','照坊主'
+];
+$SKL_ALICE = [
+  '参加者','証人','医者','守衛','裁判官','共鳴者','聖痕者','公証人','闇守衛','犯人','弁の立つ犯人','観察力のある犯人','憑狼','狂言者','狂信者','囁き狂言者','叫迷狂人','封印狂人','辻占狂人','ちゃっかり屋','しっかり屋','うっかり屋','血人','吸血鬼','求婚者','婚約者','魚人','照坊主'
+];
+$SKL_KOHAKU = [
+  '町人','真名探り','好事家','護符職人','刑事','警部','不在証明アリ','公証人','落ち零れ護符職人','魔術師','呪術師','秘術師','憑狼','悪徳琥珀商人','魔術師を目撃した者','魔術師の愛弟子','封印狂人','辻占狂人','琥珀妖精','蝙蝠人間','悪意ある琥珀妖精','尊き琥珀妖精の血族','高貴なる琥珀妖精','求婚者','婚約者','人魚','自殺志願者'
+];
+$SKL_KOKUSI = $SKL_SOW;
+$SKL_KOKUSI[0] = '一般人';
+$SKL_GB = [
+  '学生','占い師','霊能者','退魔師','共有者','共鳴者','聖痕者','公証人','闇狩人','悪霊','呪狼','智狼','憑霊','狂人','狂信者','Ｃ国狂人','叫迷狂人','封印狂人','辻占狂人','ハムスター人間','蝙蝠人間','小悪魔','血人','吸血鬼','求婚者','婚約者','魚人','照坊主'
+];
+$SKL_CASINO = $SKL_SOW;
+$SKL_CASINO[9] = '狼';
+$SKL_CASINO[19] = '妖狐';
+$SKL_MOON = [
+   '村人役','占い師役','霊能者役','狩人役','共有者役','共鳴者','聖痕者','公証人','闇狩人'
+   ,'人狼役','呪狼','智狼','憑狼','狂人役','狂信者','Ｃ国狂人','叫迷狂人','封印狂人','辻占狂人'
+   ,'妖狐役','蝙蝠人間','小悪魔','血人','吸血鬼'
+   ,'求婚者','婚約者','魚人','照坊主'
+];
+$SKL_BETRAY = [
+   'AGNメンバー','覗き屋','情報屋','ガーディアン','共有者','魂の通話者','聖痕者','公証人','闇狩人'
+   ,'満月に吼えるもの','呪狼','満月を知るもの','憑狼','狂人','狂信者','内通者','遺伝子の通話者','封じる人','辻占狂人'
+   ,'ハムスター人間','蝙蝠人間','小悪魔','神経質な人','吸血鬼'
+   ,'求める人','婚約者','魚人','照坊主'
+];
 
 $base_list = $list->read_list();
 
@@ -508,7 +569,16 @@ foreach($base_list as $val_vil=>$item_vil)
   $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
 
   //言い換え
-  $rp = $RP_LIST[$fetch->find('p.multicolumn_left',9)->plaintext];
+  $rp = $fetch->find('p.multicolumn_left',9)->plaintext;
+  if(array_key_exists($rp,$RP_LIST))
+  {
+    $rp = $RP_LIST[$rp];
+  }
+  else
+  {
+    echo $village['vno'].' has undefined RP.';
+    $rp = 'SOW';
+  }
   //村の方針 推理アイコンがなければfalse
   $policy = mb_strstr($fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
 
@@ -616,25 +686,65 @@ foreach($base_list as $val_vil=>$item_vil)
       $users['rltid'] = $data::RSL_ONLOOKER;
       if($dtid === '--')
       {
-        $users['role'] = '支配人';
         $users['sklid'] = $data::SKL_OWNER;
+        switch($rp)
+        {
+          case 'GB':
+            $users['role'] = '旧校舎の主';
+            break;
+          default:
+            $users['role'] = '支配人';
+            break;
+        }
       }
       else
       {
         $users['sklid'] = $data::SKL_ONLOOKER;
-        if($rp === 'MELON')
+        switch($rp)
         {
-          $users['role'] = 'やじうま';
-        }
-        else
-        {
-          $users['role'] = '見物人';
+          case 'MELON':
+            $users['role'] = 'やじうま';
+            break;
+          case 'GB':
+            $users['role'] = '観客';
+            break;
+          case 'MOON':
+            $users['role'] = 'お客様';
+            break;
+          default:
+            $users['role'] = '見物人';
+            break;
         }
       }
     }
     else
     {
-      $users['rltid'] = $RSL[$item_cast->find("td",2)->plaintext];
+      $sklid = preg_replace('/\(.+/','',$users['role']);
+      //特殊言い換え役職が存在しない言い換えセットは物語準拠
+      if(array_search($rp,$RP_DEFAULT) !== false)
+      {
+        $rp = 'SOW';
+      }
+      $skl_key = array_search($sklid,${'SKL_'.$rp});
+      if($skl_key !== false)
+      {
+        $users['sklid'] = $SKILL[$skl_key][0];
+        $users['tmid'] = $SKILL[$skl_key][1];
+      }
+      else if(mb_strstr($sklid,${'SKL_'.$rp}[6]))
+      {
+        //聖痕者
+        $users['sklid'] = $SKILL[6][0];
+        $users['tmid'] = $SKILL[6][1];
+      }
+      else
+      {
+        //未定義の役職
+        echo 'NOTICE: '.$village['vno'].'.'.$users['persona'].' has undefined role.';
+        $users['sklid'] = $SKILL[0][0];
+        $users['tmid'] = $SKILL[0][1];
+      }
+
       if($dtid === '生存')
       {
         $users['dtid'] = $data::DES_ALIVE;
@@ -646,6 +756,14 @@ foreach($base_list as $val_vil=>$item_vil)
         $users['dtid'] = $DESTINY[mb_substr($dtid,mb_strpos($dtid,'d')+1)];
         $users['end'] = (int)mb_substr($dtid,0,mb_strpos($dtid,'d'));
         $users['life'] = round(($users['end']-1) / $village['days'],2);
+      }
+      if(!$policy)
+      {
+        $users['rltid'] = $data::RSL_JOIN;
+      }
+      else
+      {
+        $users['rltid'] = $RSL[$item_cast->find("td",2)->plaintext];
       }
     }
 
