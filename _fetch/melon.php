@@ -656,6 +656,8 @@ foreach($base_list as $val_vil=>$item_vil)
       unset($cast[$item_guest]);
     }
     $count_cast = count($cast);
+    //配列の連番を振り直す
+    $cast = array_merge($cast);
   }
   //見物人込みの人数を参加者行数として送る
   $list->write_list('village',$village,$val_vil+1,$count_cast);
