@@ -159,7 +159,7 @@ $RP_LIST = [
 ];
 
 $WTM_SKIP = [
-   '/村の設定が変更されました。/','/遺言状が公開されました。/','/遺言メモが公開/','/おさかな、美味しかったね！/','/魚人はとても美味/','/人魚は/','/とってもきれいだね！/','/運動会は晴天です！/'
+   '/村の設定が変更されました。/','/遺言状が公開されました。/','/遺言メモが公開/','/おさかな、美味しかったね！/','/魚人はとても美味/','/人魚は/','/とってもきれいだね！/','/自殺志願者/','/運動会は晴天です！/'
   ,'/見物しに/','/がやってきたよ/'
 ];
 
@@ -265,6 +265,7 @@ $WTM_MARKET = [
 $DESTINY = [
    "処刑"=>$data::DES_HANGED
   ,"突然死"=>$data::DES_RETIRED
+  ,"遅刻死"=>$data::DES_RETIRED //旧突然死？
   ,"襲撃"=>$data::DES_EATEN
   ,"呪殺"=>$data::DES_CURSED
   ,"後追"=>$data::DES_SUICIDE
@@ -307,7 +308,7 @@ $SKILL = [
   ,[$data::SKL_FISH,$data::TM_FISH]
   ,[$data::SKL_TERU,$data::TM_TERU]
 ];
-$RP_DEFAULT = ['WBBS','THEATER','MAJIN','TOUR','F2077','BETRAY','NEVER','VO8','MARKET'];
+$RP_DEFAULT = ['WBBS','THEATER','TOUR','F2077','NEVER','VO8','MARKET'];
 $SKL_SOW = [
    '村人','占い師','霊能者','狩人','共有者','共鳴者','聖痕者','公証人','闇狩人'
    ,'人狼','呪狼','智狼','憑狼','狂人','狂信者','Ｃ国狂人','叫迷狂人','封印狂人','辻占狂人'
@@ -318,7 +319,7 @@ $SKL_SOW = [
 $SKL_MELON = [
    'むらびと','うらないし','れいのー','しゅご','けっしゃ','きょーめいしゃ','ホクロもち','こーしょーにん','やみしゅご'
   ,'じんろー','じゅろー','ちろー','ひょうろー','きょーじん','きょーしんしゃ','ヒソヒソきょーじん','おたけびきょーじん','ふーいんきょーじん','つじうらきょーじん'
-  ,'よーま','てんま','ようせい','ちびと','きゅーけつき'
+  ,'よーま','てんま','こあくま','ちびと','きゅーけつき'
   ,'きゅーこんしゃ','こんやくしゃ','さかなびと','てるぼーず'
 ];
 $SKL_FOOL = [
@@ -351,6 +352,7 @@ $SKL_ALICE = [
   ,'ちゃっかり屋','しっかり屋','うっかり屋','血人','吸血鬼'
   ,'求婚者','婚約者','魚人','照坊主'
 ];
+$SKL_MAJIN = $SKL_JUNA;
 $SKL_KOHAKU = [
    '町人','真名探り','好事家','護符職人','刑事','警部','不在証明アリ','公証人','落ち零れ護符職人'
    ,'魔術師','呪術師','秘術師','憑狼','悪徳琥珀商人','魔術師を目撃した者','魔術師の愛弟子','念話術士','封印狂人','辻占狂人'
@@ -697,7 +699,7 @@ foreach($base_list as $val_vil=>$item_vil)
     $role = $item_cast->find("td",4)->plaintext;
     $dtid = $item_cast->find("td",3)->plaintext;
     //役職の改行以降をカットする
-    $users['role'] = preg_replace('/\r\n.+/','',$role);
+    $users['role'] = preg_replace('/\r\n.+/s','',$role);
     //--を支配人/見物人にする
     if($role === '--')
     {
@@ -775,7 +777,7 @@ foreach($base_list as $val_vil=>$item_vil)
       else
       {
         //未定義の役職
-        echo 'NOTICE: '.$village['vno'].'.'.$users['persona'].' has undefined role.';
+        echo 'NOTICE: '.$village['vno'].'.'.$users['persona'].' has undefined role.->'.$sklid;
         $users['sklid'] = $SKILL[0][0];
         $users['tmid'] = $SKILL[0][1];
       }
