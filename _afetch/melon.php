@@ -25,9 +25,7 @@ else
   exit;
 }
 
-$fetch = new simple_html_dom();
 $data  = new Data();
-
 
 $FREE_NAME = ['自由設定','いろいろ','ごった煮','オリジナル','選択科目','フリーダム','特殊事件','特殊業務','闇鍋'];
 $RGL_FREE = [
@@ -400,17 +398,15 @@ $SKL_BETRAY = [
    ,'求める人','婚約者','魚人','照坊主'
 ];
 
-$base_list = $list->read_list();
+$fetch = new simple_html_dom();
 
-$list->open_list('village');
-$list->open_list('users');
-
-foreach($base_list as $val_vil=>$item_vil)
+foreach($fetched_v as $item_vil)
 {
   //初期化
   $village = array(
-             'vno'  =>$item_vil[0]
-            ,'name' =>$item_vil[1]
+             'cid'  =>CID
+            ,'vno'  =>$item_vil
+            ,'name' =>""
             ,'date' =>""
             ,'nop'  =>""
             ,'rglid'=>""
@@ -419,7 +415,11 @@ foreach($base_list as $val_vil=>$item_vil)
   );
 
   //情報欄取得
-  $fetch->load_file($item_vil[2]);
+  $url = URL_VIL.$item_vil.'&cmd=vinfo';
+  $fetch->load_file($url);
+
+  //村名
+  $village['name'] = $fetch->find('p.multicolumn_left',0)->plaintext;
 
   //人数
   $village['nop'] = (int)preg_replace('/(\d+)人.+/','\1',$fetch->find('p.multicolumn_left',1)->plaintext);
@@ -438,7 +438,7 @@ foreach($base_list as $val_vil=>$item_vil)
     }
     else
     {
-      //echo $village['vno'].'->'.$free.PHP_EOL;
+      echo $village['vno'].'->'.$free.PHP_EOL;
       $village['rglid'] = $data::RGL_ETC;
     }
   }
@@ -615,7 +615,7 @@ foreach($base_list as $val_vil=>$item_vil)
 
   //初日取得
   $fetch->clear();
-  $url = preg_replace("/cmd=vinfo/","t=0&r=10&o=a&mv=p&n=1",$item_vil[2]);
+  $url = preg_replace("/cmd=vinfo/","t=0&r=10&o=a&mv=p&n=1",$url);
   $fetch->load_file($url);
 
   //開始日(プロローグ第一声)
@@ -695,14 +695,11 @@ foreach($base_list as $val_vil=>$item_vil)
     //配列の連番を振り直す
     $cast = array_merge($cast);
   }
-  //見物人込みの人数を参加者行数として送る
-  $list->write_list('village',$village,$val_vil+1,$count_cast);
 
-  foreach($cast as $val_cast => $item_cast)
+  foreach($cast as $item_cast)
   {
     $users = array(
-       'vid'    =>$val_vil + VID
-      ,'persona'=>trim($item_cast->find("td",0)->plaintext)
+       'persona'=>trim($item_cast->find("td",0)->plaintext)
       ,'player' =>trim($item_cast->find("td",1)->plaintext)
       ,'role'   =>""
       ,'dtid'   =>""
@@ -821,11 +818,18 @@ foreach($base_list as $val_vil=>$item_vil)
         $users['rltid'] = $RSL[$item_cast->find("td",2)->plaintext];
       }
     }
-    $list->write_list('users',$users,$val_cast+1);
+    $list_users[] = $users;
     $item_cast->clear();
     unset($item_cast);
   }
   $fetch->clear();
-  echo $village['vno']. ' is end.'.PHP_EOL;
+  //村を書き込む
+  $db->connect();
+  if($db->insert_db($village,$list_users))
+  {
+    echo COUNTRY.$village['vno']. ' is all inserted.'.PHP_EOL;
+    $check->remove_queue($village['vno']);
+  }
+  $db->disconnect();
 }
 unset($fetch);
