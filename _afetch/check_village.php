@@ -239,6 +239,9 @@ class Check_Village
         $list_vno = $this->html->find('tr',1)->find('td',0)->innertext;
         $list_vno = (int)preg_replace("/^(\d+) <a.+/","$1",$list_vno);
         break;
+      case 'melon':
+        $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
+        break;
     }
     $this->html->clear();
     return $list_vno;
