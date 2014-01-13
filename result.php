@@ -239,6 +239,7 @@ $TEAM_ARRAY = array(
   ,"邪気"=>"efb"
   ,"裏切り"=>"evil"
   ,"据え膳"=>"fish"
+  ,"照坊主"=>"teru"
 );
 
 
