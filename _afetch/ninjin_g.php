@@ -1,6 +1,14 @@
 <?php
+define ("COUNTRY","ninjin_g");
+define ("CID",9);
+define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
+define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
 
-require_once('../../lib/simple_html_dom.php');
+class Ninjin {
+
+  function fetch_ninjin()
+  {
+require_once('./simple_html_dom.php');
 require_once('./data.php');
 require_once('./check_village.php');
 require_once('./insert_destiny.php');
@@ -8,10 +16,6 @@ require_once('./insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
-define ("COUNTRY","ninjin_g");
-define ("CID",9);
-define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
-define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
 
 $db    = new Insert_DB(CID);
 $check = new Check_Village(COUNTRY,CID,URL_VIL,URL_LOG);
@@ -232,4 +236,6 @@ foreach($fetched_v as $vno)
     $check->remove_queue($village['vno']);
   }
   $db->disconnect();
+}
+  }
 }

@@ -1,6 +1,9 @@
 <?php
+class Guta{
+  function fetch_guta()
+  {
 
-require_once('../../lib/simple_html_dom.php');
+require_once('./simple_html_dom.php');
 require_once('./data.php');
 require_once('./check_village.php');
 require_once('./insert_db.php');
@@ -667,4 +670,7 @@ foreach($COUNTRYS as $cid)
     $db->disconnect();
   }
   unset($fetch);
+}
+  }
+
 }
