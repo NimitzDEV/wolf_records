@@ -1,7 +1,7 @@
 <?php
 
-require_once('../../lib/simple_html_dom.php');
-require_once('./data.php');
+require_once('simple_html_dom.php');
+require_once('data.php');
 mb_internal_encoding("UTF-8");
 
 class Insert_Destiny

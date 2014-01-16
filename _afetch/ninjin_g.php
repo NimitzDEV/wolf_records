@@ -1,18 +1,15 @@
 <?php
+ini_set('display_errors','on');
 define ("COUNTRY","ninjin_g");
 define ("CID",9);
 define ("URL_LOG","http://www.wolfg.x0.com/index.rb?cmd=log");
 define ("URL_VIL","http://www.wolfg.x0.com/index.rb?vid=");
 
-class Ninjin {
-
-  function fetch_ninjin()
-  {
-require_once('./simple_html_dom.php');
-require_once('./data.php');
-require_once('./check_village.php');
-require_once('./insert_destiny.php');
-require_once('./insert_db.php');
+require_once('simple_html_dom.php');
+require_once('data.php');
+require_once('check_village.php');
+require_once('insert_destiny.php');
+require_once('insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
@@ -28,7 +25,7 @@ if($check->get_village())
 else
 {
   echo 'not fetch.';
-  exit;
+  return;
 }
 
 $data  = new Data();
@@ -237,5 +234,4 @@ foreach($fetched_v as $vno)
   }
   $db->disconnect();
 }
-  }
-}
+

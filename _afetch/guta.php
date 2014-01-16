@@ -1,12 +1,9 @@
 <?php
-class Guta{
-  function fetch_guta()
-  {
-
-require_once('./simple_html_dom.php');
-require_once('./data.php');
-require_once('./check_village.php');
-require_once('./insert_db.php');
+ini_set('display_errors','on');
+require_once('simple_html_dom.php');
+require_once('data.php');
+require_once('check_village.php');
+require_once('insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
@@ -345,7 +342,7 @@ foreach($COUNTRYS as $cid)
 
     //日数取得
     $days = trim($fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $days = mb_convert_encoding($days,"UTF-8","auto");
+    $days = mb_convert_encoding($days,"UTF-8","SJIS");
     $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
 
     //レギュレーション挿入
@@ -670,7 +667,4 @@ foreach($COUNTRYS as $cid)
     $db->disconnect();
   }
   unset($fetch);
-}
-  }
-
 }

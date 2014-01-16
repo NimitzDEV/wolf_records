@@ -1,9 +1,11 @@
 <?php
+ini_set('display_errors','on');
 
-require_once('../../lib/simple_html_dom.php');
-require_once('./data.php');
-require_once('./check_village.php');
-require_once('./insert_db.php');
+
+require_once('simple_html_dom.php');
+require_once('data.php');
+require_once('check_village.php');
+require_once('insert_db.php');
 
 mb_internal_encoding("UTF-8");
 

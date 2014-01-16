@@ -1,7 +1,7 @@
 <?php
 
-require_once('../lib/DBAdapter.php');
-require_once('../../lib/simple_html_dom.php');
+require_once('/home/waoon/lib/DBAdapter.php');
+require_once('simple_html_dom.php');
 mb_internal_encoding("UTF-8");
 
 class Check_Village
@@ -35,7 +35,8 @@ class Check_Village
 
   function check_queue()
   {
-    $fp = fopen('q_'.$this->country.'.txt','r');
+    $fp = fopen('/home/waoon/fetch_record/q_'.$this->country.'.txt','r');
+    var_dump($fp);
     if(flock($fp,LOCK_EX))
     {
       $this->queue_org = fgets($fp);
@@ -66,7 +67,7 @@ class Check_Village
     }
     else
     {
-      echo 'ERROR: Cannot lock queue.'.PHP_EOL;
+      echo 'ERROR: Cannot lock queue.(check_queue)'.PHP_EOL;
       fclose($fp);
       exit;
     }
@@ -79,7 +80,7 @@ class Check_Village
   {
     if(in_array($vno,$this->queue_del))
     {
-      $fp = fopen('q_'.$this->country.'.txt','r+');
+      $fp = fopen('/home/waoon/fetch_record/q_'.$this->country.'.txt','r+');
       if(flock($fp,LOCK_EX))
       {
         $queue = fgets($fp);
@@ -187,7 +188,7 @@ class Check_Village
         else
         {
           //終了していない村は一旦村番号をメモ
-          $fp = fopen('q_'.$this->country.'.txt','a+');
+          $fp = fopen('/home/waoon/fetch_record/q_'.$this->country.'.txt','a+');
           if(flock($fp,LOCK_SH))
           {
             if(fwrite($fp,$vno.','))
@@ -205,7 +206,7 @@ class Check_Village
           }
           else
           {
-            echo 'ERROR:'.$vno.' Cannot lock queue.'.PHP_EOL;
+            echo 'ERROR:'.$vno.' Cannot lock queue.(check_fetch_vno)'.PHP_EOL;
             fclose($fp);
             exit;
           }

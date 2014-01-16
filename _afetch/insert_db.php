@@ -1,6 +1,6 @@
 <?php
 
-require_once('../lib/DBAdapter.php');
+require_once('/home/waoon/lib/DBAdapter.php');
 
 
 class Insert_DB

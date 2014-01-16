@@ -1,9 +1,10 @@
 <?php
+ini_set('display_errors','on');
 
-require_once('../../lib/simple_html_dom.php');
-require_once('./data.php');
-require_once('./check_village.php');
-require_once('./insert_db.php');
+require_once('simple_html_dom.php');
+require_once('data.php');
+require_once('check_village.php');
+require_once('insert_db.php');
 
 mb_internal_encoding("UTF-8");
 
@@ -596,7 +597,7 @@ foreach($fetched_v as $item_vil)
 
   //日数取得
   $days = trim($fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-  $days = mb_convert_encoding($days,"UTF-8","auto");
+  $days = mb_convert_encoding($days,"UTF-8","SJIS");
   $village['days'] = mb_substr($days,0,mb_strpos($days,'日')) +1;
 
   //言い換え
