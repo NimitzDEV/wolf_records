@@ -15,7 +15,7 @@ foreach($countries as $ctry)
 {
   echo '---'.$ctry.' start-------'.PHP_EOL;
   ${$ctry} = new $ctry;
-  ${$ctry}->fetch_village();
+  ${$ctry}->insert_village();
   echo '---'.$ctry.' end---------'.PHP_EOL;
   unset(${$ctry});
 }

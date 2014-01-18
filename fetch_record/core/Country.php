@@ -16,7 +16,7 @@ abstract class Country
     $this->url = $url_vil;
   }
 
-  function fetch_village()
+  function insert_village()
   {
     $list = $this->check->get_village();
     if(!$list)
@@ -28,13 +28,15 @@ abstract class Country
     foreach($list as $vno)
     {
       $this->village = new Village($this->cid,$vno);
-      $this->fetch_name();
+      $this->fetch_village();
+      var_dump(get_object_vars($this->village));
     }
   }
+  abstract function fetch_village();
   abstract function fetch_name();
   abstract function fetch_date();
   abstract function fetch_nop();
-  abstract function fetch_rglid($nop);
+  abstract function fetch_rglid();
   abstract function fetch_days();
   abstract function fetch_wtmid();
 }
