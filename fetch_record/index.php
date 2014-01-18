@@ -17,4 +17,5 @@ foreach($countries as $ctry)
   ${$ctry} = new $ctry;
   ${$ctry}->fetch_village();
   echo '---'.$ctry.' end---------'.PHP_EOL;
+  unset(${$ctry});
 }
