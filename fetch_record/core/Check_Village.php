@@ -29,7 +29,30 @@ class Check_Village
     return $this->village;
   }
 
-  function open_queue()
+  function check_queue_del($vno)
+  {
+    if(in_array($vno,$this->queue_del))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  function remove_queue($vno)
+  {
+    $this->open_queue();
+    $queue = preg_replace('/'.$vno.',/',"",$this->queue);
+
+    ftruncate($this->fp,0);
+    fseek($this->fp, 0);
+    fwrite($this->fp,$queue);
+    $this->close_queue();
+  }
+
+  private function open_queue()
   {
     $fname = __DIR__.'/../queue/'.$this->cid.'.txt';
     if(is_writable($fname))
@@ -61,14 +84,14 @@ class Check_Village
     }
   }
 
-  function close_queue()
+  private function close_queue()
   {
     fflush($this->fp);
     flock($this->fp,LOCK_UN);
     fclose($this->fp);
   }
 
-  function check_queue()
+  private function check_queue()
   {
     $line = $this->open_queue();
     if($line)
@@ -101,30 +124,7 @@ class Check_Village
     }
   }
 
-  function check_queue_del($vno)
-  {
-    if(in_array($vno,$this->queue_del))
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  function remove_queue($vno)
-  {
-    $this->open_queue();
-    $queue = preg_replace('/'.$vno.',/',"",$this->queue);
-
-    ftruncate($this->fp,0);
-    fseek($this->fp, 0);
-    fwrite($this->fp,$queue);
-    $this->close_queue();
-  }
-
-  function check_end($vno)
+  private function check_end($vno)
   {
     $this->html->load_file($this->url_vil.$vno);
     if($this->cid === Cnt::NING)
@@ -147,7 +147,7 @@ class Check_Village
     }
   }
 
-  function check_not_ruined($vno)
+  private function check_not_ruined($vno)
   {
     if($this->cid === Cnt::NING)
     {
@@ -185,7 +185,7 @@ class Check_Village
     }
   }
 
-  function check_new_fetch()
+  private function check_new_fetch()
   {
     $list_vno = $this->check_endlist();
     $db_vno = $this->check_db();
@@ -221,7 +221,7 @@ class Check_Village
     }
   }
 
-  function check_endlist()
+  private function check_endlist()
   {
     $this->html->load_file($this->url_log);
     switch($this->cid)
@@ -251,7 +251,7 @@ class Check_Village
     return $list_vno;
   }
 
-  function check_db()
+  private function check_db()
   {
     try{
       $pdo = new DBAdapter();
@@ -267,5 +267,4 @@ class Check_Village
 
     return (int)$db_vno[0];
   }
-
 }
