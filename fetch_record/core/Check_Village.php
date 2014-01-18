@@ -26,6 +26,10 @@ class Check_Village
     $this->check_queue();
     $this->check_new_fetch();
     $this->close_queue();
+    if($village)
+    {
+      asort($village);
+    }
     return $this->village;
   }
 
@@ -201,7 +205,7 @@ class Check_Village
 
         if($is_end && $this->check_not_ruined($vno))
         {
-          $this->village[] = $vno;
+          $this->village[] = (int)$vno;
         }
         else if($is_end)
         {
