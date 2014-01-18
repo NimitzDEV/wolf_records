@@ -7,11 +7,14 @@ mb_internal_encoding("UTF-8");
 require __DIR__.'/core/ClassLoader.php';
 $class_loader = new ClassLoader([__DIR__.'/core',__DIR__.'/country',__DIR__.'/../lib']);
 
-//国名からインスタンス生成→実行
-//$countries = ['ning','guta','gutap','morphe','perjury','xebec','crazy','cafe','ciel','melon'];
-$countries = ['ning'];
+//定数から国名リスト取得
+$countries = new ReflectionClass('Cnt');
+$countries = array_keys($countries->getConstants());
+
 foreach($countries as $ctry)
 {
-  $name = ucfirst($ctry);
-  ${$ctry} = new $name;
+  echo '---'.$ctry.' start-------'.PHP_EOL;
+  ${$ctry} = new $ctry;
+  ${$ctry}->fetch_village();
+  echo '---'.$ctry.' end---------'.PHP_EOL;
 }
