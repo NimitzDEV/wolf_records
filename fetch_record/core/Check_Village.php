@@ -26,9 +26,9 @@ class Check_Village
     $this->check_queue();
     $this->check_new_fetch();
     $this->close_queue();
-    if($village)
+    if($this->village)
     {
-      asort($village);
+      asort($this->village);
     }
     return $this->village;
   }
