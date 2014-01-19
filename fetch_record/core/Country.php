@@ -39,6 +39,20 @@ abstract class Country
         echo 'ERROR: '.$vno.'could not fetched.'.PHP_EOL;
         continue;
       }
+      $db = new Insert_DB($this->cid);
+      if(!$db->connect())
+      {
+        return;
+      }
+      if($db->insert_db($this->village,$this->users))
+      {
+        echo $this->village->vno. ' is all inserted.'.PHP_EOL;
+        if($this->check->check_queue_del($this->village->vno))
+        {
+          $this->check->remove_queue($this->village->vno);
+        }
+      }
+      $db->disconnect();
     }
   }
 

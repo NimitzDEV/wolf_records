@@ -1,8 +1,5 @@
 <?php
 
-require_once('/home/waoon/lib/DBAdapter.php');
-
-
 class Insert_DB
 {
   private $cid
@@ -20,7 +17,7 @@ class Insert_DB
       return true;
     } catch (pdoexception $e){
       var_dump($e->getMessage());
-      exit;
+      return false;
     }
   }
 
@@ -31,74 +28,123 @@ class Insert_DB
 
   function insert_db($village,$cast)
   {
-    $vid = $this->insert_village(array_values($village));
+    $vid = $this->insert_village(get_object_vars($village));
     
-    if($vid)
+    if(isset($vid['id']))
     {
-      if(!$this->insert_user($vid,$cast))
+      if(!$this->insert_user((int)$vid['id'],$cast))
       {
+        echo 'ERROR: Cannot insert users.'.PHP_EOL;
         return false;
       }
     }
     else
     {
+      echo 'ERROR: Cannot fetch vid.'.PHP_EOL;
       return false;
     }
     return true;
   }
 
-  function insert_village($village)
+  private function check_not_duplicate($vno)
   {
-    $vno = $village[1];
-
-    //村が登録済でないかチェック
-    $stmt = $this->pdo->prepare("SELECT vno FROM village where cid=:cid AND vno=:vno");
+    $sql = "SELECT vno FROM village where cid=:cid AND vno=:vno";
+    $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
     $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
     $stmt->execute();
-    if(!$stmt->fetch(PDO::FETCH_NUM))
+    return $stmt->fetch();
+  }
+
+  private function insert_village($village)
+  {
+    $is_duplicate = $this->check_not_duplicate($village['vno']);
+    if(!$is_duplicate['vno'])
     {
-      $stmt = $this->pdo->prepare("
-        INSERT INTO village(cid,vno,name,date,nop,rglid,days,wtmid) VALUES (?,?,?,?,?,?,?,?)
-      ");
-
-      if($stmt->execute($village))
+      $sql = "INSERT INTO village(cid,vno,name,date,nop,rglid,days,wtmid) VALUES (:cid,:vno,:name,:date,:nop,:rglid,:days,:wtmid)";
+      $stmt = $this->pdo->prepare($sql);
+      foreach($village as $key=>$value)
       {
-        $stmt = $this->pdo->prepare("SELECT id FROM village WHERE cid=:cid AND vno=:vno");
-        $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
-        $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
-        $stmt->bindColumn(1,$vid);
-        $stmt->execute();
-        $stmt->fetch(PDO::FETCH_BOUND);
-
-        return $vid;
+        switch($key)
+        {
+          case 'cid':
+          case 'vno':
+          case 'nop':
+          case 'rglid':
+          case 'days':
+          case 'wtmid':
+            $stmt->bindValue(':'.$key,$value,PDO::PARAM_INT);
+            break;
+          case 'name':
+          case 'date':
+            $stmt->bindValue(':'.$key,$value,PDO::PARAM_STR);
+            break;
+          default:
+            echo 'ERROR: '.$village['vno'].' has unknown key in array.'.PHP_EOL;
+            return;
+        }
+      }
+      if($stmt->execute())
+      {
+        return $this->check_vid($village['vno']);
       }
       else
       {
-        echo 'ERROR: No. '.$vno.' not inserted.=EOL='.PHP_EOL;
+        echo 'ERROR: No. '.$village['vno'].' not inserted.'.PHP_EOL;
         return false;
       }
     }
     else
     {
-      echo 'ERROR: vno.'.$vno.' is already inserted.';
+      echo 'NOTICE: vno.'.$village['vno'].' is already inserted.'.PHP_EOL;
       return false;
     }
   }
 
-  function insert_user($vid,$cast)
+  private function check_vid($vno)
   {
-    foreach($cast as $item)
-    {
-      $stmt = $this->pdo->prepare("
-        INSERT INTO users (vid,persona,player,role,dtid,end,sklid,tmid,life,rltid) values (?,?,?,?,?,?,?,?,?,?)
-      ");
+    $sql = "SELECT id FROM village WHERE cid=:cid AND vno=:vno";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':cid',$this->cid,PDO::PARAM_INT);
+    $stmt->bindValue(':vno',$vno,PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
 
-      $item = array_values($item);
-      array_unshift($item,$vid);
-      if(!$stmt->execute($item))
+  private function insert_user($vid,$cast)
+  {
+    foreach($cast as $object)
+    {
+      $user = get_object_vars($object);
+      $sql = "INSERT INTO users (vid,persona,player,role,dtid,end,sklid,tmid,life,rltid) values (:vid,:persona,:player,:role,:dtid,:end,:sklid,:tmid,:life,:rltid)";
+      $stmt = $this->pdo->prepare($sql);
+
+      $stmt->bindValue(':vid',$vid,PDO::PARAM_INT);
+      foreach($user as $key=>$value)
       {
-        echo '>>ERROR:'.$item[1].'/'.$item[2].' in vid:'.$vid.' was NOT inserted'.PHP_EOL;
+        switch($key)
+        {
+          case 'dtid':
+          case 'end':
+          case 'sklid':
+          case 'tmid':
+          case 'rltid':
+            $stmt->bindValue(':'.$key,$value,PDO::PARAM_INT);
+            break;
+          case 'persona':
+          case 'player':
+          case 'role':
+          case 'life':
+            $stmt->bindValue(':'.$key,$value,PDO::PARAM_STR);
+            break;
+          default:
+            echo 'ERROR: '.$user['persona'].' has unknown key in array.'.PHP_EOL;
+            return;
+        }
+      }
+      if(!$stmt->execute())
+      {
+        echo 'ERROR:'.$user['persona'].' in vid:'.$vid.' could not inserted'.PHP_EOL;
         return false;
       }
     }
