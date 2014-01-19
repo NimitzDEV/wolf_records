@@ -30,7 +30,7 @@ class Ning extends Country
   {
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump(get_object_vars($this->village));
+    //var_dump(get_object_vars($this->village));
   }
 
   function fetch_from_pro()
@@ -129,6 +129,7 @@ class Ning extends Country
   function insert_users()
   {
     $list = [];
+    $this->users = [];
     foreach($this->cast as $key=>$cast_item)
     {
       $this->user = new User();
@@ -142,7 +143,15 @@ class Ning extends Country
       }
     }
     $this->fetch_from_daily($list);
-    var_dump(get_object_vars($this->user));
+    $this->fetch_life();
+
+    foreach($this->users as $user)
+    {
+      if(!$user->is_valid())
+      {
+        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+      }
+    }
   }
   function fetch_users($cast_item)
   {
@@ -194,6 +203,54 @@ class Ning extends Country
 
   function fetch_from_daily($list)
   {
+    $days = $this->village->days -1; //初日=0
+    for($i=1; $i<=$days; $i++)
+    {
+      $this->fetch->load_file($this->make_daily_url($i));
+      $announce = $this->fetch->find('div.announce');
+      foreach($announce as $item)
+      {
+        $destiny = mb_substr(trim($item->plaintext),-6,6);
+        $destiny = preg_replace("/\r\n/","",$destiny);
+
+        switch($destiny)
+        {
+          case "突然死した。":
+            $persona = preg_replace("/^ ?(.+) は、突然死した。 ?/", "$1", $item->plaintext);
+            $key = array_search($persona,$list);
+            $this->users[$key]->dtid = Data::DES_RETIRED;
+            break;
+          case "処刑された。":
+            $persona = preg_replace("/(.+\r\n){1,}\r\n(.+) は村人達の手により処刑された。 ?/", "$2", $item->plaintext);
+            $key = array_search($persona,$list);
+            $this->users[$key]->dtid = Data::DES_HANGED;
+            break;
+          case "発見された。":
+            $persona = preg_replace("/.+朝、(.+) が無残.+\r\n ?/", "$1", $item->plaintext);
+            $key = array_search($persona,$list);
+            $this->users[$key]->dtid = Data::DES_EATEN;
+            break;
+          default:
+            continue;
+        }   
+        $this->users[$key]->end = $i+1;
+      }
+      $this->fetch->clear();
+    }
+  }
+  function make_daily_url($day)
+  {
+    if($day === $this->village->days-1)
+    {
+      $suffix = '_party';
+    }
+    else
+    {
+      $suffix = '_progress';
+    }
+    $day = str_pad($day,3,"0",STR_PAD_LEFT);
+
+    return $this->url.$this->village->vno.'&meslog='.$day.$suffix;
   }
   function fetch_dtid()
   {
@@ -218,6 +275,13 @@ class Ning extends Country
   }
   function fetch_life()
   {
+    foreach($this->users as $key=>$user)
+    {
+      if(!$this->users[$key]->life)
+      {
+        $this->users[$key]->life = round(($this->users[$key]->end-1) / $this->village->days,2);
+      }
+    }
   }
   function fetch_rltid()
   {

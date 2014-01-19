@@ -57,7 +57,7 @@ abstract class Country
   }
   function insert_users()
   {
-    //人参国は書き換える
+    $this->users = [];
     foreach($this->$cast as $cast_item)
     {
       $this->user = new User();
@@ -71,6 +71,18 @@ abstract class Country
     }
   }
 
+  function fetch_life()
+  {
+    if($this->user->end === $this->village->days)
+    {
+      $this->user->life = 1.00;
+    }
+    else
+    {
+      $this->user->life = round(($this->users->end-1) / $this->village->days,2);
+    }
+  }
+
   abstract function fetch_village();
   abstract function fetch_name();
   abstract function fetch_date();
@@ -79,7 +91,7 @@ abstract class Country
   abstract function fetch_days();
   abstract function fetch_wtmid();
 
-  abstract function fetch_users($cas_item);
+  abstract function fetch_users($cast_item);
   abstract function fetch_persona();
   abstract function fetch_player();
   abstract function fetch_role();
@@ -87,6 +99,5 @@ abstract class Country
   abstract function fetch_end();
   abstract function fetch_sklid();
   abstract function fetch_tmid();
-  abstract function fetch_life();
   abstract function fetch_rltid();
 }
