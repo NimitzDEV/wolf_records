@@ -1,23 +1,22 @@
 <?php
 
-class Village
+class User
 {
   //後でprivateに直す
-  public  $cid
-          ,$vno
-          ,$name
-          ,$date
-          ,$nop
-          ,$rglid
-          ,$days
-          ,$wtmid
+  public   $persona
+          ,$player
+          ,$role
+          ,$dtid
+          ,$end
+          ,$sklid
+          ,$tmid
+          ,$life
+          ,$rltid
           ;
   use Properties;
 
-  function __construct($cid,$vno)
+  function __construct()
   {
-    $this->cid = $cid;
-    $this->vno = $vno;
   }
 
   function is_valid()
@@ -27,27 +26,28 @@ class Village
     {
       switch($key)
       {
-      case 'cid':
-      case 'vno':
-      case 'nop':
-      case 'rglid':
-      case 'days':
-      case 'wmtid':
+      case 'dtid':
+      case 'end':
+      case 'sklid':
+      case 'tmid':
+      case 'rltid':
         if(empty($item) || !is_int($item))
         {
           $this->invalid_error($key,$item);
           return false;
         }
         break;
-      case 'name':
+      case 'persona':
+      case 'player':
+      case 'role':
         if(empty($item) || !is_string($item) || !mb_check_encoding($item))
         {
           $this->invalid_error($key,$item);
           return false;
         }
         break;
-      case 'date':
-        if(empty($item) || !preg_match('/\d{2}-\d{2}-\d{2}/',$item))
+      case 'life':
+        if(empty($item) || !is_float($item))
         {
           $this->invalid_error($key,$item);
           return false;
