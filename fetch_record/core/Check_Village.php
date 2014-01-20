@@ -160,20 +160,20 @@ class Check_Village
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {
-      case Cnt::PLOT:
-      case Cnt::CIEL:
-        $last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
-        $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
-        $this->html->clear();
-        if($last_day == '1')
-        {
-          return false;
-        }
-        else
-        {
-          return true;
-        }
-        break;
+      //case Cnt::PLOT:
+      //case Cnt::CIEL:
+        //$last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
+        //$last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
+        //$this->html->clear();
+        //if($last_day == '1')
+        //{
+          //return false;
+        //}
+        //else
+        //{
+          //return true;
+        //}
+        //break;
       default:
         $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
         $this->html->clear();
@@ -234,12 +234,11 @@ class Check_Village
         $list_vno = $this->html->find('a',1)->plaintext;
         $list_vno =(int) preg_replace('/G(\d+) .+/','$1',$list_vno);
         break;
-      case Cnt::GUTA:
-      case Cnt::GUTAP:
       case Cnt::MORPHE:
       case Cnt::PERJURY:
       case Cnt::XEBEC:
       case Cnt::CRAZY:
+      case Cnt::GUTA:
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
         break;
       case Cnt::PLOT:

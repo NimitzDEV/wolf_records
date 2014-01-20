@@ -11,6 +11,8 @@ class Village
           ,$days
           ,$wtmid
           ,$evil_rgl
+          ,$rp
+          ,$policy
           ;
 
   use Properties;
@@ -23,7 +25,7 @@ class Village
   function get_vars()
   {
     $list = get_object_vars($this);
-    unset($list['evil_rgl']);
+    unset($list['evil_rgl'],$list['rp'],$list['policy']);
     return $list;
   }
 

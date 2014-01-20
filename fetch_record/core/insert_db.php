@@ -28,7 +28,7 @@ class Insert_DB
 
   function insert_db($village,$cast)
   {
-    $vid = $this->insert_village(get_object_vars($village));
+    $vid = $this->insert_village($village->get_vars());
     
     if(isset($vid['id']))
     {
@@ -115,7 +115,7 @@ class Insert_DB
   {
     foreach($cast as $object)
     {
-      $user = get_object_vars($object);
+      $user = $object->get_vars();
       $sql = "INSERT INTO users (vid,persona,player,role,dtid,end,sklid,tmid,life,rltid) values (:vid,:persona,:player,:role,:dtid,:end,:sklid,:tmid,:life,:rltid)";
       $stmt = $this->pdo->prepare($sql);
 
