@@ -26,14 +26,14 @@ class Ning extends Country
     parent::__construct($cid,$url_vil,$url_log);
   }
 
-  function fetch_village()
+  protected function fetch_village()
   {
     $this->fetch_from_pro();
     $this->fetch_from_epi();
     //var_dump(get_object_vars($this->village));
   }
 
-  function fetch_from_pro()
+  protected function fetch_from_pro()
   {
     $this->fetch->load_file($this->url.$this->village->vno."&meslog=000_ready");
 
@@ -43,24 +43,24 @@ class Ning extends Country
 
     $this->fetch->clear();
   }
-  function fetch_name()
+  protected function fetch_name()
   {
     $name = $this->fetch->find('title',0)->plaintext;
     $this->village->name = preg_replace('/人狼.+\d+ (.+)/','$1',$name);
   }
-  function fetch_date()
+  protected function fetch_date()
   {
     $date = $this->fetch->find('div.ch1',0)->find('a',1)->name;
     $this->village->date = date("y-m-d",preg_replace('/mes(.+)/','$1',$date));
   }
-  function fetch_days()
+  protected function fetch_days()
   {
     $url = preg_replace("/index\.rb\?vid=/","",$this->url);
     $this->url_epi = $url.$this->fetch->find('p a',-2)->href;
     $this->village->days = preg_replace("/.+=0(\d{2})_party/", "$1", $this->url_epi) + 1;
   }
 
-  function fetch_from_epi()
+  protected function fetch_from_epi()
   {
     $this->fetch->load_file($this->url_epi);
     if(!$this->fetch->find('div.announce'))
@@ -77,7 +77,7 @@ class Ning extends Country
     $this->fetch->clear();
   }
 
-  function make_cast()
+  protected function make_cast()
   {
     $cast = preg_replace("/\r\n/","",$this->fetch->find('div.announce',-1)->plaintext);
     //simple_html_domを抜けてきたタグを削除(IDに{}があるとbrやaが残る)
@@ -88,11 +88,11 @@ class Ning extends Country
     $this->cast = $cast;
   }
 
-  function fetch_nop()
+  protected function fetch_nop()
   {
     $this->village->nop = count($this->cast);
   }
-  function fetch_rglid()
+  protected function fetch_rglid()
   {
     switch($this->village->nop)
     {
@@ -109,7 +109,7 @@ class Ning extends Country
         break;
     }
   }
-  function fetch_wtmid()
+  protected function fetch_wtmid()
   {
     $wtmid = mb_substr($this->fetch->find('div.announce',-2)->plaintext,0,3);
     switch($wtmid)
@@ -126,7 +126,7 @@ class Ning extends Country
     }
   }
 
-  function insert_users()
+  protected function insert_users()
   {
     $list = [];
     $this->users = [];
@@ -153,7 +153,7 @@ class Ning extends Country
       }
     }
   }
-  function fetch_users($cast_item)
+  protected function fetch_users($cast_item)
   {
     $cast_item = preg_replace("/ ?(.+) （(.+)）、(生存|死亡)。(.+)$/", "$1#SP#$2#SP#$3#SP#$4", $cast_item);
     $cast_item = explode('#SP#',$cast_item);
@@ -179,16 +179,16 @@ class Ning extends Country
       $this->user->life = 1.00;
     }
   }
-  function fetch_persona()
+  protected function fetch_persona()
   {
   }
-  function fetch_player()
+  protected function fetch_player()
   {
   }
-  function fetch_role()
+  protected function fetch_role()
   {
   }
-  function check_doppel($player)
+  protected function check_doppel($player)
   {
     if(array_key_exists($player,$this->doppel))
     {
@@ -201,7 +201,7 @@ class Ning extends Country
     }
   }
 
-  function fetch_from_daily($list)
+  protected function fetch_from_daily($list)
   {
     $days = $this->village->days -1; //初日=0
     for($i=1; $i<=$days; $i++)
@@ -238,7 +238,7 @@ class Ning extends Country
       $this->fetch->clear();
     }
   }
-  function make_daily_url($day)
+  protected function make_daily_url($day)
   {
     if($day === $this->village->days-1)
     {
@@ -252,17 +252,17 @@ class Ning extends Country
 
     return $this->url.$this->village->vno.'&meslog='.$day.$suffix;
   }
-  function fetch_dtid()
+  protected function fetch_dtid()
   {
   }
-  function fetch_end()
+  protected function fetch_end()
   {
   }
-  function fetch_sklid()
+  protected function fetch_sklid()
   {
     $this->user->sklid = $this->skill[$this->user->role];
   }
-  function fetch_tmid()
+  protected function fetch_tmid()
   {
     if($this->user->role === "人狼" || $this->user->role === "狂人")
     {
@@ -273,7 +273,7 @@ class Ning extends Country
       $this->user->tmid = Data::TM_VILLAGER;
     }
   }
-  function fetch_life()
+  protected function fetch_life()
   {
     foreach($this->users as $key=>$user)
     {
@@ -283,7 +283,7 @@ class Ning extends Country
       }
     }
   }
-  function fetch_rltid()
+  protected function fetch_rltid()
   {
     if($this->user->tmid === $this->village->wtmid)
     {

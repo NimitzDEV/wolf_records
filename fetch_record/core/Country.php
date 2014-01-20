@@ -32,7 +32,9 @@ abstract class Country
     {
       if($this->insert_village($vno))
       {
+        //テスト用
         $this->insert_users();
+        continue;
       }
       else
       {
@@ -56,7 +58,7 @@ abstract class Country
     }
   }
 
-  function insert_village($vno)
+  protected function insert_village($vno)
   {
     $this->village = new Village($this->cid,$vno);
     $this->fetch_village();
@@ -69,10 +71,10 @@ abstract class Country
       return false;
     }
   }
-  function insert_users()
+  protected function insert_users()
   {
     $this->users = [];
-    foreach($this->$cast as $cast_item)
+    foreach($this->cast as $cast_item)
     {
       $this->user = new User();
       $this->fetch_users($cast_item);
@@ -85,7 +87,7 @@ abstract class Country
     }
   }
 
-  function fetch_life()
+  protected function fetch_life()
   {
     if($this->user->end === $this->village->days)
     {
@@ -97,21 +99,22 @@ abstract class Country
     }
   }
 
-  abstract function fetch_village();
-  abstract function fetch_name();
-  abstract function fetch_date();
-  abstract function fetch_nop();
-  abstract function fetch_rglid();
-  abstract function fetch_days();
-  abstract function fetch_wtmid();
+  abstract protected function fetch_village();
+  abstract protected function fetch_name();
+  abstract protected function fetch_date();
+  abstract protected function fetch_nop();
+  abstract protected function fetch_rglid();
+  abstract protected function fetch_days();
+  abstract protected function fetch_wtmid();
 
-  abstract function fetch_users($cast_item);
-  abstract function fetch_persona();
-  abstract function fetch_player();
-  abstract function fetch_role();
-  abstract function fetch_dtid();
-  abstract function fetch_end();
-  abstract function fetch_sklid();
-  abstract function fetch_tmid();
-  abstract function fetch_rltid();
+  abstract protected function make_cast();
+  abstract protected function fetch_users($cast_item);
+  abstract protected function fetch_persona();
+  abstract protected function fetch_player();
+  abstract protected function fetch_role();
+  abstract protected function fetch_dtid();
+  abstract protected function fetch_end();
+  abstract protected function fetch_sklid();
+  abstract protected function fetch_tmid();
+  abstract protected function fetch_rltid();
 }
