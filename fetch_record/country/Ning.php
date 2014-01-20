@@ -130,10 +130,10 @@ class Ning extends Country
   {
     $list = [];
     $this->users = [];
-    foreach($this->cast as $key=>$cast_item)
+    foreach($this->cast as $key=>$person)
     {
       $this->user = new User();
-      $this->fetch_users($cast_item);
+      $this->fetch_users($person);
       $this->users[] = $this->user;
       //生存者を除く名前リストを作る
       $list[] = $this->user->persona;
@@ -153,40 +153,31 @@ class Ning extends Country
       }
     }
   }
-  protected function fetch_users($cast_item)
+  protected function fetch_users($person)
   {
-    $cast_item = preg_replace("/ ?(.+) （(.+)）、(生存|死亡)。(.+)$/", "$1#SP#$2#SP#$3#SP#$4", $cast_item);
-    $cast_item = explode('#SP#',$cast_item);
+    $person = preg_replace("/ ?(.+) （(.+)）、(生存|死亡)。(.+)$/", "$1#SP#$2#SP#$3#SP#$4", $person);
+    $person = explode('#SP#',$person);
     //末尾に半角スペースがある場合は、読み込めるように変換する
-    if(mb_substr($cast_item[1],-1,1)==' ')
+    if(mb_substr($person[1],-1,1)==' ')
     {
-      $cast_item[1] = preg_replace("/ /","&amp;nbsp;",$cast_item[1]);
+      $person[1] = preg_replace("/ /","&amp;nbsp;",$person[1]);
     }
-    $cast_item[1] = $this->check_doppel($cast_item[1]);
+    $person[1] = $this->check_doppel($person[1]);
 
-    $this->user->persona = $cast_item[0];
-    $this->user->player  = $cast_item[1];
-    $this->user->role    = $cast_item[3]; 
+    $this->user->persona = $person[0];
+    $this->user->player  = $person[1];
+    $this->user->role    = $person[3]; 
 
     $this->fetch_sklid();
     $this->fetch_tmid();
     $this->fetch_rltid();
 
-    if($cast_item[2] === '生存')
+    if($person[2] === '生存')
     {
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
       $this->user->life = 1.00;
     }
-  }
-  protected function fetch_persona()
-  {
-  }
-  protected function fetch_player()
-  {
-  }
-  protected function fetch_role()
-  {
   }
   protected function check_doppel($player)
   {
@@ -251,12 +242,6 @@ class Ning extends Country
     $day = str_pad($day,3,"0",STR_PAD_LEFT);
 
     return $this->url.$this->village->vno.'&meslog='.$day.$suffix;
-  }
-  protected function fetch_dtid()
-  {
-  }
-  protected function fetch_end()
-  {
   }
   protected function fetch_sklid()
   {
