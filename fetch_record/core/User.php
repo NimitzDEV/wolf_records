@@ -51,7 +51,7 @@ class User
         }
         break;
       case 'life':
-        if(empty($item) || !is_float($item))
+        if(is_null($item) || !is_float($item))
         {
           $this->invalid_error($key,$item);
           return false;

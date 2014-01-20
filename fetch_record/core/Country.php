@@ -32,9 +32,7 @@ abstract class Country
     {
       if($this->insert_village($vno))
       {
-        //テスト用
         $this->insert_users();
-        continue;
       }
       else
       {
@@ -74,10 +72,10 @@ abstract class Country
   protected function insert_users()
   {
     $this->users = [];
-    foreach($this->cast as $cast_item)
+    foreach($this->cast as $person)
     {
       $this->user = new User();
-      $this->fetch_users($cast_item);
+      $this->fetch_users($person);
       if(!$this->user->is_valid())
       {
         echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
@@ -89,13 +87,18 @@ abstract class Country
 
   protected function fetch_life()
   {
-    if($this->user->end === $this->village->days)
+    if($this->user->dtid === Data::DES_ALIVE)
     {
       $this->user->life = 1.00;
     }
+    else if($this->user->tmid === Data::TM_ONLOOKER)
+    {
+      $this->user->life = 0.00;
+    }
     else
     {
-      $this->user->life = round(($this->users->end-1) / $this->village->days,2);
+      $this->user->life = round(($this->user->end-1) / $this->village->days,2);
+      return;
     }
   }
 
@@ -108,13 +111,5 @@ abstract class Country
   abstract protected function fetch_wtmid();
 
   abstract protected function make_cast();
-  abstract protected function fetch_users($cast_item);
-  abstract protected function fetch_persona();
-  abstract protected function fetch_player();
-  abstract protected function fetch_role();
-  abstract protected function fetch_dtid();
-  abstract protected function fetch_end();
-  abstract protected function fetch_sklid();
-  abstract protected function fetch_tmid();
-  abstract protected function fetch_rltid();
+  abstract protected function fetch_users($person);
 }

@@ -21,7 +21,6 @@ abstract class Giji_Old extends Country
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump($this->village->get_vars());
   }
 
   protected function fetch_from_info()
@@ -248,7 +247,6 @@ abstract class Giji_Old extends Country
 
     $this->fetch_wtmid();
     $this->make_cast();
-    $this->fetch->clear();
   }
   protected function fetch_wtmid()
   {
@@ -301,31 +299,94 @@ abstract class Giji_Old extends Country
   {
     $this->cast = $this->fetch->find('tbody tr.i_active');
   }
-  protected function fetch_users($cast_item)
+  protected function fetch_users($person)
   {
+    $this->fetch_persona($person);
+    $this->fetch_player($person);
+
+    $result = $person->find("td",3)->plaintext;
+    $result = mb_substr($result,0,mb_strpos($result,"\n")-1);
+    $result = explode(' ',$result);
+
+    $this->fetch_role($result[2]);
+    if(mb_substr($this->user->role,-2) === "居た")
+    {
+      $this->insert_onlooker();
+    }
+    else
+    {
+      $this->fetch_end($result[0],$person);
+      $this->fetch_rltid($result[1]);
+      $this->fetch_sklid();
+      $this->fetch_dtid($result[0]);
+      $this->fetch_tmid($result[2]);
+      $this->fetch_life();
+    }
   }
-  protected function fetch_persona()
+  protected function fetch_persona($person)
   {
+    $this->user->persona =trim($person->find("td",0)->plaintext);
   }
-  protected function fetch_player()
+  protected function fetch_player($person)
   {
+    $this->user->player =trim($person->find("td",1)->plaintext);
   }
-  protected function fetch_role()
+  protected function fetch_role($role)
   {
+    $this->user->role = mb_substr($role,mb_strpos($role,'：')+1);
   }
-  protected function fetch_dtid()
+  protected function insert_onlooker()
   {
+    $this->user->role  = '見物人';
+    $this->user->dtid  = Data::DES_ONLOOKER;
+    $this->user->end   = 1;
+    $this->user->sklid = Data::SKL_ONLOOKER;
+    $this->user->tmid  = Data::TM_ONLOOKER;
+    $this->user->life  = 0.00;
+    $this->user->rltid = Data::RSL_ONLOOKER;
   }
-  protected function fetch_end()
+  protected function fetch_dtid($result)
   {
+    $this->user->dtid = $this->DESTINY[$result];
+  }
+  protected function fetch_end($result,$person)
+  {
+    if($result === '生存者')
+    {
+      $this->user->end = $this->village->days;
+    }
+    else
+    {
+      $this->user->end = (int)preg_replace("/(.+)日/","$1",$person->find("td",2)->plaintext);
+    }
   }
   protected function fetch_sklid()
   {
+    $role = $this->user->role;
+    if(mb_strpos($role,"、") === false)
+    {
+      $sklid = $role;
+    }
+    else
+    {
+      //役職欄に絆などついている場合
+      $sklid = mb_substr($role,0,mb_strpos($role,"、"));
+    }
+    $this->user->sklid = $this->SKILL[$sklid];
   }
-  protected function fetch_tmid()
+  protected function fetch_tmid($result)
   {
+    $this->user->tmid = $this->TEAM[mb_substr($result,0,2)];
   }
-  protected function fetch_rltid()
+  protected function fetch_rltid($result)
   {
+    if($this->village->wtmid === Data::TM_RP)
+    {
+      $this->user->rltid = Data::RSL_JOIN;
+    }
+    else
+    {
+      $this->user->rltid = $this->RSL[$result];
+    }
   }
 }
