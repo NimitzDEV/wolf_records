@@ -3,7 +3,7 @@
 class User
 {
   //後でprivateに直す
-  public   $persona
+  private  $persona
           ,$player
           ,$role
           ,$dtid
@@ -17,6 +17,10 @@ class User
 
   function __construct()
   {
+  }
+  function get_vars()
+  {
+    return get_object_vars($this);
   }
 
   function is_valid()

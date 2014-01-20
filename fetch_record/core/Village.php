@@ -2,8 +2,7 @@
 
 class Village
 {
-  //後でprivateに直す
-  public  $cid
+  private  $cid
           ,$vno
           ,$name
           ,$date
@@ -11,7 +10,9 @@ class Village
           ,$rglid
           ,$days
           ,$wtmid
+          ,$evil_rgl
           ;
+
   use Properties;
 
   function __construct($cid,$vno)
@@ -19,10 +20,16 @@ class Village
     $this->cid = $cid;
     $this->vno = $vno;
   }
+  function get_vars()
+  {
+    $list = get_object_vars($this);
+    unset($list['evil_rgl']);
+    return $list;
+  }
 
   function is_valid()
   {
-    $list = get_object_vars($this);
+    $list = $this->get_vars();
     foreach($list as $key=>$item)
     {
       switch($key)
