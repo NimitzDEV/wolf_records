@@ -78,6 +78,7 @@ class Check_Village
       if(!file_exists($fname))
       {
         fopen($fname,'w+');
+        $line = fgets($this->fp);
         echo 'NOTICE: '.$this->cid.'.txt is not exist. Now make it.'.PHP_EOL;
         return false;
       }

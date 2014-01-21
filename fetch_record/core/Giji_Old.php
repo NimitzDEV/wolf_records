@@ -185,7 +185,6 @@ abstract class Giji_Old extends Country
   }
   protected function check_g_rgl()
   {
-    //ぐたは変える
     switch(true)
     {
       case ($this->village->nop  >= 16):
@@ -250,7 +249,6 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_wtmid()
   {
-    //ぐたは変える
     if(!$this->is_evil)
     {
       $this->village->wtmid = Data::TM_RP;
@@ -377,6 +375,17 @@ abstract class Giji_Old extends Country
   protected function fetch_tmid($result)
   {
     $this->user->tmid = $this->TEAM[mb_substr($result,0,2)];
+    if($this->village->is_evil)
+    {
+      $this->check_evil_team();
+    }
+  }
+  protected function check_evil_team()
+  {
+    if($this->user->tmid  === Data::TM_EVIL && $this->village->evil_rgl !== true)
+    {
+      $this->user->tmid = Data::TM_WOLF;
+    }
   }
   protected function fetch_rltid($result)
   {

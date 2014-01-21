@@ -3,7 +3,7 @@
 class Cnt
 {
   const NING   =  9;
-  //const GUTA   = 11;
+  const GUTA   = 11;
   const MORPHE = 13;
   const PERJURY= 15;
   const XEBEC  = 16;
