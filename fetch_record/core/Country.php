@@ -37,8 +37,10 @@ abstract class Country
       else
       {
         echo 'ERROR: '.$vno.'could not fetched.'.PHP_EOL;
+        $this->fetch->clear();
         continue;
       }
+      $this->fetch->clear();
       $db = new Insert_DB($this->cid);
       if(!$db->connect())
       {

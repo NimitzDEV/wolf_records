@@ -8,7 +8,7 @@ class Cnt
   const PERJURY= 15;
   const XEBEC  = 16;
   const CRAZY  = 17;
-  //const CAFE   = 14;
-  //const CIEL   = 18;
+  const PLOT   = 14;
+  const CIEL   = 18;
   //const MELON  = 26; 
 }

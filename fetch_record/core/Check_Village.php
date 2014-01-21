@@ -77,8 +77,7 @@ class Check_Village
     {
       if(!file_exists($fname))
       {
-        fopen($fname,'w+');
-        $line = fgets($this->fp);
+        fopen($fname,'w');
         echo 'NOTICE: '.$this->cid.'.txt is not exist. Now make it.'.PHP_EOL;
         return false;
       }
@@ -91,9 +90,12 @@ class Check_Village
 
   private function close_queue()
   {
-    fflush($this->fp);
-    flock($this->fp,LOCK_UN);
-    fclose($this->fp);
+    if($this->fp)
+    {
+      fflush($this->fp);
+      flock($this->fp,LOCK_UN);
+      fclose($this->fp);
+    }
   }
 
   private function check_queue()
@@ -161,20 +163,20 @@ class Check_Village
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {
-      //case Cnt::PLOT:
-      //case Cnt::CIEL:
-        //$last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
-        //$last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
-        //$this->html->clear();
-        //if($last_day == '1')
-        //{
-          //return false;
-        //}
-        //else
-        //{
-          //return true;
-        //}
-        //break;
+      case Cnt::PLOT:
+      case Cnt::CIEL:
+        $last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
+        $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
+        $this->html->clear();
+        if($last_day == '1')
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+        break;
       default:
         $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
         $this->html->clear();
