@@ -174,7 +174,7 @@ abstract class Giji_Old extends Country
     }
     else if(preg_match("/秘話/",$this->village->name))
     {
-      echo 'NOTICE: '.$this->village->vno.' may be 秘話村.';
+      echo 'NOTICE: '.$this->village->vno.' may be 秘話村.'.PHP_EOL;
       $this->village->rglid = Data::RGL_SECRET;
       return true;
     }
@@ -288,7 +288,7 @@ abstract class Giji_Old extends Country
           break;
         default:
           $this->village->wtmid = Data::TM_RP;
-          echo $this->village->vno.'.'.$this->village->name.' is guessed RP.->'.PHP_EOL;
+          echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
           break;
       }
     }
@@ -375,7 +375,7 @@ abstract class Giji_Old extends Country
   protected function fetch_tmid($result)
   {
     $this->user->tmid = $this->TEAM[mb_substr($result,0,2)];
-    if($this->village->is_evil)
+    if($this->is_evil)
     {
       $this->check_evil_team();
     }
