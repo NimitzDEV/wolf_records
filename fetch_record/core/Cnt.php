@@ -10,5 +10,5 @@ class Cnt
   const CRAZY  = 17;
   const PLOT   = 14;
   const CIEL   = 18;
-  //const MELON  = 26; 
+  const MELON  = 26; 
 }
