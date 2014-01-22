@@ -76,6 +76,7 @@ class Guta extends Giji_Old
         break;
       case "お祭り騒ぎ（勝敗不問で気軽に馬鹿騒ぎ）":
       case "未設定（下記より選択をお願いします）":
+      case "ストーリー重視RP（勝敗不問。村という世界の中で生きよう）":
         echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
         break;
