@@ -697,6 +697,7 @@ foreach($fetched_v as $item_vil)
     $cast = array_merge($cast);
   }
 
+  $list_users = [];
   foreach($cast as $item_cast)
   {
     $users = array(
