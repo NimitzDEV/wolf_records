@@ -378,7 +378,7 @@ class Melon extends Country
         if($this->user->tmid !== Data::TM_LOVERS)
         {
           $this->user->tmid = $this->SKILL[$skl_key][1];
-          if($this->user->sklid === Data::SKL_LOVER && (preg_match('/失恋/',$role) || preg_match('/片思い/',$role)))
+          if($this->user->sklid === Data::SKL_LOVER && preg_match('/(失恋|片思い|孤独)★/',$role))
           {
             $this->user->tmid = Data::TM_VILLAGER;
           }
