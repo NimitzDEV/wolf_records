@@ -3,6 +3,10 @@
 class Melon extends Country
 {
   use AR_Melon;
+  private $doppel = 
+    [
+       "siro"    =>"siro&lt;瓜科&gt;"
+    ];
   function __construct()
   {
     $cid = 26;
@@ -337,11 +341,24 @@ class Melon extends Country
   }
   protected function fetch_persona($person)
   {
-    $this->user->persona =trim($person->find("td",0)->plaintext);
+    $this->user->persona = trim($person->find("td",0)->plaintext);
   }
   protected function fetch_player($person)
   {
-    $this->user->player =trim($person->find("td",1)->plaintext);
+    $player = trim($person->find("td",1)->plaintext);
+    $this->user->player =$this->check_doppel($player);
+  }
+  protected function check_doppel($player)
+  {
+    if(array_key_exists($player,$this->doppel))
+    {
+      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->doppel[$player].PHP_EOL;
+      return $this->doppel[$player];
+    }
+    else
+    {
+      return $player;
+    }
   }
   protected function fetch_role($person)
   {
