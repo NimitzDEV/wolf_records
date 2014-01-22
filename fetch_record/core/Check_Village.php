@@ -134,7 +134,7 @@ class Check_Village
   private function check_end($vno)
   {
     $this->html->load_file($this->url_vil.$vno);
-    if($this->cid === Cnt::NING)
+    if($this->cid === Cnt::Ning)
     {
       $last_page = trim($this->html->find('span.time',0)->plaintext);
     }
@@ -156,15 +156,15 @@ class Check_Village
 
   private function check_not_ruined($vno)
   {
-    if($this->cid === Cnt::NING)
+    if($this->cid === Cnt::Ning)
     {
       return true;
     }
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {
-      case Cnt::PLOT:
-      case Cnt::CIEL:
+      case Cnt::Plot:
+      case Cnt::Ciel:
         $last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
         $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
         $this->html->clear();
@@ -233,23 +233,23 @@ class Check_Village
     $this->html->load_file($this->url_log);
     switch($this->cid)
     {
-      case Cnt::NING:
+      case Cnt::Ning:
         $list_vno = $this->html->find('a',1)->plaintext;
         $list_vno =(int) preg_replace('/G(\d+) .+/','$1',$list_vno);
         break;
-      case Cnt::MORPHE:
-      case Cnt::PERJURY:
-      case Cnt::XEBEC:
-      case Cnt::CRAZY:
-      case Cnt::GUTA:
+      case Cnt::Morphe:
+      case Cnt::Perjury:
+      case Cnt::Xebec:
+      case Cnt::Crazy:
+      case Cnt::Guta:
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
         break;
-      case Cnt::PLOT:
-      case Cnt::CIEL:
+      case Cnt::Plot:
+      case Cnt::Ciel:
         $list_vno = $this->html->find('tr',1)->find('td',0)->innertext;
         $list_vno = (int)preg_replace("/^(\d+) <a.+/","$1",$list_vno);
         break;
-      case Cnt::MELON:
+      case Cnt::Melon:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
         break;
     }

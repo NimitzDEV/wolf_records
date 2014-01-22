@@ -2,13 +2,13 @@
 
 class Cnt
 {
-  const NING   =  9;
-  const GUTA   = 11;
-  const MORPHE = 13;
-  const PERJURY= 15;
-  const XEBEC  = 16;
-  const CRAZY  = 17;
-  const PLOT   = 14;
-  const CIEL   = 18;
-  const MELON  = 26; 
+  const Ning   =  9;
+  const Guta   = 11;
+  const Morphe = 13;
+  const Perjury= 15;
+  const Xebec  = 16;
+  const Crazy  = 17;
+  const Plot   = 14;
+  const Ciel   = 18;
+  const Melon  = 26; 
 }
