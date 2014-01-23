@@ -287,7 +287,7 @@ class Melon extends Country
       }
       $wtmid = preg_replace('/\r\n/','',$wtmid);
       //人狼劇場言い換えのみ、先頭12文字で取得する
-      if($this->rp === 'THEATER')
+      if($this->village->rp === 'THEATER')
       {
         $wtmid = mb_substr($wtmid,0,12);
       }
@@ -295,9 +295,9 @@ class Melon extends Country
       {
         $wtmid = mb_substr($wtmid,-10);
       }
-      if(array_key_exists($wtmid,$this->{'WTM_'.$this->rp}))
+      if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
       {
-        $this->village->wtmid = $this->{'WTM_'.$this->rp}[$wtmid];
+        $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
       }
       else
       {
