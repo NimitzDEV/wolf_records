@@ -239,7 +239,7 @@ class Melon extends Country
   }
   protected function fetch_policy()
   {
-    $this->policy = mb_strstr($this->fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
+    $this->village->policy = mb_strstr($this->fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
   }
   protected function fetch_from_pro()
   {
