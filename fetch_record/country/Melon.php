@@ -233,13 +233,9 @@ class Melon extends Country
     }
     else
     {
-      echo $this->village->vno.' has undefined RP.';
+      echo $this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'SOW';
     }
-      if(array_search($rp,$this->RP_DEFAULT) !== false)
-      {
-        $rp = 'SOW';
-      }
   }
   protected function fetch_policy()
   {
