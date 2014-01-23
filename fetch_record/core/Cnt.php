@@ -11,4 +11,6 @@ class Cnt
   const Plot   = 14;
   const Ciel   = 18;
   const Melon  = 26; 
+  const Real   = 27;
+  //const Rose   = 28;
 }
