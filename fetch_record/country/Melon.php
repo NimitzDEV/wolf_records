@@ -48,170 +48,174 @@ class Melon extends Country
   {
     $rglid_check = $this->fetch->find('p.multicolumn_right',1)->plaintext;
     $rglid = preg_replace('/^ ([^ ]+) .+/','\1',$rglid_check);
-    if(in_array($rglid,$this->FREE_NAME))
+    switch($rglid)
     {
-      $free = trim(mb_substr($rglid_check,mb_strpos($rglid_check,'　')+1));
-      $free = preg_replace('/ ＋.+/','',$free);
-      if(array_key_exists($free,$this->RGL_FREE))
-      {
-        $this->village->rglid = $this->RGL_FREE[$free];
-      }
-      else
-      {
-        echo $this->village->vno.'->'.$free.PHP_EOL;
-        $this->village->rglid = Data::RGL_ETC;
-      }
-    }
-    else
-    {
-      switch($rglid)
-      {
-        case "標準":
-        case "いつもの":
-        case "ふつー":
-        case "通常業務":
-          switch(true)
-          {
-            case ($this->village->nop  >= 16):
-              $this->village->rglid = Data::RGL_F;
-              break;
-            case ($this->village->nop  === 15):
-              $this->village->rglid = Data::RGL_S_3;
-              break;
-            case ($this->village->nop <=14 && $this->village->nop >= 8):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "試験壱型":
-        case "しけん１":
-        case "壱型？":
-        case "聖獣降臨":
-        case "業務１課":
-        case "テスト１式":
-          switch(true)
-          {
-            case ($this->village->nop  >= 13):
-              $this->village->rglid = Data::RGL_TES1;
-              break;
-            case ($this->village->nop <=12 && $this->village->nop >= 8):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "試験弐型":
-        case "しけん２":
-        case "屹度弐型":
-        case "猛烈信鬼":
-        case "業務２課":
-        case "テスト２式":
-          switch(true)
-          {
-            case ($this->village->nop  >= 10):
-              $this->village->rglid = Data::RGL_TES2;
-              break;
-            case ($this->village->nop  === 8 || $this->village->nop  === 9):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "試験参型":
-        case "しけん３":
-        case "屹度参型":
-        case "絶叫狂鬼":
-        case "業務３課":
-        case "テスト３式":
-          switch(true)
-          {
-            case ($this->village->nop  >= 10):
-              $this->village->rglid = Data::RGL_TES3;
-              break;
-            case ($this->village->nop  === 8 || $this->village->nop  === 9):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "Ｃ国":
-        case "ヒソヒソ":
-        case "囁けます":
-        case "闇の囁鬼":
-        case "囁く補佐":
-        case "魔術師の愛弟子は暗躍する":
-          switch(true)
-          {
-            case ($this->village->nop  >= 16):
-              $this->village->rglid = Data::RGL_C;
-              break;
-            case ($this->village->nop  === 15):
-              $this->village->rglid = Data::RGL_S_C3;
-              break;
-            case ($this->village->nop <=14 && $this->village->nop >= 10):
-              $this->village->rglid = Data::RGL_S_C2;
-              break;
-            case ($this->village->nop  === 8 || $this->village->nop === 9):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "ハム入り":
-        case "よーまだ":
-        case "妖魔有り":
-        case "ハムハム":
-        case "飯綱暗躍":
-        case "産業間諜":
-        case "狐入り":
-          switch(true)
-          {
-            case ($this->village->nop  >= 16):
-              $this->village->rglid = Data::RGL_E;
-              break;
-            case ($this->village->nop  === 15):
-              $this->village->rglid = Data::RGL_S_3;
-              break;
-            case ($this->village->nop <=14 && $this->village->nop >= 8):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        case "Ｇ国":
-          switch(true)
-          {
-            case ($this->village->nop  >= 16):
-              $this->village->rglid = Data::RGL_G;
-              break;
-            case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-              $this->village->rglid = Data::RGL_S_3;
-              break;
-            case ($this->village->nop <=12 && $this->village->nop >= 8):
-              $this->village->rglid = Data::RGL_S_2;
-              break;
-            default:
-              $this->village->rglid = Data::RGL_S_1;
-              break;
-          }
-          break;
-        default:
-          echo 'NOTICE: '.$this->village->vno.' has unknown regulation.->'.$rglid.PHP_EOL;
-          break;
-      }
+      case "自由設定":
+      case "いろいろ":
+      case "ごった煮":
+      case "オリジナル":
+      case "選択科目":
+      case "フリーダム":
+      case "特殊事件":
+      case "特殊業務":
+      case "闇鍋":
+        $free = trim(mb_substr($rglid_check,mb_strpos($rglid_check,'　')+1));
+        $free = preg_replace('/ ＋.+/','',$free);
+        if(array_key_exists($free,$this->RGL_FREE))
+        {
+          $this->village->rglid = $this->RGL_FREE[$free];
+        }
+        else
+        {
+          echo $this->village->vno.'->'.$free.PHP_EOL;
+          $this->village->rglid = Data::RGL_ETC;
+        }
+        break;
+      case "標準":
+      case "いつもの":
+      case "ふつー":
+      case "通常業務":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_F;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "試験壱型":
+      case "しけん１":
+      case "壱型？":
+      case "聖獣降臨":
+      case "業務１課":
+      case "テスト１式":
+        switch(true)
+        {
+          case ($this->village->nop  >= 13):
+            $this->village->rglid = Data::RGL_TES1;
+            break;
+          case ($this->village->nop <=12 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "試験弐型":
+      case "しけん２":
+      case "屹度弐型":
+      case "猛烈信鬼":
+      case "業務２課":
+      case "テスト２式":
+        switch(true)
+        {
+          case ($this->village->nop  >= 10):
+            $this->village->rglid = Data::RGL_TES2;
+            break;
+          case ($this->village->nop  === 8 || $this->village->nop  === 9):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "試験参型":
+      case "しけん３":
+      case "屹度参型":
+      case "絶叫狂鬼":
+      case "業務３課":
+      case "テスト３式":
+        switch(true)
+        {
+          case ($this->village->nop  >= 10):
+            $this->village->rglid = Data::RGL_TES3;
+            break;
+          case ($this->village->nop  === 8 || $this->village->nop  === 9):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "Ｃ国":
+      case "ヒソヒソ":
+      case "囁けます":
+      case "闇の囁鬼":
+      case "囁く補佐":
+      case "魔術師の愛弟子は暗躍する":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_C;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_C3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 10):
+            $this->village->rglid = Data::RGL_S_C2;
+            break;
+          case ($this->village->nop  === 8 || $this->village->nop === 9):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "ハム入り":
+      case "よーまだ":
+      case "妖魔有り":
+      case "ハムハム":
+      case "飯綱暗躍":
+      case "産業間諜":
+      case "狐入り":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_E;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "Ｇ国":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_G;
+            break;
+          case ($this->village->nop  <= 15 && $this->village->nop >= 13):
+            $this->village->rglid = Data::RGL_S_3;
+            break;
+          case ($this->village->nop <=12 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      default:
+        echo 'NOTICE: '.$this->village->vno.' has unknown regulation.->'.$rglid.PHP_EOL;
+        break;
     }
   }
   protected function fetch_days()
