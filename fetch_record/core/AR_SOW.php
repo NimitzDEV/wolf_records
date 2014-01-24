@@ -85,10 +85,22 @@ trait AR_SOW
     ,[Data::SKL_BAT,Data::TM_FAIRY]
     ,[Data::SKL_PIXY,Data::TM_FAIRY]
   ];
-  protected $DESTINY = [Data::DES_HANGED,Data::DES_RETIRED,Data::DES_EATEN];
   protected $DT_SOW = [
-     '処刑された。'=>'.+投票した。 (.+) は村人達の手により処刑された。'
-    ,'突然死した。'=>'^(.+) は、突然死した。'
-    ,'発見された。'=>'.+朝、 (.+) が無残.+'
-    ];
+     '処刑された。'=>['.+投票した。 ?(.+) は村人達の手により処刑された。',Data::DES_HANGED]
+    ,'突然死した。'=>['^ ?(.+) は、突然死した。',Data::DES_RETIRED]
+    ,'発見された。'=>['.+朝、 ?(.+) が無残.+',Data::DES_EATEN]
+    ,'後を追った。'=>['^ ?(.+) は絆に引きずられるように .+ の後を追った。']
+  ];
+  protected $DT_JUNA = [
+     '刑された……'=>['.+投票した。 ?(.+) は村人達の手により処刑された。',Data::DES_HANGED]
+    ,'突然死した。'=>['^ ?(.+) は、突然死した。',Data::DES_RETIRED]
+    ,'発見された。'=>['.+朝、 ?(.+) が無残.+',Data::DES_EATEN]
+    ,'後を追った。'=>['^ ?(.+) は絆に引きずられるように .+ の後を追った。']
+  ];
+  protected $DT_FOOL = [
+     'ち殺された。'=>['.+投票した（らしい）。 ?(.+) は村人達によってたかってぶち殺された。',Data::DES_HANGED]
+    ,'ぶっ倒れた。'=>['^ ?(.+) は、ぶっ倒れた。',Data::DES_RETIRED]
+    ,'ったみたい。'=>['',Data::DES_EATEN]
+    ,'えを食った。'=>['^ ?(.+) は .+ の巻き添えを食った。',Data::DES_SUICIDE]
+  ];
 }

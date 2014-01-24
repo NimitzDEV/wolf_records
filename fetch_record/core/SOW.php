@@ -9,7 +9,7 @@ abstract class SOW extends Country
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump($this->village->get_vars());
+    //var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -258,13 +258,13 @@ abstract class SOW extends Country
 
     foreach($this->users as $user)
     {
-      var_dump($user->get_vars());
+      //var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
       }
     }
-    exit;
+    //exit;
   }
   protected function fetch_users($person)
   {
@@ -289,7 +289,6 @@ abstract class SOW extends Country
     if($rp === 'WBBS')
     {
       $rp = 'SOW';
-      //これ以降WBBSはSOW扱いで良い
       $this->village->rp = 'SOW';
     }
       $skl_key = array_search($sklid,$this->{'SKL_'.$rp});
@@ -329,26 +328,37 @@ abstract class SOW extends Country
     $rp = $this->village->rp;
     for($i=2; $i<=$days; $i++)
     {
-      $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row=10';
+      $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row=30';
       $this->fetch->load_file($url);
       $announce = $this->fetch->find('p.info');
       foreach($announce as $item)
       {
         $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
         $key= mb_substr(trim($item->plaintext),-6,6);
+        //var_dump($i,$key);
         if(isset($this->{'DT_'.$rp}[$key]))
         {
-          $persona = mb_ereg_replace($this->{'DT_'.$rp}[$key],'\1',$destiny,'m');
-          $key_u = array_search($persona,$list);
-          $key_d = array_search($key,$this->{'DT_'.$rp});
+            if($rp === "FOOL" && $key === "ったみたい。")
+            {
+              echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
+              continue;
+            }
+            else
+            {
+              $persona = mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\1',$destiny,'m');
+              $key_u = array_search($persona,$list);
+              //var_dump($persona,$key_u,$key_d);
+              $dtid = $this->{'DT_'.$rp}[$key][1];
+            }
+          //var_dump($dtid);
           //妖魔陣営の無残死は呪殺死にする
-          if($this->users[$key_u]->sklid === Data::TM_FAIRY && $key_d === 2)
+          if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
           {
             $this->users[$key_u]->dtid = Data::DES_CURSED;
           }
           else
           {
-            $this->users[$key_u]->dtid = $this->DESTINY[$key_d];
+            $this->users[$key_u]->dtid = $dtid;
           }
           $this->users[$key_u]->end = $i;
         }
@@ -362,7 +372,16 @@ abstract class SOW extends Country
     {
       if(!$this->users[$key]->life)
       {
-        $this->users[$key]->life = round(($this->users[$key]->end-1) / $this->village->days,2);
+        $life = round(($this->users[$key]->end-1) / $this->village->days,2);
+        if($life < 0)
+        {
+          $this->users[$key]->life = 0.00;
+          echo "NOTICE: ".$this->users[$key]->persona." life is minus. fix it to 0.".PHP_EOL;
+        }
+        else
+        {
+          $this->users[$key]->life = $life;
+        }
       }
     }
   }

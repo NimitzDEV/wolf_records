@@ -28,8 +28,15 @@ abstract class Country
       return;
     }
     $this->fetch = new simple_html_dom();
+    //取得しない村番号
+    $kick = [54,55,94,118];
     foreach($list as $vno)
     {
+      if(array_search($vno,$kick)  !== false)
+      {
+        echo 'NOTICE: '.$vno.' is kicked by $kick list.'.PHP_EOL;
+        continue;
+      }
       if($this->insert_village($vno))
       {
         $this->insert_users();
@@ -100,7 +107,6 @@ abstract class Country
     else
     {
       $this->user->life = round(($this->user->end-1) / $this->village->days,2);
-      return;
     }
   }
 
