@@ -193,7 +193,7 @@ trait AR_Melon
     ,[Data::SKL_LUNAWHS,Data::TM_WOLF]
     ,[Data::SKL_LUNAPATH,Data::TM_WOLF]
     ,[Data::SKL_SEAL,Data::TM_WOLF]
-    ,[Data::SKL_LUNASEER,Data::TM_WOLF]
+    ,[Data::SKL_STRSEER,Data::TM_WOLF]
     ,[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,[Data::SKL_BAT,Data::TM_FAIRY]
     ,[Data::SKL_PIXY,Data::TM_FAIRY]

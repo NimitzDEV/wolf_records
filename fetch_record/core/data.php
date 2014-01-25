@@ -16,6 +16,7 @@ class Data
   const TM_TERU      = 13; //照坊主
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
+  const TM_SLAVE     = 14; //奴隷
     
 
   //編成 regulation
@@ -105,6 +106,13 @@ class Data
   const SKL_SEERONCE = 66;  //夢占師
   const SKL_NOTARY   = 68;  //公証人
   const SKL_DARKH    = 69;  //闇狩人
+  const SKL_GUARDIAN = 54;  //守護獣
+  const SKL_BAPTIST  = 78;  //洗礼者
+  const SKL_SNIPER   = 79;  //狙撃手
+  const SKL_JUDGE    = 84;  //審判者
+  const SKL_IDSEER   = 85;  //魂魄師 
+  const SKL_CONTACT  = 87;  //交信者
+  const SKL_NOBLE    = 90;  //貴族
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //C狂
@@ -119,7 +127,13 @@ class Data
   const SKL_SNATCH   = 60;  //宿借之民
   const SKL_LUNASIL  = 62;  //聞き耳狂人
   const SKL_SEAL     = 71;  //封印狂人
-  const SKL_LUNASEER = 72;  //辻占狂人
+  const SKL_STRSEER  = 72;  //辻占狂人
+  const SKL_LUNASEER = 55;  //狂神官
+  const SKL_BLASPHEME= 81;  //冒涜者
+  const SKL_BETRAYER = 82;  //背信者
+  const SKL_IDLUNASR = 86;  //呪魂者 
+  const SKL_TEMPTER  = 88;  //誘惑者
+  const SKL_SLEEPER  = 89;  //睡狼
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -130,6 +144,7 @@ class Data
   const SKL_DYINGWOLF= 46;  //衰狼
   const SKL_SILENT   = 47;  //黙狼
   const SKL_POSWOLF  = 70;  //憑狼
+  const SKL_MALICE   = 80;  //瘴狼
 
   const SKL_FAIRY    =  9;  //妖魔
   const SKL_BAT      = 61;  //蝙蝠人間
@@ -139,20 +154,20 @@ class Data
   const SKL_JAMFAIRY = 64;  //邪魔妖精
   const SKL_SNAFAIRY = 65;  //宿借妖精
   const SKL_VAMPIRE  = 74;  //吸血鬼
+  const SKL_RABBIT   = 75;  //夜兎
+  const SKL_NIGHTMARE= 83;  //夢魔
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
   const SKL_PLAYBOY  = 59;  //遊び人
   const SKL_LOVER    = 67;  //求婚者
-  const SKL_FIANCE   = 75;  //婚約者
 
   const SKL_EFB      = 51;  //邪気悪魔
   const SKL_LWOLF    = 56;  //一匹狼
   const SKL_PIPER    = 57;  //笛吹き
   const SKL_FISH     = 58;  //鱗魚人
   const SKL_TERU     = 76;  //照坊主
-  const SKL_PUPIL    = 54;  //弟子
-  const SKL_THIEF    = 55;  //盗賊
+  const SKL_SLAVE    = 91;  //奴隷
   const SKL_SUCKER   = 73;  //血人
   const SKL_ONLOOKER = 10;  //見物人
   const SKL_OWNER    = 77;  //支配人
