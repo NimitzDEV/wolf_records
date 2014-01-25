@@ -180,7 +180,7 @@ else
             {
               foreach($table as $item)
               {
-                $vname = mb_strimwidth($item['vname'],0,38,"..","UTF-8");
+                $vname = mb_strimwidth($item['vname'],0,34,"..","UTF-8");
                 switch ($item['result'])
                 {
                   case '勝利':
