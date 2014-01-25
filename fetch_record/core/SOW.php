@@ -248,7 +248,7 @@ abstract class SOW extends Country
       $this->users[] = $this->user;
       //生存者を除く名前リストを作る
       $list[] = $this->user->persona;
-      if($this->user->dtid !== null)
+      if($this->user->dtid === Data::DES_ALIVE)
       {
         unset($list[$key]);
       }
@@ -279,13 +279,6 @@ abstract class SOW extends Country
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
       $this->user->life = 1.00;
-      return;
-    }
-    if($this->user->player === 'master')
-    {
-      $this->user->dtid = Data::DES_EATEN;
-      $this->user->end = 2;
-      $this->user->life = round(2 / $this->village->days,2);
     }
   }
   protected function fetch_role($person)
