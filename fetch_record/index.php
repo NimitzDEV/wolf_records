@@ -1,7 +1,9 @@
 <?php
 //コンソールのphp対策
 ini_set('display_errors','on');
+error_reporting(E_ALL);
 mb_internal_encoding("UTF-8");
+mb_regex_encoding('UTF-8');
 
 //autoloader読込
 require __DIR__.'/core/ClassLoader.php';
