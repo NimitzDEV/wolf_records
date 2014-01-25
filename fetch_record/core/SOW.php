@@ -248,7 +248,7 @@ abstract class SOW extends Country
       $this->users[] = $this->user;
       //生存者を除く名前リストを作る
       $list[] = $this->user->persona;
-      if($this->user->dtid === Data::DES_ALIVE)
+      if($this->user->dtid !== null)
       {
         unset($list[$key]);
       }
@@ -270,8 +270,7 @@ abstract class SOW extends Country
   {
     $this->user->persona = trim($person->find('td',0)->plaintext);
     $this->user->player  = $person->find('td a',0)->plaintext;
-    $this->user->role    = preg_replace('/ \(.+\)/','',$person->find('td',3)->plaintext);
-
+    $this->fetch_role($person);
     $this->fetch_sklid();
     $this->fetch_rltid();
 
@@ -280,7 +279,27 @@ abstract class SOW extends Country
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
       $this->user->life = 1.00;
+      return;
     }
+    if($this->user->player === 'master')
+    {
+      $this->user->dtid = Data::DES_EATEN;
+      $this->user->end = 2;
+      $this->user->life = round(2 / $this->village->days,2);
+    }
+  }
+  protected function fetch_role($person)
+  {
+    $role = $person->find('td',3)->plaintext;
+    if(preg_match('/\r\n/',$role))
+    {
+      $this->user->role = mb_ereg_replace('(.+) \(.+\)\r\n.+','\1',$role);
+    }
+    else
+    {
+      $this->user->role = mb_ereg_replace('(.+) \(.+\)','\1',$role);
+    }
+
   }
   protected function fetch_sklid()
   {
@@ -326,16 +345,27 @@ abstract class SOW extends Country
   {
     $days = $this->village->days;
     $rp = $this->village->rp;
+    $row = 30;
     for($i=2; $i<=$days; $i++)
     {
-      $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row=30';
+      $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
       $this->fetch->load_file($url);
       $announce = $this->fetch->find('p.info');
+      //処刑以降が取れてなさそうな場合はログ件数を増やす
+      if(count($announce) <= 1)
+      {
+        do
+        {
+          $row += 10;
+          $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
+          $this->fetch->load_file($url);
+          $announce = $this->fetch->find('p.info');
+        } while (count($announce) <= 1);
+      }
       foreach($announce as $item)
       {
         $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
         $key= mb_substr(trim($item->plaintext),-6,6);
-        //var_dump($i,$key);
         if(isset($this->{'DT_'.$rp}[$key]))
         {
             if($rp === "FOOL" && $key === "ったみたい。")
@@ -347,10 +377,8 @@ abstract class SOW extends Country
             {
               $persona = mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\1',$destiny,'m');
               $key_u = array_search($persona,$list);
-              //var_dump($persona,$key_u,$key_d);
               $dtid = $this->{'DT_'.$rp}[$key][1];
             }
-          //var_dump($dtid);
           //妖魔陣営の無残死は呪殺死にする
           if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
           {
@@ -375,8 +403,8 @@ abstract class SOW extends Country
         $life = round(($this->users[$key]->end-1) / $this->village->days,2);
         if($life < 0)
         {
-          $this->users[$key]->life = 0.00;
-          echo "NOTICE: ".$this->users[$key]->persona." life is minus. fix it to 0.".PHP_EOL;
+          $this->users[$key]->life = null;
+          echo "NOTICE: ".$this->users[$key]->persona." life is minus. fix it to null.".PHP_EOL;
         }
         else
         {
