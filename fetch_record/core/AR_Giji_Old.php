@@ -69,8 +69,6 @@ trait AR_Giji_Old
     ,"邪気悪魔"=>Data::SKL_EFB
     ,"恋愛天使"=>Data::SKL_QP
     ,"片想い"=>Data::SKL_PASSION
-    ,"弟子"=>Data::SKL_PUPIL
-    ,"盗賊"=>Data::SKL_THIEF
     ,"一匹狼"=>Data::SKL_LWOLF
     ,"笛吹き"=>Data::SKL_PIPER
     ,"鱗魚人"=>Data::SKL_FISH

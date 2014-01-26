@@ -200,7 +200,7 @@ trait AR_Melon
     ,[Data::SKL_SUCKER,Data::TM_NONE]
     ,[Data::SKL_VAMPIRE,Data::TM_FAIRY]
     ,[Data::SKL_LOVER,Data::TM_LOVERS]
-    ,[Data::SKL_FIANCE,Data::TM_LOVERS]
+    ,[]//婚約者
     ,[Data::SKL_FISH,Data::TM_FISH]
     ,[Data::SKL_TERU,Data::TM_TERU]
   ];
