@@ -12,7 +12,6 @@ class Guta extends Giji_Old
     ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"ピクシー"=>Data::SKL_PIXY
     ,"キューピッド"=>Data::SKL_QP
-    ,"神話マニア"=>Data::SKL_PUPIL
     ];
   function __construct()
   {
