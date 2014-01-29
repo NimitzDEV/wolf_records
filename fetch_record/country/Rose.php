@@ -2,9 +2,6 @@
 class Rose extends Country
 {
   use AR_Rose,TR_SOW;
-  //後で消す
-  private $ARR_RP = [110,108,100,80,48,37,18,11,8];
-  private $ARR_GACHI = [122,94,68];
   function __construct()
   {
     $cid = 28;
@@ -13,33 +10,16 @@ class Rose extends Country
     parent::__construct($cid,$url_vil,$url_log);
   }
 
-  //後で消す
-  function fetch_village()
-  {
-    $this->fetch_from_info();
-    $this->fetch_from_pro();
-    $this->fetch_from_epi();
-//var_dump($this->village->get_vars());
-  }
-
   protected function fetch_policy()
   {
     $policy = $this->fetch->find('p.multicolumn_left',11)->plaintext;
     if(preg_match('/一般|初心者歓迎/',$policy))
     {
       $this->village->policy = true;
-      if(array_search($this->village->vno,$this->ARR_RP))
-      {
-        $this->village->policy = false;
-      }
     }
     else
     {
       $this->village->policy = false;
-      if(array_search($this->village->vno,$this->ARR_GACHI))
-      {
-        $this->village->policy = true;
-      }
     }
   }
   protected function fetch_wtmid()
