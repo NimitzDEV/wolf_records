@@ -71,6 +71,7 @@ class Data
   const DES_DROOP   = 7;  //衰退死
   const DES_SUICIDE = 8;  //後追死
   const DES_FEARED  = 9;  //恐怖死 
+  const DES_MARTYR  = 11; //殉教
   const DES_ONLOOKER= 10; //見物
   
 

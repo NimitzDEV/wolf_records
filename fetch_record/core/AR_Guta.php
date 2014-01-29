@@ -25,8 +25,6 @@ trait AR_Guta
     ,"長老"=>Data::SKL_ELDER
     ,"人狼"=>Data::SKL_WISEWOLF
     ,"キューピッド"=>Data::SKL_QP
-    ,"盗賊"=>Data::SKL_THIEF
-    ,"笛吹き"=>Data::SKL_PIPER
     ];
   public $SKL_AMBER = [//昏き宵闇の琥珀
      "町人"=>Data::SKL_VILLAGER
@@ -82,8 +80,6 @@ trait AR_Guta
     ,"賭博屋"=>Data::SKL_EFB
     ,"占星術師"=>Data::SKL_QP
     ,"懸想する者"=>Data::SKL_PASSION
-    ,"物真似師"=>Data::SKL_PUPIL
-    ,"生ける屍"=>Data::SKL_THIEF
     ,"はぐれ魔術師"=>Data::SKL_LWOLF
     ,"吟遊詩人"=>Data::SKL_PIPER
     ,"人魚"=>Data::SKL_FISH

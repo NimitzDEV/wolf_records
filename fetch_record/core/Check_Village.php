@@ -78,6 +78,7 @@ class Check_Village
       if(!file_exists($fname))
       {
         fopen($fname,'w+');
+        flock($this->fp,LOCK_EX);
         echo 'NOTICE: '.$this->cid.'.txt is not exist. Now make it.'.PHP_EOL;
         return false;
       }
@@ -251,6 +252,7 @@ class Check_Village
         break;
       case Cnt::Melon:
       case Cnt::Real:
+      case Cnt::Rose:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
         break;
     }
