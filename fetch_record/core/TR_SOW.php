@@ -175,6 +175,7 @@ trait TR_SOW
       $this->village->rp = 'SOW';
     }
   }
+  abstract protected function fetch_policy();
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
@@ -254,11 +255,10 @@ trait TR_SOW
       }
     }
     $this->fetch_from_daily($list);
-    $this->fetch_life();
 
     foreach($this->users as $user)
     {
-      var_dump($user->get_vars());
+      //var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
@@ -275,10 +275,14 @@ trait TR_SOW
 
     if($person->find('td',2)->plaintext === '生存')
     {
-      $this->user->dtid = Data::DES_ALIVE;
-      $this->user->end = $this->village->days;
-      $this->user->life = 1.00;
+      $this->insert_alive();
     }
+  }
+  protected function insert_alive()
+  {
+    $this->user->dtid = Data::DES_ALIVE;
+    $this->user->end = $this->village->days;
+    $this->user->life = 1.00;
   }
   protected function fetch_role($person)
   {

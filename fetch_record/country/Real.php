@@ -1,8 +1,8 @@
 <?php
 
-class Real extends SOW
+class Real extends Country
 {
-  use TR_SOW_RGL;
+  use TR_SOW,TR_SOW_RGL;
   function __construct()
   {
     $cid = 27;
