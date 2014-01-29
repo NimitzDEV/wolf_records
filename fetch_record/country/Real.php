@@ -2,6 +2,7 @@
 
 class Real extends SOW
 {
+  use TR_SOW_RGL;
   function __construct()
   {
     $cid = 27;

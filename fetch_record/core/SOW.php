@@ -2,7 +2,7 @@
 
 abstract class SOW extends Country
 {
-  use AR_SOW;
+  use AR_SOW,TR_SOW_RGL;
 
   function fetch_village()
   {

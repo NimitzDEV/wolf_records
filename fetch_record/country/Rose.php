@@ -1,7 +1,7 @@
 <?php
 class Rose extends Country
 {
-  use AR_Rose,TR_SOW;
+  use AR_Rose,TR_SOW,TR_SOW_RGL;
   function __construct()
   {
     $cid = 28;
