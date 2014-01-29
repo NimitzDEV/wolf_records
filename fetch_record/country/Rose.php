@@ -1,7 +1,10 @@
 <?php
 class Rose extends Country
 {
-  use AR_Rose;
+  use AR_Rose,TR_SOW;
+  //後で消す
+  private $ARR_RP = [110,108,100,80,48,37,18,11,8];
+  private $ARR_GACHI = [122,94,68];
   function __construct()
   {
     $cid = 28;
@@ -10,203 +13,34 @@ class Rose extends Country
     parent::__construct($cid,$url_vil,$url_log);
   }
 
+  //後で消す
   function fetch_village()
   {
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump($this->village->get_vars());
+//var_dump($this->village->get_vars());
   }
-  protected function fetch_from_info()
-  {
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
 
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_rglid();
-    $this->fetch_days();
-
-    $this->fetch_rp();
-    $this->fetch_policy();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_name()
+  protected function fetch_policy()
   {
-    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
-  }
-  protected function fetch_nop()
-  {
-    $nop = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
-  }
-  protected function fetch_rglid()
-  {
-    $rgl_base = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
-    $rglid = preg_replace('/\r\n.+/','',$rgl_base);
-    switch($rglid)
+    $policy = $this->fetch->find('p.multicolumn_left',11)->plaintext;
+    if(preg_match('/一般|初心者歓迎/',$policy))
     {
-      case "自由設定":
-      case "ごった煮":
-        //自由設定でも特定の編成はレギュレーションを指定する
-        $free = mb_substr($rgl_base,mb_strpos($rgl_base,'（'));
-        if(array_key_exists($free,$this->RGL_FREE))
-        {
-          $this->village->rglid = $this->RGL_FREE[$free];
-        }
-        else
-        {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
-          $this->village->rglid = Data::RGL_ETC;
-        }
-        break;
-      case "標準":
-      case "ふつー":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_F;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "ハム入り":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_E;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験壱型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験弐型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｃ国":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｇ国":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_G;
-            break;
-          case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-    }
-  }
-  protected function fetch_days()
-  {
-    $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $days = mb_convert_encoding($days,"UTF-8","SJIS");
-    $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
-  }
-  protected function fetch_rp()
-  {
-    $rp = trim($this->fetch->find('p.multicolumn_left',7)->plaintext);
-    if(array_key_exists($rp,$this->RP_LIST))
-    {
-      $this->village->rp = $this->RP_LIST[$rp];
+      $this->village->policy = true;
+      if(array_search($this->village->vno,$this->ARR_RP))
+      {
+        $this->village->policy = false;
+      }
     }
     else
     {
-      echo $this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'SOW';
+      $this->village->policy = false;
+      if(array_search($this->village->vno,$this->ARR_GACHI))
+      {
+        $this->village->policy = true;
+      }
     }
-  }
-  protected function fetch_policy()
-  {
-  }
-
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch->clear();
-  }
-  protected function fetch_date()
-  {
-    $date = $this->fetch->find('div.mes_date',0)->plaintext;
-    $date = mb_substr($date,mb_strpos($date,"2"),10);
-    $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
-  }
-
-  protected function fetch_from_epi()
-  {
-    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=30&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_wtmid();
-    $this->make_cast();
   }
   protected function fetch_wtmid()
   {
@@ -216,20 +50,15 @@ class Rose extends Country
     }
     else
     {
-      $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-      if(preg_match("/村の更新日が延長されました/",$wtmid))
-      {
-        $do_i = -2;
-        do
-        {
-          $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-          $do_i--;
-        } while(preg_match("/村の更新日が延長されました/",$wtmid));
-      }
-      $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
+      $wtmid = $this->fetch_win_message();
       if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
       {
         $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
+        if($wtmid === Data::TM_SLAVE)
+        {
+          $this->village->wtmid = Data::TM_VILLAGER;
+          $this->village->add_winner = Data::TM_SLAVE;
+        }
       }
       else
       {
@@ -238,10 +67,202 @@ class Rose extends Country
       }
     }
   }
-  protected function make_cast()
+
+  protected function insert_users()
   {
-    $cast = $this->fetch->find('tbody tr');
-    array_shift($cast);
-    $this->cast = $cast;
+    $list = [];
+    $this->users = [];
+    foreach($this->cast as $key=>$person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      $this->users[] = $this->user;
+      //生存者を除く名前リストを作る
+      $list[] = $this->user->persona;
+      if($this->user->end !== null)
+      {
+        unset($list[$key]);
+      }
+      if($this->user->sklid  === Data::SKL_BAPTIST && $this->user->dtid === Data::DES_MARTYR)
+      {
+        $martyr = true;
+      }
+    }
+    $this->fetch_from_daily($list);
+    if(isset($martyr))
+    {
+      $this->insert_baptist($list);
+    }
+
+    foreach($this->users as $user)
+    {
+      //var_dump($user->get_vars());
+      if(!$user->is_valid())
+      {
+        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+      }
+    }
+  }
+  protected function fetch_users($person)
+  {
+    $this->user->persona = trim($person->find('td',0)->plaintext);
+    $this->user->player  = $person->find('td a',0)->plaintext;
+    $this->fetch_role($person);
+    $this->user->tmid = $this->TEAM[$person->find('td',3)->plaintext];
+
+    if($this->user->tmid === Data::TM_ONLOOKER)
+    {
+      $this->insert_onlooker();
+    }
+    else
+    {
+      $this->user->dtid = $this->DESTINY[$person->find('td',2)->plaintext];
+      $this->fetch_sklid();
+      $this->fetch_rltid();
+    }
+
+    if($this->user->dtid === Data::DES_ALIVE)
+    {
+      $this->insert_alive();
+      return;
+    }
+  }
+  protected function fetch_role($person)
+  {
+    $role = $person->find('td',4)->plaintext;
+    if(preg_match('/\r\n/',$role))
+    {
+      $this->user->role = mb_ereg_replace('(.+) \(.+\)\r\n.+','\1',$role);
+    }
+    else
+    {
+      $this->user->role = mb_ereg_replace('(.+) \(.+\)(☆勝利|)','\1',$role);
+    }
+    //死神陣営の勝利者は、役職の後ろに「☆勝利」がつく
+    if($this->village->policy && mb_strstr($role,'☆勝利'))
+    {
+      $this->user->rltid = Data::RSL_WIN;
+    }
+  }
+  protected function fetch_sklid()
+  {
+    if($this->village->rp === 'FOOL')
+    {
+      $this->user->sklid = $this->SKL_FOOL[$this->user->role];
+    }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$this->user->role];
+    }
+  }
+  protected function fetch_rltid()
+  {
+    if($this->user->rltid)
+    {
+      return;
+    }
+
+    if(!$this->village->policy)
+    {
+      $this->user->rltid = Data::RSL_JOIN;
+    }
+    else if($this->user->tmid === $this->village->wtmid || $this->user->tmid === $this->village->add_winner)
+    {
+      if($this->user->tmid === Data::TM_EFB)
+      {
+        //死神陣営で勝利判定が埋まっていない者は敗北扱い
+        $this->user->rltid = Data::RSL_LOSE;
+      }
+      else
+      {
+        $this->user->rltid = Data::RSL_WIN;
+      }
+    }
+    else
+    {
+      $this->user->rltid = Data::RSL_LOSE;
+    }
+  }
+  protected function insert_onlooker()
+  {
+    $this->user->sklid = Data::SKL_ONLOOKER;
+    $this->user->dtid  = Data::DES_ONLOOKER;
+    $this->user->end   = 1;
+    $this->user->life  = 0.00;
+    $this->user->rltid = Data::RSL_ONLOOKER;
+  }
+  protected function insert_alive()
+  {
+    $this->user->end = $this->village->days;
+    $this->user->life = 1.00;
+  }
+  protected function fetch_from_daily($list)
+  {
+    $days = $this->village->days;
+    $rp = $this->village->rp;
+    $find = 'p.info';
+    for($i=2; $i<=$days; $i++)
+    {
+      $announce = $this->fetch_daily_url($i,$find);
+      foreach($announce as $item)
+      {
+        $destiny = trim($item->plaintext);
+        $key= mb_substr($destiny,-6,6);
+        $destiny = preg_replace("/\r\n/","",$destiny);
+        if($rp === "FOOL")
+        {
+          if(!isset($this->DT_FOOL[$key]))
+          {
+            continue;
+          }
+          else if($key === "ったみたい。")
+          {
+            echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
+            continue;
+          }
+          else
+          {
+            $persona = trim(mb_ereg_replace($this->DT_FOOL[$key][0],'\2',$destiny,'m'));
+            $key_u = array_search($persona,$list);
+            $dtid = $this->DT_FOOL[$key][1];
+          }
+        }
+        else if(!isset($this->DT_NORMAL[$key]))
+        {
+          continue;
+        }
+        else
+        {
+          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
+          $key_u = array_search($persona,$list);
+          $dtid = $this->DT_NORMAL[$key][1];
+        }
+        $this->users[$key_u]->end = $i;
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+      }
+      $this->fetch->clear();
+    }
+  }
+  protected function insert_baptist($list)
+  {
+    $days = $this->village->days;
+    $find = 'p.infosp';
+    for($i=4; $i<=$days; $i++)
+    {
+      $announce = $this->fetch_daily_url($i,$find);
+      foreach($announce as $item)
+      {
+        $destiny = trim($item->plaintext);
+        $key = mb_substr($destiny,-6,6);
+        $persona = mb_ereg_replace("(.+) は、.+ を命を引き換えに復活させた。",'\1',$destiny);
+        $key_u = array_search($persona,$list);
+        if($key_u)
+        {
+          $this->users[$key_u]->end = $i;
+          $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+        }
+      }
+      $this->fetch->clear();
+    }
   }
 }

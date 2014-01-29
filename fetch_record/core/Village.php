@@ -13,6 +13,7 @@ class Village
           ,$evil_rgl
           ,$rp
           ,$policy
+          ,$add_winner
           ;
 
   use Properties;
@@ -25,7 +26,7 @@ class Village
   function get_vars()
   {
     $list = get_object_vars($this);
-    unset($list['evil_rgl'],$list['rp'],$list['policy']);
+    unset($list['evil_rgl'],$list['rp'],$list['policy'],$list['add_winner']);
     return $list;
   }
 

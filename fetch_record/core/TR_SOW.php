@@ -1,15 +1,12 @@
 <?php
 
-abstract class SOW extends Country
+trait TR_SOW
 {
-  use AR_SOW;
-
   function fetch_village()
   {
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    //var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -73,6 +70,7 @@ abstract class SOW extends Country
         }
         break;
       case "ハム入り":
+      case "妖魔有り":
         switch(true)
         {
           case ($this->village->nop  >= 16):
@@ -139,6 +137,7 @@ abstract class SOW extends Country
         }
         break;
       case "Ｇ国":
+      case "共有？…誰？":
         switch(true)
         {
           case ($this->village->nop  >= 16):
@@ -172,12 +171,10 @@ abstract class SOW extends Country
     }
     else
     {
-      echo $this->village->vno.' has undefined RP.'.PHP_EOL;
+      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'SOW';
     }
   }
-  abstract protected function fetch_policy();
-
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
@@ -192,7 +189,6 @@ abstract class SOW extends Country
     $date = mb_substr($date,mb_strpos($date,"2"),10);
     $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
   }
-
   protected function fetch_from_epi()
   {
     $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=30&mode=all&move=page&pageno=1';
@@ -209,17 +205,7 @@ abstract class SOW extends Country
     }
     else
     {
-      $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-      if(preg_match("/村の更新日が延長されました/",$wtmid))
-      {
-        $do_i = -2;
-        do
-        {
-          $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-          $do_i--;
-        } while(preg_match("/村の更新日が延長されました/",$wtmid));
-      }
-      $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
+      $wtmid = $this->fetch_win_message();
       if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
       {
         $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
@@ -231,13 +217,26 @@ abstract class SOW extends Country
       }
     }
   }
+  protected function fetch_win_message()
+  {
+    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
+    if(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid))
+    {
+      $do_i = -2;
+      do
+      {
+        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
+        $do_i--;
+      } while(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid));
+    }
+    return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
+  }
   protected function make_cast()
   {
     $cast = $this->fetch->find('tbody tr');
     array_shift($cast);
     $this->cast = $cast;
   }
-
   protected function insert_users()
   {
     $list = [];
@@ -249,7 +248,7 @@ abstract class SOW extends Country
       $this->users[] = $this->user;
       //生存者を除く名前リストを作る
       $list[] = $this->user->persona;
-      if($this->user->dtid === Data::DES_ALIVE)
+      if($this->user->end !== null)
       {
         unset($list[$key]);
       }
@@ -259,13 +258,12 @@ abstract class SOW extends Country
 
     foreach($this->users as $user)
     {
-      //var_dump($user->get_vars());
+      var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
       }
     }
-    //exit;
   }
   protected function fetch_users($person)
   {
@@ -293,7 +291,6 @@ abstract class SOW extends Country
     {
       $this->user->role = mb_ereg_replace('(.+) \(.+\)','\1',$role);
     }
-
   }
   protected function fetch_sklid()
   {
@@ -326,6 +323,11 @@ abstract class SOW extends Country
   }
   protected function fetch_rltid()
   {
+    if(!$this->village->policy)
+    {
+      $this->user->rltid = Data::RSL_JOIN;
+      return;
+    }
     if($this->user->tmid === $this->village->wtmid)
     {
       $this->user->rltid = Data::RSL_WIN;
@@ -335,27 +337,33 @@ abstract class SOW extends Country
       $this->user->rltid = Data::RSL_LOSE;
     }
   }
+  protected function fetch_daily_url($i,$find)
+  {
+    $row = 30;
+    $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
+    $this->fetch->load_file($url);
+    $announce = $this->fetch->find($find);
+    //処刑以降が取れてなさそうな場合はログ件数を増やす
+    if(count($announce) <= 1)
+    {
+      do
+      {
+        $row += 10;
+        $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
+        $this->fetch->load_file($url);
+        $announce = $this->fetch->find('p.info');
+      } while (count($announce) <= 1);
+    }
+    return $announce;
+  }
   protected function fetch_from_daily($list)
   {
     $days = $this->village->days;
     $rp = $this->village->rp;
-    $row = 30;
+    $find = 'p.info';
     for($i=2; $i<=$days; $i++)
     {
-      $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
-      $this->fetch->load_file($url);
-      $announce = $this->fetch->find('p.info');
-      //処刑以降が取れてなさそうな場合はログ件数を増やす
-      if(count($announce) <= 1)
-      {
-        do
-        {
-          $row += 10;
-          $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
-          $this->fetch->load_file($url);
-          $announce = $this->fetch->find('p.info');
-        } while (count($announce) <= 1);
-      }
+      $announce = $this->fetch_daily_url($i,$find);
       foreach($announce as $item)
       {
         $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
@@ -383,28 +391,10 @@ abstract class SOW extends Country
             $this->users[$key_u]->dtid = $dtid;
           }
           $this->users[$key_u]->end = $i;
+          $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
         }
       }
       $this->fetch->clear();
-    }
-  }
-  protected function fetch_life()
-  {
-    foreach($this->users as $key=>$user)
-    {
-      if(!$this->users[$key]->life)
-      {
-        $life = round(($this->users[$key]->end-1) / $this->village->days,2);
-        if($life < 0)
-        {
-          $this->users[$key]->life = null;
-          echo "NOTICE: ".$this->users[$key]->persona." life is minus. fix it to null.".PHP_EOL;
-        }
-        else
-        {
-          $this->users[$key]->life = $life;
-        }
-      }
     }
   }
 }
