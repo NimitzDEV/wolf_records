@@ -233,7 +233,7 @@ class Rose extends Country
       {
         $destiny = trim($item->plaintext);
         $key = mb_substr($destiny,-6,6);
-        $persona = mb_ereg_replace("(.+) は、.+ を命を引き換えに復活させた。",'\1',$destiny);
+        $persona = trim(mb_ereg_replace("(.+) は、.+ を命を引き換えに復活させた。",'\1',$destiny));
         $key_u = array_search($persona,$list);
         if($key_u)
         {
