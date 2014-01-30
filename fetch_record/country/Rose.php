@@ -16,10 +16,12 @@ class Rose extends Country
     if(preg_match('/一般|初心者歓迎/',$policy))
     {
       $this->village->policy = true;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
     }
     else
     {
       $this->village->policy = false;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
     }
   }
   protected function fetch_wtmid()
