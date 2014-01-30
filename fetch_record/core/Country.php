@@ -22,7 +22,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [77];
+    //$list = [317];
     if(!$list)
     {
       echo get_class($this).' has not new villages.'.PHP_EOL;
@@ -30,12 +30,12 @@ abstract class Country
     }
     $this->fetch = new simple_html_dom();
     //取得しない村番号
-    //$kick = [29,75,106,111,126];
+    //$kick = [];
     foreach($list as $vno)
     {
       //if(array_search($vno,$kick)  !== false)
       //{
-        //echo 'NOTICE: '.$vno.' is kicked by $kick list.'.PHP_EOL;
+        //echo '※: '.$vno.' is kicked by $kick list.'.PHP_EOL;
         //continue;
       //}
       if($this->insert_village($vno))
