@@ -240,6 +240,7 @@ $TEAM_ARRAY = array(
   ,"裏切り"=>"evil"
   ,"据え膳"=>"fish"
   ,"照坊主"=>"teru"
+  ,"奴隷"=>"slave"
 );
 
 
