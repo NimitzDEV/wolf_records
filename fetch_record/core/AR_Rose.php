@@ -9,6 +9,8 @@ trait AR_Rose
     ,'人狼審問'=>'JUNA'
     ,'人狼BBS'=>'WBBS'
     ,'ルーガルー'=>'LOUP'
+    ,'蛇村'=>'JR'
+    ,'蛇同窓会'=>'JR'
   ];
   protected $WTM_ROSE= [
      '人狼を退治したのだ！'=>Data::TM_VILLAGER
@@ -154,7 +156,7 @@ trait AR_Rose
     ,"番長"=>Data::SKL_EFB
     ,"においフェチ"=>Data::SKL_JUDGE
     ,"よいのぞき屋"=>Data::SKL_IDSEER
-    ,"わるいのぞき屋"=>Data::SKL_IDLUNASR
+    ,"悪いのぞき屋"=>Data::SKL_IDLUNASR
     ,"チャネラー"=>Data::SKL_CONTACT
     ,"フジコちゃん"=>Data::SKL_TEMPTER
     ,"おねぼうさん"=>Data::SKL_SLEEPER
@@ -163,6 +165,26 @@ trait AR_Rose
     ,"おえらいさん"=>Data::SKL_NOBLE
     ,"ゲボク根性"=>Data::SKL_SLAVE
     ,"ボンボン"=>Data::SKL_PRINCE
+    ];
+  protected $SKL_JR = [
+     "白薔薇兵士"=>Data::SKL_VILLAGER
+    ,"ズニア"=>Data::SKL_VILLAGER
+    ,"情報屋"=>Data::SKL_SEER
+    ,"サイゾー"=>Data::SKL_SEER
+    ,"看護士"=>Data::SKL_MEDIUM
+    ,"熱血の騎士"=>Data::SKL_HUNTER
+    ,"事務員"=>Data::SKL_LUNAWHS
+    ,"痣の保持者"=>Data::SKL_STIGMA
+    ,"粘着テロリスト"=>Data::SKL_CURSEWOLF
+    ,"ニヨリスト"=>Data::SKL_PIXY
+    ,"孤独を愛するテロリスト"=>Data::SKL_SILENT
+    ,"銀の蛇受賞予定者"=>Data::SKL_SILENT
+    ,"盗聴名人"=>Data::SKL_RABBIT
+    ,"情報通"=>Data::SKL_SAGE
+    ,"軍医"=>Data::SKL_PRIEST
+    ,"変装名人"=>Data::SKL_WHITEWOLF
+    ,"博愛の騎士"=>Data::SKL_GUARDIAN
+    ,"銀のヒモ受賞予定者"=>Data::SKL_GUARDIAN
     ];
   protected $TEAM = [
      "村人"=>Data::TM_VILLAGER
@@ -197,5 +219,11 @@ trait AR_Rose
     ,'ったみたい。'=>['',Data::DES_EATEN]
     ,'えを食った。'=>['^( ?)(.+) は .+ の巻き添えを食った。',Data::DES_SUICIDE]
     ,'したようだ。'=>['^()(.+) は .+ との赤い糸の切断に失敗したようだ。',Data::DES_SUICIDE]
+  ];
+  protected $DT_JR = [
+     '搬送された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は、前線を離脱し.+',Data::DES_HANGED]
+    ,'おめでとう！'=>['.+(\(ランダム投票\)|投票した。)(.+) は、最優秀男優賞.+',Data::DES_HANGED]
+    ,'発見された。'=>['.+朝、(泥酔した |)(.+) が(瀕死|、控え室).+',Data::DES_EATEN]
+    ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
   ];
 }
