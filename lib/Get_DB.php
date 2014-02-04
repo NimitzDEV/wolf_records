@@ -1,6 +1,6 @@
 <?php
 
-class GetDB
+class Get_DB
 {
   private $pdo
          ,$players
