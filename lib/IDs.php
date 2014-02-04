@@ -2,8 +2,9 @@
 
 class IDs
 {
-  private $players;
-  private $view_name;
+  use Properties;
+  private $players
+         ,$view_name;
 
   function is_valid_id($id)
   {
@@ -46,14 +47,5 @@ class IDs
     {
       return $this->players[] = htmlspecialchars($name);
     }
-  }
-
-  function getPlayerArr()
-  {
-    return $this->players;
-  }
-  function getViewName()
-  {
-    return $this->view_name;
   }
 }
