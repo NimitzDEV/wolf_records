@@ -6,7 +6,7 @@ mb_internal_encoding("UTF-8");
 mb_regex_encoding('UTF-8');
 
 //autoloader読込
-require '../lib/ClassLoader.php';
+require __DIR__.'/../lib/ClassLoader.php';
 $class_loader = new ClassLoader([__DIR__.'/core',__DIR__.'/country',__DIR__.'/../lib']);
 
 if(isset($argv[1]))
