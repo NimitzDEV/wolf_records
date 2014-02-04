@@ -29,7 +29,7 @@ trait TR_SOW
   protected function fetch_nop()
   {
     $nop = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
+    $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$nop);
   }
   protected function fetch_rglid()
   {

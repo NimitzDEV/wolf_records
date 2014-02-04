@@ -2,7 +2,7 @@
 
 class Melon extends Country
 {
-  use AR_Melon;
+  use AR_Melon,TR_SOW;
   private $doppel = 
     [
        "siro"    =>"siro&lt;瓜科&gt;"
@@ -13,36 +13,6 @@ class Melon extends Country
     $url_vil = 'http://melon-cirrus.sakura.ne.jp/sow/sow.cgi?m=a&v=';
     $url_log = 'http://melon-cirrus.sakura.ne.jp/sow/sow.cgi?cmd=oldlog';
     parent::__construct($cid,$url_vil,$url_log);
-  }
-
-  function fetch_village()
-  {
-    $this->fetch_from_info();
-    $this->fetch_from_pro();
-    $this->fetch_from_epi();
-  }
-
-  protected function fetch_from_info()
-  {
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_rglid();
-    $this->fetch_days();
-
-    $this->fetch_rp();
-    $this->fetch_policy();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_name()
-  {
-    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
-  }
-  protected function fetch_nop()
-  {
-    $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$this->fetch->find('p.multicolumn_left',1)->plaintext);
   }
   protected function fetch_rglid()
   {
@@ -218,12 +188,6 @@ class Melon extends Country
         break;
     }
   }
-  protected function fetch_days()
-  {
-    $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $days = mb_convert_encoding($days,"UTF-8","SJIS");
-    $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
-  }
   protected function fetch_rp()
   {
     $rp = $this->fetch->find('p.multicolumn_left',9)->plaintext;
@@ -239,7 +203,17 @@ class Melon extends Country
   }
   protected function fetch_policy()
   {
-    $this->village->policy = mb_strstr($this->fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
+    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',-2)->plaintext,'推理');
+    if($policy !== false)
+    {
+      $this->village->policy = true;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
+    }
+    else
+    {
+      $this->village->policy = false;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+    }
   }
   protected function fetch_from_pro()
   {
@@ -248,12 +222,6 @@ class Melon extends Country
 
     $this->fetch_date();
     $this->fetch->clear();
-  }
-  protected function fetch_date()
-  {
-    $date = $this->fetch->find('div.mes_date',0)->plaintext;
-    $date = mb_substr($date,7,10);
-    $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
   }
   protected function fetch_from_epi()
   {
@@ -332,6 +300,21 @@ class Melon extends Country
       $cast = array_merge($cast);
     }
     $this->cast = $cast;
+  }
+  protected function insert_users()
+  {
+    $this->users = [];
+    foreach($this->cast as $person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      if(!$this->user->is_valid())
+      {
+        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+      }
+      //エラーでも歯抜けが起きないように入れる
+      $this->users[] = $this->user;
+    }
   }
   protected function fetch_users($person)
   {
