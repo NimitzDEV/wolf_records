@@ -2,18 +2,12 @@
 
 class Get_DB
 {
+  use Properties;
   private $pdo
          ,$players
-         ,$holder;
-
-  private $joinSum;
-  private $joinGachi;
-  private $joinWin;
-  private $joinLose;
-  private $joinRP;
-  
-  private $liveGachi;
-  private $liveRP;
+         ,$holder
+         ,$join
+         ;
 
   private $teamCount;
   private $teamArray;
@@ -33,16 +27,9 @@ class Get_DB
     $this->make_holder();
 
     //以下未整理
-    $this->joinSum = 0;
-    $this->joinGachi = 0;
-    $this->joinWin = 0;
-    $this->joinLose = 0;
-    $this->joinRP = 0;
-    $this->liveGachi = 0.00;
-    $this->liveRP = 0.00;
-    $this->teamCount = array();
-    $this->teamArray = array();
-    $this->skillCount = array();
+    //$this->teamCount = array();
+    //$this->teamArray = array();
+    //$this->skillCount = array();
   }
   function make_holder()
   {
@@ -82,51 +69,31 @@ class Get_DB
 
   function fetch_sum()
   {
-    //DBから情報を取得
     $stmt = $this->pdo->prepare("
-      SELECT u.rltid, count(*) count FROM users u
+      SELECT r.property, count(*) count FROM users u
+      JOIN result r ON u.rltid=r.id
       WHERE player IN (".$this->holder.") GROUP BY rltid
       UNION
       SELECT CASE rltid
-        WHEN 1 THEN 'gachi'
-        WHEN 2 THEN 'gachi'
-        WHEN 3 THEN 'rp'
-        ELSE 'no'
+        WHEN 1 THEN 'live_gachi'
+        WHEN 2 THEN 'live_gachi'
+        WHEN 3 THEN 'live_rp'
+        ELSE 'x'
       END rlt,
       truncate(avg(life)+0.005,2) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
     ");
+    //$stmt = $this->exe_stmt($stmt,'Join_Count');
     $stmt = $this->exe_stmt($stmt);
-    //fetch::classにする
-    $table = $stmt->fetchALL();
-
-    if(isset($table[0]['name']))
+    $table = $stmt->fetchAll();
+    if(isset($table[0]))
     {
-      foreach($table as $item)
+      $this->join = new Join_Count();
+      array_pop($table);
+      foreach($table as $row)
       {
-        switch($item['name'])
-        {
-          case '勝利':
-            $this->joinWin = $item['count'];
-            break;
-          case '敗北':
-            $this->joinLose = $item['count'];
-            break;
-          case '参加':
-            $this->joinRP = $item['count'];
-            break;
-          case 'ガチ生存':
-            $this->liveGachi = $item['count'];
-            break;
-          case 'RP生存':
-            $this->liveRP = $item['count'];
-            break;
-          case 'no':
-            break;
-          default:  //総合参加数
-            $this->joinSum = $item['count'];
-            break;
-        }
+        $this->join->{$row['property']} = $row['count'];
       }
+      $this->join->calculate();
       return true;
     }
     else
@@ -137,6 +104,7 @@ class Get_DB
 
   function exe_stmt(&$stmt)
   {
+    //$stmt->setFetchMode(PDO::FETCH_CLASS,$class);
     foreach($this->players as $k =>$id)
     {
       $stmt->bindValue(':player'.$k,$id,PDO::PARAM_STR);
