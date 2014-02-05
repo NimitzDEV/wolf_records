@@ -7,14 +7,12 @@ class Get_DB
          ,$players
          ,$holder
          ,$join
+         ,$doppel
          ;
 
   private $teamCount;
   private $teamArray;
   private $skillCount;
-
-  private $boolDoppel;
-  private $doppel;
 
   private $cell_format;
   const FORMAT_BOTH = 3;
@@ -31,7 +29,7 @@ class Get_DB
     //$this->teamArray = array();
     //$this->skillCount = array();
   }
-  function make_holder()
+  private function make_holder()
   {
     //IDの数だけプレースホルダを作る
     $count = count($this->players);
@@ -45,15 +43,15 @@ class Get_DB
   function start_fetch()
   {
     $this->connect();
-    if($this->fetch_sum())
+    if($this->fetch_count())
     {
-    //$boolDoppel = $db->fetchDoppelID();
+      $this->fetch_doppel();
     //$table = $db->getTable();
     //$db->fetchTeamCount();
     }
     $this->disconnect();
   }
-  function connect()
+  private function connect()
   {
     try{
       $this->pdo = new DBAdapter();
@@ -62,12 +60,12 @@ class Get_DB
       exit;
     }
   }
-  function disconnect()
+  private function disconnect()
   {
     $this->pdo = null;
   }
 
-  function fetch_sum()
+  function fetch_count()
   {
     $stmt = $this->pdo->prepare("
       SELECT r.property, count(*) count FROM users u
@@ -85,7 +83,7 @@ class Get_DB
     //$stmt = $this->exe_stmt($stmt,'Join_Count');
     $stmt = $this->exe_stmt($stmt);
     $table = $stmt->fetchAll();
-    if(isset($table[0]))
+    if(!empty($table))
     {
       $this->join = new Join_Count();
       array_pop($table);
@@ -102,7 +100,7 @@ class Get_DB
     }
   }
 
-  function exe_stmt(&$stmt)
+  private function exe_stmt(&$stmt)
   {
     //$stmt->setFetchMode(PDO::FETCH_CLASS,$class);
     foreach($this->players as $k =>$id)
@@ -113,7 +111,7 @@ class Get_DB
     return $stmt;
   }
 
-  function fetchDoppelID()
+  private function fetch_doppel()
   {
     $stmt = $this->pdo->prepare("
       SELECT base,doppel FROM doppel WHERE base IN (".$this->holder.");
@@ -123,86 +121,32 @@ class Get_DB
     if(!empty($table))
     {
       $this->doppel = $table;
-      $this->boolDoppel = true;
-    }
-    else
-    {
-      $this->boolDoppel = false;
     }
   }
 
-  function getBoolDoppel()
+  function make_doppel($url_base)
   {
-    return $this->boolDoppel;
-  }
-
-  function getDoppel($argURL)
-  {
-    $urlOrg = preg_replace('/.+result.php\?/',"","$argURL");
+    $url_base = preg_replace('/.+result.php\?/',"","$url_base");
     $string = 'もしかして: ';
 
-    foreach($this->doppel as $dTable)
+    foreach($this->doppel as $table)
     {
-      $dAll[$dTable['base']] = $dTable['doppel'];
-      $url = preg_replace('/'.$dTable['base'].'/',$dTable['doppel'],$urlOrg);
-      $urlArray[] = '<a href="result.php?'.$url.'">'.htmlentities($dTable['doppel']).'</a>';
+      $doppel[$table['base']] = $table['doppel'];
+      $url = preg_replace('/'.$table['base'].'/',$table['doppel'],$url_base);
+      $url_list[] = '<a href="result.php?'.$url.'">'.htmlentities($table['doppel']).'</a>';
     }
-    $string .= implode(" | ",$urlArray);
+    $string .= implode(" | ",$url_list);
 
-    if(count($dAll) > 1)
+    if(count($doppel) > 1)
     {
-      foreach($dAll as $before=>$after)
+      foreach($doppel as $before=>$after)
       {
-        $urlOrg =  preg_replace('/'.$before.'/',$after,$urlOrg);
+        $url =  preg_replace('/'.$before.'/',$after,$url_base);
       }
-      $string .= ' | <a href="result.php?'.$urlOrg.'">全部変えて試す</a>';
+      $string .= ' | <a href="result.php?'.$url.'">全部変えて試す</a>';
     }
     return $string;
   }
-
-
-
-  function getJoinWin()
-  {
-    return $this->joinWin;
-  }
-
-  function getJoinGachi()
-  {
-    return $this->joinWin + $this->joinLose; 
-  }
-
-  function getJoinWinPercent()
-  {
-    if($this->joinWin  !== 0)
-    {
-      return round($this->joinWin / $this->getJoinGachi(),3) * 100;
-    } else
-    {
-      return 0;
-    }
-  }
-
-  function getJoinRP()
-  {
-    return $this->joinRP;
-  }
-
-  function getJoinSum()
-  {
-    return $this->joinSum;
-  }
-
-  function getLiveGachi()
-  {
-    return $this->liveGachi;
-  }
-
-  function getLiveRP()
-  {
-    return $this->liveRP;
-  }
-
 
   //戦績一覧取得
   function getTable()
