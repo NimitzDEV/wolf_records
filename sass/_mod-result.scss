@@ -158,34 +158,26 @@ nav {
     border-left: 0;
     padding: 4px 5px;
   }
-  .vname {
-    width: 22em;
-  }
 
-  .w {
+  .win {
     @extend %result;
     color:$win;
   }
-  .l {
+  .lose {
     @extend %result;
     color: $lse;
   }
-  .j{
+  .rp{
     @extend %result;
     color: $jin;
   }
-  .i{
+  .invalid{
     @extend %result;
     color: $ivd;
   }
-  .o{
+  .onlooker{
     @extend %result;
     color: $olk;
-  }
-  .noData {
-    text-align: center;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
   }
 }
 

@@ -8,6 +8,7 @@ class Get_DB
          ,$holder
          ,$join
          ,$doppel
+         ,$record
          ;
 
   private $teamCount;
@@ -46,7 +47,8 @@ class Get_DB
     if($this->fetch_count())
     {
       $this->fetch_doppel();
-    //$table = $db->getTable();
+      $table = $this->get_record();
+      $this->make_table($table);
     //$db->fetchTeamCount();
     }
     $this->disconnect();
@@ -99,7 +101,6 @@ class Get_DB
       return false;
     }
   }
-
   private function exe_stmt(&$stmt)
   {
     //$stmt->setFetchMode(PDO::FETCH_CLASS,$class);
@@ -123,7 +124,6 @@ class Get_DB
       $this->doppel = $table;
     }
   }
-
   function make_doppel($url_base)
   {
     $url_base = preg_replace('/.+result.php\?/',"","$url_base");
@@ -148,26 +148,64 @@ class Get_DB
     return $string;
   }
 
-  //戦績一覧取得
-  function getTable()
+  function get_record()
   {
     $stmt = $this->pdo->prepare("
       SELECT v.date date, c.name country, v.vno vno,
-      v.name vname,rgl.id rglid, rgl.name rgl,u.persona persona,
+      v.name vname,rgl.name rgl,u.persona persona,
       u.role role,u.end end, d.name destiny,
-      rlt.name result,c.url url, v.wtmid wtmid
-      FROM village v INNER JOIN country c ON v.cid=c.id
-      INNER JOIN users u ON v.id=u.vid
-      INNER JOIN regulation rgl ON v.rglid=rgl.id 
-      INNER JOIN destiny d ON u.dtid=d.id
-      INNER JOIN result rlt ON u.rltid=rlt.id
+      rlt.name result,rlt.property resclass,c.url url,v.wtmid wtmid
+      FROM village v JOIN country c ON v.cid=c.id
+      JOIN users u ON v.id=u.vid
+      JOIN regulation rgl ON v.rglid=rgl.id 
+      JOIN destiny d ON u.dtid=d.id
+      JOIN result rlt ON u.rltid=rlt.id
       WHERE player IN (".$this->holder.") ORDER BY v.date DESC,v.vno DESC;
     ");
-
     $table = $this->exe_stmt($stmt);
     $table = $table->fetchAll();
     
     return $table;
+  }
+  private function make_table($table)
+  {
+    $string = '<tr>';
+    if(!empty($table))
+    {
+      foreach($table as $row)
+      {
+        $vname = mb_strimwidth($row['vname'],0,34,"..","UTF-8");
+        $url = preg_replace('/%n/',$row['vno'],$row['url']);
+        $date = date("Y/m/d",strtotime($row['date']));
+        if($row['wtmid'] != 0)
+        {
+          $icon = 'i-fire';
+        }
+        else
+        {
+          $icon = 'i-book';
+        }
+        $string.= <<<EOF
+          <td>$date</td>
+          <td>{$row['country']}{$row['vno']}</td>
+          <td><span class="$icon"></span><a href="$url" title="{$row['vname']}">$vname</a></td>
+          <td>{$row['rgl']}</td>
+          <td>{$row['persona']}</td>
+          <td>{$row['role']}</td>
+          <td>{$row['end']}d{$row['destiny']}</td>
+          <td><span class="{$row['resclass']}">{$row['result']}</span></td></tr>
+EOF;
+      }
+    }
+    else
+    {
+      for($i=1;$i<=8;$i++)
+      {
+        $string.= '<td>NO DATA</td>';
+      }
+      $string.= '</tr>';
+    }
+    $this->record = $string;
   }
 
   //役職別一覧取得
