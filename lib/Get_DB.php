@@ -51,7 +51,21 @@ class Get_DB
       $this->make_table($table);
     //$db->fetchTeamCount();
     }
+    else
+    {
+      $this->make_nodata();
+    }
     $this->disconnect();
+  }
+  private function make_nodata()
+  {
+    $string = '<tr>';
+    for($i=1;$i<=8;$i++)
+    {
+      $string.= '<td>NO DATA</td>';
+    }
+    $string.= '</tr>';
+    $this->record = $string;
   }
   private function connect()
   {
@@ -67,7 +81,7 @@ class Get_DB
     $this->pdo = null;
   }
 
-  function fetch_count()
+  private function fetch_count()
   {
     $stmt = $this->pdo->prepare("
       SELECT r.property, count(*) count FROM users u
@@ -148,7 +162,7 @@ class Get_DB
     return $string;
   }
 
-  function get_record()
+  private function get_record()
   {
     $stmt = $this->pdo->prepare("
       SELECT v.date date, c.name country, v.vno vno,
