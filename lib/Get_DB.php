@@ -187,6 +187,25 @@ class Get_DB
     foreach($table as $row)
     {
       $vname = mb_strimwidth($row['vname'],0,34,"..","UTF-8");
+      if($vname === $row['vname'])
+      {
+        $tip_v = '>';
+      }
+      else
+      {
+        $tip_v = ' title="'.$row['vname'].'">';
+      }
+
+      $persona = mb_strimwidth($row['persona'],0,34,"..","UTF-8");
+      if($persona === $row['persona'])
+      {
+        $tip_p = $row['persona'];
+      }
+      else
+      {
+        $tip_p = '<span title="'.$row['persona'].'">'.$persona.'</span>';
+      }
+
       $url = preg_replace('/%n/',$row['vno'],$row['url']);
       $date = date("Y/m/d",strtotime($row['date']));
       if($row['wtmid'] != 0)
@@ -200,9 +219,9 @@ class Get_DB
       $string.= <<<EOF
         <td>$date</td>
         <td>{$row['country']}{$row['vno']}</td>
-        <td><span class="$icon"></span><a href="$url" title="{$row['vname']}">$vname</a></td>
+        <td><span class="$icon"></span><a href="$url"$tip_v$vname</a></td>
         <td>{$row['rgl']}</td>
-        <td>{$row['persona']}</td>
+        <td>$tip_p</td>
         <td>{$row['role']}</td>
         <td>{$row['end']}d{$row['destiny']}</td>
         <td><span class="{$row['resclass']}">{$row['result']}</span></td></tr>
