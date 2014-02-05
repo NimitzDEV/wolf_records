@@ -57,16 +57,6 @@ class Get_DB
     }
     $this->disconnect();
   }
-  private function make_nodata()
-  {
-    $string = '<tr>';
-    for($i=1;$i<=8;$i++)
-    {
-      $string.= '<td>NO DATA</td>';
-    }
-    $string.= '</tr>';
-    $this->record = $string;
-  }
   private function connect()
   {
     try{
@@ -79,6 +69,16 @@ class Get_DB
   private function disconnect()
   {
     $this->pdo = null;
+  }
+  private function make_nodata()
+  {
+    $string = '<tr>';
+    for($i=1;$i<=8;$i++)
+    {
+      $string.= '<td>NO DATA</td>';
+    }
+    $string.= '</tr>';
+    $this->record = $string;
   }
 
   private function fetch_count()
@@ -184,40 +184,29 @@ class Get_DB
   private function make_table($table)
   {
     $string = '<tr>';
-    if(!empty($table))
+    foreach($table as $row)
     {
-      foreach($table as $row)
+      $vname = mb_strimwidth($row['vname'],0,34,"..","UTF-8");
+      $url = preg_replace('/%n/',$row['vno'],$row['url']);
+      $date = date("Y/m/d",strtotime($row['date']));
+      if($row['wtmid'] != 0)
       {
-        $vname = mb_strimwidth($row['vname'],0,34,"..","UTF-8");
-        $url = preg_replace('/%n/',$row['vno'],$row['url']);
-        $date = date("Y/m/d",strtotime($row['date']));
-        if($row['wtmid'] != 0)
-        {
-          $icon = 'i-fire';
-        }
-        else
-        {
-          $icon = 'i-book';
-        }
-        $string.= <<<EOF
-          <td>$date</td>
-          <td>{$row['country']}{$row['vno']}</td>
-          <td><span class="$icon"></span><a href="$url" title="{$row['vname']}">$vname</a></td>
-          <td>{$row['rgl']}</td>
-          <td>{$row['persona']}</td>
-          <td>{$row['role']}</td>
-          <td>{$row['end']}d{$row['destiny']}</td>
-          <td><span class="{$row['resclass']}">{$row['result']}</span></td></tr>
+        $icon = 'i-fire';
+      }
+      else
+      {
+        $icon = 'i-book';
+      }
+      $string.= <<<EOF
+        <td>$date</td>
+        <td>{$row['country']}{$row['vno']}</td>
+        <td><span class="$icon"></span><a href="$url" title="{$row['vname']}">$vname</a></td>
+        <td>{$row['rgl']}</td>
+        <td>{$row['persona']}</td>
+        <td>{$row['role']}</td>
+        <td>{$row['end']}d{$row['destiny']}</td>
+        <td><span class="{$row['resclass']}">{$row['result']}</span></td></tr>
 EOF;
-      }
-    }
-    else
-    {
-      for($i=1;$i<=8;$i++)
-      {
-        $string.= '<td>NO DATA</td>';
-      }
-      $string.= '</tr>';
     }
     $this->record = $string;
   }
