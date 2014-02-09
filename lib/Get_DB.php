@@ -9,6 +9,7 @@ class Get_DB
          ,$join
          ,$doppel
          ,$record
+         ,$teams
          ;
 
   private $teamCount;
@@ -47,9 +48,8 @@ class Get_DB
     if($this->fetch_count())
     {
       $this->fetch_doppel();
-      $table = $this->get_record();
-      $this->make_table($table);
-    //$db->fetchTeamCount();
+      $this->make_table($this->get_record());
+      $this->make_teams($this->fetch_team_table());
     }
     else
     {
@@ -96,7 +96,6 @@ class Get_DB
       END rlt,
       truncate(avg(life)+0.005,2) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
     ");
-    //$stmt = $this->exe_stmt($stmt,'Join_Count');
     $stmt = $this->exe_stmt($stmt);
     $table = $stmt->fetchAll();
     if(!empty($table))
@@ -117,7 +116,6 @@ class Get_DB
   }
   private function exe_stmt(&$stmt)
   {
-    //$stmt->setFetchMode(PDO::FETCH_CLASS,$class);
     foreach($this->players as $k =>$id)
     {
       $stmt->bindValue(':player'.$k,$id,PDO::PARAM_STR);
@@ -230,16 +228,15 @@ EOF;
     $this->record = $string;
   }
 
-  //役職別一覧取得
-  function fetchTeamCount()
+  private function fetch_team_table()
   {
     $stmt = $this->pdo->prepare("
-      SELECT t.name team,s.name skl,r.name result,count(*) count,sum.sum
+      SELECT t.name team,t.id tid,s.name skl,s.id sid,r.property result,count(*) count,sum.sum
       FROM users u
-	INNER JOIN skill s ON u.sklid=s.id
-	INNER JOIN team t ON u.tmid=t.id
-	INNER JOIN result r ON u.rltid=r.id
-        INNER JOIN (
+	JOIN skill s ON u.sklid=s.id
+	JOIN team t ON u.tmid=t.id
+	JOIN result r ON u.rltid=r.id
+        JOIN (
           SELECT tmid,rltid,count(*) sum FROM users WHERE player IN (".$this->holder.") GROUP BY tmid,rltid
         ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
       WHERE u.player IN (".$this->holder.")
@@ -248,23 +245,22 @@ EOF;
     ");
 
     $stmt = $this->exe_stmt($stmt);
-    foreach($stmt as $item)
+    $stmt = $stmt->fetchAll();
+    $team_list = [];
+    foreach($stmt as $key=>$item)
     {
-      //陣営の勝敗合計を入れる
-      if(!isset($this->teamCount[$item['team']][$item['result']]))
+      $tid = (int)$item['tid'];
+      if(!isset($team_list[$tid]))
       {
-        $this->teamCount[$item['team']][$item['result']] = $item['sum'];
+        ${'team'.$tid} = new Team_Count($item['team']);
+        $team_list[$tid] = ${'team'.$tid};
       }
-      //陣営別に役職を分ける
-      $this->skillCount[$item['team']][$item['skl']][$item['result']] = $item['count'];
+      $team_list[$tid]->insert_count($item);
     }
-
-    //埋まっていない結果(勝利、敗北、参加)にゼロを入れる
-      $checkArray = array('勝利','敗北','参加');
-      array_walk($checkArray,array($this,'insertResultZero'));
-    //受け渡し用の陣営リストを作る
-      $this->teamArray = array_keys($this->teamCount);
-
+      //var_dump($team_list);
+  }
+  private function make_teams($list)
+  {
   }
 
   function insertResultZero($value,$key)
