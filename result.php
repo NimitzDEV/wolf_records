@@ -1,21 +1,13 @@
 <?php
-require_once('lib/GetDB.php');
-require_once('lib/CheckID.php');
+$start = measure();
 
-$cID = new CheckID($_GET);
-
-if($cID->getIsID())
+require 'lib/ClassLoader.php';
+$class_loader = new ClassLoader([__DIR__.'/lib','/home/waoon/lib']);
+$id = new IDs();
+if($id->is_valid_id($_GET))
 {
-  $db = new GetDB($cID->getPlayerArr());
-  $db->connect();
-
-  if($db->FetchJoinCount())
-  {
-    $boolDoppel = $db->fetchDoppelID();
-    $table = $db->getTable();
-    $db->fetchTeamCount();
-  }
-  $db->disConnect();
+  $db = new Get_DB($id->players);
+  $db->start_fetch();
 }
 else
 {
@@ -24,7 +16,10 @@ else
 EOF;
   exit;
 }
-
+function measure() {
+  list($m, $s) = explode(' ', microtime());
+  return ((float)$m + (float)$s);
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -303,3 +298,6 @@ $TEAM_ARRAY = array(
     </script>
   </body>
 </html>
+<?php 
+echo (measure() - $start).PHP_EOL;
+?>
