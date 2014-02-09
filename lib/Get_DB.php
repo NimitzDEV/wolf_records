@@ -12,24 +12,10 @@ class Get_DB
          ,$teams
          ;
 
-  private $teamCount;
-  private $teamArray;
-  private $skillCount;
-
-  private $cell_format;
-  const FORMAT_BOTH = 3;
-  const FORMAT_GACHI = 1;
-  const FORMAT_RP  = 2;
-
   function __construct($players)
   {
     $this->players = $players;
     $this->make_holder();
-
-    //以下未整理
-    //$this->teamCount = array();
-    //$this->teamArray = array();
-    //$this->skillCount = array();
   }
   private function make_holder()
   {
@@ -231,7 +217,7 @@ EOF;
   private function fetch_team_table()
   {
     $stmt = $this->pdo->prepare("
-      SELECT t.name team,t.id tid,s.name skl,s.id sid,r.property result,count(*) count,sum.sum
+      SELECT t.name team,t.css css,t.id tid,s.name skl,s.id sid,r.property result,count(*) count,sum.sum
       FROM users u
 	JOIN skill s ON u.sklid=s.id
 	JOIN team t ON u.tmid=t.id
@@ -239,7 +225,7 @@ EOF;
         JOIN (
           SELECT tmid,rltid,count(*) sum FROM users WHERE player IN (".$this->holder.") GROUP BY tmid,rltid
         ) sum ON u.tmid=sum.tmid AND u.rltid=sum.rltid
-      WHERE u.player IN (".$this->holder.")
+      WHERE u.player IN (".$this->holder.") and r.property not in('onlooker','invalid')
       GROUP BY u.rltid,t.name,s.name
       ORDER BY u.tmid,u.sklid,u.rltid
     ");
@@ -247,187 +233,98 @@ EOF;
     $stmt = $this->exe_stmt($stmt);
     $stmt = $stmt->fetchAll();
     $team_list = [];
-    foreach($stmt as $key=>$item)
+    foreach($stmt as $item)
     {
       $tid = (int)$item['tid'];
       if(!isset($team_list[$tid]))
       {
-        ${'team'.$tid} = new Team_Count($item['team']);
+        ${'team'.$tid} = new Team_Count($item['team'],$item['css']);
         $team_list[$tid] = ${'team'.$tid};
       }
       $team_list[$tid]->insert_count($item);
     }
-      //var_dump($team_list);
+    //合計参加数と勝率を入れる
+    foreach($team_list as $key=>$item)
+    {
+      $team_list[$key]->insert_sum();
+    }
+    return $team_list;
   }
   private function make_teams($list)
   {
-  }
-
-  function insertResultZero($value,$key)
-  {
-    foreach($this->teamCount as $team=>$result)
+    $table = '';
+    foreach($list as $team)
     {
-      if(!array_key_exists($value,$result))
+      $string = '<div class="role"><table><thead><tr class="'.$team->css.'"><td>'.$team->name.'</td>';
+      if($team->sum !== 0 && $team->rp !== null)
       {
-        $this->teamCount[$team][$value] = 0;
-      }
-      foreach($this->skillCount[$team] as $skill=>$item)
-      {
-        if(!array_key_exists($value,$item))
-        {
-          $this->skillCount[$team][$skill][$value] = 0;
-        }
-      }
-    }
-  }
-
-  function get_team_tr($team)
-  {
-    $gachi = $this->getTeamGachi($team);
-    $rp = $this->getTeamRP($team);
-
-    if($gachi !== 0 && $rp !== 0)
-    {
-      //両方ある
-      $this->cell_format = $this::FORMAT_BOTH;
-      return <<<EOF
-        <td><span class="i-fire"></span>{$this->getTeamWin($team)}/{$this->getTeamGachi($team)}</td>
-        <td>{$this->getTeamWinP($team)}%</td>
-        <td><span class="i-book"></span>{$this->getTeamRP($team)}</td>
-EOF;
-    }
-    else if ($rp === 0)
-    {
-      //ガチのみ
-      $this->cell_format = $this::FORMAT_GACHI;
-      return <<<EOF
-        <td><span class="i-fire"></span>{$this->getTeamWin($team)}/{$this->getTeamGachi($team)}</td>
-        <td>{$this->getTeamWinP($team)}%</td>
-EOF;
-    }
-    else
-    {
-      //RPのみ
-      $this->cell_format = $this::FORMAT_RP;
-      return <<<EOF
-        <td><span class="i-book"></span>{$this->getTeamRP($team)}</td>
-EOF;
-    }
-  }
-
-  function get_skill_tr($team,$skill)
-  {
-    $gachi = $this->getSkillGachi($team,$skill);
-    $rp = $this->getSkillRP($team,$skill);
-
-    switch(true)
-    {
-      case($gachi !== 0 && $rp !== 0):
         //両方ある
-        return <<<EOF
-           <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
-           <td>{$this->getSkillWinP($team,$skill)}%</td>
-           <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
+        $both = true;
+        $string .= <<<EOF
+          <td><span class="i-fire"></span>{$team->win}/{$team->sum}</td>
+          <td>{$team->rate}%</td>
+          <td><span class="i-book"></span>{$team->rp}</td>
 EOF;
-        break;
-      case($rp === 0):
-        if($this->cell_format === $this::FORMAT_BOTH)
+      }
+      else if ($team->rp === null)
+      {
+        //ガチのみ
+        $both = false;
+        $string .= <<<EOF
+          <td><span class="i-fire"></span>{$team->win}/{$team->sum}</td>
+          <td>{$team->rate}%</td>
+EOF;
+      }
+      else
+      {
+        //RPのみ
+        $both = false;
+        $string .= <<<EOF
+          <td><span class="i-book"></span>{$team->rp}</td>
+EOF;
+      }
+      $string .= "</tr></thead><tbody>";
+      foreach($team->skill as $skill)
+      {
+        $string .= <<<EOF
+        <tr><td>{$skill->name}</td>{$this->get_skill_tr($skill,$both)}</tr>
+EOF;
+      }
+      $string .= '</tbody></table></div>';
+      $table .= $string;
+    }
+    $this->teams = $table;
+  }
+  function get_skill_tr($skill,$both)
+  {
+    //echo $skill->name.':'.$skill->sum.'-'.$skill->rp.PHP_EOL;
+      if($skill->sum !== 0 && $skill->rp !== null)
+      {
+        return <<<EOF
+           <td><span class="i-fire"></span>{$skill->win}/{$skill->sum}</td>
+           <td>{$skill->rate}%</td><td><span class="i-book"></span>{$skill->rp}</td>
+EOF;
+      }
+      else if ($skill->rp === null)
+      {
+        $string = '<td><span class="i-fire"></span>'.$skill->win.'/'.$skill->sum.'</td><td>'.$skill->rate.'%</td>';
+        if($both)
         {
           //この役職はガチのみだが他の役職にはRPがある
-          return <<<EOF
-          <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
-          <td>{$this->getSkillWinP($team,$skill)}%</td>
-          <td></td>
-EOF;
+          $string .= '<td></td>';
         }
-        else
+        return $string;
+      }
+      else
+      {
+        $string = '';
+        if($both)
         {
-          return <<<EOF
-          <td><span class="i-fire"></span>{$this->getSkillWin($team,$skill)}/{$this->getSkillGachi($team,$skill)}</td>
-          <td>{$this->getSkillWinP($team,$skill)}%</td>
-EOF;
+          //この役職はRPのみだが他の役職にはガチがある
+          $string = '<td></td><td></td>';
         }
-        break;
-      case($gachi === 0):
-        if($this->cell_format === $this::FORMAT_BOTH)
-        {
-          return <<<EOF
-          <td></td>
-          <td></td>
-          <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
-EOF;
-        }
-        else
-        {
-          return <<<EOF
-          <td><span class="i-book"></span>{$this->getSkillRP($team,$skill)}</td>
-EOF;
-        }
-        break;
-    }
-  }
-
-  function getTeamArray()
-  {
-    return $this->teamArray;
-  }
-
-  function getTeamWin($team)
-  {
-    return $this->teamCount[$team]['勝利'];
-  }
-
-  function getTeamGachi($team)
-  {
-    return $this->teamCount[$team]['勝利'] + $this->teamCount[$team]['敗北'];
-  }
-
-  function getTeamWinP($team)
-  {
-    if($this->teamCount[$team]['勝利'] !== 0)
-    {
-      return round($this->teamCount[$team]['勝利'] / $this->getTeamGachi($team),3) * 100;
-    }
-    else
-    {
-      return 0;
-    }
-  }
-
-  function getTeamRP($team)
-  {
-    return $this->teamCount[$team]['参加'];
-  }
-
-  function getSkillArray($team)
-  {
-    return array_keys($this->skillCount[$team]);
-  }
-
-  function getSkillWin($team,$skill)
-  {
-    return $this->skillCount[$team][$skill]['勝利'];
-  }
-
-  function getSkillGachi($team,$skill)
-  {
-    return $this->skillCount[$team][$skill]['勝利']+$this->skillCount[$team][$skill]['敗北'];
-  }
-
-  function getSkillWinP($team,$skill)
-  {
-    if($this->skillCount[$team][$skill]['勝利'] !== 0)
-    {
-      return round($this->skillCount[$team][$skill]['勝利'] / $this->getSkillGachi($team,$skill),3) * 100;
-    }
-    else
-    {
-      return 0;
-    }
-  }
-
-  function getSkillRP($team,$skill)
-  {
-    return $this->skillCount[$team][$skill]['参加'];
+        $string .= '<td><span class="i-book"></span>'.$skill->rp.'</td>';
+        return $string;
+      }
   }
 }

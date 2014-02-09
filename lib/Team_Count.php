@@ -10,12 +10,14 @@ class Team_Count
           ,$sum
           ,$rate
           ,$rp
+          ,$css
           ;
   private  $skill = [];
 
-  function __construct($name)
+  function __construct($name,$css)
   {
     $this->name = $name;
+    $this->css = $css;
   }
   function insert_count($item)
   {
@@ -24,11 +26,7 @@ class Team_Count
   }
   private function insert_team_count($result,$count)
   {
-    if($result === 'onlooker' || $result === 'invalid')
-    {
-      return;
-    }
-    $this->{$result} = $count;
+    $this->{$result} = (int)$count;
   }
   private function insert_skill($skill,$sid,$result,$count)
   {
@@ -39,5 +37,26 @@ class Team_Count
       $this->skill[$sid] = ${'skl'.$sid};
     }
       $this->skill[$sid]->insert_count($result,$count);
+  }
+  function insert_sum()
+  {
+    $this->sum = $this->win + $this->lose;
+    if($this->win)
+    {
+      $this->rate = round($this->win / $this->sum,3) * 100;
+    }
+    else
+    {
+      $this->win = 0;
+      $this->rate = 0;
+    }
+    $this->insert_skl_sum();
+  }
+  private function insert_skl_sum()
+  {
+    foreach($this->skill as $key =>$item)
+    {
+      $this->skill[$key]->insert_sum();
+    }
   }
 }
