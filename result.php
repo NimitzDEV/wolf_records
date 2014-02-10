@@ -183,6 +183,7 @@ else
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/checkWidth.js"></script>
     <script src="lib/dynatable.js"></script>
+    <script src="lib/balloon.min.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
     <script src="../lib/slidemenu.min.js"></script>
@@ -190,6 +191,9 @@ else
       $(function() 
         { 
           $("#list").dynatable();
+          $('td a,td span[title]').balloon({
+            minLifetime: 0, showDuration: 0, hideDuration: 0,
+          });
           $('#id').addInputArea({
             maximum : 5
           });
