@@ -184,7 +184,7 @@ class Get_DB
         $tip_v = ' title="'.$row['vname'].'">';
       }
 
-      $persona = mb_strimwidth($row['persona'],0,34,"..","UTF-8");
+      $persona = mb_strimwidth($row['persona'],0,30,"..","UTF-8");
       if($persona === $row['persona'])
       {
         $tip_p = $row['persona'];
