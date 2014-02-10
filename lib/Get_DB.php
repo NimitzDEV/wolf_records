@@ -87,9 +87,12 @@ class Get_DB
     if(!empty($table))
     {
       $this->join = new Join_Count();
-      array_pop($table);
       foreach($table as $row)
       {
+        if($row['property'] === 'x')
+        {
+          continue;
+        }
         $this->join->{$row['property']} = $row['count'];
       }
       $this->join->calculate();
@@ -97,6 +100,7 @@ class Get_DB
     }
     else
     {
+      $this->join = new Join_Count();
       return false;
     }
   }
@@ -139,9 +143,9 @@ class Get_DB
     {
       foreach($doppel as $before=>$after)
       {
-        $url =  preg_replace('/'.$before.'/',$after,$url_base);
+        $url_base =  preg_replace('/'.$before.'/',$after,$url_base);
       }
-      $string .= ' | <a href="result.php?'.$url.'">全部変えて試す</a>';
+      $string .= ' | <a href="result.php?'.$url_base.'">全部変えて試す</a>';
     }
     return $string;
   }

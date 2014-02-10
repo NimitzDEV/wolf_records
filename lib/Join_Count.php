@@ -16,21 +16,30 @@ class Join_Count
           ,$sum
           ;
 
+  function __construct()
+  {
+    $this->gachi = 0;
+    $this->rp = 0;
+    $this->sum = 0;
+    $this->rate = 0;
+    $this->live_gachi = 0;
+    $this->live_rp = 0;
+  }
   function calculate()
   {
     $this->set_sum();
     $this->set_gachi();
     $this->set_rate();
   }
-  function set_sum()
+  private function set_sum()
   {
     $this->sum = $this->win+$this->lose+$this->rp+$this->invalid+$this->onlooker;
   }
-  function set_gachi()
+  private function set_gachi()
   {
     $this->gachi = $this->win + $this->lose;
   }
-  function set_rate()
+  private function set_rate()
   {
     if($this->win !== 0)
     {

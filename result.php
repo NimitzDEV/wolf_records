@@ -1,6 +1,4 @@
 <?php
-$start = measure();
-
 require 'lib/ClassLoader.php';
 $class_loader = new ClassLoader([__DIR__.'/lib','/home/waoon/lib']);
 $id = new IDs();
@@ -16,22 +14,18 @@ else
 EOF;
   exit;
 }
-function measure() {
-  list($m, $s) = explode(' ', microtime());
-  return ((float)$m + (float)$s);
-}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
     <meta name="author" content="fortmorst">
-    <meta name="description" content="ID: <?= $cID->getViewName();?>さんのWeb人狼戦績の一覧ページです。">
+    <meta name="description" content="ID: <?= $id->view_name;?>さんのWeb人狼戦績の一覧ページです。">
     <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/result.css">
     <title>
-      <?= $cID->getViewName();?> の人狼戦績 | 人狼戦績まとめ
+      <?= $id->view_name;?> の人狼戦績 | 人狼戦績まとめ
     </title>
     <script>
 (function(w,d){
@@ -53,33 +47,32 @@ function measure() {
     <header>
       <div class="container">
 <?php
-if($db->getBoolDoppel())
+if($db->doppel !== null)
 {
-  echo '<h1 class="doppel">'.$cID->getViewName().'</h1><div>';
-  echo $db->getDoppel(htmlspecialchars($_SERVER["REQUEST_URI"])).'</div>';
+  echo '<h1 class="doppel">'.$id->view_name.'</h1><div>'.$db->make_doppel(htmlspecialchars($_SERVER["REQUEST_URI"])).'</div>';
 }
 else
 {
-  echo '<h1>'.$cID->getViewName().'</h1>';
+  echo '<h1>'.$id->view_name.'</h1>';
 }
 ?>
         <dl>
           <dt>総合参加数</dt>
           <dd>
-           <?= $db->getJoinSum(); ?>
-           <span class="i-fire"></span><?= $db->getJoinGachi(); ?>
-           <span class="i-book"></span><?= $db->getJoinRP(); ?>
+           <?= $db->join->sum; ?>
+           <span class="i-fire"></span><?= $db->join->gachi; ?>
+           <span class="i-book"></span><?= $db->join->rp; ?>
           </dd>
 <br>
           <dt>勝率</dt>
           <dd>
-            <span class="i-fire"></span><?= $db->getJoinWinPercent() ?><span>%</span>
+            <span class="i-fire"></span><?= $db->join->rate ?><span>%</span>
           </dd>
 <br class="mod-sphone">
           <dt>平均生存係数</dt>
           <dd>
-            <span class="i-fire"></span><?= $db->getLiveGachi(); ?>
-            <span class="i-book"></span><?= $db->getLiveRP(); ?>
+            <span class="i-fire"></span><?= $db->join->live_gachi; ?>
+            <span class="i-book"></span><?= $db->join->live_rp; ?>
           </dd>
 
         </dl>
@@ -170,98 +163,12 @@ else
           </tr>
         </thead>
         <tbody>
-          <?php
-            if (!empty($table))
-            {
-              foreach($table as $item)
-              {
-                $vname = mb_strimwidth($item['vname'],0,34,"..","UTF-8");
-                switch ($item['result'])
-                {
-                  case '勝利':
-                    $lClass = 'w';
-                    break;
-                  case '敗北':
-                    $lClass = 'l';
-                    break;
-                  case '参加':
-                    $lClass = 'j';
-                    break;
-                  case '無効':
-                    $lClass = 'i';
-                    break;
-                  case '見物':
-                    $lClass = 'o';
-                    break;
-                }
-                if($item['wtmid'])
-                {
-                  $icon = 'i-fire';
-                }
-                else
-                {
-                  $icon = 'i-book';
-                }
-                $url = preg_replace('/%n/',$item['vno'],$item['url']);
-                echo '<tr><td>'.date("Y/m/d",strtotime($item['date'])).'</td>';
-                echo '<td>'.$item['country'].$item['vno'].'</td>';
-                echo '<td class="vname '.$icon.'"><a href="'.$url.'" title="'.$item['vname'].'">'.$vname.'</a></td>';
-                echo '<td>'.$item['rgl'].'</td>';
-                echo '<td>'.$item['persona'].'</td>';
-                echo '<td>'.$item['role'].'</td>';
-                echo '<td>'.$item['end'].'d'.$item['destiny'].'</td>';
-                echo '<td><span class="'.$lClass.'">'.$item['result'].'</span></td></tr>';
-              }
-              unset($table,$item,$lClass);
-            }
-           else
-            {
-              echo '<tr><td class="noData" colspan="8">NO DATA</td></tr>';
-            }
-          ?>
+<?= $db->record; ?>
         </tbody>
       </table>
     </section>
     <section id="role">
-<?php
-$TEAM_ARRAY = array(
-   "村人"=>'village'
-  ,"人狼"=>"wolf"
-  ,"妖魔"=>"fairy"
-  ,"恋人"=>"lovers"
-  ,"一匹狼"=>"lwolf"
-  ,"笛吹き"=>"piper"
-  ,"邪気"=>"efb"
-  ,"裏切り"=>"evil"
-  ,"据え膳"=>"fish"
-  ,"照坊主"=>"teru"
-  ,"奴隷"=>"slave"
-);
-
-
-      foreach($db->getTeamArray() as $count=>$team)
-      {
-        if($team  === "見物人")
-        {
-          continue;
-        }
-        $tClass = $TEAM_ARRAY[$team];
-        $team_rp  = $db->getTeamRP($team);
-
-        echo '<div class="role"><table>';
-        echo '<thead><tr class="'.$tClass.'"><td>'.$team.'陣営</td>';
-        echo $db->get_team_tr($team);
-        echo '</tr></thead><tbody>';
-
-        foreach($db->getSkillArray($team) as $skill)
-        {
-          echo '<tr><td>'.$skill.'</td>';
-          echo $db->get_skill_tr($team,$skill);
-          echo '</tr>';
-        }
-        echo '</tbody></table></div>';
-      }
-?>
+<?= $db->teams; ?>
     </section>
       <footer>
 <p><a href="#"><span class="i-up"></span></a></p>
@@ -298,6 +205,3 @@ $TEAM_ARRAY = array(
     </script>
   </body>
 </html>
-<?php 
-echo (measure() - $start).PHP_EOL;
-?>
