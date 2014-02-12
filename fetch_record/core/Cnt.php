@@ -13,5 +13,6 @@ class Cnt
   const Melon  = 26; 
   const Real   = 27;
   const Rose   = 28;
+  const Cherry = 30;
   //const Rose_Old = 29;
 }

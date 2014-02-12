@@ -2,11 +2,14 @@
 
 trait TR_SOW
 {
+  private $cursewolf = [];
+
   function fetch_village()
   {
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
+      var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -47,7 +50,7 @@ trait TR_SOW
         }
         else
         {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
+          //echo $this->village->vno.' has '.$free.PHP_EOL;
           $this->village->rglid = Data::RGL_ETC;
         }
         break;
@@ -192,7 +195,7 @@ trait TR_SOW
   }
   protected function fetch_from_epi()
   {
-    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=30&mode=all&move=page&pageno=1';
+    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=40&mode=all&move=page&pageno=1';
     $this->fetch->load_file($url);
 
     $this->fetch_wtmid();
@@ -258,7 +261,7 @@ trait TR_SOW
 
     foreach($this->users as $user)
     {
-      //var_dump($user->get_vars());
+      var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
@@ -277,6 +280,15 @@ trait TR_SOW
     {
       $this->insert_alive();
     }
+  }
+  protected function insert_onlooker()
+  {
+    $this->user->sklid  = Data::SKL_ONLOOKER;
+    $this->user->tmid = Data::TM_ONLOOKER;
+    $this->user->dtid  = Data::DES_ONLOOKER;
+    $this->user->end   = 1;
+    $this->user->life  = 0.00;
+    $this->user->rltid = Data::RSL_ONLOOKER;
   }
   protected function insert_alive()
   {
@@ -310,6 +322,10 @@ trait TR_SOW
       {
         $this->user->sklid = $this->SKILL[$skl_key][0];
         $this->user->tmid = $this->SKILL[$skl_key][1];
+        if($this->user->sklid === Data::SKL_CURSEWOLF)
+        {
+          $this->cursewolf[] = $this->user->persona;
+        }
       }
       else if(mb_strstr($sklid,$this->{'SKL_'.$rp}[6]))
       {
@@ -343,7 +359,7 @@ trait TR_SOW
   }
   protected function fetch_daily_url($i,$find)
   {
-    $row = 30;
+    $row = 40;
     $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
     $this->fetch->load_file($url);
     $announce = $this->fetch->find($find);
@@ -372,33 +388,77 @@ trait TR_SOW
       {
         $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
         $key= mb_substr(trim($item->plaintext),-6,6);
-        if(isset($this->{'DT_'.$rp}[$key]))
+        if($rp === 'FOOL')
         {
-            if($rp === "FOOL" && $key === "ったみたい。")
-            {
-              echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
-              continue;
-            }
-            else
-            {
-              $persona = mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\1',$destiny,'m');
-              $key_u = array_search($persona,$list);
-              $dtid = $this->{'DT_'.$rp}[$key][1];
-            }
-          //妖魔陣営の無残死は呪殺死にする
-          if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
+          if(!isset($this->DT_FOOL[$key]))
           {
-            $this->users[$key_u]->dtid = Data::DES_CURSED;
+            continue;
+          }
+          else if($key === "ったみたい。")
+          {
+            echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
+            continue;
           }
           else
           {
-            $this->users[$key_u]->dtid = $dtid;
+            $persona = trim(mb_ereg_replace($this->DT_FOOL[$key][0],'\2',$destiny,'m'));
+            $key_u = array_search($persona,$list);
+            $dtid = $this->DT_FOOL[$key][1];
           }
-          $this->users[$key_u]->end = $i;
-          $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
         }
+        else if(!isset($this->DT_NORMAL[$key]))
+        {
+          continue;
+        }
+        else
+        {
+          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
+          $key_u = array_search($persona,$list);
+          $dtid = $this->DT_NORMAL[$key][1];
+        }
+        //妖魔陣営の無残死は呪殺死にする
+        if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
+        {
+          $this->users[$key_u]->dtid = Data::DES_CURSED;
+        }
+        //呪狼が存在する編成で、占い師が襲撃した場合別途チェック
+        else if(!empty($this->cursewolf) && $this->users[$key_u]->sklid === Data::SKL_SEER && $dtid === Data::DES_EATEN && $this->check_cursed_seer($persona,$key_u))
+        {
+          $this->users[$key_u]->dtid = Data::DES_CURSED;
+        }
+        else
+        {
+          $this->users[$key_u]->dtid = $dtid;
+        }
+        $this->users[$key_u]->end = $i;
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
       }
       $this->fetch->clear();
     }
+  }
+  protected function check_cursed_seer($persona,$key_u)
+  {
+    $dialog = 'を占った。';
+    $pattern = ' ?(.+) は、(.+) を占った。';
+    $announce = $this->fetch->find('p.infosp');
+    foreach($announce as $item)
+    {
+      $info = trim($item->plaintext);
+      $key= mb_substr($info,-5,5);
+      if($key === $dialog)
+      {
+        $seer = trim(mb_ereg_replace($pattern,'\1',$info,'m'));
+        $wolf = trim(mb_ereg_replace($pattern,'\2',$info,'m'));
+        if($seer === $persona && in_array($wolf,$this->cursewolf))
+        {
+          return true;
+        }
+        else
+        {
+          continue;
+        }
+      }
+    }
+    return false;
   }
 }
