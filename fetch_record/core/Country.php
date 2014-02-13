@@ -58,7 +58,7 @@ abstract class Country
       }
       if($db->insert_db($this->village,$this->users))
       {
-        echo '★'.$this->village->vno. ' is all inserted.'.PHP_EOL;
+        echo '★'.$this->village->vno.'. '.$this->village->name.' is all inserted.'.PHP_EOL;
         if($this->check->check_queue_del($this->village->vno))
         {
           $this->check->remove_queue($this->village->vno);
