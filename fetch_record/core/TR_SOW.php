@@ -9,7 +9,7 @@ trait TR_SOW
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-      var_dump($this->village->get_vars());
+      //var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -261,7 +261,7 @@ trait TR_SOW
 
     foreach($this->users as $user)
     {
-      var_dump($user->get_vars());
+      //var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
