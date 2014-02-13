@@ -3,7 +3,6 @@
 class Cherry extends Country
 {
   use TR_SOW,AR_SOW,TR_SOW_RGL;
-  private $rp_array = [242,240,234,232,231,227,224,219,216,213,209,205,201,200,199,193,188,186,181,175,174,170,166,161,156,155,151,145,144,140,137,130,127,121,115,109,103,100,93,85,79,72,68,63,58,51,50,37,29,22,19,17,16,15,14,9,7,6,5,4,2];
 
   function __construct()
   {
@@ -18,15 +17,15 @@ class Cherry extends Country
   }
   protected function fetch_policy()
   {
-    //自動取得時はタイトルを表示させてtrue
-    //if(preg_match('/RP村|ＲＰ村/',$this->village->name))
-    if(in_array($this->village->vno,$this->rp_array))
+    if(preg_match('/RP村|ＲＰ村/',$this->village->name))
     {
       $this->village->policy = false;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
     }
     else
     {
       $this->village->policy = true;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
     }
   }
   protected function make_cast()
