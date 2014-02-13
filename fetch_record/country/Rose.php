@@ -164,14 +164,6 @@ class Rose extends Country
       $this->user->rltid = Data::RSL_LOSE;
     }
   }
-  protected function insert_onlooker()
-  {
-    $this->user->sklid = Data::SKL_ONLOOKER;
-    $this->user->dtid  = Data::DES_ONLOOKER;
-    $this->user->end   = 1;
-    $this->user->life  = 0.00;
-    $this->user->rltid = Data::RSL_ONLOOKER;
-  }
   protected function insert_alive()
   {
     $this->user->end = $this->village->days;
