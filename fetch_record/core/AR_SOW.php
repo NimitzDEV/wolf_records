@@ -33,7 +33,7 @@ trait AR_SOW
   protected $SKL_SOW = [
      '村人','占い師','霊能者','狩人','共有者','共鳴者','聖痕者'
      ,'人狼','呪狼','智狼','狂人','狂信者','Ｃ国狂人'
-     ,'ハムスター人間','コウモリ人間','ピクシー','見物人'
+     ,'ハムスター人間','コウモリ人間','ピクシー'
   ];
   protected $SKL_FOOL = [
      'ただの人','エスパー','イタコ','ストーカー','夫婦','おしどり夫婦','痣もち'
@@ -62,7 +62,6 @@ trait AR_SOW
     ,[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,[Data::SKL_BAT,Data::TM_FAIRY]
     ,[Data::SKL_PIXY,Data::TM_FAIRY]
-    ,[Data::SKL_ONLOOKER,Data::TM_ONLOOKER]
   ];
   protected $DT_NORMAL = [
      '処刑された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
