@@ -22,7 +22,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [229];
+    //$list = [3];
     if(!$list)
     {
       echo get_class($this).' has not new villages.'.PHP_EOL;
@@ -50,7 +50,7 @@ abstract class Country
         continue;
       }
       $this->fetch->clear();
-      //continue;
+      continue;
       $db = new Insert_DB($this->cid);
       if(!$db->connect())
       {
