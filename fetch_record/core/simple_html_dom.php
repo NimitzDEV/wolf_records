@@ -1046,6 +1046,11 @@ class simple_html_dom
     // load html from string
     function load($str, $lowercase=true, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
     {
+        //SJIS対策
+        if(mb_detect_encoding($str) === 'SJIS')
+        {
+          $str = mb_convert_encoding($str,'UTF-8','SJIS');
+        }
         global $debugObject;
 
         // prepare

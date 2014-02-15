@@ -166,7 +166,7 @@ class Check_Village
     {
       case Cnt::Plot:
       case Cnt::Ciel:
-        $last_day = mb_convert_encoding($this->html->find('script',-2)->innertext,"UTF-8","SJIS");
+        $last_day = $this->html->find('script',-2)->innertext;
         $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
         $this->html->clear();
         if($last_day == '1')

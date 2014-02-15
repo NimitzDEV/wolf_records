@@ -9,7 +9,7 @@ abstract class Giji extends Country
   function fetch_village()
   {
     $this->fetch->load_file($this->url.$this->village->vno."#mode=info_open_player");
-    $this->base = mb_convert_encoding($this->fetch->find('script',-2)->innertext,"UTF-8","SJIS");
+    $this->base = $this->fetch->find('script',-2)->innertext;
 
     $this->fetch_name();
     $this->fetch_date();

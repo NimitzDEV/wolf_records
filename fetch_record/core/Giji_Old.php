@@ -214,7 +214,6 @@ abstract class Giji_Old extends Country
   protected function fetch_days()
   {
     $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $days = mb_convert_encoding($days,"UTF-8","SJIS");
     $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
   }
   protected function fetch_rp()
