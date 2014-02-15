@@ -115,6 +115,7 @@ class Sebas extends Country
         break;
       case "試験弐型": 
       case "多分弐型":
+      case "狂信者":
         switch(true)
         {
           case ($this->village->nop  >= 10):
@@ -130,6 +131,7 @@ class Sebas extends Country
         break;
       case "Ｃ国":
       case "囁けます":
+      case "囁き":
         switch(true)
         {
           case ($this->village->nop  >= 16):
@@ -246,7 +248,7 @@ class Sebas extends Country
   {
     $date = $this->fetch->find('div.mes_date',0)->plaintext;
     $date = mb_substr($date,mb_strpos($date,"2"),10);
-    $this->village->date = preg_replace('/(\d{4})\/ ?(\d{1,2})\/(\d{2})/','\1-\2-\3',$date);
+    $this->village->date = preg_replace('/(\d{4})\/ ?(\d{1,2})\/ ?(\d{1,2})/','\1-\2-\3',$date);
   }
   protected function fetch_from_epi()
   {
@@ -288,7 +290,7 @@ class Sebas extends Country
       $do_i = -2;
       do
       {
-        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
+        $wtmid = trim($this->fetch->find('div.info',$do_i)->plaintext);
         $do_i--;
       } while(preg_match("/0に設定されました。|村の設定が変更/",$wtmid));
     }

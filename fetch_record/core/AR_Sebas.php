@@ -24,7 +24,9 @@ trait AR_Sebas
     ,'すすべがなかった……'=>Data::TM_FAIRY
   ];
   protected $WTM_SOW = [
-     'る日々は去ったのだ！'=>Data::TM_VILLAGER
+     '人狼を退治したのだ！'=>Data::TM_VILLAGER
+    ,'る日々は去ったのだ！'=>Data::TM_VILLAGER
+    ,'を立ち去っていった。'=>Data::TM_WOLF
     ,'の村を去っていった。'=>Data::TM_WOLF
     ,'生き残っていた……。'=>Data::TM_FAIRY
   ];

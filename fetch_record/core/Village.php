@@ -57,7 +57,7 @@ class Village
         }
         break;
       case 'date':
-        if(empty($item) || !preg_match('/\d{2}-\d{2}-\d{2}/',$item))
+        if(empty($item) || !preg_match('/\d{2}-\d{1,2}-\d{1,2}/',$item))
         {
           $this->invalid_error($key,$item);
           return false;
