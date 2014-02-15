@@ -1,17 +1,15 @@
 <?php
 
-trait AR_SOW
+trait AR_Sebas
 {
   protected $RP_LIST = [
      '人狼物語'=>'SOW'
     ,'適当系'=>'FOOL'
     ,'人狼審問'=>'JUNA'
-    ,'人狼BBS'=>'WBBS'
-  ];
-  protected $WTM_SOW= [
-     '人狼を退治したのだ！'=>Data::TM_VILLAGER
-    ,'を立ち去っていった。'=>Data::TM_WOLF
-    ,'いていなかった……。'=>Data::TM_FAIRY
+    ,'鬼ごっこ'=>'ONI'
+    ,'無茶振り人狼'=>'JUNA'
+    ,'ガチっているフリ'=>'RAMDOM'
+    ,'企画村用'=>'SP'
   ];
   protected $WTM_FOOL = [
      'が勝ちやがりました。'=>Data::TM_VILLAGER
@@ -25,14 +23,25 @@ trait AR_SOW
     ,'くことはなかった……'=>Data::TM_FAIRY
     ,'すすべがなかった……'=>Data::TM_FAIRY
   ];
-  protected $WTM_WBBS = [
-     'る日々は去ったのだ！'=>Data::TM_VILLAGER
+  protected $WTM_SOW = [
+     '人狼を退治したのだ！'=>Data::TM_VILLAGER
+    ,'る日々は去ったのだ！'=>Data::TM_VILLAGER
+    ,'を立ち去っていった。'=>Data::TM_WOLF
     ,'の村を去っていった。'=>Data::TM_WOLF
     ,'生き残っていた……。'=>Data::TM_FAIRY
+  ];
+  protected $WTM_ONI = [
+     'した……！ぜぇはぁ。'=>Data::TM_VILLAGER
+    ,'テープを切りました。'=>Data::TM_WOLF
+    ,'時代が到来しました。'=>Data::TM_FAIRY
+  ];
+  protected $WTM_SP = [
+     'でした。(村人勝利)'=>Data::TM_VILLAGER
   ];
   protected $SKILL = [
      "村人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
     ,"人狼"=>[Data::SKL_WOLF,Data::TM_WOLF]
+    ,"鬼（人狼）"=>[Data::SKL_WOLF,Data::TM_WOLF]
     ,"占い師"=>[Data::SKL_SEER,Data::TM_VILLAGER]
     ,"霊能者"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
     ,"狂人"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
@@ -42,6 +51,7 @@ trait AR_SOW
     ,"結社員"=>[Data::SKL_MASON,Data::TM_VILLAGER]
     ,"妖魔"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"ハムスター人間"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"囁き狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
     ,"Ｃ国狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
     ,"聖痕者"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
@@ -49,10 +59,14 @@ trait AR_SOW
     ,"共鳴者"=>[Data::SKL_TELEPATH,Data::TM_VILLAGER]
     ,"天魔"=>[Data::SKL_BAT,Data::TM_FAIRY]
     ,"コウモリ人間"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"天狗"=>[Data::SKL_BAT,Data::TM_FAIRY]
     ,"呪狼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"呪鬼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
     ,"智狼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
+    ,"智鬼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
     ,"悪戯妖精"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"ピクシー"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"悪戯っ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ];
   protected $SKL_FOOL = [
      "ただの人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
@@ -72,17 +86,12 @@ trait AR_SOW
     ,"グルメ"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
     ,"イタズラっ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ];
-  protected $DT_NORMAL = [
-     '処刑された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
-    ,'刑された……'=>['.+(\(ランダム投票\)|投票した) ?(.+) は村人の手により処刑された……',Data::DES_HANGED]
-    ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
-    ,'発見された。'=>['(.+)朝、 ?(.+) が無残.+',Data::DES_EATEN]
-    ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
-  ];
-  protected $DT_FOOL = [
-     'ち殺された。'=>['.+投票(した（らしい）。|してみた。) ?(.+) は村人達によってたかってぶち殺された。',Data::DES_HANGED]
-    ,'ぶっ倒れた。'=>['^( ?)(.+) は、ぶっ倒れた。',Data::DES_RETIRED]
-    ,'ったみたい。'=>['',Data::DES_EATEN]
-    ,'えを食った。'=>['^( ?)(.+) は .+ の巻き添えを食った。',Data::DES_SUICIDE]
-  ];
+  protected $DESTINY = [
+     '生き'=>Data::DES_ALIVE
+    ,"突然"=>Data::DES_RETIRED
+    ,"処刑"=>Data::DES_HANGED
+    ,"襲撃"=>Data::DES_EATEN
+    ,"呪殺"=>Data::DES_CURSED
+    ,"後追"=>Data::DES_SUICIDE
+    ];
 }

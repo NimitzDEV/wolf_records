@@ -43,6 +43,7 @@ class Data
   const RGL_ROLLER=21;      //素村が霊能者
   const RGL_HERO = 22;      //占い師なし
   const RGL_EFB  = 23;      //邪気悪魔入り
+  const RGL_CURSE= 33;      //呪悪
 
   const RGL_SECRET= 27;     //秘話村
   const RGL_MILL = 18;      //ミラーズホロウ

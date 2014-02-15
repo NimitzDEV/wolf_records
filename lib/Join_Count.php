@@ -41,7 +41,7 @@ class Join_Count
   }
   private function set_rate()
   {
-    if($this->win !== 0)
+    if($this->win != 0)
     {
       $this->rate = round($this->win / $this->gachi,3) * 100;
     } else

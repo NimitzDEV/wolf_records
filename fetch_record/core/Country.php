@@ -22,7 +22,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [229];
+    //$list = [121];
     if(!$list)
     {
       echo get_class($this).' has not new villages.'.PHP_EOL;
@@ -30,7 +30,7 @@ abstract class Country
     }
     $this->fetch = new simple_html_dom();
     //取得しない村番号
-    //$kick = [15,14,12,8,104,59,46,62,85,92,139,217,69,75,171];
+    //$kick = [109,110];
     foreach($list as $vno)
     {
       //if(array_search($vno,$kick)  !== false)
