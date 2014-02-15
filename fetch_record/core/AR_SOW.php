@@ -30,40 +30,48 @@ trait AR_SOW
     ,'の村を去っていった。'=>Data::TM_WOLF
     ,'生き残っていた……。'=>Data::TM_FAIRY
   ];
-  protected $SKL_SOW = [
-     '村人','占い師','霊能者','狩人','共有者','共鳴者','聖痕者'
-     ,'人狼','呪狼','智狼','狂人','狂信者','Ｃ国狂人'
-     ,'ハムスター人間','コウモリ人間','ピクシー','見物人'
-  ];
-  protected $SKL_FOOL = [
-     'ただの人','エスパー','イタコ','ストーカー','夫婦','おしどり夫婦','痣もち'
-    ,'おおかみ','逆恨み狼','グルメ','人狼スキー','人狼教信者','人狼教神官'
-    ,'ハム','コウモリ','イタズラっ子'
-  ];
-  protected $SKL_JUNA = [
-      '村人','占い師','霊能者','守護者','結社員','共鳴者','聖痕者'
-     ,'人狼','呪狼','智狼','狂人','狂信者','囁き狂人'
-     ,'妖魔','天魔','悪戯妖精'
-  ];
   protected $SKILL = [
-     [Data::SKL_VILLAGER,Data::TM_VILLAGER]
-    ,[Data::SKL_SEER,Data::TM_VILLAGER]
-    ,[Data::SKL_MEDIUM,Data::TM_VILLAGER]
-    ,[Data::SKL_HUNTER,Data::TM_VILLAGER]
-    ,[Data::SKL_MASON,Data::TM_VILLAGER]
-    ,[Data::SKL_TELEPATH,Data::TM_VILLAGER]
-    ,[Data::SKL_STIGMA,Data::TM_VILLAGER]
-    ,[Data::SKL_WOLF,Data::TM_WOLF]
-    ,[Data::SKL_CURSEWOLF,Data::TM_WOLF]
-    ,[Data::SKL_WISEWOLF,Data::TM_WOLF]
-    ,[Data::SKL_LUNATIC,Data::TM_WOLF]
-    ,[Data::SKL_FANATIC,Data::TM_WOLF]
-    ,[Data::SKL_LUNAWHS,Data::TM_WOLF]
-    ,[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,[Data::SKL_BAT,Data::TM_FAIRY]
-    ,[Data::SKL_PIXY,Data::TM_FAIRY]
-    ,[Data::SKL_ONLOOKER,Data::TM_ONLOOKER]
-  ];
+     "村人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
+    ,"人狼"=>[Data::SKL_WOLF,Data::TM_WOLF]
+    ,"占い師"=>[Data::SKL_SEER,Data::TM_VILLAGER]
+    ,"霊能者"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
+    ,"狂人"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
+    ,"狩人"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
+    ,"守護者"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
+    ,"共有者"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"結社員"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"妖魔"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"ハムスター人間"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"囁き狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
+    ,"Ｃ国狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
+    ,"聖痕者"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
+    ,"狂信者"=>[Data::SKL_FANATIC,Data::TM_WOLF]
+    ,"共鳴者"=>[Data::SKL_TELEPATH,Data::TM_VILLAGER]
+    ,"天魔"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"コウモリ人間"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"呪狼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"智狼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
+    ,"悪戯妖精"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"ピクシー"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ];
+  protected $SKL_FOOL = [
+     "ただの人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
+    ,"おおかみ"=>[Data::SKL_WOLF,Data::TM_WOLF]
+    ,"エスパー"=>[Data::SKL_SEER,Data::TM_VILLAGER]
+    ,"イタコ"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
+    ,"人狼スキー"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
+    ,"ストーカー"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
+    ,"夫婦"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"ハム"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"人狼教神官"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
+    ,"痣もち"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
+    ,"人狼教信者"=>[Data::SKL_FANATIC,Data::TM_WOLF]
+    ,"おしどり夫婦"=>[Data::SKL_TELEPATH,Data::TM_VILLAGER]
+    ,"コウモリ"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"逆恨み狼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"グルメ"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
+    ,"イタズラっ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ];
   protected $DT_NORMAL = [
      '処刑された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
     ,'刑された……'=>['.+(\(ランダム投票\)|投票した) ?(.+) は村人の手により処刑された……',Data::DES_HANGED]

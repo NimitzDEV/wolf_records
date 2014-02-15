@@ -310,36 +310,21 @@ trait TR_SOW
   }
   protected function fetch_sklid()
   {
-    $sklid = $this->user->role;
-    $rp = $this->village->rp;
-    if($rp === 'WBBS')
+    if($this->village->rp === 'FOOL')
     {
-      $rp = 'SOW';
-      $this->village->rp = 'SOW';
+      $this->user->sklid = $this->SKL_FOOL[$this->user->role][0];
+      $this->user->tmid = $this->SKL_FOOL[$this->user->role][1];
     }
-      $skl_key = array_search($sklid,$this->{'SKL_'.$rp});
-      if($skl_key !== false)
-      {
-        $this->user->sklid = $this->SKILL[$skl_key][0];
-        $this->user->tmid = $this->SKILL[$skl_key][1];
-        if($this->user->sklid === Data::SKL_CURSEWOLF)
-        {
-          $this->cursewolf[] = $this->user->persona;
-        }
-      }
-      else if(mb_strstr($sklid,$this->{'SKL_'.$rp}[6]))
-      {
-        //聖痕者
-        $this->user->sklid = $this->SKILL[6][0];
-        $this->user->tmid = $this->SKILL[6][1];
-      }
-      else
-      {
-        //未定義の役職
-        echo 'NOTICE: '.$this->village->vno.'.'.$this->user->persona.' has undefined role.->'.$sklid.PHP_EOL;
-        $this->user->sklid = $this->SKILL[0][0];
-        $this->user->tmid = $this->SKILL[0][1];
-      }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$this->user->role][0];
+      $this->user->tmid = $this->SKILL[$this->user->role][1];
+    }
+    //呪狼の名前をメモ
+    if($this->user->sklid === Data::SKL_CURSEWOLF)
+    {
+      $this->cursewolf[] = $this->user->persona;
+    }
   }
   protected function fetch_rltid()
   {

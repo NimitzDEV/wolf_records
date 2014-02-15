@@ -30,14 +30,14 @@ abstract class Country
     }
     $this->fetch = new simple_html_dom();
     //取得しない村番号
-    $kick = [109,110];
+    //$kick = [109,110];
     foreach($list as $vno)
     {
-      if(array_search($vno,$kick)  !== false)
-      {
-        echo '※: '.$vno.' is kicked by $kick list.'.PHP_EOL;
-        continue;
-      }
+      //if(array_search($vno,$kick)  !== false)
+      //{
+        //echo '※: '.$vno.' is kicked by $kick list.'.PHP_EOL;
+        //continue;
+      //}
       if($this->insert_village($vno))
       {
         //continue;

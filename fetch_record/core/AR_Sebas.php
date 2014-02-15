@@ -85,7 +85,6 @@ trait AR_Sebas
     ,"逆恨み狼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
     ,"グルメ"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
     ,"イタズラっ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
-    ,"ピクシー"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ];
   protected $DESTINY = [
      '生き'=>Data::DES_ALIVE

@@ -2,7 +2,6 @@
 class Sebas extends Country
 {
   use AR_Sebas,TR_SOW_RGL;
-  private $GACHI = [140,138,137,136,132,131,130,129];
 
   function __construct()
   {
@@ -17,7 +16,6 @@ class Sebas extends Country
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -58,7 +56,7 @@ class Sebas extends Country
         }
         else
         {
-          //echo $this->village->vno.' has '.$free.PHP_EOL;
+          echo $this->village->vno.' has '.$free.PHP_EOL;
           $this->village->rglid = Data::RGL_ETC;
         }
         break;
@@ -224,16 +222,12 @@ class Sebas extends Country
     if($policy === "推理あり村")
     {
       $this->village->policy = true;
-      //echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
     }
     else
     {
       $this->village->policy = false;
-      if(in_array($this->village->vno,$this->GACHI))
-      {
-        $this->village->policy = true;
-      }
-      //echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+      echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
     }
   }
   protected function fetch_from_pro()
@@ -320,7 +314,6 @@ class Sebas extends Country
       $this->fetch_rltid();
       $this->fetch_life();
     }
-    //var_dump($this->user->get_vars());
   }
   protected function insert_onlooker()
   {
