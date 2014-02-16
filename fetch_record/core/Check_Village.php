@@ -33,23 +33,17 @@ class Check_Village
     return $this->village;
   }
 
-  function check_queue_del($vno)
+  function remove_queue()
   {
-    if(in_array($vno,$this->queue_del))
+    if(empty($this->queue_del))
     {
-      return true;
+      return;
     }
-    else
+    $queue = $this->open_queue();
+    foreach($this->queue_del as $vno)
     {
-      return false;
+      $queue = preg_replace('/'.$this->cid.'_'.$vno.',/',"",$queue); 
     }
-  }
-
-  function remove_queue($vno)
-  {
-    $this->open_queue();
-    $queue = preg_replace('/'.$vno.',/',"",$this->queue);
-
     ftruncate($this->fp,0);
     fseek($this->fp, 0);
     fwrite($this->fp,$queue);
@@ -58,37 +52,19 @@ class Check_Village
 
   private function open_queue()
   {
-    $fname = __DIR__.'/../queue/'.$this->cid.'.txt';
+    $fname = __DIR__.'/queue.txt';
     if(is_writable($fname))
     {
       $this->fp = fopen($fname,'a+');
       flock($this->fp,LOCK_EX);
       $line = fgets($this->fp);
-      if($line !== null)
-      {
-        return $line;
-      }
-      else
-      {
-        return null;
-      }
+      return $line;
     }
     else
     {
-      if(!file_exists($fname))
-      {
-        $this->fp = fopen($fname,'a+');
-        flock($this->fp,LOCK_EX);
-        echo 'NOTICE: '.$this->cid.'.txt is not exist. Now make it.'.PHP_EOL;
-        return false;
-      }
-      else
-      {
-        return false;
-      }
+      return false;
     }
   }
-
   private function close_queue()
   {
     if($this->fp)
@@ -102,13 +78,18 @@ class Check_Village
   private function check_queue()
   {
     $line = $this->open_queue();
-    if($line)
+    if($line && mb_strstr($line,$this->cid.'_'))
     {
       $this->queue = $line;
-      $queue_array = explode(',',$this->queue);
+      $queue_array = explode(',',$line);
       array_pop($queue_array);
-      foreach($queue_array as $vno)
+      foreach($queue_array as $item)
       {
+        if(!mb_strstr($item,$this->cid.'_'))
+        {
+          continue;
+        }
+        $vno = preg_replace('/'.$this->cid.'_/','',$item);
         $is_end = $this->check_end($vno);
         if($is_end && $this->check_not_ruined($vno))
         {
@@ -154,7 +135,6 @@ class Check_Village
       return false;
     }
   }
-
   private function check_not_ruined($vno)
   {
     if($this->cid === Cnt::Ning)
@@ -230,10 +210,9 @@ class Check_Village
         else
         {
           //終了していない村は一旦村番号をメモ
-          if(!preg_match('/'.$vno.'/',$this->queue))
+          if(!mb_strstr($this->cid.'_'.$vno,$this->queue))
           {
-            fwrite($this->fp,$vno.',');
-            $this->queue .= $vno.',';
+            fwrite($this->fp,$this->cid.'_'.$vno.',');
             echo $vno.' is proceeding. Inserted queue.'.PHP_EOL;
           }
         }
@@ -275,7 +254,6 @@ class Check_Village
     $this->html->clear();
     return $list_vno;
   }
-
   private function check_db()
   {
     try{
@@ -289,7 +267,6 @@ class Check_Village
     $sql->execute();
     $db_vno= $sql->fetch(PDO::FETCH_NUM);
     $pdo = null;
-
     return (int)$db_vno[0];
   }
 }

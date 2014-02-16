@@ -25,6 +25,7 @@ abstract class Country
     //$list = [121];
     if(!$list)
     {
+      $this->check->remove_queue();
       echo get_class($this).' has not new villages.'.PHP_EOL;
       return;
     }
@@ -59,13 +60,10 @@ abstract class Country
       if($db->insert_db($this->village,$this->users))
       {
         echo '★'.$this->village->vno.'. '.$this->village->name.' is all inserted.'.PHP_EOL;
-        if($this->check->check_queue_del($this->village->vno))
-        {
-          $this->check->remove_queue($this->village->vno);
-        }
       }
       $db->disconnect();
     }
+    $this->check->remove_queue();
   }
 
   protected function insert_village($vno)
