@@ -36,6 +36,7 @@ class IDs
 
   function fix_id($name)
   {
+    $name = urldecode($name);
     if(mb_substr($name,-1,1,"utf-8") === ' ')
     {
       //末尾に半角スペースが入っている場合は変換する
