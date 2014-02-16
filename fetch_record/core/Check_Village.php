@@ -210,7 +210,7 @@ class Check_Village
         else
         {
           //終了していない村は一旦村番号をメモ
-          if(!mb_strstr($this->cid.'_'.$vno,$this->queue))
+          if(!mb_strstr($this->queue,$this->cid.'_'.$vno))
           {
             fwrite($this->fp,$this->cid.'_'.$vno.',');
             echo $vno.' is proceeding. Inserted queue.'.PHP_EOL;
