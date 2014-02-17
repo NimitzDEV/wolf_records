@@ -326,7 +326,15 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_player($person)
   {
-    $this->user->player =trim($person->find("td",1)->plaintext);
+    $player =trim($person->find("td",1)->plaintext);
+    if(isset($this->doppel))
+    {
+      $this->user->player =$this->check_doppel($player);
+    }
+    else
+    {
+      $this->user->player = $player;
+    }
   }
   protected function fetch_role($role)
   {

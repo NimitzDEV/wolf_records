@@ -87,7 +87,7 @@ class Rose extends Country
   protected function fetch_users($person)
   {
     $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->user->player  = $person->find('td a',0)->plaintext;
+    $this->fetch_player($person);
     $this->fetch_role($person);
     $this->user->tmid = $this->TEAM[$person->find('td',3)->plaintext];
 

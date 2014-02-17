@@ -3,7 +3,7 @@
 class Ning extends Country
 {
   private $url_epi;
-  private $doppel = 
+  protected $doppel = 
     [
        "asaki"    =>"asaki&lt;G国&gt;"
       ,"motimoti" =>"motimoti&lt;G薔薇国&gt;"
@@ -179,18 +179,6 @@ class Ning extends Country
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
       $this->user->life = 1.00;
-    }
-  }
-  protected function check_doppel($player)
-  {
-    if(array_key_exists($player,$this->doppel))
-    {
-      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->doppel[$player].PHP_EOL;
-      return $this->doppel[$player];
-    }
-    else
-    {
-      return $player;
     }
   }
 

@@ -2,15 +2,15 @@
 
 abstract class Country
 {
-  public   $check
-          ,$cid
-          ,$url
-          ,$village
-          ,$fetch
-          ,$cast
-          ,$user
-          ,$users = []
-          ;
+  protected  $check
+            ,$cid
+            ,$url
+            ,$village
+            ,$fetch
+            ,$cast
+            ,$user
+            ,$users = []
+            ;
             
   protected function __construct($cid,$url_vil,$url_log)
   {
@@ -95,6 +95,18 @@ abstract class Country
     }
   }
 
+  protected function check_doppel($player)
+  {
+    if(array_key_exists($player,$this->doppel))
+    {
+      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->doppel[$player].PHP_EOL;
+      return $this->doppel[$player];
+    }
+    else
+    {
+      return $player;
+    }
+  }
   protected function fetch_life()
   {
     if($this->user->dtid === Data::DES_ALIVE)

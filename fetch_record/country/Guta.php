@@ -13,6 +13,10 @@ class Guta extends Giji_Old
     ,"ピクシー"=>Data::SKL_PIXY
     ,"キューピッド"=>Data::SKL_QP
     ];
+  protected $doppel = 
+    [
+       "yuki"   =>"yuki&lt;ぐた&gt;"
+    ];
   function __construct()
   {
     $cid = 11;

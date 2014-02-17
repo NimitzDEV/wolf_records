@@ -270,7 +270,7 @@ trait TR_SOW
   protected function fetch_users($person)
   {
     $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->user->player  = $person->find('td a',0)->plaintext;
+    $this->fetch_player($person);
     $this->fetch_role($person);
     $this->fetch_sklid();
     $this->fetch_rltid();
@@ -278,6 +278,18 @@ trait TR_SOW
     if($person->find('td',2)->plaintext === '生存')
     {
       $this->insert_alive();
+    }
+  }
+  protected function fetch_player($person)
+  {
+    $player =trim($person->find("td a",0)->plaintext);
+    if(isset($this->doppel))
+    {
+      $this->user->player =$this->check_doppel($player);
+    }
+    else
+    {
+      $this->user->player = $player;
     }
   }
   protected function insert_onlooker()

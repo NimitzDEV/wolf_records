@@ -96,6 +96,7 @@ trait AR_Giji_Old
     ,'村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
     ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C_ST
     ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_G
+    ,'村人x7 共鳴者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
     ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>Data::RGL_E
     ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>Data::RGL_E
     ,'村人x5 狂信者x1 人狼x1'=>Data::RGL_HERO
@@ -106,6 +107,7 @@ trait AR_Giji_Old
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
     ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
+    ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
     ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
     ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
     ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
