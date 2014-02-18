@@ -8,6 +8,8 @@ class Melon extends Country
         "siro"   =>"siro&lt;瓜科&gt;"
        ,"yuki"   =>"yuki&lt;瓜科&gt;"
        ,"crimson"=>"crimson&lt;瓜科&gt;"
+       ,"kei"    =>"kei&lt;F瓜旧薔薇&gt;"
+       ,"suzu"    =>"suzu&lt;瓜科&gt;"
     ];
   function __construct()
   {

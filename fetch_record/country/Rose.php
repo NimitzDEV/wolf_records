@@ -2,6 +2,10 @@
 class Rose extends Country
 {
   use AR_Rose,TR_SOW,TR_SOW_RGL;
+  protected $doppel = 
+    [
+        "motimoti"   =>"motimoti&lt;G薔薇国&gt;"
+    ];
   function __construct()
   {
     $cid = 28;
