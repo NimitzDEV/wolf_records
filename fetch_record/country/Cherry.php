@@ -5,8 +5,8 @@ class Cherry extends Country
   use TR_SOW,AR_SOW,TR_SOW_RGL;
   protected $doppel = 
     [
-       "celery"   =>"celery&lt;幻桜&gt;"
-       "motimoti"   =>"motimoti&lt;幻桜&gt;"
+        "celery"   =>"celery&lt;幻桜&gt;"
+       ,"motimoti"   =>"motimoti&lt;幻桜&gt;"
     ];
 
   function __construct()
