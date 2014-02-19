@@ -153,12 +153,12 @@ else
         <thead>
           <tr>
               <th>日付</th>
-              <th>国番号</th>
+              <th data-dynatable-column="vno">国番号</th>
               <th>村名</th>
               <th>編成</th>
               <th>キャラクタ名</th>
               <th>役職</th>
-              <th>結末</th>
+              <th data-dynatable-column="des">結末</th>
               <th>結果</th>
           </tr>
         </thead>
@@ -183,6 +183,7 @@ else
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/checkWidth.js"></script>
     <script src="lib/dynatable.js"></script>
+    <script src="lib/sorts.js"></script>
     <script src="lib/balloon.min.js"></script>
     <script src="lib/leanModal.min.js"></script>
     <script src="lib/addInputArea.min.js"></script>
@@ -190,7 +191,6 @@ else
     <script>
       $(function() 
         { 
-          $("#list").dynatable();
           $('td a,td span[title]').balloon({
             minLifetime: 0, showDuration: 0, hideDuration: 0,
           });
@@ -205,6 +205,18 @@ else
       );            
       $(window).on("load resize",function(){
           $().checkWidth();
+      });
+      $(window).load(function() {
+        $('#list')
+        .bind('dynatable:init', function(e, dynatable) {
+          dynatable.sorts.functions["cnt"] = sortCountry;
+          dynatable.sorts.functions["des"] = sortDestiny;
+        })
+        .dynatable({
+          dataset: {
+            sortTypes: { vno: 'cnt', des: 'des' }
+          }
+        });
       });
     </script>
   </body>
