@@ -245,6 +245,7 @@ class Check_Village
       case Cnt::Real:
       case Cnt::Rose:
       case Cnt::Cherry:
+      case Cnt::Chitose:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
         break;
       case Cnt::Sebas:

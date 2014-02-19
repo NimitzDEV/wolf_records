@@ -157,6 +157,23 @@ trait TR_SOW
             break;
         }
         break;
+      case "汝人狼也": //千夜国
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_E;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
     }
   }
   protected function fetch_days()

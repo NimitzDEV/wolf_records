@@ -15,4 +15,5 @@ class Cnt
   const Rose   = 28;
   const Cherry = 30;
   const Sebas  = 31;
+  const Chitose  = 32;
 }
