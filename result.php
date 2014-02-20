@@ -195,7 +195,7 @@ else
             minLifetime: 0, showDuration: 0, hideDuration: 0,
           });
           $('#id').addInputArea({
-            maximum : 5
+            maximum : 7
           });
           $( 'a[rel*=leanModal]').leanModal({
             overlay : 0.5,               // 背面の透明度 

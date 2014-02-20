@@ -17,7 +17,7 @@ class IDs
     //複数IDを配列に入れる
     else if(isset($id['id_0']) && $id['id_0'] !=="")
     {
-      for($i=0;$i<5;$i++)
+      for($i=0;$i<7;$i++)
       {
         if (isset($id['id_'.$i]) && $id['id_'.$i] !== "")
         {
