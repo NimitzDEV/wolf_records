@@ -28,6 +28,13 @@ h2 {
   color: #a20b0b;
 }
 
+#cnt {
+  cursor: pointer;
+}
+#cnt + ul {
+  display: none;
+}
+
 
 @include tablet {
   form {
