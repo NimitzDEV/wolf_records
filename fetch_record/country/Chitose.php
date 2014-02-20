@@ -3,7 +3,6 @@
 class Chitose extends Country
 {
   use TR_SOW,AR_SOW,TR_SOW_RGL,AR_Chitose;
-  private $ARR_RP = [30,18,16,5];
   private $RP_Chitose = [
        'ようちえん'=>'KIDS'
       ,'メトロポリスβ'=>'METRO'
@@ -20,10 +19,6 @@ class Chitose extends Country
   function fetch_policy()
   {
     $this->village->policy = true;
-    if(in_array($this->village->vno,$this->ARR_RP))
-    {
-      $this->village->policy = false;
-    }
   }
   protected function fetch_from_daily($list)
   {

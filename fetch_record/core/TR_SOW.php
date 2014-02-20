@@ -50,7 +50,7 @@ trait TR_SOW
         }
         else
         {
-          //echo $this->village->vno.' has '.$free.PHP_EOL;
+          echo $this->village->vno.' has '.$free.PHP_EOL;
           $this->village->rglid = Data::RGL_ETC;
         }
         break;
