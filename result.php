@@ -189,23 +189,6 @@ else
     <script src="lib/addInputArea.min.js"></script>
     <script src="../lib/slidemenu.min.js"></script>
     <script>
-      $(function() 
-        { 
-          $('td a,td span[title]').balloon({
-            minLifetime: 0, showDuration: 0, hideDuration: 0,
-          });
-          $('#id').addInputArea({
-            maximum : 7
-          });
-          $( 'a[rel*=leanModal]').leanModal({
-            overlay : 0.5,               // 背面の透明度 
-            closeButton: ".modal_close"  // 閉じるボタンのCSS classを指定
-          });
-        } 
-      );            
-      $(window).on("load resize",function(){
-          $().checkWidth();
-      });
       $(window).load(function() {
         $('#list')
         .bind('dynatable:init', function(e, dynatable) {
@@ -217,6 +200,23 @@ else
             sortTypes: { vno: 'cnt', des: 'des' }
           }
         });
+          $('td a,td span[title]').balloon({
+            minLifetime: 0, showDuration: 0, hideDuration: 0,
+          });
+      });
+      $(function() 
+        { 
+          $('#id').addInputArea({
+            maximum : 7
+          });
+          $( 'a[rel*=leanModal]').leanModal({
+            overlay : 0.5,               // 背面の透明度 
+            closeButton: ".modal_close"  // 閉じるボタンのCSS classを指定
+          });
+        } 
+      );            
+      $(window).on("load resize",function(){
+          $().checkWidth();
       });
     </script>
   </body>
