@@ -95,8 +95,11 @@ nav {
 
 .modal-body {
   text-align: center;
+  #id {
+    margin-bottom: .5em;
+  }
   button {
-    margin: 2.5em 0 0 0;
+    margin: 1em 0 0 0;
   }
   li {
     margin: 1em 0;
