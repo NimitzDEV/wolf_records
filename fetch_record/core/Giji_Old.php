@@ -14,7 +14,10 @@ abstract class Giji_Old extends Country
     ,"達は、そして「人狼」も自ら"=>Data::TM_LWOLF
     ,"達は気付いてしまった。もう"=>Data::TM_PIPER
     ,"はたった独りだけを選んだ。"=>Data::TM_EFB
-    ];
+  ];
+  protected $RP_SP = [
+    "ParanoiA"=>'ZAP'
+  ];
 
   function fetch_village()
   {
@@ -222,7 +225,23 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_policy()
   {
-    $this->village->policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    switch($policy)
+    {
+      case "とくになし":
+      case "[言] 殺伐、暴言あり":
+      case "[遖] あっぱれネタ風味":
+      case "[張] うっかりハリセン":
+      case "[全] 大人も子供も初心者も、みんな安心":
+      case "[危] 無茶ぶり上等":
+        $this->village->policy = true;
+        echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
+        break;
+      default:
+        $this->village->policy = false;
+        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+        break;
+    }
   }
   protected function fetch_from_pro()
   {
@@ -248,48 +267,31 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_wtmid()
   {
-    if(!$this->is_evil)
+    if($this->is_evil && $this->village->policy)
     {
-      $this->village->wtmid = Data::TM_RP;
+      $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
+      if(preg_match("/村の更新日が延長されました/",$wtmid))
+      {
+        $do_i = -2;
+        do
+        {
+          $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
+          $do_i--;
+        } while(preg_match("/村の更新日が延長されました/",$wtmid));
+      }
+      $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
+      if(array_key_exists($this->village->rp,$this->RP_SP))
+      {
+        $this->village->wtmid = $this->{'WTM_'.$this->RP_SP[$this->village->rp]}[$wtmid];
+      }
+      else
+      {
+        $this->village->wtmid = $this->WTM[$wtmid];
+      }
     }
     else
     {
-      switch($this->village->policy)
-      {
-        case "とくになし":
-        case "[言] 殺伐、暴言あり":
-        case "[遖] あっぱれネタ風味":
-        case "[張] うっかりハリセン":
-        case "[全] 大人も子供も初心者も、みんな安心":
-        case "[危] 無茶ぶり上等":
-          //勝利陣営
-          $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-          if(preg_match("/村の更新日が延長されました/",$wtmid))
-          {
-            $do_i = -2;
-            do
-            {
-              $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-              $do_i--;
-            } while(preg_match("/村の更新日が延長されました/",$wtmid));
-          }
-          $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
-          switch($this->village->rp)
-          {
-            case "ParanoiA":
-              $this->village->wtmid = $this->WTM_ZAP[$wtmid];
-              break;
-            default:
-              $this->village->wtmid = $this->WTM[$wtmid];
-              break;
-          }
-          echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
-          break;
-        default:
-          $this->village->wtmid = Data::TM_RP;
-          echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
-          break;
-      }
+      $this->village->wtmid = Data::TM_RP;
     }
   }
   protected function make_cast()

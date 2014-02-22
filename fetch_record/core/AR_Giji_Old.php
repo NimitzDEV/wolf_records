@@ -84,6 +84,7 @@ trait AR_Giji_Old
   public $RGL_FREE = [
      '村人x3 占い師x1 狂人x1 人狼x1'=>Data::RGL_S_1
     ,'村人x2 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
+    ,'村人x3 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
     ,'村人x4 占い師x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
     ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
     ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2

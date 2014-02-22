@@ -12,7 +12,10 @@ class Guta extends Giji_Old
     ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"ピクシー"=>Data::SKL_PIXY
     ,"キューピッド"=>Data::SKL_QP
-    ];
+  ];
+  protected $RP_SP = [
+    "昏き宵闇の琥珀"=>'AMBER'
+  ];
   protected $doppel = 
     [
        "yuki"   =>"yuki&lt;ぐた&gt;"
@@ -50,42 +53,19 @@ class Guta extends Giji_Old
         break;
     }
   }
-  protected function fetch_wtmid()
+  protected function fetch_policy()
   {
-    switch($this->village->policy)
+    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    switch($policy)
     {
       case "ガチ推理（陣営勝敗最優先）":
       case "推理＆RP（勝負しながらキャラプレイも楽しむ）":
-        $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-        if(preg_match("/村の更新日が延長されました/",$wtmid))
-        {
-          $do_i = -2;
-          do
-          {
-            $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-            $do_i--;
-          } while(preg_match("/村の更新日が延長されました/",$wtmid));
-        }
-        $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
-        switch($this->village->rp)
-        {
-          case "昏き宵闇の琥珀":
-            $this->village->wtmid = $this->WTM_AMBER[$wtmid];
-            break;
-          default:
-            $this->village->wtmid = $this->WTM[$wtmid];
-            break;
-        }
-        break;
-      case "お祭り騒ぎ（勝敗不問で気軽に馬鹿騒ぎ）":
-      case "未設定（下記より選択をお願いします）":
-      case "ストーリー重視RP（勝敗不問。村という世界の中で生きよう）":
-        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
-        $this->village->wtmid = Data::TM_RP;
+        $this->village->policy = true;
+        echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
         break;
       default:
-        echo 'NOTICE: '.$this->village->vno.'.'.$this->village->name.' has unknown policy.'.PHP_EOL;
-        $this->village->wtmid = Data::TM_RP;
+        $this->village->policy = false;
+        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
         break;
     }
   }
@@ -103,17 +83,16 @@ class Guta extends Giji_Old
     }
     switch($this->village->rp)
     {
-    case "昏き宵闇の琥珀":
-      $this->user->sklid = $this->SKL_AMBER[$sklid];
-      break;
-    case "ミラーズホロウ":
-      $this->user->sklid = $this->SKL_MILLERS[$sklid];
-      break;
-    default:
-      $this->user->sklid = $this->SKILL[$sklid];
-      break;
+      case "昏き宵闇の琥珀":
+        $this->user->sklid = $this->SKL_AMBER[$sklid];
+        break;
+      case "ミラーズホロウ":
+        $this->user->sklid = $this->SKL_MILLERS[$sklid];
+        break;
+      default:
+        $this->user->sklid = $this->SKILL[$sklid];
+        break;
     }
-
   }
   protected function fetch_tmid($result)
   {
