@@ -17,4 +17,5 @@ class Cnt
   const Sebas  = 31;
   const Chitose= 32;
   const Chitose_RP = 33;
+  const Sea = 34;
 }
