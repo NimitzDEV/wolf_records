@@ -11,6 +11,7 @@ class Ning extends Country
       ,"shinobu"  =>"shinobu&lt;G国&gt;"
       ,"sig"      =>"sig&lt;G国&gt;"
       ,"sin"      =>"sin&lt;G国&gt;"
+      ,"blue"      =>"blue&lt;G国&gt;"
     ];
   private $skill =
     [
