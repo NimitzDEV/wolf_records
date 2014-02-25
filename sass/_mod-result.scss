@@ -112,10 +112,8 @@ nav {
 #ad {
   margin: 0 auto 25px;
   text-align:center;
+  max-width: 728px;
   @include font-size(1.2);
-  .recordresultphp-responsive { 
-    width: 728px; height: 90px;
-  }
 }
 
 %result {
