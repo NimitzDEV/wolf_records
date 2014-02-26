@@ -384,7 +384,7 @@ trait TR_SOW
         $row += 10;
         $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
         $this->fetch->load_file($url);
-        $announce = $this->fetch->find('p.info');
+        $announce = $this->fetch->find($find);
       } while (count($announce) <= 1);
     }
     return $announce;
