@@ -12,6 +12,7 @@ trait AR_SOW
      '人狼を退治したのだ！'=>Data::TM_VILLAGER
     ,'を立ち去っていった。'=>Data::TM_WOLF
     ,'いていなかった……。'=>Data::TM_FAIRY
+    ,'の村を去っていった。'=>Data::TM_LOVERS
   ];
   protected $WTM_FOOL = [
      'が勝ちやがりました。'=>Data::TM_VILLAGER
@@ -53,6 +54,7 @@ trait AR_SOW
     ,"智狼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
     ,"悪戯妖精"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"ピクシー"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"キューピッド"=>[Data::SKL_QP,Data::TM_LOVERS]
     ];
   protected $SKL_FOOL = [
      "ただの人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
