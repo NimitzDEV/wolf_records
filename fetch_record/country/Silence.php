@@ -3,6 +3,31 @@
 class Silence extends Country
 {
   use TR_SOW,AR_SOW,TR_SOW_RGL;
+  protected $WTM_PO = [
+     '人狼を退治したのだ！'=>Data::TM_VILLAGER
+    ,'CMを去っていった。'=>Data::TM_WOLF
+    ,'いていなかった……。'=>Data::TM_FAIRY
+    ,'の村を去っていった。'=>Data::TM_LOVERS
+  ];
+  protected $SKL_PO = [
+     "たのしいなかま"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
+    ,"ぽぽぽぽーん"=>[Data::SKL_WOLF,Data::TM_WOLF]
+    ,"おやすみなサイ"=>[Data::SKL_SEER,Data::TM_VILLAGER]
+    ,"ただいまマンボウ"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
+    ,"あいさつ坊や"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
+    ,"スタッフ"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
+    ,"AC"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"いただきマウス"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"あいさつガール"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
+    ,"ごちそうさマウス"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"ありがとウサギ"=>[Data::SKL_QP,Data::TM_LOVERS]
+  ];
+  protected $DT_PO = [
+     '撲殺された。'=>['.+(\(ランダム投票\)|あいさつした。)(.+) はたのしいなかま達に撲殺された。',Data::DES_HANGED]
+    ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
+    ,'ち亡くすね。'=>['(.+)朝、 ?(.+) がぽぽぽ.+',Data::DES_EATEN]
+    ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|感謝の気持ちを込めて) .+ の後を追った。',Data::DES_SUICIDE]
+  ];
   function __construct()
   {
     $cid = 35;
@@ -138,6 +163,24 @@ class Silence extends Country
     }
     return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
   }
+  protected function fetch_wtmid()
+  {
+    $wtmid = $this->fetch_win_message();
+    if(array_key_exists($wtmid,$this->WTM_SOW))
+    {
+      $this->village->wtmid = $this->WTM_SOW[$wtmid];
+    }
+    else if(array_key_exists($wtmid,$this->WTM_WBBS))
+    {
+      $this->village->wtmid = $this->WTM_WBBS[$wtmid];
+      $this->village->rp = 'WBBS';
+    }
+    else
+    {
+      $this->village->wtmid = $this->WTM_PO[$wtmid];
+      $this->village->rp = 'PO';
+    }
+  }
   protected function make_cast()
   {
     $cast = $this->fetch->find('table tr');
@@ -147,7 +190,6 @@ class Silence extends Country
   protected function fetch_from_daily($list)
   {
     $days = $this->village->days;
-    $rp = $this->village->rp;
     $find = 'div.announce';
     for($i=2; $i<=$days; $i++)
     {
@@ -156,7 +198,20 @@ class Silence extends Country
       {
         $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
         $key= mb_substr(trim($item->plaintext),-6,6);
-        if(!isset($this->DT_NORMAL[$key]))
+        if($this->village->rp === 'PO')
+        {
+          if(!isset($this->DT_PO[$key]))
+          {
+            continue;
+          }
+          else
+          {
+            $persona = trim(mb_ereg_replace($this->DT_PO[$key][0],'\2',$destiny,'m'));
+            $key_u = array_search($persona,$list);
+            $dtid = $this->DT_PO[$key][1];
+          }
+        }
+        else if(!isset($this->DT_NORMAL[$key]))
         {
           continue;
         }

@@ -18,5 +18,5 @@ class Cnt
   const Chitose= 32;
   const Chitose_RP = 33;
   const Sea    = 34;
-  const Silence= 35;
+  //const Silence= 35;
 }
