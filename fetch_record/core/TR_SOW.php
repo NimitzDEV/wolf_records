@@ -9,7 +9,7 @@ trait TR_SOW
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-      //var_dump($this->village->get_vars());
+    //var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -373,16 +373,16 @@ trait TR_SOW
   protected function fetch_daily_url($i,$find)
   {
     $row = 40;
-    $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
+    $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
     $this->fetch->load_file($url);
     $announce = $this->fetch->find($find);
     //処刑以降が取れてなさそうな場合はログ件数を増やす
-    if(count($announce) <= 1)
+    if(count($announce) <= 1 && $find !== 'p.infosp')
     {
       do
       {
         $row += 10;
-        $url = $this->url.$this->village->vno.'&turn='.$i.'mode=all&move=page&pageno=1&row='.$row;
+        $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
         $this->fetch->load_file($url);
         $announce = $this->fetch->find($find);
       } while (count($announce) <= 1);

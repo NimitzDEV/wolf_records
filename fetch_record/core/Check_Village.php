@@ -170,6 +170,18 @@ class Check_Village
           return true;
         }
         break;
+      case Cnt::Sebas:
+        $last_day = $this->html->find('p',0)->find('a',3)->plaintext;
+        $this->html->clear();
+        if($last_day  === "エピローグ")
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+        break;
       default:
         $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
         $this->html->clear();
@@ -252,6 +264,9 @@ class Check_Village
         break;
       case Cnt::Sebas:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',1)->plaintext);
+        break;
+      case Cnt::Silence:
+        $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('td a',0)->plaintext);
         break;
     }
     $this->html->clear();
