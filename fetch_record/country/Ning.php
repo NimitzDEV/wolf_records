@@ -12,6 +12,7 @@ class Ning extends Country
       ,"sig"      =>"sig&lt;G国&gt;"
       ,"sin"      =>"sin&lt;G国&gt;"
       ,"blue"      =>"blue&lt;G国&gt;"
+      ,"warabi"      =>"warabi&lt;CFG国&gt;"
     ];
   private $skill =
     [
