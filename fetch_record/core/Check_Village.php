@@ -146,6 +146,7 @@ class Check_Village
     {
       case Cnt::Plot:
       case Cnt::Ciel:
+      case Cnt::Perjury:
         $last_day = $this->html->find('script',-2)->innertext;
         $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
         $this->html->clear();
@@ -242,7 +243,6 @@ class Check_Village
         $list_vno =(int) preg_replace('/G(\d+) .+/','$1',$list_vno);
         break;
       case Cnt::Morphe:
-      case Cnt::Perjury:
       case Cnt::Xebec:
       case Cnt::Crazy:
       case Cnt::Guta:
@@ -251,6 +251,7 @@ class Check_Village
         break;
       case Cnt::Plot:
       case Cnt::Ciel:
+      case Cnt::Perjury:
         $list_vno = $this->html->find('tr',1)->find('td',0)->innertext;
         $list_vno = (int)preg_replace("/^(\d+) <a.+/","$1",$list_vno);
         break;
