@@ -171,7 +171,7 @@ class Check_Village
           return true;
         }
         break;
-      case Cnt::Sebas:
+      case Cnt::Silence:
         $last_day = $this->html->find('p',0)->find('a',3)->plaintext;
         $this->html->clear();
         if($last_day  === "エピローグ")
