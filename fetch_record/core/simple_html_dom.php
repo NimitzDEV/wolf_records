@@ -1046,10 +1046,12 @@ class simple_html_dom
     // load html from string
     function load($str, $lowercase=true, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
     {
+        $list = 'UTF-8,EUC-JP,SJIS,EUC-JP,JIS,ASCII';
+        $str_encoding = mb_detect_encoding($str,$list);
         //SJIS対策
-        if(mb_detect_encoding($str,'UTF-8,SJIS,EUC-JP,JIS,ASCII') === 'SJIS')
+        if($str_encoding !== 'UTF-8')
         {
-          $str = mb_convert_encoding($str,'UTF-8','SJIS');
+          $str = mb_convert_encoding($str,'UTF-8',$str_encoding);
         }
         global $debugObject;
 
