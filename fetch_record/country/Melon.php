@@ -252,7 +252,7 @@ class Melon extends Country
         $do_i = -2;
         do
         {
-          $wtmid = trim($fetch->find('p.info',$do_i)->plaintext);
+          $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
           $do_i--;
           preg_replace($this->WTM_SKIP,'',$wtmid,1,$count_replace);
         } while($count_replace);
