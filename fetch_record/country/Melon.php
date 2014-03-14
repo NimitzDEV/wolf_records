@@ -9,7 +9,9 @@ class Melon extends Country
        ,"yuki"   =>"yuki&lt;瓜科&gt;"
        ,"crimson"=>"crimson&lt;瓜科&gt;"
        ,"kei"    =>"kei&lt;F瓜旧薔薇&gt;"
-       ,"suzu"    =>"suzu&lt;瓜科&gt;"
+       ,"suzu"   =>"suzu&lt;瓜科&gt;"
+       ,"uni"    =>"uni&lt;F国&gt;"
+       ,"maymay" =>"maymay&lt;審問瓜&gt;"
     ];
   function __construct()
   {
