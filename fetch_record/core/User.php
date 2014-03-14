@@ -51,7 +51,8 @@ class User
         }
         break;
       case 'life':
-        if(is_null($item) || !is_float($item))
+        $life = mb_ereg_match("[01]\.\d{3}",sprintf('%f',$item));
+        if(is_null($item) || !is_float($item) || $life !== true)
         {
           $this->invalid_error($key,$item);
           return false;

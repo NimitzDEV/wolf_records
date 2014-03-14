@@ -231,7 +231,7 @@ class Silence extends Country
           $this->users[$key_u]->dtid = $dtid;
         }
         $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
       }
       $this->fetch->clear();
     }

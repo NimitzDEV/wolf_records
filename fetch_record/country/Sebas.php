@@ -321,7 +321,7 @@ class Sebas extends Country
     $this->user->tmid = Data::TM_ONLOOKER;
     $this->user->dtid  = Data::DES_ONLOOKER;
     $this->user->end   = 1;
-    $this->user->life  = 0.00;
+    $this->user->life  = 0.000;
     $this->user->rltid = Data::RSL_ONLOOKER;
   }
   protected function fetch_role($person)
@@ -377,11 +377,11 @@ class Sebas extends Country
   {
     if($this->user->dtid === Data::DES_ALIVE)
     {
-      $this->user->life = 1.00;
+      $this->user->life = 1.000;
     }
     else
     {
-      $this->user->life = round(($this->user->end-1) / $this->village->days,2);
+      $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
   }
 }

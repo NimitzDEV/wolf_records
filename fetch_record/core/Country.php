@@ -111,15 +111,15 @@ abstract class Country
   {
     if($this->user->dtid === Data::DES_ALIVE)
     {
-      $this->user->life = 1.00;
+      $this->user->life = 1.000;
     }
     else if($this->user->tmid === Data::TM_ONLOOKER)
     {
-      $this->user->life = 0.00;
+      $this->user->life = 0.000;
     }
     else
     {
-      $this->user->life = round(($this->user->end-1) / $this->village->days,2);
+      $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
   }
 

@@ -401,7 +401,7 @@ class Melon extends Country
     $this->user->dtid = Data::DES_ONLOOKER;
     $this->user->end = 1;
     $this->user->tmid = Data::TM_ONLOOKER;
-    $this->user->life = 0.00;
+    $this->user->life = 0.000;
     $this->user->rltid = Data::RSL_ONLOOKER;
     if($dtid === '--')
     {
@@ -442,13 +442,13 @@ class Melon extends Country
     {
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
-      $this->user->life = 1.00;
+      $this->user->life = 1.000;
     }
     else
     {
       $this->user->dtid = $this->DESTINY[mb_substr($dtid,mb_strpos($dtid,'d')+1)];
       $this->user->end = (int)mb_substr($dtid,0,mb_strpos($dtid,'d'));
-      $this->user->life = round(($this->user->end-1) / $this->village->days,2);
+      $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
   }
   protected function fetch_rltid($person)

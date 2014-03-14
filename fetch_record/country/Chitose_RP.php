@@ -5,7 +5,7 @@ class Chitose_RP extends Country
   use TR_SOW,AR_SOW,TR_SOW_RGL,AR_Chitose;
   private $RP_Chitose = [
        'ようちえん'=>'KIDS'
-      ,'メトロポリスβ'=>'METRO'
+      ,'メトロポリスβ'=>'yETRO'
     ];
 
   function __construct()
@@ -93,7 +93,7 @@ class Chitose_RP extends Country
           $this->users[$key_u]->dtid = $dtid;
         }
         $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
       }
       $this->fetch->clear();
     }

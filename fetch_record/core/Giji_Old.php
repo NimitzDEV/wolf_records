@@ -349,7 +349,7 @@ abstract class Giji_Old extends Country
     $this->user->end   = 1;
     $this->user->sklid = Data::SKL_ONLOOKER;
     $this->user->tmid  = Data::TM_ONLOOKER;
-    $this->user->life  = 0.00;
+    $this->user->life  = 0.000;
     $this->user->rltid = Data::RSL_ONLOOKER;
   }
   protected function fetch_dtid($result)

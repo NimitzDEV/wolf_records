@@ -315,14 +315,14 @@ trait TR_SOW
     $this->user->tmid = Data::TM_ONLOOKER;
     $this->user->dtid  = Data::DES_ONLOOKER;
     $this->user->end   = 1;
-    $this->user->life  = 0.00;
+    $this->user->life  = 0.000;
     $this->user->rltid = Data::RSL_ONLOOKER;
   }
   protected function insert_alive()
   {
     $this->user->dtid = Data::DES_ALIVE;
     $this->user->end = $this->village->days;
-    $this->user->life = 1.00;
+    $this->user->life = 1.000;
   }
   protected function fetch_role($person)
   {
@@ -444,7 +444,7 @@ trait TR_SOW
           $this->users[$key_u]->dtid = $dtid;
         }
         $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
       }
       $this->fetch->clear();
     }

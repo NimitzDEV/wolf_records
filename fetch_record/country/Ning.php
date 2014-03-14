@@ -182,7 +182,7 @@ class Ning extends Country
     {
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
-      $this->user->life = 1.00;
+      $this->user->life = 1.000;
     }
   }
 
@@ -258,7 +258,7 @@ class Ning extends Country
     {
       if(!$this->users[$key]->life)
       {
-        $this->users[$key]->life = round(($this->users[$key]->end-1) / $this->village->days,2);
+        $this->users[$key]->life = round(($this->users[$key]->end-1) / $this->village->days,3);
       }
     }
   }

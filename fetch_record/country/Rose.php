@@ -171,7 +171,7 @@ class Rose extends Country
   protected function insert_alive()
   {
     $this->user->end = $this->village->days;
-    $this->user->life = 1.00;
+    $this->user->life = 1.000;
   }
   protected function fetch_from_daily($list)
   {
@@ -215,7 +215,7 @@ class Rose extends Country
           $dtid = $this->DT_NORMAL[$key][1];
         }
         $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
       }
       $this->fetch->clear();
     }
@@ -236,7 +236,7 @@ class Rose extends Country
         if($key_u)
         {
           $this->users[$key_u]->end = $i;
-          $this->users[$key_u]->life = round(($i-1) / $this->village->days,2);
+          $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
         }
       }
       $this->fetch->clear();
