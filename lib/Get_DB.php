@@ -80,7 +80,7 @@ class Get_DB
         WHEN 3 THEN 'live_rp'
         ELSE 'x'
       END rlt,
-      truncate(avg(life)+0.005,3) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
+      truncate(avg(life)+0.0005,3) FROM users WHERE player IN (".$this->holder.") GROUP BY rlt
     ");
     $stmt = $this->exe_stmt($stmt);
     $table = $stmt->fetchAll();
