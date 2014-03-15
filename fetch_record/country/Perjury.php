@@ -2,6 +2,10 @@
 
 class Perjury extends Giji
 {
+  private $doppel = 
+    [
+      "cosmos"=>"cosmos&lt;議事&gt;"
+    ];
   function __construct()
   {
     $cid = 15;
