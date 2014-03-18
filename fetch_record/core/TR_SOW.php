@@ -73,6 +73,7 @@ trait TR_SOW
         }
         break;
       case "ハム入り":
+      case "ハムハム"://薔薇下
       case "妖魔有り":
         switch(true)
         {
