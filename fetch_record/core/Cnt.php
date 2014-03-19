@@ -9,14 +9,15 @@ class Cnt
   const Xebec  = 16;
   const Crazy  = 17;
   const Plot   = 14;
-  const Ciel   = 18;
   const Melon  = 26; 
   const Real   = 27;
   const Rose   = 28;
   const Cherry = 30;
-  const Sebas  = 31;
   const Chitose= 32;
   const Chitose_RP = 33;
-  const Sea    = 34;
+  const Sea    = 45;
+  const Sebas  = 31;
+  const Ciel   = 18;
+  const Sea_Old= 34;
   //const Silence= 35;
 }

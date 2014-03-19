@@ -1,32 +1,33 @@
 <?php
 
-class Sea extends Giji_Old
+class Sea_Old extends Giji_Old
 {
   private $SKL_SEA = [
      "共有者"=>Data::SKL_MASON
     ,"狩人"=>Data::SKL_HUNTER
+    ,"革命家"=>Data::SKL_AGITATOR
+    ,"ハンター"=>Data::SKL_BOUNTY
+    ,"鉄人"=>Data::SKL_WEREDOG
+    ,"貴族"=>Data::SKL_PRINCE
     ,"狼憑き"=>Data::SKL_LINEAGE
-    ,"ハムスター人間"=>Data::SKL_FAIRY
-    ,"座敷童"=>Data::SKL_LUNAMIM
-    ,"容疑者"=>Data::SKL_FUGITIVE
-    ,"獣化病"=>Data::SKL_LYCAN
-    ,"陰陽師"=>Data::SKL_ONMYO
-    ,"暗殺者"=>Data::SKL_ASSASSIN
-    ,"見習い占い師"=>Data::SKL_SEERUNSKL
-    ,"傾奇者"=>Data::SKL_KABUKI
-    ,"囮人形"=>Data::SKL_DECOY
-    ,"悟られ狂人"=>Data::SKL_SUSPECT
-    ,"賢狼"=>Data::SKL_MEDIWOLF
-    ,"霊狼"=>Data::SKL_NECROWOLF
-    ,"九尾"=>Data::SKL_NINETALES
-    ,"呪狐"=>Data::SKL_CURSEFOX
-    ,"半妖"=>Data::SKL_HALFFOX
-    ,"仙狐"=>Data::SKL_OLDFOX
+    ,"秘薬師"=>Data::SKL_WITCH
+    ,"邪念霊"=>Data::SKL_JAMMER
+    ,"憑依霊"=>Data::SKL_SNATCH
+    ,"怨霊"=>Data::SKL_LUNAPATH
+    ,"傀儡師"=>Data::SKL_MUPPETER
+    ,"牙狼"=>Data::SKL_HEADLESS
+    ,"妖狐"=>Data::SKL_FAIRY
+    ,"狼狐"=>Data::SKL_MIMIC
+    ,"仙狐"=>Data::SKL_SNOW
+    ,"惑狐"=>Data::SKL_PIXY
+    ,"帝国義勇兵"=>Data::SKL_TELEPATH
+    ,"王国義勇兵"=>Data::SKL_LUNAWHS
+    ,"公国義勇兵"=>Data::SKL_WOLF
+    ,"王国工作兵"=>Data::SKL_MIMIC
     ];
-  private $WTM_SEA = [
-     "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
-    ,"全ての希望を染めつくした。"=>Data::TM_WOLF
-    ,"も、人狼も、妖孤でさえも、"=>Data::TM_LOVERS//誤字
+  private $DT_LINK = [
+     "社会的死"=>Data::DES_HANGED
+    ,"戦死"=>Data::DES_EATEN
   ];
   private   $WTM_RP = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
@@ -44,13 +45,13 @@ class Sea extends Giji_Old
   ];
   function __construct()
   {
-    $cid = 45;
-    $url_vil = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?vid=";
-    $url_log = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?cmd=oldlog";
+    $cid = 34;
+    $url_vil = "http://chaos-circle.versus.jp/wolf/abyss/sow.cgi?vid=";
+    $url_log = "http://chaos-circle.versus.jp/wolf/abyss/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->is_evil = true;
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SEA);
-    $this->WTM = array_merge($this->WTM,$this->WTM_SEA);
+    $this->DESTINY = array_merge($this->DESTINY,$this->DT_LINK);
   }
 
   protected function check_g_rgl()

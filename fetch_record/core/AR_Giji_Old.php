@@ -110,7 +110,6 @@ trait AR_Giji_Old
   public $WTM = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
-    ,"の人狼を葬り去った……。人"=>Data::TM_VILLAGER//深海国
     ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
     ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
     ,"の人狼を退治した……。だが"=>Data::TM_FAIRY

@@ -115,6 +115,12 @@ class Data
   const SKL_IDSEER   = 85;  //魂魄師 
   const SKL_CONTACT  = 87;  //交信者
   const SKL_NOBLE    = 90;  //貴族
+  const SKL_FUGITIVE = 92;  //容疑者
+  const SKL_LYCAN    = 93;  //獣化病
+  const SKL_ONMYO    = 94;  //陰陽師
+  const SKL_ASSASSIN = 95;  //暗殺者
+  const SKL_SEERUNSKL= 96;  //見習い占い師
+  const SKL_KABUKI   = 97;  //傾奇者
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //C狂
@@ -136,6 +142,8 @@ class Data
   const SKL_IDLUNASR = 86;  //呪魂者 
   const SKL_TEMPTER  = 88;  //誘惑者
   const SKL_SLEEPER  = 89;  //睡狼
+  const SKL_DECOY    = 98;  //囮人形
+  const SKL_SUSPECT  = 99;  //悟られ狂人
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -147,6 +155,8 @@ class Data
   const SKL_SILENT   = 47;  //黙狼
   const SKL_POSWOLF  = 70;  //憑狼
   const SKL_MALICE   = 80;  //瘴狼
+  const SKL_MEDIWOLF = 100; //賢狼
+  const SKL_NECROWOLF= 101; //霊狼
 
   const SKL_FAIRY    =  9;  //妖魔
   const SKL_BAT      = 61;  //蝙蝠人間
@@ -158,6 +168,10 @@ class Data
   const SKL_VAMPIRE  = 74;  //吸血鬼
   const SKL_RABBIT   = 75;  //夜兎
   const SKL_NIGHTMARE= 83;  //夢魔
+  const SKL_NINETALES= 102; //九尾
+  const SKL_CURSEFOX = 103; //呪狐
+  const SKL_HALFFOX  = 104; //半妖
+  const SKL_OLDFOX   = 105; //仙狐
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
