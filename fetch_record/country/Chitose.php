@@ -7,7 +7,7 @@ class Chitose extends Country
        'ようちえん'=>'KIDS'
       ,'メトロポリスβ'=>'METRO'
     ];
-  private $doppel = [
+  protected $doppel = [
       'takano'=>'takano&lt;千夜国&gt;'
     ];
 
