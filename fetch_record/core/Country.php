@@ -22,7 +22,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [121];
+    //$list = [21];
     if(!$list)
     {
       $this->check->remove_queue();
@@ -31,7 +31,7 @@ abstract class Country
     }
     $this->fetch = new simple_html_dom();
     //取得しない村番号
-    //$kick = [33,29,24,20,4,2,7,3];
+    //$kick = [1,4];
     foreach($list as $vno)
     {
       //if(array_search($vno,$kick)  !== false)

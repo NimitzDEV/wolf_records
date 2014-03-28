@@ -116,6 +116,7 @@ class Check_Village
   private function check_end($vno)
   {
     $this->html->load_file($this->url_vil.$vno);
+
     if($this->cid === Cnt::Ning)
     {
       $last_page = trim($this->html->find('span.time',0)->plaintext);
@@ -171,18 +172,18 @@ class Check_Village
           return true;
         }
         break;
-      //case Cnt::Silence:
-        //$last_day = $this->html->find('p',0)->find('a',3)->plaintext;
-        //$this->html->clear();
-        //if($last_day  === "エピローグ")
-        //{
-          //return false;
-        //}
-        //else
-        //{
-          //return true;
-        //}
-        //break;
+      case Cnt::Silence:
+        $last_day = $this->html->find('p',0)->find('a',3)->plaintext;
+        $this->html->clear();
+        if($last_day  === "エピローグ")
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+        break;
       default:
         $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
         $this->html->clear();
