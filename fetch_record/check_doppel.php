@@ -31,7 +31,7 @@ foreach($stmt as $item)
 foreach($ids as $player)
 {
   $sql = "select cid,vno,v.name,player from users u JOIN village v on v.id=u.vid
-     where cid=:cid and player=:player";
+     where cid=:cid and player=:player and player != 'master'";
 
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':cid',$cid,PDO::PARAM_INT);
