@@ -41,6 +41,7 @@ trait AR_SOW
     ,"守護者"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
     ,"共有者"=>[Data::SKL_MASON,Data::TM_VILLAGER]
     ,"結社員"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"今週のトイレ当番"=>[Data::SKL_MASON,Data::TM_VILLAGER]//静寂
     ,"妖魔"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"ハムスター人間"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"囁き狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]

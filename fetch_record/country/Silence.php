@@ -4,16 +4,16 @@ class Silence extends Country
 {
   use TR_SOW,AR_SOW,TR_SOW_RGL;
   protected $WTM_PO = [
-     '人狼を退治したのだ！'=>Data::TM_VILLAGER
+     'ーんはぽぽぽぽーん！'=>Data::TM_VILLAGER
     ,'CMを去っていった。'=>Data::TM_WOLF
-    ,'いていなかった……。'=>Data::TM_FAIRY
+    ,'がおはよウナギ……。'=>Data::TM_FAIRY
     ,'の村を去っていった。'=>Data::TM_LOVERS
   ];
   protected $SKL_PO = [
      "たのしいなかま"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
     ,"ぽぽぽぽーん"=>[Data::SKL_WOLF,Data::TM_WOLF]
     ,"おやすみなサイ"=>[Data::SKL_SEER,Data::TM_VILLAGER]
-    ,"ただいまマンボウ"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
+    ,"ただいマンボウ"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
     ,"あいさつ坊や"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
     ,"スタッフ"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
     ,"AC"=>[Data::SKL_MASON,Data::TM_VILLAGER]
@@ -23,11 +23,12 @@ class Silence extends Country
     ,"ありがとウサギ"=>[Data::SKL_QP,Data::TM_LOVERS]
   ];
   protected $DT_PO = [
-     '撲殺された。'=>['.+(\(ランダム投票\)|あいさつした。)(.+) はたのしいなかま達に撲殺された。',Data::DES_HANGED]
-    ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
-    ,'ち亡くすね。'=>['(.+)朝、 ?(.+) がぽぽぽ.+',Data::DES_EATEN]
-    ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|感謝の気持ちを込めて) .+ の後を追った。',Data::DES_SUICIDE]
+     '挨殺された。'=>['.+(\(ランダムあいさつ\)|あいさつした。)(.+) はたのしいなかま達に挨殺された。',Data::DES_HANGED]
+    ,'突然死した。'=>['\A( ?)(.+) は、突然死した。',Data::DES_RETIRED]
+    ,'ち亡くすね。'=>['(.+)朝、(.+) の首がぽぽぽ.+',Data::DES_EATEN]
+    ,'後を追った。'=>['\A( ?)(.+) は(民間の広告ネットワークに引きずられるように|感謝の気持ちを込めて) .+ の後を追った。',Data::DES_SUICIDE]
   ];
+  protected $MOD_PERSONA = [5,7,8,10,11,12,13,14,15,16,17,18,19];//delete
   function __construct()
   {
     $cid = 35;
@@ -186,6 +187,82 @@ class Silence extends Country
     $cast = $this->fetch->find('table tr');
     array_shift($cast);
     $this->cast = $cast;
+  }
+  protected function fetch_users($person)
+  {
+    $this->fetch_persona($person);
+    $this->fetch_player($person);
+    $this->fetch_role($person);
+    $this->fetch_rltid();
+
+    if($person->find('td',2)->plaintext === '生存')
+    {
+      $this->insert_alive();
+    }
+  }
+  protected function fetch_persona($person)
+  {
+    //delete
+    $persona = trim($person->find('td',0)->plaintext);
+    if(array_search($this->village->vno,$this->MOD_PERSONA) !== false)
+    {
+      if($this->village->vno < 9)
+      {
+        $this->user->persona = mb_ereg_replace('怪しくない','',$persona);
+        if(preg_match('/幼女/',$persona))
+        {
+          $this->user->persona = mb_ereg_replace('幼女','少女',$this->user->persona);
+        }
+        if(preg_match('/ナユ/',$persona))
+        {
+          $this->user->persona = mb_ereg_replace('ナユ','ナン',$this->user->persona);
+        }
+      }
+      else
+      {
+        $this->user->persona = $persona. '（仮）';
+      }
+    }
+    else
+    {
+      $this->user->persona = $persona;
+    }
+  }
+  protected function fetch_role($person)
+  {
+    $role = $person->find('td',3)->plaintext;
+    //delete
+    if(preg_match('/\A /',$role))
+    {
+      $this->user->role = 'ピクシー';
+      $this->user->sklid = Data::SKL_PIXY;
+      $this->user->tmid = Data::TM_FAIRY;
+      return;
+    }
+    if(preg_match('/\r\n/',$role))
+    {
+      $this->user->role = mb_ereg_replace('\A(.+) \(.+\)\r\n.+','\1',$role);
+    }
+    else
+    {
+      $this->user->role = mb_ereg_replace('(.+) \(.+\)','\1',$role);
+    }
+
+    if($this->village->rp === 'PO')
+    {
+      $this->user->sklid = $this->SKL_PO[$this->user->role][0];
+      $this->user->tmid = $this->SKL_PO[$this->user->role][1];
+    }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$this->user->role][0];
+      $this->user->tmid = $this->SKILL[$this->user->role][1];
+    }
+
+    if(preg_match('/恋人/',$role))
+    {
+      $this->user->tmid = Data::TM_LOVERS;
+    }
   }
   protected function fetch_from_daily($list)
   {
