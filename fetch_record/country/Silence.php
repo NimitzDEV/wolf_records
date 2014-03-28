@@ -28,7 +28,6 @@ class Silence extends Country
     ,'ち亡くすね。'=>['(.+)朝、(.+) の首がぽぽぽ.+',Data::DES_EATEN]
     ,'後を追った。'=>['\A( ?)(.+) は(民間の広告ネットワークに引きずられるように|感謝の気持ちを込めて) .+ の後を追った。',Data::DES_SUICIDE]
   ];
-  protected $MOD_PERSONA = [5,7,8,10,11,12,13,14,15,16,17,18,19];//delete
   function __construct()
   {
     $cid = 35;
@@ -190,7 +189,7 @@ class Silence extends Country
   }
   protected function fetch_users($person)
   {
-    $this->fetch_persona($person);
+    $this->user->persona = trim($person->find('td',0)->plaintext);
     $this->fetch_player($person);
     $this->fetch_role($person);
     $this->fetch_rltid();
@@ -200,45 +199,9 @@ class Silence extends Country
       $this->insert_alive();
     }
   }
-  protected function fetch_persona($person)
-  {
-    //delete
-    $persona = trim($person->find('td',0)->plaintext);
-    if(array_search($this->village->vno,$this->MOD_PERSONA) !== false)
-    {
-      if($this->village->vno < 9)
-      {
-        $this->user->persona = mb_ereg_replace('怪しくない','',$persona);
-        if(preg_match('/幼女/',$persona))
-        {
-          $this->user->persona = mb_ereg_replace('幼女','少女',$this->user->persona);
-        }
-        if(preg_match('/ナユ/',$persona))
-        {
-          $this->user->persona = mb_ereg_replace('ナユ','ナン',$this->user->persona);
-        }
-      }
-      else
-      {
-        $this->user->persona = $persona. '（仮）';
-      }
-    }
-    else
-    {
-      $this->user->persona = $persona;
-    }
-  }
   protected function fetch_role($person)
   {
     $role = $person->find('td',3)->plaintext;
-    //delete
-    if(preg_match('/\A /',$role))
-    {
-      $this->user->role = 'ピクシー';
-      $this->user->sklid = Data::SKL_PIXY;
-      $this->user->tmid = Data::TM_FAIRY;
-      return;
-    }
     if(preg_match('/\r\n/',$role))
     {
       $this->user->role = mb_ereg_replace('\A(.+) \(.+\)\r\n.+','\1',$role);
