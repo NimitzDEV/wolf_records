@@ -1,5 +1,5 @@
 <?php
-class Rose extends Country
+class Phantom extends Country
 {
   use AR_SOW,TR_SOW,TR_SOW_RGL;
   protected $RP_PRO = [
@@ -10,25 +10,16 @@ class Rose extends Country
     ,'呼び寄せた'=>'PHANTOM'
     ,'　それはま'=>'DREAM'
     ];
-  protected $WTM_PHANTOM = [
-     '、人は何を思うのか。'=>Data::TM_VILLAGER
-    ,'の先にあるのは……。'=>Data::TM_WOLF
-    ,'いていなかった……。'=>Data::TM_FAIRY
-  ];
-  protected $WTM_DREAM = [
-     'が差し込んできます。'=>Data::TM_VILLAGER
-    ,'りませんでした……。'=>Data::TM_WOLF
-    ,'いていなかった……。'=>Data::TM_FAIRY
-  ];
   protected $SKL_SP = [
      "妖狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"天狐"=>[Data::SKL_BAT,Data::TM_FAIRY]
     ,"冥狐"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"幻魔"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ];
   protected $DT_DREAM = [
-     'のです……。'=>['.+(\(ランダム投票\)|指さしました。)(.+) は人々の意思により処断されたのです……。',Data::DES_HANGED]
+     'のです……。'=>['.+(\(ランダム投票\)|指差しました。)(.+) は人々の意思により処断されたのです……。',Data::DES_HANGED]
     ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
-    ,'発見された。'=>['(.+)朝、 ?(.+) が無残.+',Data::DES_EATEN]
+    ,'されました。'=>['(.+)朝、 ?(.+) が無残.+',Data::DES_EATEN]
     ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように) .+ の後を追った。',Data::DES_SUICIDE]
   ];
   function __construct()
@@ -38,6 +29,114 @@ class Rose extends Country
     $url_log = "http://schicksal.sakura.ne.jp/sow/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
+  }
+  protected function fetch_from_info()
+  {
+    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
+
+    $this->fetch_name();
+    $this->fetch_nop();
+    $this->fetch_rglid();
+    $this->fetch_days();
+
+    $this->fetch_policy();
+
+    $this->fetch->clear();
+  }
+  protected function fetch_rglid()
+  {
+    $rgl_base = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
+    $rglid = preg_replace('/\r\n.+/','',$rgl_base);
+    switch($rglid)
+    {
+      case "自由設定":
+      case "ごった煮":
+        //自由設定でも特定の編成はレギュレーションを指定する
+        $free = mb_substr($rgl_base,mb_strpos($rgl_base,'（'));
+        if(array_key_exists($free,$this->RGL_FREE))
+        {
+          $this->village->rglid = $this->RGL_FREE[$free];
+        }
+        else
+        {
+          echo $this->village->vno.' has '.$free.PHP_EOL;
+          $this->village->rglid = Data::RGL_ETC;
+        }
+        break;
+      case "標準":
+      case "ふつー":
+        //智狼+囁狂編成
+        $this->village->rglid = Data::RGL_ETC;
+        break;
+      case "ハム入り":
+      case "妖狐入り"://幻夢
+      case "妖魔有り":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_E;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "試験壱型":
+        switch(true)
+        {
+          case ($this->village->nop  >= 13):
+            $this->village->rglid = Data::RGL_TES1;
+            break;
+          case ($this->village->nop <=12 && $this->village->nop >= 8):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "試験弐型":
+        switch(true)
+        {
+          case ($this->village->nop  >= 10):
+            $this->village->rglid = Data::RGL_TES2;
+            break;
+          case ($this->village->nop  === 8 || $this->village->nop  === 9):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+      case "Ｃ国":
+      case "囁けます":
+        switch(true)
+        {
+          case ($this->village->nop  >= 16):
+            $this->village->rglid = Data::RGL_C;
+            break;
+          case ($this->village->nop  === 15):
+            $this->village->rglid = Data::RGL_S_C3;
+            break;
+          case ($this->village->nop <=14 && $this->village->nop >= 10):
+            $this->village->rglid = Data::RGL_S_C2;
+            break;
+          case ($this->village->nop  === 8 || $this->village->nop === 9):
+            $this->village->rglid = Data::RGL_S_2;
+            break;
+          default:
+            $this->village->rglid = Data::RGL_S_1;
+            break;
+        }
+        break;
+    }
   }
   protected function fetch_from_pro()
   {
@@ -53,7 +152,12 @@ class Rose extends Country
     $rp = mb_substr($this->fetch->find('p.info',0)->plaintext,1,5);
     if(array_key_exists($rp,$this->RP_PRO))
     {
-      $this->village->rp = $this->RP_LIST[$rp];
+      $this->village->rp = $this->RP_PRO[$rp];
+      //del
+      if($this->village->vno === 8)
+      {
+        $this->village->rp = 'FOOL';
+      }
     }
     else
     {
@@ -65,161 +169,32 @@ class Rose extends Country
   {
     $this->village->policy = false;
   }
-
   protected function fetch_wtmid()
   {
-    if(!$this->village->policy)
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-    else
-    {
-      $wtmid = $this->fetch_win_message();
-      if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
-      {
-        $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
-      }
-      else
-      {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
-        $this->village->wtmid = Data::TM_RP;
-      }
-    }
+    $this->village->wtmid = Data::TM_RP;
   }
 
-  protected function insert_users()
-  {
-    $list = [];
-    $this->users = [];
-    foreach($this->cast as $key=>$person)
-    {
-      $this->user = new User();
-      $this->fetch_users($person);
-      $this->users[] = $this->user;
-      //生存者を除く名前リストを作る
-      $list[] = $this->user->persona;
-      if($this->user->end !== null)
-      {
-        unset($list[$key]);
-      }
-      if($this->user->sklid  === Data::SKL_BAPTIST && $this->user->dtid === Data::DES_MARTYR)
-      {
-        $martyr = true;
-      }
-    }
-    $this->fetch_from_daily($list);
-    if(isset($martyr))
-    {
-      $this->insert_baptist($list);
-    }
-
-    foreach($this->users as $user)
-    {
-      if(!$user->is_valid())
-      {
-        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
-      }
-    }
-  }
-  protected function fetch_users($person)
-  {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->fetch_player($person);
-    $this->fetch_role($person);
-    $this->user->tmid = $this->TEAM[$person->find('td',3)->plaintext];
-
-    if($this->user->tmid === Data::TM_ONLOOKER)
-    {
-      $this->insert_onlooker();
-    }
-    else
-    {
-      $this->user->dtid = $this->DESTINY[$person->find('td',2)->plaintext];
-      $this->fetch_sklid();
-      $this->fetch_rltid();
-    }
-
-    if($this->user->dtid === Data::DES_ALIVE)
-    {
-      $this->insert_alive();
-      return;
-    }
-  }
-  protected function fetch_role($person)
-  {
-    $role = $person->find('td',4)->plaintext;
-    if(preg_match('/\r\n/',$role))
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)\r\n.+','\1',$role);
-    }
-    else
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)(☆勝利|)','\1',$role);
-    }
-    //死神陣営の勝利者は、役職の後ろに「☆勝利」がつく
-    if($this->village->policy && mb_strstr($role,'☆勝利'))
-    {
-      $this->user->rltid = Data::RSL_WIN;
-    }
-  }
-  protected function fetch_sklid()
-  {
-    if($this->village->rp === 'FOOL')
-    {
-      $this->user->sklid = $this->SKL_FOOL[$this->user->role];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role];
-    }
-  }
   protected function fetch_rltid()
   {
-    if($this->user->rltid)
-    {
-      return;
-    }
-
-    if(!$this->village->policy)
-    {
-      $this->user->rltid = Data::RSL_JOIN;
-    }
-    else if($this->user->tmid === $this->village->wtmid || $this->user->tmid === $this->village->add_winner)
-    {
-      if($this->user->tmid === Data::TM_EFB)
-      {
-        //死神陣営で勝利判定が埋まっていない者は敗北扱い
-        $this->user->rltid = Data::RSL_LOSE;
-      }
-      else
-      {
-        $this->user->rltid = Data::RSL_WIN;
-      }
-    }
-    else
-    {
-      $this->user->rltid = Data::RSL_LOSE;
-    }
-  }
-  protected function insert_alive()
-  {
-    $this->user->end = $this->village->days;
-    $this->user->life = 1.000;
+    $this->user->rltid = Data::RSL_JOIN;
   }
   protected function fetch_from_daily($list)
   {
     $days = $this->village->days;
     $rp = $this->village->rp;
+    if($rp !== 'FOOL' && $rp !== 'DREAM')
+    {
+      $rp = 'NORMAL';
+    }
     $find = 'p.info';
     for($i=2; $i<=$days; $i++)
     {
       $announce = $this->fetch_daily_url($i,$find);
       foreach($announce as $item)
       {
-        $destiny = trim($item->plaintext);
-        $key= mb_substr($destiny,-6,6);
-        $destiny = preg_replace("/\r\n/","",$destiny);
-        if($rp === "FOOL")
+        $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
+        $key= mb_substr(trim($item->plaintext),-6,6);
+        if($rp === 'FOOL')
         {
           if(!isset($this->DT_FOOL[$key]))
           {
@@ -237,15 +212,29 @@ class Rose extends Country
             $dtid = $this->DT_FOOL[$key][1];
           }
         }
-        else if(!isset($this->DT_NORMAL[$key]))
+        else if(!isset($this->{'DT_'.$rp}[$key]))
         {
           continue;
         }
         else
         {
-          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
+          $persona = trim(mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\2',$destiny,'m'));
           $key_u = array_search($persona,$list);
-          $dtid = $this->DT_NORMAL[$key][1];
+          $dtid = $this->{'DT_'.$rp}[$key][1];
+        }
+        //妖魔陣営の無残死は呪殺死にする
+        if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
+        {
+          $this->users[$key_u]->dtid = Data::DES_CURSED;
+        }
+        //呪狼が存在する編成で、占い師が襲撃された場合別途チェック
+        else if(!empty($this->cursewolf) && $this->users[$key_u]->sklid === Data::SKL_SEER && $dtid === Data::DES_EATEN && $this->check_cursed_seer($persona,$key_u))
+        {
+          $this->users[$key_u]->dtid = Data::DES_CURSED;
+        }
+        else
+        {
+          $this->users[$key_u]->dtid = $dtid;
         }
         $this->users[$key_u]->end = $i;
         $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
@@ -253,26 +242,43 @@ class Rose extends Country
       $this->fetch->clear();
     }
   }
-  protected function insert_baptist($list)
+  protected function check_cursed_seer($persona,$key_u)
   {
-    $days = $this->village->days;
-    $find = 'p.infosp';
-    for($i=4; $i<=$days; $i++)
+    switch($this->village->rp)
     {
-      $announce = $this->fetch_daily_url($i,$find);
-      foreach($announce as $item)
+      case 'FOOL':
+        $dialog = 'き込んだ。';
+        $pattern = ' ?(.+) は、(.+) を覗き込んだ。';
+        break;
+      case 'DREAM':
+        $dialog = 'みました。';
+        $pattern = '　 ?(.+) は、(.+) を詠みました。';
+        break;
+      default:
+        $dialog = 'を占った。';
+        $pattern = ' ?(.+) は、(.+) を占った。';
+        break;
+    }
+
+    $announce = $this->fetch->find('p.infosp');
+    foreach($announce as $item)
+    {
+      $info = trim($item->plaintext);
+      $key= mb_substr($info,-5,5);
+      if($key === $dialog)
       {
-        $destiny = trim($item->plaintext);
-        $key = mb_substr($destiny,-6,6);
-        $persona = trim(mb_ereg_replace("(.+) は、.+ を命を引き換えに復活させた。",'\1',$destiny));
-        $key_u = array_search($persona,$list);
-        if($key_u)
+        $seer = trim(mb_ereg_replace($pattern,'\1',$info,'m'));
+        $wolf = trim(mb_ereg_replace($pattern,'\2',$info,'m'));
+        if($seer === $persona && in_array($wolf,$this->cursewolf))
         {
-          $this->users[$key_u]->end = $i;
-          $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
+          return true;
+        }
+        else
+        {
+          continue;
         }
       }
-      $this->fetch->clear();
     }
+    return false;
   }
 }
