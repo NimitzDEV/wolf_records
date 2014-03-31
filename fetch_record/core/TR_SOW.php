@@ -74,7 +74,6 @@ trait TR_SOW
         break;
       case "ハム入り":
       case "ハムハム"://薔薇下
-      case "妖狐入り"://幻夢
       case "妖魔有り":
         switch(true)
         {
@@ -436,7 +435,7 @@ trait TR_SOW
         {
           $this->users[$key_u]->dtid = Data::DES_CURSED;
         }
-        //呪狼が存在する編成で、占い師が襲撃した場合別途チェック
+        //呪狼が存在する編成で、占い師が襲撃された場合別途チェック
         else if(!empty($this->cursewolf) && $this->users[$key_u]->sklid === Data::SKL_SEER && $dtid === Data::DES_EATEN && $this->check_cursed_seer($persona,$key_u))
         {
           $this->users[$key_u]->dtid = Data::DES_CURSED;
@@ -453,8 +452,16 @@ trait TR_SOW
   }
   protected function check_cursed_seer($persona,$key_u)
   {
-    $dialog = 'を占った。';
-    $pattern = ' ?(.+) は、(.+) を占った。';
+    if($this->village->rp === 'FOOL')
+    {
+      $dialog = 'き込んだ。';
+      $pattern = ' ?(.+) は、(.+) を覗き込んだ。';
+    }
+    else
+    {
+      $dialog = 'を占った。';
+      $pattern = ' ?(.+) は、(.+) を占った。';
+    }
     $announce = $this->fetch->find('p.infosp');
     foreach($announce as $item)
     {
