@@ -244,20 +244,15 @@ class Phantom extends Country
   }
   protected function check_cursed_seer($persona,$key_u)
   {
-    switch($this->village->rp)
+    if($this->village->rp === 'DREAM')
     {
-      case 'FOOL':
-        $dialog = 'き込んだ。';
-        $pattern = ' ?(.+) は、(.+) を覗き込んだ。';
-        break;
-      case 'DREAM':
-        $dialog = 'みました。';
-        $pattern = '　 ?(.+) は、(.+) を詠みました。';
-        break;
-      default:
-        $dialog = 'を占った。';
-        $pattern = ' ?(.+) は、(.+) を占った。';
-        break;
+      $dialog = 'みました。';
+      $pattern = '　 ?(.+) は、(.+) を詠みました。';
+    }
+    else
+    {
+      $dialog = 'を占った。';
+      $pattern = ' ?(.+) は、(.+) を占った。';
     }
 
     $announce = $this->fetch->find('p.infosp');

@@ -452,16 +452,8 @@ trait TR_SOW
   }
   protected function check_cursed_seer($persona,$key_u)
   {
-    if($this->village->rp === 'FOOL')
-    {
-      $dialog = 'き込んだ。';
-      $pattern = ' ?(.+) は、(.+) を覗き込んだ。';
-    }
-    else
-    {
-      $dialog = 'を占った。';
-      $pattern = ' ?(.+) は、(.+) を占った。';
-    }
+    $dialog = 'を占った。';
+    $pattern = ' ?(.+) は、(.+) を占った。';
     $announce = $this->fetch->find('p.infosp');
     foreach($announce as $item)
     {
