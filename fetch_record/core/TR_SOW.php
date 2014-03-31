@@ -74,6 +74,7 @@ trait TR_SOW
         break;
       case "ハム入り":
       case "ハムハム"://薔薇下
+      case "妖狐入り"://幻夢
       case "妖魔有り":
         switch(true)
         {
@@ -141,7 +142,7 @@ trait TR_SOW
         }
         break;
       case "Ｇ国":
-      case "共有？…誰？":
+      case "共有？…誰？"://薔薇
         switch(true)
         {
           case ($this->village->nop  >= 16):
