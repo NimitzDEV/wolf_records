@@ -153,11 +153,6 @@ class Phantom extends Country
     if(array_key_exists($rp,$this->RP_PRO))
     {
       $this->village->rp = $this->RP_PRO[$rp];
-      //del
-      if($this->village->vno === 8)
-      {
-        $this->village->rp = 'FOOL';
-      }
     }
     else
     {
