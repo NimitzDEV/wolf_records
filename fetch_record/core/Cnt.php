@@ -21,5 +21,6 @@ class Cnt
   const Sea_Old= 34;
   const Guta_P = 25;
   const Phantom= 47;
+  const BW= 48;
   const Silence= 35;
 }
