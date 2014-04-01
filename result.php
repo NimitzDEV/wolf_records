@@ -1,4 +1,5 @@
 <?php
+header("Cache-Control: no-cache");
 require 'lib/ClassLoader.php';
 $class_loader = new ClassLoader([__DIR__.'/lib','/home/waoon/lib']);
 $id = new IDs();
