@@ -115,14 +115,7 @@ class Rose extends Country
   protected function fetch_role($person)
   {
     $role = $person->find('td',4)->plaintext;
-    if(preg_match('/\r\n/',$role))
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)\r\n.+','\1',$role);
-    }
-    else
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)(☆勝利|)','\1',$role);
-    }
+    $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
     //死神陣営の勝利者は、役職の後ろに「☆勝利」がつく
     if($this->village->policy && mb_strstr($role,'☆勝利'))
     {

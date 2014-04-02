@@ -327,14 +327,7 @@ class Sebas extends Country
   protected function fetch_role($person)
   {
     $role = $person->find('td',3)->plaintext;
-    if(preg_match('/\r\n/',$role))
-    {
-      $this->user->role = mb_ereg_replace('([^\r\n]+)\r\n.+','\1',$role,"m");
-    }
-    else
-    {
-      $this->user->role = trim(mb_ereg_replace('(.+)','\1',$role));
-    }
+    $this->user->role = trim(mb_ereg_replace('\A([^\r\n]+)(\r\n.+|)','\1',$role,'m'));
   }
   protected function fetch_sklid()
   {

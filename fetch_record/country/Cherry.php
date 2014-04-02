@@ -68,13 +68,6 @@ class Cherry extends Country
   protected function fetch_role($person)
   {
     $role = $person->find('td',4)->plaintext;
-    if(preg_match('/\r\n/',$role))
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)\r\n.+','\1',$role);
-    }
-    else
-    {
-      $this->user->role = mb_ereg_replace('(.+) \(.+\)','\1',$role);
-    }
+    $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
   }
 }
