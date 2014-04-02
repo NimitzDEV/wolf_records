@@ -60,8 +60,6 @@ class BW extends Country
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    //del
-    //var_dump($this->village->get_vars());
   }
   protected function fetch_from_info()
   {
@@ -277,8 +275,6 @@ class BW extends Country
     {
       $this->user = new User();
       $this->fetch_users($person);
-      //del
-      //var_dump($this->user->get_vars());
       if(!$this->user->is_valid())
       {
         echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
@@ -309,29 +305,12 @@ class BW extends Country
   }
   protected function fetch_role($person)
   {
-    //del
-    if($this->village->vno >= 27)
-    {
-      $role = $person->find('td',4)->plaintext;
-    }
-    else
-    {
-      $role = $person->find('td',3)->plaintext;
-    }
+    $role = $person->find('td',4)->plaintext;
     $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
   }
   protected function fetch_end($person)
   {
-    //del
-    if($this->village->vno >= 27)
-    {
-      $destiny = $person->find('td',3)->plaintext;
-    }
-    else
-    {
-      $destiny = $person->find('td',2)->plaintext;
-    }
-    $destiny = trim($destiny);
+    $destiny = trim($person->find('td',3)->plaintext);
     if($destiny === '生存')
     {
       $this->user->dtid = Data::DES_ALIVE;
