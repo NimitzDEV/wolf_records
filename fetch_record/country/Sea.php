@@ -22,11 +22,17 @@ class Sea extends Giji_Old
     ,"呪狐"=>Data::SKL_CURSEFOX
     ,"半妖"=>Data::SKL_HALFFOX
     ,"仙狐"=>Data::SKL_OLDFOX
+    ,"吸血鬼"=>Data::SKL_VAMPSEA
+    ,"眷属"=>Data::SKL_SERVANT
+    ];
+  private $TM_SEA = [
+     "吸血"=>Data::TM_VAMPIRE
     ];
   private $WTM_SEA = [
      "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
     ,"全ての希望を染めつくした。"=>Data::TM_WOLF
     ,"も、人狼も、妖孤でさえも、"=>Data::TM_LOVERS//誤字
+    ,"の対立に終止符が打たれたと"=>Data::TM_VAMPIRE
   ];
   private   $WTM_RP = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
@@ -51,6 +57,7 @@ class Sea extends Giji_Old
     $this->is_evil = true;
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SEA);
     $this->WTM = array_merge($this->WTM,$this->WTM_SEA);
+    $this->TEAM = array_merge($this->TEAM,$this->TM_SEA);
   }
 
   protected function check_g_rgl()

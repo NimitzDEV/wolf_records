@@ -16,7 +16,8 @@ class Data
   const TM_TERU      = 13; //照坊主
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
-  const TM_SLAVE     = 14; //奴隷
+  const TM_SLAVE     = 14; //奴隷陣営
+  const TM_VAMPIRE   = 15; //吸血鬼陣営
     
 
   //編成 regulation
@@ -59,7 +60,7 @@ class Data
   const RSL_WIN      = 1;
   const RSL_LOSE     = 2;
   const RSL_JOIN     = 3;   //参加(非ガチ村)
-  const RSL_INVALID  = 4;   //無効(新議事での突然死)
+  const RSL_INVALID  = 4;   //無効(一部の国での突然死)
   const RSL_ONLOOKER = 5;   //見物
 
 
@@ -187,4 +188,6 @@ class Data
   const SKL_SUCKER   = 73;  //血人
   const SKL_ONLOOKER = 10;  //見物人
   const SKL_OWNER    = 77;  //支配人
+  const SKL_VAMPSEA  = 106; //吸血鬼
+  const SKL_SERVANT  = 107; //眷属
 }
