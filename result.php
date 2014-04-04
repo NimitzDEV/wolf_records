@@ -28,17 +28,13 @@ EOF;
     <title>
       <?= $id->view_name;?> の人狼戦績 | 人狼戦績まとめ
     </title>
-    <script>
-(function(w,d){
-	w._gaq=[["_setAccount","UA-42678919-1"],["_trackPageview"]];
-	w.___gcfg={lang:"ja"};
-	var s,e = d.getElementsByTagName("script")[0],
-	a=function(u,f){if(!d.getElementById(f)){s=d.createElement("script");
-	s.async=!0;s.src=u;if(f){s.id=f;}e.parentNode.insertBefore(s,e);}};
-	a(("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js","ga");
-	a("//platform.twitter.com/widgets.js","twitter-wjs");
-})(this, document);
-    </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-42678919-1', 'waoon.net'); ga('require', 'displayfeatures');ga('require', 'linkid', 'linkid.js');  ga('send', 'pageview');
+</script>
 <!--[if lt IE 9]>
   <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
   <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -181,6 +177,7 @@ else
        </ul>
       </footer>
     </div>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/checkWidth.js"></script>
     <script src="lib/dynatable.js"></script>
