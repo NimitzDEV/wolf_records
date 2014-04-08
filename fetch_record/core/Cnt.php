@@ -19,7 +19,6 @@ class Cnt
   const Sebas  = 31;
   const Ciel   = 18;
   const Sea_Old= 34;
-  const Guta_P = 25;
   const Phantom= 47;
   const BW= 48;
   const Silence= 35;

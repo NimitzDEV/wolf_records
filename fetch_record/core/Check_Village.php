@@ -247,7 +247,6 @@ class Check_Village
       case Cnt::Xebec:
       case Cnt::Crazy:
       case Cnt::Guta:
-      case Cnt::Guta_P:
       case Cnt::Sea:
       case Cnt::Sea_Old:
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
