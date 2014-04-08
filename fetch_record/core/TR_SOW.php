@@ -6,6 +6,7 @@ trait TR_SOW
 
   function fetch_village()
   {
+    $this->cursedwolf = [];
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
