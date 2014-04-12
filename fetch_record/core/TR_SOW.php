@@ -107,6 +107,7 @@ trait TR_SOW
         }
         break;
       case "試験弐型":
+      case "多分弐型":
         switch(true)
         {
           case ($this->village->nop  >= 10):
