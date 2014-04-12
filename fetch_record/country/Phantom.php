@@ -1,7 +1,8 @@
 <?php
 class Phantom extends Country
 {
-  use AR_SOW,TR_SOW,TR_SOW_RGL;
+  use AR_SOW,TR_SOW_RGL;
+  private $is_ruined;
   protected $RP_PRO = [
      'この村にも'=>'SOW'
     ,'なんか人狼'=>'FOOL'
@@ -10,11 +11,20 @@ class Phantom extends Country
     ,'呼び寄せた'=>'PHANTOM'
     ,'　それはま'=>'DREAM'
     ];
+  protected $WTM_RUINED = [
+     'SOW'    =>'もう人影はない……。'
+    ,'FOOL'   =>'て誰もいなくなった。'
+    ,'JUNA'   =>'が忽然と姿を消した。'
+    ,'WBBS'   =>'が忽然と姿を消した。'
+    ,'PHANTOM'=>'らぬ静けさのみ……。'
+    ,'DREAM'  =>'、静かな朝です……。'
+    ];
   protected $SKL_SP = [
      "妖狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"天狐"=>[Data::SKL_BAT,Data::TM_FAIRY]
     ,"冥狐"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"幻魔"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+    ,"--"=>[Data::SKL_NULL,Data::TM_NONE]
     ];
   protected $DT_DREAM = [
      'のです……。'=>['.+(\(ランダム投票\)|指差しました。)(.+) は人々の意思により処断されたのです……。',Data::DES_HANGED]
@@ -30,8 +40,17 @@ class Phantom extends Country
     parent::__construct($cid,$url_vil,$url_log);
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
   }
+  function fetch_village()
+  {
+    $this->cursedwolf = [];
+    $this->fetch_from_info();
+    $this->fetch_from_pro();
+    $this->fetch_from_epi();
+    //var_dump($this->village->get_vars());
+  }
   protected function fetch_from_info()
   {
+    $this->is_ruined = false;
     $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
 
     $this->fetch_name();
@@ -42,6 +61,15 @@ class Phantom extends Country
     $this->fetch_policy();
 
     $this->fetch->clear();
+  }
+  protected function fetch_name()
+  {
+    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
+  }
+  protected function fetch_nop()
+  {
+    $nop = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$nop);
   }
   protected function fetch_rglid()
   {
@@ -138,6 +166,11 @@ class Phantom extends Country
         break;
     }
   }
+  protected function fetch_days()
+  {
+    $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
+    $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
+  }
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
@@ -164,11 +197,145 @@ class Phantom extends Country
   {
     $this->village->policy = false;
   }
+  protected function fetch_date()
+  {
+    $date = $this->fetch->find('div.mes_date',0)->plaintext;
+    $date = mb_substr($date,mb_strpos($date,"2"),10);
+    $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
+  }
+  protected function fetch_from_epi()
+  {
+    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=40&mode=all&move=page&pageno=1';
+    $this->fetch->load_file($url);
+
+    $this->fetch_wtmid();
+    $this->make_cast();
+  }
   protected function fetch_wtmid()
   {
+    $wtmid = $this->fetch_win_message();
+    if($wtmid === $this->WTM_RUINED[$this->village->rp])
+    {
+      $this->is_ruined = true;
+    }
     $this->village->wtmid = Data::TM_RP;
   }
+  protected function fetch_win_message()
+  {
+    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
+    if(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid))
+    {
+      $do_i = -2;
+      do
+      {
+        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
+        $do_i--;
+      } while(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid));
+    }
+    return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
+  }
+  protected function make_cast()
+  {
+    $cast = $this->fetch->find('tbody tr');
+    array_shift($cast);
+    $this->cast = $cast;
+  }
 
+  protected function insert_users()
+  {
+    $list = [];
+    $this->users = [];
+    foreach($this->cast as $key=>$person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      $this->users[] = $this->user;
+      if($this->is_ruined)
+      {
+        //廃村村はリストを作らない
+        continue;
+      }
+      //生存者を除く名前リストを作る
+      $list[] = $this->user->persona;
+      if($this->user->end !== null)
+      {
+        unset($list[$key]);
+      }
+    }
+    if($this->is_ruined === false)
+    {
+      $this->fetch_from_daily($list);
+    }
+
+    foreach($this->users as $user)
+    {
+      if(!$user->is_valid())
+      {
+        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+      }
+    }
+  }
+  protected function fetch_users($person)
+  {
+    $this->user->persona = trim($person->find('td',0)->plaintext);
+    $this->fetch_player($person);
+    $this->fetch_role($person);
+    $this->fetch_sklid();
+    $this->fetch_rltid();
+
+    if($person->find('td',2)->plaintext === '生存')
+    {
+      $this->insert_alive();
+    }
+  }
+  protected function fetch_player($person)
+  {
+    $player =trim($person->find("td a",0)->plaintext);
+    if(isset($this->doppel))
+    {
+      $this->user->player =$this->check_doppel($player);
+    }
+    else
+    {
+      $this->user->player = $player;
+    }
+  }
+  protected function insert_alive()
+  {
+    $this->user->dtid = Data::DES_ALIVE;
+    $this->user->end = $this->village->days;
+    $this->user->life = 1.000;
+  }
+  protected function fetch_role($person)
+  {
+    $role = $person->find('td',3)->plaintext;
+    if(mb_ereg_match("\A.+を希望\z",$role))
+    {
+      $this->user->role = '--';
+    }
+    else
+    {
+      $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
+    }
+  }
+  protected function fetch_sklid()
+  {
+    if($this->village->rp === 'FOOL')
+    {
+      $this->user->sklid = $this->SKL_FOOL[$this->user->role][0];
+      $this->user->tmid = $this->SKL_FOOL[$this->user->role][1];
+    }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$this->user->role][0];
+      $this->user->tmid = $this->SKILL[$this->user->role][1];
+    }
+    //呪狼の名前をメモ
+    if($this->user->sklid === Data::SKL_CURSEWOLF)
+    {
+      $this->cursewolf[] = $this->user->persona;
+    }
+  }
   protected function fetch_rltid()
   {
     $this->user->rltid = Data::RSL_JOIN;

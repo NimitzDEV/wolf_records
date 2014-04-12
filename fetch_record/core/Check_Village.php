@@ -142,6 +142,11 @@ class Check_Village
     {
       return true;
     }
+    if($this->cid === Cnt::Phantom)
+    {
+      echo $vno.' is ruined BUT inserted fetch list.'.PHP_EOL;
+      return true;
+    }
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {

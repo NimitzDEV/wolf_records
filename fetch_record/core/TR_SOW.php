@@ -380,6 +380,11 @@ trait TR_SOW
         $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
         $this->fetch->load_file($url);
         $announce = $this->fetch->find($find);
+        if($row >= 70)
+        {
+          echo 'NOTICE: too deep row in fetch_daily_url'.PHP_EOL;
+          break;
+        }
       } while (count($announce) <= 1);
     }
     return $announce;

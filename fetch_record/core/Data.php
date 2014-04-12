@@ -190,4 +190,5 @@ class Data
   const SKL_OWNER    = 77;  //支配人
   const SKL_VAMPSEA  = 106; //吸血鬼
   const SKL_SERVANT  = 107; //眷属
+  const SKL_NULL     = 108; //なし(廃村雑談村など)
 }
