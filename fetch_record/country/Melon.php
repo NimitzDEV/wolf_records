@@ -10,6 +10,7 @@ class Melon extends Country
        ,"crimson"=>"crimson&lt;瓜科&gt;"
        ,"kei"    =>"kei&lt;F瓜旧薔薇&gt;"
        ,"suzu"   =>"suzu&lt;瓜科&gt;"
+       ,"tora"   =>"tora&lt;瓜科&gt;"
        ,"uni"    =>"uni&lt;F国&gt;"
        ,"maymay" =>"maymay&lt;審問瓜&gt;"
     ];
