@@ -54,6 +54,11 @@ class Sea_Old extends Giji_Old
     $this->DESTINY = array_merge($this->DESTINY,$this->DT_LINK);
   }
 
+  protected function fetch_nop()
+  {
+    $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
+    $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
+  }
   protected function check_g_rgl()
   {
     switch(true)

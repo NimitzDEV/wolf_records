@@ -60,6 +60,11 @@ class Sea extends Giji_Old
     $this->TEAM = array_merge($this->TEAM,$this->TM_SEA);
   }
 
+  protected function fetch_nop()
+  {
+    $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
+    $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
+  }
   protected function check_g_rgl()
   {
     switch(true)
