@@ -6,14 +6,15 @@ class Ning extends Country
   protected $doppel = 
     [
        "asaki"    =>"asaki&lt;G国&gt;"
-      ,"kaguya"    =>"kaguya&lt;G国&gt;"
+      ,"kaguya"   =>"kaguya&lt;G国&gt;"
       ,"motimoti" =>"motimoti&lt;G薔薇国&gt;"
       ,"shinobu"  =>"shinobu&lt;G国&gt;"
       ,"sig"      =>"sig&lt;G国&gt;"
       ,"sin"      =>"sin&lt;G国&gt;"
-      ,"blue"      =>"blue&lt;G国&gt;"
-      ,"warabi"      =>"warabi&lt;CFG国&gt;"
-      ,"takano"      =>"takano&lt;G国&gt;"
+      ,"blue"     =>"blue&lt;G国&gt;"
+      ,"warabi"   =>"warabi&lt;CFG国&gt;"
+      ,"takano"   =>"takano&lt;G国&gt;"
+      ,"kino"     =>"kino&lt;G国&gt;"
     ];
   private $skill =
     [
