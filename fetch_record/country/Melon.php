@@ -13,6 +13,7 @@ class Melon extends Country
        ,"tora"   =>"tora&lt;瓜科&gt;"
        ,"uni"    =>"uni&lt;F国&gt;"
        ,"maymay" =>"maymay&lt;審問瓜&gt;"
+       ,"barista" =>"barista&lt;瓜科&gt;"
     ];
   function __construct()
   {
