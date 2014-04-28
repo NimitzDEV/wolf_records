@@ -15,6 +15,7 @@ class Ning extends Country
       ,"warabi"   =>"warabi&lt;CFG国&gt;"
       ,"takano"   =>"takano&lt;G国&gt;"
       ,"kino"     =>"kino&lt;G国&gt;"
+      ,"tokei"    =>"tokei&lt;G国&gt;"
     ];
   private $skill =
     [

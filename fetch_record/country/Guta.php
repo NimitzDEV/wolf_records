@@ -19,6 +19,7 @@ class Guta extends Giji_Old
   protected $doppel = 
     [
        "yuki"   =>"yuki&lt;ぐた&gt;"
+      ,"tokei"  =>"tokei&lt;ぐた&gt;"
     ];
   function __construct()
   {
