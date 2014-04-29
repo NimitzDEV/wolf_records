@@ -144,6 +144,7 @@ trait TR_SOW
         break;
       case "Ｇ国":
       case "共有？…誰？"://薔薇
+      case "じじい"://千夜国
         switch(true)
         {
           case ($this->village->nop  >= 16):
