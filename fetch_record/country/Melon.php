@@ -458,6 +458,11 @@ class Melon extends Country
     {
       $this->user->rltid = Data::RSL_JOIN;
     }
+    else if($this->user->player !== "master" && $this->user->dtid === Data::DES_EATEN && $this->user->end === 2)
+    {
+      //喋るダミー(IDがmasterではない)は参加扱いにする
+      $this->user->rltid = Data::RSL_JOIN;
+    }
     else
     {
       $this->user->rltid = $this->RSL[$person->find("td",2)->plaintext];
