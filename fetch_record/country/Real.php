@@ -3,10 +3,6 @@
 class Real extends Country
 {
   use TR_SOW,AR_SOW,TR_SOW_RGL;
-  protected $doppel = 
-    [
-       "yuki"   =>"yuki&lt;リア充&gt;"
-    ];
   function __construct()
   {
     $cid = 27;

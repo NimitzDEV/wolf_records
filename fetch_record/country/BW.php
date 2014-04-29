@@ -294,7 +294,7 @@ class BW extends Country
   protected function fetch_player($person)
   {
     $player =trim($person->find("td a",0)->plaintext);
-    if(isset($this->doppel))
+    if(isset($this->d_BW))
     {
       $this->user->player =$this->check_doppel($player);
     }

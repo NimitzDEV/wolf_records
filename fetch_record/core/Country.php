@@ -2,6 +2,7 @@
 
 abstract class Country
 {
+  use TR_Doppel;
   protected  $check
             ,$cid
             ,$url
@@ -22,7 +23,6 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [9,25,34,41,44,52,55,63,67,71,73,76,79,88,90,92];
     if(!$list)
     {
       $this->check->remove_queue();
@@ -97,10 +97,10 @@ abstract class Country
 
   protected function check_doppel($player)
   {
-    if(array_key_exists($player,$this->doppel))
+    if(array_key_exists($player,$this->{'d_'.get_class($this)}))
     {
-      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->doppel[$player].PHP_EOL;
-      return $this->doppel[$player];
+      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->{'d_'.get_class($this)}[$player].PHP_EOL;
+      return $this->{'d_'.get_class($this)}[$player];
     }
     else
     {

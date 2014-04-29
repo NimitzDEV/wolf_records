@@ -7,9 +7,6 @@ class Chitose extends Country
        'ようちえん'=>'KIDS'
       ,'メトロポリスβ'=>'METRO'
     ];
-  protected $doppel = [
-      'takano'=>'takano&lt;千夜国&gt;'
-    ];
 
   function __construct()
   {

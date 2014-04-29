@@ -16,11 +16,6 @@ class Guta extends Giji_Old
   protected $RP_SP = [
     "昏き宵闇の琥珀"=>'AMBER'
   ];
-  protected $doppel = 
-    [
-       "yuki"   =>"yuki&lt;ぐた&gt;"
-      ,"tokei"  =>"tokei&lt;ぐた&gt;"
-    ];
   function __construct()
   {
     $cid = 11;
