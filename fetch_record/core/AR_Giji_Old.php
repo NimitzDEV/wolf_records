@@ -12,6 +12,7 @@ trait AR_Giji_Old
     ,"邪気"=>Data::TM_EFB
     ,"裏切"=>Data::TM_EVIL
     ,"据え"=>Data::TM_FISH
+    ,"--"  =>Data::TM_NONE
     ,"勝利"=>Data::TM_NONE
     ];
   public $EVIL = [Data::RGL_E,Data::RGL_S_E,Data::RGL_ETC];
