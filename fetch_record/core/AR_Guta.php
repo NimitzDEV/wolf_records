@@ -2,17 +2,17 @@
 
 trait AR_Guta
 {
-  public $TM_AMBER = [
-     "町人"=>Data::TM_VILLAGER
-    ,"魔術"=>Data::TM_WOLF
-    ,"琥珀"=>Data::TM_FAIRY
-    ,"星に"=>Data::TM_LOVERS
-    ,"星の"=>Data::TM_LOVERS //エピ表記
-    ,"はぐ"=>Data::TM_LWOLF
-    ,"吟遊"=>Data::TM_PIPER
-    ,"賭博"=>Data::TM_EFB
-    ,"不和"=>Data::TM_EVIL
-    ,"据え"=>Data::TM_FISH
+  public $WTM_MILLERS = [
+     "の人物が消え失せた時、其処"=>Data::TM_NONE
+    ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
+    ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
+    ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
+    ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
+    ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
+    ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
+    ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF
+    ,"達は気付いてしまった。もう"=>Data::TM_PIPER
+    ,"はたった独りだけを選んだ。"=>Data::TM_EFB
     ];
   public $SKL_MILLERS = [//ミラーズホロウ
      "村人"=>Data::SKL_VILLAGER
@@ -25,6 +25,18 @@ trait AR_Guta
     ,"長老"=>Data::SKL_ELDER
     ,"人狼"=>Data::SKL_WISEWOLF
     ,"キューピッド"=>Data::SKL_QP
+    ];
+  public $TM_AMBER = [
+     "町人"=>Data::TM_VILLAGER
+    ,"魔術"=>Data::TM_WOLF
+    ,"琥珀"=>Data::TM_FAIRY
+    ,"星に"=>Data::TM_LOVERS
+    ,"星の"=>Data::TM_LOVERS //エピ表記
+    ,"はぐ"=>Data::TM_LWOLF
+    ,"吟遊"=>Data::TM_PIPER
+    ,"賭博"=>Data::TM_EFB
+    ,"不和"=>Data::TM_EVIL
+    ,"据え"=>Data::TM_FISH
     ];
   public $SKL_AMBER = [//昏き宵闇の琥珀
      "町人"=>Data::SKL_VILLAGER

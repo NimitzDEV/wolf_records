@@ -14,7 +14,8 @@ class Guta extends Giji_Old
     ,"キューピッド"=>Data::SKL_QP
   ];
   protected $RP_SP = [
-    "昏き宵闇の琥珀"=>'AMBER'
+     "ミラーズホロウ"=>'MILLERS'
+    ,"昏き宵闇の琥珀"=>'AMBER'
   ];
   function __construct()
   {
@@ -77,22 +78,18 @@ class Guta extends Giji_Old
       //役職欄に絆などついている場合
       $sklid = mb_substr($role,0,mb_strpos($role,"、"));
     }
-    switch($this->village->rp)
+    if($this->village->rp !== 'NORMAL')
     {
-      case "昏き宵闇の琥珀":
-        $this->user->sklid = $this->SKL_AMBER[$sklid];
-        break;
-      case "ミラーズホロウ":
-        $this->user->sklid = $this->SKL_MILLERS[$sklid];
-        break;
-      default:
-        $this->user->sklid = $this->SKILL[$sklid];
-        break;
+      $this->user->sklid = $this->{'SKL_'.$this->village->rp}[$sklid];
+    }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$sklid];
     }
   }
   protected function fetch_tmid($result)
   {
-    if($this->village->rp === "昏き宵闇の琥珀")
+    if($this->village->rp === "AMBER")
     {
       $this->user->tmid = $this->TM_AMBER[mb_substr($result,0,2)];
     }
@@ -104,7 +101,7 @@ class Guta extends Giji_Old
   }
   protected function fetch_dtid($result)
   {
-    if($this->village->rp === "昏き宵闇の琥珀")
+    if($this->village->rp === "AMBER")
     {
       $this->user->dtid = $this->DES_AMBER[$result];
     }

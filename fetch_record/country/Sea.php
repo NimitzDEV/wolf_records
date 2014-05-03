@@ -25,9 +25,6 @@ class Sea extends Giji_Old
     ,"吸血鬼"=>Data::SKL_VAMPSEA
     ,"眷属"=>Data::SKL_SERVANT
     ];
-  private $TM_SEA = [
-     "吸血"=>Data::TM_VAMPIRE
-    ];
   private $WTM_SEA = [
      "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
     ,"全ての希望を染めつくした。"=>Data::TM_WOLF
@@ -57,7 +54,6 @@ class Sea extends Giji_Old
     $this->is_evil = true;
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SEA);
     $this->WTM = array_merge($this->WTM,$this->WTM_SEA);
-    $this->TEAM = array_merge($this->TEAM,$this->TM_SEA);
   }
 
   protected function fetch_nop()
