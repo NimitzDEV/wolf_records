@@ -221,7 +221,15 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_rp()
   {
-    $this->village->rp = trim($this->fetch->find('dl.mes_text_report dt',0)->plaintext);
+    $rp = trim($this->fetch->find('dl.mes_text_report dt',0)->plaintext);
+    if(array_key_exists($rp,$this->RP_SP))
+    {
+      $this->village->rp = $this->RP_SP[$rp]; 
+    }
+    else
+    {
+      $this->village->rp = 'NORMAL'; 
+    }
   }
   protected function fetch_policy()
   {
@@ -280,9 +288,9 @@ abstract class Giji_Old extends Country
         } while(preg_match("/村の更新日が延長されました/",$wtmid));
       }
       $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
-      if(array_key_exists($this->village->rp,$this->RP_SP))
+      if($this->village->rp !== 'NORMAL')
       {
-        $this->village->wtmid = $this->{'WTM_'.$this->RP_SP[$this->village->rp]}[$wtmid];
+        $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
       }
       else
       {

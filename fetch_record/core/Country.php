@@ -23,6 +23,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
+    //$list = [35];
     if(!$list)
     {
       $this->check->remove_queue();

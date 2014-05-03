@@ -7,12 +7,15 @@ trait AR_Giji_Old
     ,"人狼"=>Data::TM_WOLF
     ,"妖精"=>Data::TM_FAIRY
     ,"恋人"=>Data::TM_LOVERS
+    ,"誓い"=>Data::TM_LOVERS //象牙国
     ,"一匹"=>Data::TM_LWOLF
     ,"笛吹"=>Data::TM_PIPER
+    ,"宣教"=>Data::TM_PIPER //象牙国
     ,"邪気"=>Data::TM_EFB
     ,"裏切"=>Data::TM_EVIL
     ,"据え"=>Data::TM_FISH
-    ,"--"  =>Data::TM_NONE
+    ,"吸血"=>Data::TM_VAMPIRE //深海国
+    ,"--"  =>Data::TM_NONE //2d突然死の片想い
     ,"勝利"=>Data::TM_NONE
     ];
   public $EVIL = [Data::RGL_E,Data::RGL_S_E,Data::RGL_ETC];
@@ -84,6 +87,7 @@ trait AR_Giji_Old
     ];
   public $RGL_FREE = [
      '村人x3 占い師x1 狂人x1 人狼x1'=>Data::RGL_S_1
+    ,'村人x5 占い師x1 霊能者x1 人狼x2'=>Data::RGL_S_2
     ,'村人x2 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
     ,'村人x3 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
     ,'村人x4 占い師x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
@@ -94,6 +98,7 @@ trait AR_Giji_Old
     ,'村人x7 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_S_3
     ,'村人x4 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
     ,'村人x5 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
+    ,'村人x5 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
     ,'村人x5 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
     ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
     ,'村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C

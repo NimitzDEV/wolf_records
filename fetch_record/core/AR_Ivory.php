@@ -89,4 +89,15 @@ trait AR_Ivory
     ,"鱗魚人"=>Data::SKL_FISH
     ,"遊び人"=>Data::SKL_PLAYBOY
     ];
+  public $WTM_MAFIA = [
+     "の人物が消え失せた時、其処"=>Data::TM_NONE //不明
+    ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER //不明
+    ,"は自らの過ちに気付いた。マ"=>Data::TM_WOLF
+    ,"の人狼を退治した……。だが"=>Data::TM_FAIRY //不明
+    ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY //不明
+    ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS //不明
+    ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF //不明
+    ,"達は気付いてしまった。もう"=>Data::TM_PIPER //不明
+    ,"はたった独りだけを選んだ。"=>Data::TM_EFB //不明
+    ];
 }

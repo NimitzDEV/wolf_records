@@ -29,29 +29,19 @@ class Ivory extends Giji_Old
     ,"ピクシー"=>Data::SKL_PIXY
     ,"キューピッド"=>Data::SKL_QP
     ];
+  protected $RP_SP = [
+     "ミラーズホロウ"=>'MILLERS'
+    ,"マフィア"=>'MAFIA'
+  ];
   function __construct()
   {
     $cid = 50;
     $url_vil = "http://kids.sphere.sc/tabula/lupus/sow.cgi?vid=";
     $url_log = "http://kids.sphere.sc/tabula/lupus/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
-    $this->is_evil = false; //裏切り陣営なしのガチ国
     $this->SKILL = array_merge($this->SKILL,$this->SKL_IVORY);
   }
 
-  protected function fetch_from_info()
-  {
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_rglid();
-    $this->fetch_days();
-    $this->fetch_rp();
-
-    $this->village->policy = true;
-    $this->fetch->clear();
-  }
   protected function fetch_name()
   {
     $name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
@@ -186,7 +176,37 @@ class Ivory extends Giji_Old
   protected function fetch_rp()
   {
     $rp = trim($this->fetch->find('dl.mes_text_report dt',0)->plaintext);
-    $this->village->rp = mb_ereg_replace('文章セット：「(.+)」 ','\\1',$rp);
+    $rp = mb_ereg_replace('文章セット：「(.+)」','\\1',$rp);
+    if(array_key_exists($rp,$this->RP_SP))
+    {
+      $this->village->rp = $this->RP_SP[$rp]; 
+    }
+    else
+    {
+      $this->village->rp = 'NORMAL'; 
+    }
+  }
+  protected function fetch_wtmid()
+  {
+    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
+    if(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid))
+    {
+      $do_i = -2;
+      do
+      {
+        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
+        $do_i--;
+      } while(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid));
+    }
+    $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
+    if($this->village->rp !== 'NORMAL')
+    {
+      $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
+    }
+    else
+    {
+      $this->village->wtmid = $this->WTM[$wtmid];
+    }
   }
   protected function fetch_sklid()
   {
@@ -200,22 +220,18 @@ class Ivory extends Giji_Old
       //役職欄に絆などついている場合
       $sklid = mb_substr($role,0,mb_strpos($role,"、"));
     }
-    switch($this->village->rp)
+    if($this->village->rp !== 'NORMAL')
     {
-      case "マフィア":
-        $this->user->sklid = $this->SKL_MAFIA[$sklid];
-        break;
-      case "ミラーズホロウ":
-        $this->user->sklid = $this->SKL_MILLERS[$sklid];
-        break;
-      default:
-        $this->user->sklid = $this->SKILL[$sklid];
-        break;
+      $this->user->sklid = $this->{'SKL_'.$this->village->rp}[$sklid];
+    }
+    else
+    {
+      $this->user->sklid = $this->SKILL[$sklid];
     }
   }
   protected function fetch_tmid($result)
   {
-    if($this->village->rp === "マフィア")
+    if($this->village->rp === "MAFIA")
     {
       $this->user->tmid = $this->TM_MAFIA[mb_substr($result,0,2)];
     }
