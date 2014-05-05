@@ -279,10 +279,12 @@ abstract class Giji extends Country
   }
   protected function fetch_role($person)
   {
-    $sklid = preg_replace('/.+SOW_RECORD.CABALA.roles\[(\d+)\],.+/s',"$1",$person);
+    //$sklid = preg_replace('/.+SOW_RECORD.CABALA.roles\[(\d+)\],.+/s',"$1",$person);
+    $sklid = preg_replace('/.+giji\.potof\.roles\((\d+), \d+\);.+/s',"$1",$person);
     $this->user->sklid =$this->SKILL[$sklid][0];
 
-    $gift = (int)preg_replace('/.+SOW_RECORD.CABALA.gifts\[(-*\d+)\].+/s',"$1",$person);
+    //$gift = (int)preg_replace('/.+SOW_RECORD.CABALA.gifts\[(-*\d+)\].+/s',"$1",$person);
+    $gift = (int)preg_replace('/.+giji\.potof\.roles\(\d+, (\d+)\);.+/s',"$1",$person);
     $love = preg_replace('/.+pl\.love = "([^"]*)".+/s',"$1",$person);
     //恩恵か恋邪気絆があれば追加
     if($gift >= 2 || $love !== '')
