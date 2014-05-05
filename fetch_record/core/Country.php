@@ -52,7 +52,7 @@ abstract class Country
         continue;
       }
       $this->fetch->clear();
-      //continue;
+      continue;
       $db = new Insert_DB($this->cid);
       if(!$db->connect())
       {
