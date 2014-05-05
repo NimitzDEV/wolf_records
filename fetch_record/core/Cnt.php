@@ -22,5 +22,6 @@ class Cnt
   const Sebas  = 31;
   const Phantom= 47;
   const BW     = 48;
+  const Dark   = 51;
   const Silence= 35;
 }
