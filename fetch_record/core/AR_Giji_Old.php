@@ -140,4 +140,28 @@ trait AR_Giji_Old
     ,"後追死"=>Data::DES_SUICIDE
     ,"恐怖死"=>Data::DES_FEARED
     ];
+  public $WTM_MILLERS = [
+     "の人物が消え失せた時、其処"=>Data::TM_NONE
+    ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
+    ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
+    ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
+    ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
+    ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
+    ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
+    ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF
+    ,"達は気付いてしまった。もう"=>Data::TM_PIPER
+    ,"はたった独りだけを選んだ。"=>Data::TM_EFB
+    ];
+  public $SKL_MILLERS = [//ミラーズホロウ
+     "村人"=>Data::SKL_VILLAGER
+    ,"預言者"=>Data::SKL_SAGE
+    ,"守護者"=>Data::SKL_HUNTER
+    ,"狩人"=>Data::SKL_BOUNTY
+    ,"魔女"=>Data::SKL_WITCH
+    ,"少女"=>Data::SKL_GIRL
+    ,"スケープゴート"=>Data::SKL_SG
+    ,"長老"=>Data::SKL_ELDER
+    ,"人狼"=>Data::SKL_WISEWOLF
+    ,"キューピッド"=>Data::SKL_QP
+    ];
 }
