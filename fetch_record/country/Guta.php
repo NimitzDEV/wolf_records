@@ -3,16 +3,6 @@
 class Guta extends Giji_Old
 {
   use AR_Guta;
-  private $SKL_GUTA = [
-     "共有者"=>Data::SKL_MASON
-    ,"狩人"=>Data::SKL_HUNTER
-    ,"コウモリ人間"=>Data::SKL_LUNAPATH
-    ,"Ｃ国狂人"=>Data::SKL_LUNAWHS
-    ,"首なし騎士"=>Data::SKL_HEADLESS
-    ,"ハムスター人間"=>Data::SKL_FAIRY
-    ,"ピクシー"=>Data::SKL_PIXY
-    ,"キューピッド"=>Data::SKL_QP
-  ];
   protected $RP_SP = [
      "ミラーズホロウ"=>'MILLERS'
     ,"昏き宵闇の琥珀"=>'AMBER'
@@ -24,7 +14,6 @@ class Guta extends Giji_Old
     $url_log = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->is_evil = true;
-    $this->SKILL = array_merge($this->SKILL,$this->SKL_GUTA);
   }
 
   protected function fetch_nop()

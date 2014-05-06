@@ -77,6 +77,15 @@ trait AR_Giji_Old
     ,"笛吹き"=>Data::SKL_PIPER
     ,"鱗魚人"=>Data::SKL_FISH
     ,"遊び人"=>Data::SKL_PLAYBOY
+    //人狼物語用言い換え
+    ,"共有者"=>Data::SKL_MASON
+    ,"狩人"=>Data::SKL_HUNTER
+    ,"コウモリ人間"=>Data::SKL_LUNAPATH
+    ,"Ｃ国狂人"=>Data::SKL_LUNAWHS
+    ,"首なし騎士"=>Data::SKL_HEADLESS
+    ,"ハムスター人間"=>Data::SKL_FAIRY
+    ,"ピクシー"=>Data::SKL_PIXY
+    ,"キューピッド"=>Data::SKL_QP
     ];
   public $RGL_SP = [
      'ミラーズホロウ' =>Data::RGL_MILL
