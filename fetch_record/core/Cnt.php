@@ -19,6 +19,7 @@ class Cnt
   const Sea    = 45;
   const Sea_Old= 34;
   const Ivory  = 50;
+  const Crescent= 52;
   const Sebas  = 31;
   const Phantom= 47;
   const BW     = 48;
