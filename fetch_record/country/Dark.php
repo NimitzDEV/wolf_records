@@ -42,7 +42,7 @@ class Dark extends Country
     ,'と退散して行った…。'=>Data::TM_FAIRY
   ];
   protected $SKL_SP = [
-     "町人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
+     "町民"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
     ,"憑かれた人"=>[Data::SKL_LINEAGE,Data::TM_VILLAGER]
     ,"悟られ狂人"=>[Data::SKL_SUSPECT,Data::TM_WOLF]
     ];
@@ -84,9 +84,15 @@ class Dark extends Country
     ,"面白がり"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
     ,"すご担"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
     ];
-  protected $DT_SHIP = [
+  protected $DESTINY = [
      '処刑された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
-    ,'刑された……'=>['.+(\(ランダム投票\)|投票した) ?(.+) は村人の手により処刑された……',Data::DES_HANGED]
+    ,'刑された……'=>['.+(\(ランダム投票\)|投票した) ?(.+) は(村人|町の住人|村の住人)の手により処刑された……',Data::DES_HANGED]
+    ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
+    ,'発見された。'=>['(.+)朝、 ?(.+) が無残.+',Data::DES_EATEN]
+    ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
+  ];
+  protected $DT_SHIP = [
+     '刑された……'=>['.+(\(ランダム投票\)|投票した) ?(.+) は人々の手により処刑された……',Data::DES_HANGED]
     ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
     ,'発見された。'=>['(.+)朝、 ?(.+) が名状.+',Data::DES_EATEN]
     ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
@@ -138,6 +144,31 @@ class Dark extends Country
     }
   }
 
+  protected function fetch_users($person)
+  {
+    $this->fetch_persona($person);
+    $this->fetch_player($person);
+    $this->fetch_role($person);
+    $this->fetch_sklid();
+    $this->fetch_rltid();
+
+    if($person->find('td',2)->plaintext === '生存')
+    {
+      $this->insert_alive();
+    }
+  }
+  protected function fetch_persona($person)
+  {
+    $persona = trim($person->find('td',0)->plaintext);
+    if(preg_match('/\(勝利\)$/',$persona))
+    {
+      $this->user->persona = mb_ereg_replace('\(勝利\)','',$persona);
+    }
+    else
+    {
+      $this->user->persona = $persona;
+    }
+  }
   protected function fetch_sklid()
   {
     switch($this->village->rp)
@@ -205,15 +236,15 @@ class Dark extends Country
             $dtid = $this->DT_SHIP[$key][1];
           }
         }
-        else if(!isset($this->DT_NORMAL[$key]))
+        else if(!isset($this->DESTINY[$key]))
         {
           continue;
         }
         else
         {
-          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
+          $persona = trim(mb_ereg_replace($this->DESTINY[$key][0],'\2',$destiny,'m'));
           $key_u = array_search($persona,$list);
-          $dtid = $this->DT_NORMAL[$key][1];
+          $dtid = $this->DESTINY[$key][1];
         }
         //妖魔陣営の無残死は呪殺死にする
         if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
