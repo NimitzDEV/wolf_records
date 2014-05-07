@@ -84,9 +84,14 @@ trait AR_Guta
     ,"恐怖死"=>Data::DES_FEARED//不明
     ];
   public $WTM_AMBER = [
-     "師を全て殺すことが出来た。"=>Data::TM_VILLAGER
+     "は迷宮入りのまま終わった。"=>Data::TM_NONE
+    ,"師を全て殺すことが出来た。"=>Data::TM_VILLAGER
     ,"師達は、残った人々を琥珀に"=>Data::TM_WOLF
     ,"師を殺し終わった後。仲間を"=>Data::TM_FAIRY
+    ,"者を粗方琥珀に変えた後。…"=>Data::TM_FAIRY
     ,"も、魔術師も、琥珀妖精でさ"=>Data::TM_LOVERS
+    ,"達は、そして魔術師達も自ら"=>Data::TM_LWOLF
+    ,"詩人の歌声が響きわたる。歌"=>Data::TM_PIPER
+    ,"は決した。賭けの対象となっ"=>Data::TM_EFB
     ];
 }
