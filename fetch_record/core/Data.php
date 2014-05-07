@@ -18,8 +18,7 @@ class Data
   const TM_ONLOOKER  = 12; //見物人  
   const TM_SLAVE     = 14; //奴隷陣営
   const TM_VAMPIRE   = 15; //吸血鬼陣営
-  const TM_YANDERE   = 16; //恋未練陣営
-  const TM_HANNYA    = 17; //般若陣営
+  const TM_YANDERE   = 16; //悪霊陣営
     
 
   //編成 regulation
@@ -195,7 +194,7 @@ class Data
   const SKL_HALFFOX  =104;  //半妖 風花妖精+襲撃を受けると仙狐になる
   const SKL_OLDFOX   =105;  //仙狐 処刑者の役職が分かる
   const SKL_WITCHFOX =129;  //野狐 毒薬行使
-  const SKL_CRENINE  =130;  //九尾 三日月 野狐+全秘密ログ閲覧
+  const SKL_NINECRE  =130;  //九尾 三日月 野狐+全秘密ログ閲覧
   const SKL_HUNFAIRY =131;  //謀狐 護衛行使
   const SKL_SEALFAIRY=132;  //雪女 特殊能力封印
 
@@ -208,6 +207,8 @@ class Data
 
   const SKL_EFB      = 51;  //邪気悪魔
   const SKL_DUEL     =136;  //決闘者 自撃ち邪気悪魔
+  const SKL_JEALOUSY =137;  //般若 恋陣営が誰かを知る
+
   const SKL_LWOLF    = 56;  //一匹狼
   const SKL_PIPER    = 57;  //笛吹き
   const SKL_VAMPSEA  =106;  //吸血鬼 深海 2dに二人を眷属に変える
@@ -217,7 +218,6 @@ class Data
   const SKL_TERU     = 76;  //照坊主
   const SKL_SLAVE    = 91;  //奴隷
   const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
-  const SKL_HANNYA   =137;  //般若 恋陣営が全員死ねば勝利
   const SKL_SUCKER   = 73;  //血人 陣営なし
 
   const SKL_ONLOOKER = 10;  //見物人
