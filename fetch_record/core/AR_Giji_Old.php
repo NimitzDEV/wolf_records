@@ -125,10 +125,14 @@ trait AR_Giji_Old
   public $WTM = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
+    ,"が去り、まぶしい光が降り注"=>Data::TM_VILLAGER
     ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
+    ,"村を覆い、村人達は自らの過"=>Data::TM_WOLF
     ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
     ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
     ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
+    ,"じ風が舞い、村人達は凱歌を"=>Data::TM_FAIRY
+    ,"じ風が舞い、村中に人狼達の"=>Data::TM_FAIRY
     ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
     ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF
     ,"達は気付いてしまった。もう"=>Data::TM_PIPER
@@ -152,7 +156,6 @@ trait AR_Giji_Old
   public $WTM_MILLERS = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
-    ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
     ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
     ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
     ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
