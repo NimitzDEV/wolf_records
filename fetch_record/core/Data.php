@@ -18,6 +18,8 @@ class Data
   const TM_ONLOOKER  = 12; //見物人  
   const TM_SLAVE     = 14; //奴隷陣営
   const TM_VAMPIRE   = 15; //吸血鬼陣営
+  const TM_YANDERE   = 16; //恋未練陣営
+  const TM_HANNYA    = 17; //般若陣営
     
 
   //編成 regulation
@@ -112,21 +114,31 @@ class Data
   const SKL_GUARDIAN = 54;  //守護獣
   const SKL_BAPTIST  = 78;  //洗礼者
   const SKL_SNIPER   = 79;  //狙撃手
-  const SKL_JUDGE    = 84;  //審判者
-  const SKL_IDSEER   = 85;  //魂魄師 
-  const SKL_CONTACT  = 87;  //交信者
-  const SKL_NOBLE    = 90;  //貴族
-  const SKL_FUGITIVE = 92;  //容疑者
-  const SKL_LYCAN    = 93;  //獣化病
-  const SKL_ONMYO    = 94;  //陰陽師
-  const SKL_ASSASSIN = 95;  //暗殺者
-  const SKL_SEERUNSKL= 96;  //見習い占い師
-  const SKL_KABUKI   = 97;  //傾奇者
+  const SKL_JUDGE    = 84;  //審判者 おおまかな陣営占い
+  const SKL_IDSEER   = 85;  //魂魄師 中身占い師、呪殺能力はない
+  const SKL_CONTACT  = 87;  //交信者 初日に一人と交信ログで会話可能にする
+  const SKL_NOBLE    = 90;  //貴族 襲撃を受けると身代わりに奴隷全員が死ぬ
+  const SKL_FUGITIVE = 92;  //容疑者 オーラなし狼血族
+  const SKL_LYCAN    = 93;  //獣化病 常時発動錬金術師
+  const SKL_ONMYO    = 94;  //陰陽師 妖魔系か暗殺者を呪殺
+  const SKL_ASSASSIN = 95;  //暗殺者 襲撃行使、占われると溶ける
+  const SKL_SEERUNSKL= 96;  //見習い占い師 たまに結果が見えない占師
+  const SKL_KABUKI   = 97;  //傾奇者 被襲撃でランダムに役職変化
+  const SKL_WILD     =109;  //野生児 残狼人数が分かる
+  const SKL_IRON     =110;  //鉄人 襲撃を受けない
+  const SKL_DEMO     =111;  //陽動者 襲撃の身代わりになれる
+  const SKL_GHOST    =112;  //守護霊 死んでから護衛できる
+  const SKL_SPIRIT   =113;  //霊感少年 死者と話せる
+  const SKL_ASSCRES  =114;  //暗殺者(三日月) 襲撃行使、狼や妖魔も殺害可
+  const SKL_FORTUNE  =115;  //運命読み 絆の有無と種類を占う
+  const SKL_FFAIRY   =116;  //思い込み狐
+  const SKL_FCOURTS  =117;  //思い込み求愛者
+  const SKL_REINCRNT =118;  //死後三日後ランダムな役職で復活
 
   const SKL_LUNATIC  =  6;  //狂人
-  const SKL_LUNAWHS  =  8;  //C狂
+  const SKL_LUNAWHS  =  8;  //囁き狂人
   const SKL_FANATIC  = 36;  //狂信者
-  const SKL_LUNAMIM  = 63;  //狂鳴者
+  const SKL_LUNAMIM  = 63;  //狂鳴者 共鳴ログに紛れ込む
   const SKL_LUNAPATH = 35;  //叫迷狂人
   const SKL_JAMMER   = 34;  //邪魔之民
   const SKL_MUPPETER = 37;  //人形使い
@@ -134,17 +146,21 @@ class Data
   const SKL_LUNASAGE = 40;  //魔術師
   const SKL_LUNAPRI  = 39;  //魔神官
   const SKL_SNATCH   = 60;  //宿借之民
-  const SKL_LUNASIL  = 62;  //聞き耳狂人
+  const SKL_LUNASIL  = 62;  //聞き耳狂人 赤ログを覗けるが発言不可
   const SKL_SEAL     = 71;  //封印狂人
-  const SKL_STRSEER  = 72;  //辻占狂人
-  const SKL_LUNASEER = 55;  //狂神官
-  const SKL_BLASPHEME= 81;  //冒涜者
-  const SKL_BETRAYER = 82;  //背信者
-  const SKL_IDLUNASR = 86;  //呪魂者 
-  const SKL_TEMPTER  = 88;  //誘惑者
-  const SKL_SLEEPER  = 89;  //睡狼
-  const SKL_DECOY    = 98;  //囮人形
-  const SKL_SUSPECT  = 99;  //悟られ狂人
+  const SKL_STRSEER  = 72;  //辻占狂人 占い師 呪殺能力なし
+  const SKL_LUNASEER = 55;  //狂神官 占い師
+  const SKL_BLASPHEME= 81;  //冒涜者 狂信者+初日に一人を背信者にする
+  const SKL_BETRAYER = 82;  //背信者 背信者、冒涜者同士で会話可能
+  const SKL_IDLUNASR = 86;  //呪魂者 中身占い師 呪殺能力あり
+  const SKL_TEMPTER  = 88;  //誘惑者 囁き狂人+初日に一人を隷従者(恩恵)にする
+  const SKL_SLEEPER  = 89;  //睡狼 役職自覚がない。被襲撃で人狼になる
+  const SKL_DECOY    = 98;  //囮人形 占われると黒判定が出る
+  const SKL_SUSPECT  = 99;  //悟られ狂人 逆狂信者
+  const SKL_GRUDGE   =119;  //怨嗟狂人 吊られると能力者を無能にする
+  const SKL_GEIST    =120;  //騒霊 墓下で投票できる
+  const SKL_DAZZLE   =121;  //幻惑者 絆の内容を逆にする
+  const SKL_PERVERT  =122;  //倒錯者 占霊判定を逆にする
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -155,9 +171,14 @@ class Data
   const SKL_DYINGWOLF= 46;  //衰狼
   const SKL_SILENT   = 47;  //黙狼
   const SKL_POSWOLF  = 70;  //憑狼
-  const SKL_MALICE   = 80;  //瘴狼
-  const SKL_MEDIWOLF = 100; //賢狼
-  const SKL_NECROWOLF= 101; //霊狼
+  const SKL_MALICE   = 80;  //瘴狼 初日に一人を隷従者(恩恵)にする
+  const SKL_MEDIWOLF =100;  //賢狼 処刑者の役職が分かる
+  const SKL_NECROWOLF=101;  //霊狼 上記+墓下ログが読める
+  const SKL_HUNGRY   =123;  //餓狼 二日連続襲撃できないと死ぬ
+  const SKL_FORGET   =124;  //忘狼 占いでも覚醒する睡狼
+  const SKL_SMELL    =125;  //嗅狼 半狼や狼血族が分かる
+  const SKL_DISGUISE =126;  //擬狼 死ぬと真判定になる白狼
+  const SKL_RECKLESS =127;  //蛮狼 自分を犠牲に護衛貫通襲撃が可能
 
   const SKL_FAIRY    =  9;  //妖魔
   const SKL_BAT      = 61;  //蝙蝠人間
@@ -166,29 +187,40 @@ class Data
   const SKL_SNOW     = 49;  //風花妖精
   const SKL_JAMFAIRY = 64;  //邪魔妖精
   const SKL_SNAFAIRY = 65;  //宿借妖精
-  const SKL_VAMPIRE  = 74;  //吸血鬼
+  const SKL_VAMPIRE  = 74;  //吸血鬼 瓜科
   const SKL_RABBIT   = 75;  //夜兎
-  const SKL_NIGHTMARE= 83;  //夢魔
-  const SKL_NINETALES= 102; //九尾
-  const SKL_CURSEFOX = 103; //呪狐
-  const SKL_HALFFOX  = 104; //半妖
-  const SKL_OLDFOX   = 105; //仙狐
+  const SKL_NIGHTMARE= 83;  //夢魔 絆の有無を占う(呪殺不可)
+  const SKL_NINETALES=102;  //九尾 呪殺されない、襲撃行使、被襲撃で相手を道連れ
+  const SKL_CURSEFOX =103;  //呪狐 被呪殺時相手を道連れ
+  const SKL_HALFFOX  =104;  //半妖 風花妖精+襲撃を受けると仙狐になる
+  const SKL_OLDFOX   =105;  //仙狐 処刑者の役職が分かる
+  const SKL_WITCHFOX =129;  //野狐 毒薬行使
+  const SKL_CRENINE  =130;  //九尾 三日月 野狐+全秘密ログ閲覧
+  const SKL_HUNFAIRY =131;  //謀狐 護衛行使
+  const SKL_SEALFAIRY=132;  //雪女 特殊能力封印
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
   const SKL_PLAYBOY  = 59;  //遊び人
   const SKL_LOVER    = 67;  //求婚者
+  const SKL_COURTSHIP=133;  //求愛者
+  const SKL_CRAZY    =134;  //狂愛者 絆を結んだと思い込む。無自覚かつランダムに襲撃する
 
   const SKL_EFB      = 51;  //邪気悪魔
+  const SKL_DUEL     =136;  //決闘者 自撃ち邪気悪魔
   const SKL_LWOLF    = 56;  //一匹狼
   const SKL_PIPER    = 57;  //笛吹き
+  const SKL_VAMPSEA  =106;  //吸血鬼 深海 2dに二人を眷属に変える
+  const SKL_SERVANT  =107;  //眷属 眷属同士で会話可能
+
   const SKL_FISH     = 58;  //鱗魚人
   const SKL_TERU     = 76;  //照坊主
   const SKL_SLAVE    = 91;  //奴隷
-  const SKL_SUCKER   = 73;  //血人
+  const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
+  const SKL_HANNYA   =137;  //般若 恋陣営が全員死ねば勝利
+  const SKL_SUCKER   = 73;  //血人 陣営なし
+
   const SKL_ONLOOKER = 10;  //見物人
   const SKL_OWNER    = 77;  //支配人
-  const SKL_VAMPSEA  = 106; //吸血鬼
-  const SKL_SERVANT  = 107; //眷属
-  const SKL_NULL     = 108; //なし(廃村雑談村など)
+  const SKL_NULL     =108;  //なし(廃村雑談村など)
 }
