@@ -24,6 +24,7 @@ abstract class Giji_Old extends Country
     $this->fetch_from_info();
     $this->fetch_from_pro();
     $this->fetch_from_epi();
+    //var_dump($this->village->get_vars());
   }
 
   protected function fetch_from_info()
@@ -329,6 +330,7 @@ abstract class Giji_Old extends Country
       $this->fetch_tmid($result[2]);
       $this->fetch_life();
     }
+    //var_dump($this->user->get_vars());
   }
   protected function fetch_persona($person)
   {

@@ -3,7 +3,7 @@
 class Ivory extends Giji_Old
 {
   use AR_Ivory;
-  private $SKL_IVORY = [
+  private $SKL_SP = [
      "審問官"=>Data::SKL_SEERWIN
     ,"隠秘学者"=>Data::SKL_SEERAURA
     ,"登記役人"=>Data::SKL_SAGE
@@ -19,15 +19,6 @@ class Ivory extends Giji_Old
     ,"誓約者"=>Data::SKL_PASSION
     ,"二枚舌"=>Data::SKL_PLAYBOY
     ,"宣教師"=>Data::SKL_PIPER
-    //人狼物語言い換え用
-    ,"共有者"=>Data::SKL_MASON
-    ,"狩人"=>Data::SKL_HUNTER
-    ,"コウモリ人間"=>Data::SKL_LUNAPATH
-    ,"Ｃ国狂人"=>Data::SKL_LUNAWHS
-    ,"首なし騎士"=>Data::SKL_HEADLESS
-    ,"ハムスター人間"=>Data::SKL_FAIRY
-    ,"ピクシー"=>Data::SKL_PIXY
-    ,"キューピッド"=>Data::SKL_QP
     ];
   protected $RP_SP = [
      "ミラーズホロウ"=>'MILLERS'
@@ -39,7 +30,7 @@ class Ivory extends Giji_Old
     $url_vil = "http://kids.sphere.sc/tabula/lupus/sow.cgi?vid=";
     $url_log = "http://kids.sphere.sc/tabula/lupus/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
-    $this->SKILL = array_merge($this->SKILL,$this->SKL_IVORY);
+    $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
   }
 
   protected function fetch_name()

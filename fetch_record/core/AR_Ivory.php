@@ -8,18 +8,6 @@ trait AR_Ivory
     ,'Trouble Aliens'=>Data::RGL_TA
     ,'Mystery'       =>Data::RGL_MIST
     ];
-  public $SKL_MILLERS = [//ミラーズホロウ
-     "村人"=>Data::SKL_VILLAGER
-    ,"預言者"=>Data::SKL_SAGE
-    ,"守護者"=>Data::SKL_HUNTER
-    ,"狩人"=>Data::SKL_BOUNTY
-    ,"魔女"=>Data::SKL_WITCH
-    ,"少女"=>Data::SKL_GIRL
-    ,"スケープゴート"=>Data::SKL_SG
-    ,"長老"=>Data::SKL_ELDER
-    ,"人狼"=>Data::SKL_WISEWOLF
-    ,"キューピッド"=>Data::SKL_QP
-    ];
   public $TM_MAFIA = [
      "市民"=>Data::TM_VILLAGER
     ,"マフ"=>Data::TM_WOLF

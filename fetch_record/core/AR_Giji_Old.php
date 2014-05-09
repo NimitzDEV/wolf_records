@@ -4,6 +4,7 @@ trait AR_Giji_Old
 {
   public $TEAM = [
      "村人"=>Data::TM_VILLAGER
+    ,"市民"=>Data::TM_VILLAGER //三日月国
     ,"人狼"=>Data::TM_WOLF
     ,"妖精"=>Data::TM_FAIRY
     ,"恋人"=>Data::TM_LOVERS
@@ -77,6 +78,15 @@ trait AR_Giji_Old
     ,"笛吹き"=>Data::SKL_PIPER
     ,"鱗魚人"=>Data::SKL_FISH
     ,"遊び人"=>Data::SKL_PLAYBOY
+    //人狼物語用言い換え
+    ,"共有者"=>Data::SKL_MASON
+    ,"狩人"=>Data::SKL_HUNTER
+    ,"コウモリ人間"=>Data::SKL_LUNAPATH
+    ,"Ｃ国狂人"=>Data::SKL_LUNAWHS
+    ,"首なし騎士"=>Data::SKL_HEADLESS
+    ,"ハムスター人間"=>Data::SKL_FAIRY
+    ,"ピクシー"=>Data::SKL_PIXY
+    ,"キューピッド"=>Data::SKL_QP
     ];
   public $RGL_SP = [
      'ミラーズホロウ' =>Data::RGL_MILL
@@ -104,6 +114,7 @@ trait AR_Giji_Old
     ,'村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
     ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C_ST
     ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_G
+    ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_G_ST
     ,'村人x7 共鳴者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
     ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>Data::RGL_E
     ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>Data::RGL_E
@@ -116,10 +127,14 @@ trait AR_Giji_Old
   public $WTM = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
+    ,"が去り、まぶしい光が降り注"=>Data::TM_VILLAGER
     ,"達は自らの過ちに気付いた。"=>Data::TM_WOLF
+    ,"村を覆い、村人達は自らの過"=>Data::TM_WOLF
     ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
     ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
     ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
+    ,"じ風が舞い、村人達は凱歌を"=>Data::TM_FAIRY
+    ,"じ風が舞い、村中に人狼達の"=>Data::TM_FAIRY
     ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
     ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF
     ,"達は気付いてしまった。もう"=>Data::TM_PIPER
@@ -139,5 +154,28 @@ trait AR_Giji_Old
     ,"衰退死"=>Data::DES_DROOP
     ,"後追死"=>Data::DES_SUICIDE
     ,"恐怖死"=>Data::DES_FEARED
+    ];
+  public $WTM_MILLERS = [
+     "の人物が消え失せた時、其処"=>Data::TM_NONE
+    ,"の人狼を退治した……。人狼"=>Data::TM_VILLAGER
+    ,"人狼に抵抗できるほど村人は"=>Data::TM_WOLF
+    ,"の人狼を退治した……。だが"=>Data::TM_FAIRY
+    ,"時、人狼は勝利を確信し、そ"=>Data::TM_FAIRY
+    ,"も、人狼も、妖精でさえも、"=>Data::TM_LOVERS
+    ,"達は、そして人狼達も自らの"=>Data::TM_LWOLF
+    ,"達は気付いてしまった。もう"=>Data::TM_PIPER
+    ,"はたった独りだけを選んだ。"=>Data::TM_EFB
+    ];
+  public $SKL_MILLERS = [//ミラーズホロウ
+     "村人"=>Data::SKL_VILLAGER
+    ,"預言者"=>Data::SKL_SAGE
+    ,"守護者"=>Data::SKL_HUNTER
+    ,"狩人"=>Data::SKL_BOUNTY
+    ,"魔女"=>Data::SKL_WITCH
+    ,"少女"=>Data::SKL_GIRL
+    ,"スケープゴート"=>Data::SKL_SG
+    ,"長老"=>Data::SKL_ELDER
+    ,"人狼"=>Data::SKL_WISEWOLF
+    ,"キューピッド"=>Data::SKL_QP
     ];
 }

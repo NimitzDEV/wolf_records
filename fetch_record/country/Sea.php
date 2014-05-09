@@ -3,10 +3,7 @@
 class Sea extends Giji_Old
 {
   private $SKL_SEA = [
-     "共有者"=>Data::SKL_MASON
-    ,"狩人"=>Data::SKL_HUNTER
-    ,"狼憑き"=>Data::SKL_LINEAGE
-    ,"ハムスター人間"=>Data::SKL_FAIRY
+     "狼憑き"=>Data::SKL_LINEAGE
     ,"座敷童"=>Data::SKL_LUNAMIM
     ,"容疑者"=>Data::SKL_FUGITIVE
     ,"獣化病"=>Data::SKL_LYCAN
@@ -87,6 +84,7 @@ class Sea extends Giji_Old
       case 'とくになし':
       case 'ガチ推理':
       case 'ゆるガチ':
+      case '推理&RP':
         $this->village->policy = true;
         echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
         break;
