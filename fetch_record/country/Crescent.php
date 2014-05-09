@@ -125,7 +125,6 @@ class Crescent extends Giji_Old
       $this->fetch_rltid(trim($person->find('td',3)->plaintext));
       $this->fetch_life();
     }
-    var_dump($this->user->get_vars());
   }
   protected function fetch_role($role)
   {
