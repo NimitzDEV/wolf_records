@@ -17,7 +17,7 @@ class Cherry extends Country
   }
   protected function fetch_policy()
   {
-    if(preg_match('/RP村|ＲＰ村/',$this->village->name))
+    if(preg_match('/RP村|ＲＰ村|ネタ村/',$this->village->name))
     {
       $this->village->policy = false;
       echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
