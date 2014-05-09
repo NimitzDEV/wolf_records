@@ -4,6 +4,7 @@ trait AR_Giji_Old
 {
   public $TEAM = [
      "村人"=>Data::TM_VILLAGER
+    ,"市民"=>Data::TM_VILLAGER //三日月国
     ,"人狼"=>Data::TM_WOLF
     ,"妖精"=>Data::TM_FAIRY
     ,"恋人"=>Data::TM_LOVERS
