@@ -40,7 +40,7 @@ trait AR_Crescent
     ,"暗殺者"=>Data::SKL_ASSCRES
     ,"運命読み"=>Data::SKL_FORTUNE
     ,"狐好き"=>Data::SKL_FFAIRY
-    ,"妄想家"=>Data::SKL_FCOUNTS
+    ,"妄想家"=>Data::SKL_FCOURTS
     ,"転生者"=>Data::SKL_REINCRNT
     ,"邪魔之民"=>Data::SKL_JAMMER
     ,"宿借之民"=>Data::SKL_SNATCH
