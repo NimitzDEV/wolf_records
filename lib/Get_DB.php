@@ -194,6 +194,15 @@ class Get_DB
         $tip_p = '<span title="'.$row['persona'].'">'.$persona.'</span>';
       }
 
+      if($row['destiny'] === '見物')
+      {
+        $destiny = '見物';
+      }
+      else
+      {
+        $destiny = $row['end'].'d'.$row['destiny'];
+      }
+
       $url = preg_replace('/%n/',$row['vno'],$row['url']);
       $date = date("Y/m/d",strtotime($row['date']));
       if($row['wtmid'] != 0)
@@ -211,7 +220,7 @@ class Get_DB
         <td>{$row['rgl']}</td>
         <td>$tip_p</td>
         <td>{$row['role']}</td>
-        <td>{$row['end']}d{$row['destiny']}</td>
+        <td>$destiny</td>
         <td><span class="{$row['resclass']}">{$row['result']}</span></td></tr>
 EOF;
     }
