@@ -147,40 +147,17 @@ class Check_Village
       echo $vno.' is ruined BUT inserted fetch list.'.PHP_EOL;
       return true;
     }
+
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {
       case Cnt::Plot:
       case Cnt::Ciel:
       case Cnt::Perjury:
-        $last_day = $this->html->find('script',-2)->innertext;
-        $last_day = preg_replace('/.+"turn": (\d+).+/s',"$1",$last_day);
+        $scrap = $this->html->find('script',-2)->innertext;
+        $scrap = mb_ereg_replace('.+"is_scrap":     \(0 !== (\d)\),.+',"\\1",$scrap,'m');
         $this->html->clear();
-        if($last_day == '1')
-        {
-          return false;
-        }
-        else
-        {
-          return true;
-        }
-        break;
-      case Cnt::Sebas:
-        $last_day = $this->html->find('p.turnnavi',0)->find('a',3)->plaintext;
-        $this->html->clear();
-        if($last_day  === "エピ")
-        {
-          return false;
-        }
-        else
-        {
-          return true;
-        }
-        break;
-      case Cnt::Silence:
-        $last_day = $this->html->find('p',0)->find('a',3)->plaintext;
-        $this->html->clear();
-        if($last_day  === "エピローグ")
+        if($scrap == '1')
         {
           return false;
         }
@@ -190,9 +167,26 @@ class Check_Village
         }
         break;
       default:
-        $last_day = $this->html->find('p.turnnavi',0)->find('a',2)->plaintext;
+        switch($this->cid)
+        {
+          case Cnt::Sebas:
+            $info = 'div.info';
+            $infosp = 'div.infosp';
+            break;
+          case Cnt::Silence:
+            $info = 'div.announce';
+            $infosp = 'div.extra';
+            break;
+          default:
+            $info = 'p.info';
+            $infosp = 'p.infosp';
+            break;
+        }
+        $epi = $this->html->find('link[rel=Prev]',0)->href;
+        $epi = mb_ereg_replace('.+;turn=(\d+)','\\1',$epi);
         $this->html->clear();
-        if($last_day  === "エピローグ")
+        $this->html->load_file($this->url_vil.$vno.'&turn='.$epi.'&mode=all&row=5&move=page&pageno=1');
+        if(count($this->html->find($info)) <= 1 && count($this->html->find($infosp)) === 0)
         {
           return false;
         }
