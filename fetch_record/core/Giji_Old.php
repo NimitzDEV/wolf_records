@@ -89,7 +89,7 @@ abstract class Giji_Old extends Country
         }
         break;
       case "深い霧の夜":
-        $this->village->rglid = Data::RGL_MIST;
+        $this->village->rglid = Data::RGL_ETC;
         break;
       case "人狼審問 試験壱型":
         switch(true)
