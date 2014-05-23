@@ -151,13 +151,28 @@ class Check_Village
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
     {
+      case Cnt::Melon:
+        $epi = $this->html->find('link[rel=Prev]',0)->href;
+        $epi = mb_ereg_replace('.+;t=(\d+)','\\1',$epi);
+        $this->html->clear();
+        $this->html->load_file($this->url_vil.$vno.'&t='.$epi.'&r=5&m=a&o=a&mv=p&n=1');
+        if(count($this->html->find('p.info')) <= 1 && count($this->html->find('p.infosp')) === 0)
+        {
+          return false;
+        }
+        else
+        {
+          return true;
+        }
+        break;
+        break;
       case Cnt::Plot:
       case Cnt::Ciel:
       case Cnt::Perjury:
         $scrap = $this->html->find('script',-2)->innertext;
         $scrap = mb_ereg_replace('.+"is_scrap":     \(0 !== (\d)\),.+',"\\1",$scrap,'m');
         $this->html->clear();
-        if($scrap == '1')
+        if($scrap === '1')
         {
           return false;
         }
