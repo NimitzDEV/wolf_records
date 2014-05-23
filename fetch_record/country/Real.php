@@ -9,9 +9,6 @@ class Real extends Country
     $url_vil = "http://real.gunjobiyori.com/sow.cgi?vid=";
     $url_log = "http://real.gunjobiyori.com/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
-  }
-  function fetch_policy()
-  {
-    $this->village->policy = true;
+    $this->policy = true;
   }
 }

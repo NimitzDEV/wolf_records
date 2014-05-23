@@ -86,11 +86,10 @@ class Sea extends Giji_Old
       case 'ゆるガチ':
       case '推理&RP':
         $this->village->policy = true;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
         break;
       default:
         $this->village->policy = false;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
         break;
     }
   }

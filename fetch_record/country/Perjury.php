@@ -9,5 +9,6 @@ class Perjury extends Giji
     $url_log = "http://perjury.rulez.jp/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->is_evil = false;
+    $this->policy = false;
   }
 }

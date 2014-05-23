@@ -47,11 +47,10 @@ class Guta extends Giji_Old
       case "ガチ推理（陣営勝敗最優先）":
       case "推理＆RP（勝負しながらキャラプレイも楽しむ）":
         $this->village->policy = true;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
         break;
       default:
         $this->village->policy = false;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
         break;
     }
   }

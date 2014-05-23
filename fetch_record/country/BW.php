@@ -70,8 +70,6 @@ class BW extends Country
     $this->fetch_rglid();
     $this->fetch_days();
 
-    $this->village->policy = true;
-
     $this->fetch->clear();
   }
   protected function fetch_name()

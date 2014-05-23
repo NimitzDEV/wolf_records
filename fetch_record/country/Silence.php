@@ -34,10 +34,7 @@ class Silence extends Country
     $url_vil = "http://silence.hotcom-web.com/cgi-bin/sow/sow.cgi?vid=";
     $url_log = "http://silence.hotcom-web.com/cgi-bin/sow/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
-  }
-  function fetch_policy()
-  {
-    $this->village->policy = true;
+    $this->policy = true;
   }
   protected function fetch_name()
   {

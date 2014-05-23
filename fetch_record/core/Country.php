@@ -6,6 +6,7 @@ abstract class Country
   protected  $check
             ,$cid
             ,$url
+            ,$policy
             ,$village
             ,$fetch
             ,$cast
@@ -96,6 +97,19 @@ abstract class Country
     }
   }
 
+  protected function fetch_policy()
+  {
+    $rp = '/[^A-Z+]RP村|[^Ａ-Ｚ+]ＲＰ村|RP】|[^ァ-ヾ+]ネタ村|[^ァ-ヾ+]ランダ村/u';
+    if(preg_match($rp,$this->village->name))
+    {
+      $this->village->policy = false;
+      echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+    }
+    else
+    {
+      $this->village->policy = true;
+    }
+  }
   protected function check_doppel($player)
   {
     if(array_key_exists($player,$this->{'d_'.get_class($this)}))

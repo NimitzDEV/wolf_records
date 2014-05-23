@@ -15,19 +15,6 @@ class Cherry extends Country
   {
     $this->village->rp = 'SOW';
   }
-  protected function fetch_policy()
-  {
-    if(preg_match('/RP村|ＲＰ村|ネタ村/',$this->village->name))
-    {
-      $this->village->policy = false;
-      echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
-    }
-    else
-    {
-      $this->village->policy = true;
-      echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
-    }
-  }
   protected function make_cast()
   {
     $cast = $this->fetch->find('table tr');

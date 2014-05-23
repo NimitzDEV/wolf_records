@@ -169,11 +169,6 @@ class Crescent extends Giji_Old
       $this->check_evil_rgl();
     }
   }
-  protected function fetch_policy()
-  {
-    //$policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    $this->village->policy = true;
-  }
 
   protected function fetch_date()
   {

@@ -22,7 +22,10 @@ trait TR_SOW
     $this->fetch_days();
 
     $this->fetch_rp();
-    $this->fetch_policy();
+    if(!isset($this->policy))
+    {
+      $this->fetch_policy();
+    }
 
     $this->fetch->clear();
   }
@@ -198,7 +201,6 @@ trait TR_SOW
       $this->village->rp = 'SOW';
     }
   }
-  abstract protected function fetch_policy();
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
@@ -223,7 +225,7 @@ trait TR_SOW
   }
   protected function fetch_wtmid()
   {
-    if(!$this->village->policy)
+    if($this->policy || $this->village->policy)
     {
       $this->village->wtmid = Data::TM_RP;
     }
@@ -353,11 +355,12 @@ trait TR_SOW
   }
   protected function fetch_rltid()
   {
-    if(!$this->village->policy)
+    if($this->village->wtmid === 0)
     {
       $this->user->rltid = Data::RSL_JOIN;
       return;
     }
+
     if($this->user->tmid === $this->village->wtmid)
     {
       $this->user->rltid = Data::RSL_WIN;

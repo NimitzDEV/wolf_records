@@ -30,7 +30,10 @@ class Ivory extends Giji_Old
     $url_vil = "http://kids.sphere.sc/tabula/lupus/sow.cgi?vid=";
     $url_log = "http://kids.sphere.sc/tabula/lupus/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
+
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
+    $this->is_evil = false;
+    $this->policy = true;
   }
 
   protected function fetch_name()
@@ -175,28 +178,6 @@ class Ivory extends Giji_Old
     else
     {
       $this->village->rp = 'NORMAL'; 
-    }
-  }
-  protected function fetch_wtmid()
-  {
-    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-    if(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid))
-    {
-      $do_i = -2;
-      do
-      {
-        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-        $do_i--;
-      } while(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid));
-    }
-    $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
-    if($this->village->rp !== 'NORMAL')
-    {
-      $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
-    }
-    else
-    {
-      $this->village->wtmid = $this->WTM[$wtmid];
     }
   }
   protected function fetch_sklid()

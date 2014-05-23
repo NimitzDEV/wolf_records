@@ -15,10 +15,7 @@ class Chitose extends Country
     $url_log = "http://chitose-azure.sakura.ne.jp/alf-laylah/sow/sow.cgi?cmd=oldlog";
     $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_Chitose);
     parent::__construct($cid,$url_vil,$url_log);
-  }
-  function fetch_policy()
-  {
-    $this->village->policy = true;
+    $this->policy = true;
   }
   protected function fetch_from_daily($list)
   {

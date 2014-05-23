@@ -196,7 +196,7 @@ abstract class Giji extends Country
   }
   protected function fetch_wtmid()
   {
-    if(!$this->is_evil)
+    if(!$this->policy)
     {
       $this->village->wtmid = Data::TM_RP;
     }
@@ -213,11 +213,10 @@ abstract class Giji extends Country
         case "[危] 無茶ぶり上等":
           //勝利陣営
           $this->village->wtmid = $this->WTM[preg_replace('/.+SOW_RECORD.CABALA.winners\[(\d+)\],.+/s',"$1",$this->base)];
-          echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
           break;
         default:
           $this->village->wtmid = Data::TM_RP;
-          echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
+          echo $this->village->vno.' is guessed RP.'.PHP_EOL;
           break;
       }
     }

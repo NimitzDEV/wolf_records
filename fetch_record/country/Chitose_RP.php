@@ -15,10 +15,7 @@ class Chitose_RP extends Country
     $url_log = "http://1000nacht.sakura.ne.jp/story/sow/sow.cgi?cmd=oldlog";
     $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_Chitose);
     parent::__construct($cid,$url_vil,$url_log);
-  }
-  function fetch_policy()
-  {
-    $this->village->policy = false;
+    $this->policy = false;
   }
   protected function fetch_from_daily($list)
   {

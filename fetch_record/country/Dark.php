@@ -117,10 +117,6 @@ class Dark extends Country
     $this->fetch_policy();
     $this->fetch->clear();
   }
-  protected function fetch_policy()
-  {
-    $this->village->policy = true;
-  }
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';

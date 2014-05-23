@@ -37,7 +37,7 @@ abstract class Giji_Old extends Country
     $this->fetch_days();
 
     $this->fetch_rp();
-    if($this->is_evil)
+    if(!isset($this->policy))
     {
       $this->fetch_policy();
     }
@@ -232,26 +232,6 @@ abstract class Giji_Old extends Country
       $this->village->rp = 'NORMAL'; 
     }
   }
-  protected function fetch_policy()
-  {
-    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    switch($policy)
-    {
-      case "とくになし":
-      case "[言] 殺伐、暴言あり":
-      case "[遖] あっぱれネタ風味":
-      case "[張] うっかりハリセン":
-      case "[全] 大人も子供も初心者も、みんな安心":
-      case "[危] 無茶ぶり上等":
-        $this->village->policy = true;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed GACHI.'.PHP_EOL;
-        break;
-      default:
-        $this->village->policy = false;
-        echo $this->village->vno.'.'.$this->village->name.' is guessed RP.'.PHP_EOL;
-        break;
-    }
-  }
   protected function fetch_from_pro()
   {
     $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
@@ -276,17 +256,17 @@ abstract class Giji_Old extends Country
   }
   protected function fetch_wtmid()
   {
-    if($this->is_evil && $this->village->policy)
+    if($this->policy || $this->village->policy)
     {
       $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-      if(preg_match("/村の更新日が延長されました/",$wtmid))
+      if(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid))
       {
         $do_i = -2;
         do
         {
           $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
           $do_i--;
-        } while(preg_match("/村の更新日が延長されました/",$wtmid));
+        } while(preg_match("/村の更新日が延長されました|が参加しました。/",$wtmid));
       }
       $wtmid = mb_substr(preg_replace("/\r\n/","",$wtmid),2,13);
       if($this->village->rp !== 'NORMAL')

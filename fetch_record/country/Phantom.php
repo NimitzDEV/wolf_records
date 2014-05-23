@@ -39,6 +39,7 @@ class Phantom extends Country
     $url_log = "http://schicksal.sakura.ne.jp/sow/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
+    $this->policy = false;
   }
   function fetch_village()
   {
@@ -57,8 +58,6 @@ class Phantom extends Country
     $this->fetch_nop();
     $this->fetch_rglid();
     $this->fetch_days();
-
-    $this->fetch_policy();
 
     $this->fetch->clear();
   }
@@ -192,10 +191,6 @@ class Phantom extends Country
       echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'PHANTOM';
     }
-  }
-  protected function fetch_policy()
-  {
-    $this->village->policy = false;
   }
   protected function fetch_date()
   {
