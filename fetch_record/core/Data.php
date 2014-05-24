@@ -45,7 +45,6 @@ class Data
   const RGL_ROLLER=21;      //素村が霊能者
   const RGL_HERO = 22;      //占い師なし
   const RGL_EFB  = 23;      //邪気悪魔入り
-  const RGL_CURSE= 33;      //呪悪
 
   const RGL_SECRET= 27;     //秘話村
   const RGL_MILL = 18;      //ミラーズホロウ
@@ -130,9 +129,9 @@ class Data
   const SKL_SPIRIT   =113;  //霊感少年 死者と話せる
   const SKL_ASSCRES  =114;  //暗殺者(三日月) 襲撃行使、狼や妖魔も殺害可
   const SKL_FORTUNE  =115;  //運命読み 絆の有無と種類を占う
-  const SKL_FFAIRY   =116;  //思い込み狐
-  const SKL_FCOURTS  =117;  //思い込み求愛者
-  const SKL_REINCRNT =118;  //死後三日後ランダムな役職で復活
+  const SKL_FFAIRY   =116;  //狐好き 思い込み狐
+  const SKL_FCOURTS  =117;  //妄想家 思い込み求愛者
+  const SKL_REINCRNT =118;  //転生者 死後三日後ランダムな役職で復活
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //囁き狂人
