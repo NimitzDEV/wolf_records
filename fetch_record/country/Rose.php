@@ -12,15 +12,19 @@ class Rose extends Country
 
   protected function fetch_policy()
   {
-    $policy = $this->fetch->find('p.multicolumn_left',11)->plaintext;
-    if(preg_match('/一般|初心者歓迎/',$policy))
+    parent::fetch_policy();
+    if($this->village->policy === true)
     {
-      $this->village->policy = true;
-    }
-    else
-    {
-      $this->village->policy = false;
-      echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      $policy = $this->fetch->find('p.multicolumn_left',11)->plaintext;
+      if(preg_match('/一般|初心者歓迎/',$policy))
+      {
+        $this->village->policy = true;
+      }
+      else
+      {
+        $this->village->policy = false;
+        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      }
     }
   }
   protected function fetch_wtmid()
