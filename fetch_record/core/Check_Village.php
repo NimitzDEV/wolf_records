@@ -138,13 +138,8 @@ class Check_Village
   }
   private function check_not_ruined($vno)
   {
-    if($this->cid === Cnt::Ning)
+    if($this->cid === Cnt::Ning || $this->cid === Cnt::Phantom)
     {
-      return true;
-    }
-    if($this->cid === Cnt::Phantom)
-    {
-      echo $vno.' is ruined BUT inserted fetch list.'.PHP_EOL;
       return true;
     }
 
