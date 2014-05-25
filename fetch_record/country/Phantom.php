@@ -399,6 +399,30 @@ class Phantom extends Country
       $this->fetch->clear();
     }
   }
+  protected function fetch_daily_url($i,$find)
+  {
+    $row = 40;
+    $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
+    $this->fetch->load_file($url);
+    $announce = $this->fetch->find($find);
+    //処刑以降が取れてなさそうな場合はログ件数を増やす
+    if(count($announce) <= 1 && $find !== 'p.infosp')
+    {
+      do
+      {
+        $row += 10;
+        $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
+        $this->fetch->load_file($url);
+        $announce = $this->fetch->find($find);
+        if($row >= 70)
+        {
+          echo 'NOTICE: too deep row in fetch_daily_url'.PHP_EOL;
+          break;
+        }
+      } while (count($announce) <= 1);
+    }
+    return $announce;
+  }
   protected function check_cursed_seer($persona,$key_u)
   {
     if($this->village->rp === 'DREAM')
