@@ -225,7 +225,7 @@ trait TR_SOW
   }
   protected function fetch_wtmid()
   {
-    if($this->policy || $this->village->policy)
+    if(!$this->policy || !$this->village->policy)
     {
       $this->village->wtmid = Data::TM_RP;
     }
