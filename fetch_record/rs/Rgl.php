@@ -156,8 +156,7 @@ trait Rgl
     //指定文字数以上はリストに無い
     if(mb_strlen($arg_rgl) > $this->rgl_maxlen)
     {
-      $this->village->rglid = Data::RGL_ETC;
-      echo $this->village->vno.' has '.$arg_rgl.'=>FREE (over maxlen)'.PHP_EOL;
+      $this->insert_etc($arg_rgl,'over maxlen');
       return;
     }
 
@@ -173,8 +172,17 @@ trait Rgl
     }
     else
     {
-      $this->village->rglid = Data::RGL_ETC;
-      echo $this->village->vno.' has '.$rgl.'=>FREE (N/A)'.PHP_EOL;
+      $this->insert_etc($rgl,'N/A');
+    }
+  }
+
+  protected function insert_etc($rgl,$message)
+  {
+    $this->village->rglid = Data::RGL_ETC;
+    echo $this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
+    if(!empty($this->is_evil))
+    {
+      echo '　▼Should check evil team.'.PHP_EOL;
     }
   }
 }
