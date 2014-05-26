@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Giji
+trait TRS_Giji
 {
   protected $EVIL = [Data::RGL_E,Data::RGL_S_E,Data::RGL_ETC];
   protected $RGL_SP = [

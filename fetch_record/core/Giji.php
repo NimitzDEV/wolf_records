@@ -2,7 +2,7 @@
 
 abstract class Giji extends Country
 {
-  use AR_Giji;
+  use TRS_Giji,Rgl_Auto;
   protected $is_evil;
   protected $base;
 
@@ -58,109 +58,36 @@ abstract class Giji extends Country
         }
         else
         {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
+          echo $this->village->vno.' has '.$free.PHP_EOL.'　▼Should check evil team.'.PHP_EOL;
           $this->village->rglid = Data::RGL_ETC;
         }
         break;
-      case "default":
-        if($this->village->nop <= 7)
-        {
-          $this->village->rglid = Data::RGL_S_1;
-        }
-        else
-        {
-          $this->village->rglid = Data::RGL_LEO;
-        }
-        break;
-      case "mistery":
-        $this->village->rglid = Data::RGL_MIST;
-        break;
-      case "test1st":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "test2nd":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+      case "wbbs_g":
+        $this->check_rgl_g($this->village->nop);
         break;
       case "wbbs_c":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+        $this->check_rgl_c($this->village->nop);
+        break;
+      case "default":
+        $this->check_rgl_leo($this->village->nop);
         break;
       case "wbbs_f":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_F;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+        $this->check_rgl_f($this->village->nop);
         break;
-      case "wbbs_g":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_G;
-            break;
-          case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+      case "test1st":
+        $this->check_rgl_tes1($this->village->nop);
+        break;
+      case "test2nd":
+        $this->check_rgl_tes2($this->village->nop);
+        break;
+      case "mistery":
+        $this->village->rglid = Data::RGL_ETC;
+        echo $this->village->vno.' has 深い霧の夜.▼Should check evil team.'.PHP_EOL;
         break;
     }
-    if($this->is_evil)
+    if(in_array($this->village->rglid,$this->EVIL))
     {
-      $this->check_evil_rgl();
+      $this->village->evil_rgl = true;
     }
   }
   protected function check_sprule($rule)
@@ -185,15 +112,6 @@ abstract class Giji extends Country
       return false;
     }
   }
-  protected function check_evil_rgl()
-  {
-    $rglid = $this->village->rglid;
-    $nop = $this->village->nop;
-    if(in_array($rglid,$this->EVIL) || ($rglid === Data::RGL_MIST && ($nop <8 || $nop >18)))
-    {
-      $this->village->evil_rgl = true;
-    }
-  }
   protected function fetch_wtmid()
   {
     if(!$this->policy)
@@ -211,7 +129,6 @@ abstract class Giji extends Country
         case "[張] うっかりハリセン":
         case "[全] 大人も子供も初心者も、みんな安心":
         case "[危] 無茶ぶり上等":
-          //勝利陣営
           $this->village->wtmid = $this->WTM[preg_replace('/.+SOW_RECORD.CABALA.winners\[(\d+)\],.+/s',"$1",$this->base)];
           break;
         default:
@@ -278,11 +195,9 @@ abstract class Giji extends Country
   }
   protected function fetch_role($person)
   {
-    //$sklid = preg_replace('/.+SOW_RECORD.CABALA.roles\[(\d+)\],.+/s',"$1",$person);
     $sklid = preg_replace('/.+giji\.potof\.roles\((\d+), -?\d+\);.+/s',"$1",$person);
     $this->user->sklid =$this->SKILL[$sklid][0];
 
-    //$gift = (int)preg_replace('/.+SOW_RECORD.CABALA.gifts\[(-*\d+)\].+/s',"$1",$person);
     $gift = (int)preg_replace('/.+giji\.potof\.roles\(\d+, (-?\d+)\);.+/s',"$1",$person);
     $love = preg_replace('/.+pl\.love = "([^"]*)".+/s',"$1",$person);
     //恩恵か恋邪気絆があれば追加
