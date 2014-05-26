@@ -59,24 +59,6 @@ class Sea_Old extends Giji_Old
     $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
     $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
   }
-  protected function check_g_rgl()
-  {
-    switch(true)
-    {
-      case ($this->village->nop  >= 16):
-        $this->village->rglid = Data::RGL_G;
-        break;
-      case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-        $this->village->rglid = Data::RGL_S_3;
-        break;
-      case ($this->village->nop <=12 && $this->village->nop >= 8):
-        $this->village->rglid = Data::RGL_S_2;
-        break;
-      default:
-        $this->village->rglid = Data::RGL_S_1;
-        break;
-    }
-  }
   protected function fetch_policy()
   {
     $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;

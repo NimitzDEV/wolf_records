@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Giji_Old
+trait TRS_Giji_Old
 {
   public $TEAM = [
      "村人"=>Data::TM_VILLAGER
@@ -94,34 +94,6 @@ trait AR_Giji_Old
     ,'死んだら負け(ミラーズホロウ)'=>Data::RGL_MILL
     ,'Trouble☆Aliens'=>Data::RGL_TA
     ,'深い霧の夜'     =>Data::RGL_MIST
-    ];
-  public $RGL_FREE = [
-     '村人x3 占い師x1 狂人x1 人狼x1'=>Data::RGL_S_1
-    ,'村人x5 占い師x1 霊能者x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x2 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x3 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x4 占い師x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x4 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x2'=>Data::RGL_S_2
-    ,'村人x6 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_S_3
-    ,'村人x7 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_S_3
-    ,'村人x7 聖痕者x1 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_S_3
-    ,'村人x4 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
-    ,'村人x5 占い師x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
-    ,'村人x5 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
-    ,'村人x5 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
-    ,'村人x6 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x2'=>Data::RGL_S_C2
-    ,'村人x7 結社員x2 占い師x1 守護者x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
-    ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C_ST
-    ,'村人x9 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_G
-    ,'村人x8 聖痕者x1 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3'=>Data::RGL_G_ST
-    ,'村人x7 共鳴者x2 占い師x1 狩人x1 霊能者x1 囁き狂人x1 人狼x3'=>Data::RGL_C
-    ,'村人x8 占い師x1 守護者x1 霊能者x1 狂人x1 人狼x3 栗鼠妖精x1'=>Data::RGL_E
-    ,'村人x6 共鳴者x2 占い師x1 狩人x1 霊能者x1 狂人x1 人狼x3 ハムスター人間x1'=>Data::RGL_E
-    ,'村人x5 占い師x1 人狼x1 栗鼠妖精x1'=>Data::RGL_S_E
-    ,'村人x5 狂信者x1 人狼x1'=>Data::RGL_HERO
-    ,'村人x4 狂信者x1 人狼x1'=>Data::RGL_HERO
-    ,'村人x5 人狼x1'=>Data::RGL_HERO
     ];
   //Orbital☆Starでは村人→乗客なので最初の二文字を削る 13文字
   public $WTM = [
