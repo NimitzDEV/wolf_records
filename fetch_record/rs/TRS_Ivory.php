@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Ivory
+trait TRS_Ivory
 {
   public $RGL_IVORY = [
      'M.hollow'      =>Data::RGL_MILL

@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Guta
+trait TRS_Guta
 {
   public $TM_AMBER = [
      "町人"=>Data::TM_VILLAGER

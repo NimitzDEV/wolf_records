@@ -2,7 +2,7 @@
 
 class Guta extends Giji_Old
 {
-  use AR_Guta;
+  use TRS_Guta;
   protected $RP_SP = [
      "ミラーズホロウ"=>'MILLERS'
     ,"昏き宵闇の琥珀"=>'AMBER'

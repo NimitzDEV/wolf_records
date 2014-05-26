@@ -2,7 +2,7 @@
 
 class Crescent extends Giji_Old
 {
-  use AR_Crescent;
+  use TRS_Crescent;
   protected $SKL_SP = 
   [
      "テルテル"=>Data::SKL_TERU

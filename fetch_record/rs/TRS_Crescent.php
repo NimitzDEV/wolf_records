@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Crescent
+trait TRS_Crescent
 {
   public $SKL_BM = [
      "村人"=>Data::SKL_VILLAGER

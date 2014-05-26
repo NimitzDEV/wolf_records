@@ -2,7 +2,7 @@
 
 class Ivory extends Giji_Old
 {
-  use AR_Ivory;
+  use TRS_Ivory;
   private $SKL_SP = [
      "審問官"=>Data::SKL_SEERWIN
     ,"隠秘学者"=>Data::SKL_SEERAURA
