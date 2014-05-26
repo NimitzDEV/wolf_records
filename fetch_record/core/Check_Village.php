@@ -180,6 +180,7 @@ class Check_Village
         switch($this->cid)
         {
           case Cnt::Sebas:
+          case Cnt::Crescent:
             $info = 'div.info';
             $infosp = 'div.infosp';
             break;
