@@ -33,7 +33,7 @@ class Crescent extends Giji_Old
 
   protected function fetch_nop()
   {
-    $nop = $this->fetch->find('p.multicolumn_left',6)->plaintext;
+    $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
     $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
   }
   protected function fetch_rglid()
