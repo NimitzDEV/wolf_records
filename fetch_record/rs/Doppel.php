@@ -1,6 +1,6 @@
 <?php
 
-trait TR_Doppel
+trait Doppel
 {
   protected $d_Cherry = 
     [

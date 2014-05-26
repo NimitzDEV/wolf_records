@@ -2,7 +2,7 @@
 
 abstract class Country
 {
-  use TR_Doppel;
+  use Doppel;
   protected  $check
             ,$cid
             ,$url
@@ -112,10 +112,11 @@ abstract class Country
   }
   protected function check_doppel($player)
   {
-    if(array_key_exists($player,$this->{'d_'.get_class($this)}))
+    $country = 'd_'.get_class($this);
+    if(array_key_exists($player,$this->{$country}))
     {
-      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->{'d_'.get_class($this)}[$player].PHP_EOL;
-      return $this->{'d_'.get_class($this)}[$player];
+      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->{$country}[$player].PHP_EOL;
+      return $this->{$country}[$player];
     }
     else
     {
