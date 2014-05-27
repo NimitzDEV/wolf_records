@@ -2,17 +2,6 @@
 
 trait Rgl_Auto
 {
-  protected function check_rgl_leo($nop)
-  {
-    if($nop <= 7)
-    {
-      $this->village->rglid = Data::RGL_S_1;
-    }
-    else
-    {
-      $this->village->rglid = Data::RGL_LEO;
-    }
-  }
   protected function check_rgl_tes1($nop)
   {
     switch(true)

@@ -74,7 +74,14 @@ abstract class Giji extends Country
         $this->check_rgl_c($this->village->nop);
         break;
       case "default":
-        $this->check_rgl_leo($this->village->nop);
+        if($this->village->nop <= 7)
+        {
+          $this->village->rglid = Data::RGL_S_1;
+        }
+        else
+        {
+          $this->village->rglid = Data::RGL_LEO;
+        }
         break;
       case "wbbs_f":
         $this->check_rgl_f($this->village->nop);
