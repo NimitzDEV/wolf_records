@@ -1,6 +1,6 @@
 <?php
 
-trait AR_SOW
+trait TRS_SOW
 {
   protected $RP_LIST = [
      '人狼物語'=>'SOW'
@@ -41,7 +41,6 @@ trait AR_SOW
     ,"守護者"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
     ,"共有者"=>[Data::SKL_MASON,Data::TM_VILLAGER]
     ,"結社員"=>[Data::SKL_MASON,Data::TM_VILLAGER]
-    ,"今週のトイレ当番"=>[Data::SKL_MASON,Data::TM_VILLAGER]//静寂
     ,"妖魔"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"ハムスター人間"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
     ,"囁き狂人"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
@@ -56,6 +55,7 @@ trait AR_SOW
     ,"悪戯妖精"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"ピクシー"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"キューピッド"=>[Data::SKL_QP,Data::TM_LOVERS]
+    ,"今週のトイレ当番"=>[Data::SKL_MASON,Data::TM_VILLAGER]//静寂
     ];
   protected $SKL_FOOL = [
      "ただの人"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]

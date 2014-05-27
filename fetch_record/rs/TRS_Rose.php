@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Rose
+trait TRS_Rose
 {
   protected $RP_LIST = [
      '薔薇の下'=>'ROSE'

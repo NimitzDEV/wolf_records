@@ -1,7 +1,8 @@
 <?php
-class BW extends Country
+class BW extends SOW
 {
-  use AR_SOW,TR_SOW_RGL;
+  use TRS_SOW;
+  private $rgl_name;
   protected $RP_PRO = [
      '影が忍び寄'=>'BW'
     ,'平和な日々'=>'FOREST'
@@ -55,139 +56,46 @@ class BW extends Country
     $url_log = "http://wolf.nacht.jp/sw/?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
   }
-  function fetch_village()
-  {
-    $this->fetch_from_info();
-    $this->fetch_from_pro();
-    $this->fetch_from_epi();
-  }
   protected function fetch_from_info()
   {
+    $this->rgl_name = '';
     $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
 
     $this->fetch_name();
     $this->fetch_nop();
-    $this->fetch_rglid();
     $this->fetch_days();
+    $this->fetch_rgl_name();
+    $this->fetch_policy();
 
     $this->fetch->clear();
   }
-  protected function fetch_name()
+  protected function fetch_policy()
   {
-    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
+    parent::fetch_policy();
+    if($this->village->policy === true)
+    {
+      $policy = $this->fetch->find('p.multicolumn_left',8)->plaintext;
+      if(!preg_match('/物語/',$policy))
+      {
+        $this->village->policy = true;
+      }
+      else
+      {
+        $this->village->policy = false;
+        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      }
+    }
   }
-  protected function fetch_nop()
+  protected function fetch_rgl_name()
   {
-    $nop = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$nop);
+    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',-1)->plaintext);
   }
   protected function fetch_rglid()
   {
-    $rgl_base = trim($this->fetch->find('p.multicolumn_right',-1)->plaintext);
-    $rglid = preg_replace('/\r\n.+/','',$rgl_base);
-    switch($rglid)
-    {
-      case "自由設定":
-        //自由設定でも特定の編成はレギュレーションを指定する
-        $free = mb_substr($rgl_base,mb_strpos($rgl_base,'（'));
-        if(array_key_exists($free,$this->RGL_FREE))
-        {
-          $this->village->rglid = $this->RGL_FREE[$free];
-        }
-        else
-        {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
-          $this->village->rglid = Data::RGL_ETC;
-        }
-        break;
-      case "標準":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_F;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "ハム入り":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_E;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験壱型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験弐型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｃ国":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-    }
-  }
-  protected function fetch_days()
-  {
-    $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
+    $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
+    $replaces = ['\1','\1x\2 '];
+    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $this->find_rglid($rglid);
   }
   protected function fetch_from_pro()
   {
@@ -196,6 +104,7 @@ class BW extends Country
 
     $this->fetch_date();
     $this->fetch_rp();
+    $this->fetch_rglid();
     $this->fetch->clear();
   }
   protected function fetch_date()
@@ -216,48 +125,6 @@ class BW extends Country
       echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'BW';
     }
-  }
-  protected function fetch_from_epi()
-  {
-    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=40&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_wtmid();
-    $this->make_cast();
-  }
-  protected function fetch_wtmid()
-  {
-    if(!$this->village->policy)
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-    else
-    {
-      $wtmid = $this->fetch_win_message();
-      if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
-      {
-        $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
-      }
-      else
-      {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
-        $this->village->wtmid = Data::TM_RP;
-      }
-    }
-  }
-  protected function fetch_win_message()
-  {
-    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-    if(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid))
-    {
-      $do_i = -2;
-      do
-      {
-        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-        $do_i--;
-      } while(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid));
-    }
-    return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
   }
 
   protected function make_cast()
@@ -288,18 +155,6 @@ class BW extends Country
     $this->fetch_end($person);
     $this->fetch_sklid();
     $this->fetch_rltid();
-  }
-  protected function fetch_player($person)
-  {
-    $player =trim($person->find("td a",0)->plaintext);
-    if(isset($this->d_BW))
-    {
-      $this->user->player =$this->check_doppel($player);
-    }
-    else
-    {
-      $this->user->player = $player;
-    }
   }
   protected function fetch_role($person)
   {
@@ -333,17 +188,6 @@ class BW extends Country
     {
       $this->user->sklid = $this->SKILL[$this->user->role][0];
       $this->user->tmid = $this->SKILL[$this->user->role][1];
-    }
-  }
-  protected function fetch_rltid()
-  {
-    if($this->user->tmid === $this->village->wtmid)
-    {
-      $this->user->rltid = Data::RSL_WIN;
-    }
-    else
-    {
-      $this->user->rltid = Data::RSL_LOSE;
     }
   }
 }

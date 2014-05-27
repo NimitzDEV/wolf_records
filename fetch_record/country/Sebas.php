@@ -1,7 +1,37 @@
 <?php
-class Sebas extends Country
+class Sebas extends SOW
 {
-  use AR_Sebas,TR_SOW_RGL;
+  use TRS_SOW;
+  protected $RP_SP = [
+     '鬼ごっこ'=>'ONI'
+    ,'無茶振り人狼'=>'JUNA'
+    ,'ガチっているフリ'=>'RANDOM'
+    ,'企画村用'=>'SP'
+  ];
+  protected $WTM_ONI = [
+     'した……！ぜぇはぁ。'=>Data::TM_VILLAGER
+    ,'テープを切りました。'=>Data::TM_WOLF
+    ,'時代が到来しました。'=>Data::TM_FAIRY
+  ];
+  protected $WTM_SP = [
+     'でした。(村人勝利)'=>Data::TM_VILLAGER
+  ];
+  protected $SKL_SP = [
+     "鬼（人狼）"=>[Data::SKL_WOLF,Data::TM_WOLF]
+    ,"狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
+    ,"天狗"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"呪鬼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"智鬼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
+    ,"悪戯っ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
+  ];
+  protected $DT_SP = [
+     '生き'=>Data::DES_ALIVE
+    ,"突然"=>Data::DES_RETIRED
+    ,"処刑"=>Data::DES_HANGED
+    ,"襲撃"=>Data::DES_EATEN
+    ,"呪殺"=>Data::DES_CURSED
+    ,"後追"=>Data::DES_SUICIDE
+  ];
 
   function __construct()
   {
@@ -9,190 +39,14 @@ class Sebas extends Country
     $url_vil = "http://sebas.chips.jp/sow/sow.cgi?vid=";
     $url_log = "http://sebas.chips.jp/sow/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
+    $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_SP);
+    $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
   }
 
-  function fetch_village()
-  {
-    $this->fetch_from_info();
-    $this->fetch_from_pro();
-    $this->fetch_from_epi();
-  }
-  protected function fetch_from_info()
-  {
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_rglid();
-    $this->fetch_days();
-
-    $this->fetch_rp();
-    $this->fetch_policy();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_name()
-  {
-    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
-  }
   protected function fetch_nop()
   {
     $nop = $this->fetch->find('p.multicolumn_left',2)->plaintext;
     $this->village->nop = (int)preg_replace('/参戦者(\d+)人.+/','\1',$nop);
-  }
-  protected function fetch_rglid()
-  {
-    $rgl_base = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
-    $rglid = preg_replace('/\r\n.+/','',$rgl_base);
-    switch($rglid)
-    {
-      case "自由設定":
-      case "ごった煮":
-        //自由設定でも特定の編成はレギュレーションを指定する
-        $free = mb_substr($rgl_base,mb_strpos($rgl_base,'（'));
-        if(array_key_exists($free,$this->RGL_FREE))
-        {
-          $this->village->rglid = $this->RGL_FREE[$free];
-        }
-        else
-        {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
-          $this->village->rglid = Data::RGL_ETC;
-        }
-        break;
-      case "標準":
-      case "ふつー":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_F;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "ハム入り":
-      case "妖魔有り":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_E;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験壱型":
-      case "壱型？":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験弐型": 
-      case "多分弐型":
-      case "狂信者":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｃ国":
-      case "囁けます":
-      case "囁き":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｇ国":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_G;
-            break;
-          case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "呪悪":
-      case "とけとけ":
-        switch(true)
-        {
-          case ($this->village->nop  >= 9):
-            $this->village->rglid = Data::RGL_CURSE;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_ETC;
-            break;
-        }
-        break;
-      case "ノーガード":
-        switch(true)
-        {
-          case ($this->village->nop  >= 11):
-            $this->village->rglid = Data::RGL_ETC;
-            break;
-          case ($this->village->nop <=10 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-    }
   }
   protected function fetch_days()
   {
@@ -202,11 +56,7 @@ class Sebas extends Country
   protected function fetch_rp()
   {
     $rp = trim($this->fetch->find('p.multicolumn_left',8)->plaintext);
-    if($rp === '人狼BBS')
-    {
-      $this->village->rp = 'SOW';
-    }
-    else if(array_key_exists($rp,$this->RP_LIST))
+    if(array_key_exists($rp,$this->RP_LIST))
     {
       $this->village->rp = $this->RP_LIST[$rp];
     }
@@ -229,38 +79,12 @@ class Sebas extends Country
       echo $this->village->vno.' is guessed RP.'.PHP_EOL;
     }
   }
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch->clear();
-  }
-  protected function fetch_date()
-  {
-    $date = $this->fetch->find('div.mes_date',0)->plaintext;
-    $date = mb_substr($date,mb_strpos($date,"2"),10);
-    $this->village->date = preg_replace('/(\d{4})\/ ?(\d{1,2})\/ ?(\d{1,2})/','\1-\2-\3',$date);
-  }
-  protected function fetch_from_epi()
-  {
-    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=40&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_wtmid();
-    $this->make_cast();
-  }
   protected function fetch_wtmid()
   {
-    if(!$this->village->policy)
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-    else
+    if($this->village->policy)
     {
       $wtmid = $this->fetch_win_message();
-      if($this->village->rp === 'RAMDOM')
+      if($this->village->rp === 'RANDOM')
       {
         $this->village->wtmid = $this->WTM_FOOL[$wtmid];
       }
@@ -273,6 +97,10 @@ class Sebas extends Country
         echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
       }
+    }
+    else
+    {
+      $this->village->wtmid = Data::TM_RP;
     }
   }
   protected function fetch_win_message()
@@ -289,13 +117,22 @@ class Sebas extends Country
     }
     return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
   }
-  protected function make_cast()
-  {
-    $cast = $this->fetch->find('tbody tr');
-    array_shift($cast);
-    $this->cast = $cast;
-  }
 
+  protected function insert_users()
+  {
+    $this->users = [];
+    foreach($this->cast as $person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      if(!$this->user->is_valid())
+      {
+        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+      }
+      //エラーでも歯抜けが起きないように入れる
+      $this->users[] = $this->user;
+    }
+  }
   protected function fetch_users($person)
   {
     $this->user->persona = trim($person->find('td',0)->plaintext);
@@ -313,15 +150,6 @@ class Sebas extends Country
       $this->fetch_rltid();
       $this->fetch_life();
     }
-  }
-  protected function insert_onlooker()
-  {
-    $this->user->sklid  = Data::SKL_ONLOOKER;
-    $this->user->tmid = Data::TM_ONLOOKER;
-    $this->user->dtid  = Data::DES_ONLOOKER;
-    $this->user->end   = 1;
-    $this->user->life  = 0.000;
-    $this->user->rltid = Data::RSL_ONLOOKER;
   }
   protected function fetch_role($person)
   {
@@ -346,24 +174,8 @@ class Sebas extends Country
     $destiny = $person->find('td',2)->plaintext;
     $pattern = '/(\d+)日(目に|間を)(.{6}).+/';
     preg_match_all($pattern,$destiny,$matches);
-    $this->user->dtid = $this->DESTINY[$matches[3][0]];
+    $this->user->dtid = $this->DT_SP[$matches[3][0]];
     $this->user->end = (int)$matches[1][0];
-  }
-  protected function fetch_rltid()
-  {
-    if(!$this->village->policy)
-    {
-      $this->user->rltid = Data::RSL_JOIN;
-      return;
-    }
-    if($this->user->tmid === $this->village->wtmid)
-    {
-      $this->user->rltid = Data::RSL_WIN;
-    }
-    else
-    {
-      $this->user->rltid = Data::RSL_LOSE;
-    }
   }
   protected function fetch_life()
   {

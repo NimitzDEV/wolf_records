@@ -1,7 +1,11 @@
 <?php
 
-trait AR_Chitose
+trait TRS_Chitose
 {
+  private $RP_Chitose = [
+     'ようちえん'=>'KIDS'
+    ,'メトロポリスβ'=>'METRO'
+  ];
   protected $WTM_KIDS= [
      '。めでたしめでたし。'=>Data::TM_VILLAGER
     ,'て去って行きました。'=>Data::TM_WOLF

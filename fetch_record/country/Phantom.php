@@ -1,8 +1,9 @@
 <?php
-class Phantom extends Country
+class Phantom extends SOW
 {
-  use AR_SOW,TR_SOW_RGL;
-  private $is_ruined;
+  use TRS_SOW;
+  private  $is_ruined
+          ,$rgl_name;
   protected $RP_PRO = [
      'この村にも'=>'SOW'
     ,'なんか人狼'=>'FOOL'
@@ -41,134 +42,29 @@ class Phantom extends Country
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
     $this->policy = false;
   }
-  function fetch_village()
-  {
-    $this->cursedwolf = [];
-    $this->fetch_from_info();
-    $this->fetch_from_pro();
-    $this->fetch_from_epi();
-    //var_dump($this->village->get_vars());
-  }
   protected function fetch_from_info()
   {
+    $this->rgl_name = '';
     $this->is_ruined = false;
     $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
 
     $this->fetch_name();
     $this->fetch_nop();
-    $this->fetch_rglid();
     $this->fetch_days();
+    $this->fetch_rgl_name();
 
     $this->fetch->clear();
   }
-  protected function fetch_name()
+  protected function fetch_rgl_name()
   {
-    $this->village->name = $this->fetch->find('p.multicolumn_left',0)->plaintext;
-  }
-  protected function fetch_nop()
-  {
-    $nop = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$nop);
+    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
   }
   protected function fetch_rglid()
   {
-    $rgl_base = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
-    $rglid = preg_replace('/\r\n.+/','',$rgl_base);
-    switch($rglid)
-    {
-      case "自由設定":
-      case "ごった煮":
-        //自由設定でも特定の編成はレギュレーションを指定する
-        $free = mb_substr($rgl_base,mb_strpos($rgl_base,'（'));
-        if(array_key_exists($free,$this->RGL_FREE))
-        {
-          $this->village->rglid = $this->RGL_FREE[$free];
-        }
-        else
-        {
-          echo $this->village->vno.' has '.$free.PHP_EOL;
-          $this->village->rglid = Data::RGL_ETC;
-        }
-        break;
-      case "標準":
-      case "ふつー":
-        //智狼+囁狂編成
-        $this->village->rglid = Data::RGL_ETC;
-        break;
-      case "ハム入り":
-      case "妖狐入り"://幻夢
-      case "妖魔有り":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_E;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験壱型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験弐型":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "Ｃ国":
-      case "囁けます":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-    }
-  }
-  protected function fetch_days()
-  {
-    $days = trim($this->fetch->find('p.turnnavi',0)->find('a',-4)->innertext);
-    $this->village->days = mb_substr($days,0,mb_strpos($days,'日')) +1;
+    $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
+    $replaces = ['\1','\1x\2 '];
+    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $this->find_rglid($rglid);
   }
   protected function fetch_from_pro()
   {
@@ -177,6 +73,7 @@ class Phantom extends Country
 
     $this->fetch_date();
     $this->fetch_rp();
+    $this->fetch_rglid();
     $this->fetch->clear();
   }
   protected function fetch_rp()
@@ -191,12 +88,6 @@ class Phantom extends Country
       echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'PHANTOM';
     }
-  }
-  protected function fetch_date()
-  {
-    $date = $this->fetch->find('div.mes_date',0)->plaintext;
-    $date = mb_substr($date,mb_strpos($date,"2"),10);
-    $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
   }
   protected function fetch_from_epi()
   {
@@ -214,26 +105,6 @@ class Phantom extends Country
       $this->is_ruined = true;
     }
     $this->village->wtmid = Data::TM_RP;
-  }
-  protected function fetch_win_message()
-  {
-    $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-    if(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid))
-    {
-      $do_i = -2;
-      do
-      {
-        $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
-        $do_i--;
-      } while(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid));
-    }
-    return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
-  }
-  protected function make_cast()
-  {
-    $cast = $this->fetch->find('tbody tr');
-    array_shift($cast);
-    $this->cast = $cast;
   }
 
   protected function insert_users()
@@ -270,37 +141,6 @@ class Phantom extends Country
       }
     }
   }
-  protected function fetch_users($person)
-  {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->fetch_player($person);
-    $this->fetch_role($person);
-    $this->fetch_sklid();
-    $this->fetch_rltid();
-
-    if($person->find('td',2)->plaintext === '生存')
-    {
-      $this->insert_alive();
-    }
-  }
-  protected function fetch_player($person)
-  {
-    $player =trim($person->find("td a",0)->plaintext);
-    if(isset($this->d_Phantom))
-    {
-      $this->user->player =$this->check_doppel($player);
-    }
-    else
-    {
-      $this->user->player = $player;
-    }
-  }
-  protected function insert_alive()
-  {
-    $this->user->dtid = Data::DES_ALIVE;
-    $this->user->end = $this->village->days;
-    $this->user->life = 1.000;
-  }
   protected function fetch_role($person)
   {
     $role = $person->find('td',3)->plaintext;
@@ -312,28 +152,6 @@ class Phantom extends Country
     {
       $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
     }
-  }
-  protected function fetch_sklid()
-  {
-    if($this->village->rp === 'FOOL')
-    {
-      $this->user->sklid = $this->SKL_FOOL[$this->user->role][0];
-      $this->user->tmid = $this->SKL_FOOL[$this->user->role][1];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role][0];
-      $this->user->tmid = $this->SKILL[$this->user->role][1];
-    }
-    //呪狼の名前をメモ
-    if($this->user->sklid === Data::SKL_CURSEWOLF)
-    {
-      $this->cursewolf[] = $this->user->persona;
-    }
-  }
-  protected function fetch_rltid()
-  {
-    $this->user->rltid = Data::RSL_JOIN;
   }
   protected function fetch_from_daily($list)
   {
@@ -398,30 +216,6 @@ class Phantom extends Country
       }
       $this->fetch->clear();
     }
-  }
-  protected function fetch_daily_url($i,$find)
-  {
-    $row = 40;
-    $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
-    $this->fetch->load_file($url);
-    $announce = $this->fetch->find($find);
-    //処刑以降が取れてなさそうな場合はログ件数を増やす
-    if(count($announce) <= 1 && $find !== 'p.infosp')
-    {
-      do
-      {
-        $row += 10;
-        $url = $this->url.$this->village->vno.'&turn='.$i.'&mode=all&move=page&pageno=1&row='.$row;
-        $this->fetch->load_file($url);
-        $announce = $this->fetch->find($find);
-        if($row >= 70)
-        {
-          echo 'NOTICE: too deep row in fetch_daily_url'.PHP_EOL;
-          break;
-        }
-      } while (count($announce) <= 1);
-    }
-    return $announce;
   }
   protected function check_cursed_seer($persona,$key_u)
   {

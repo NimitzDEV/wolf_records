@@ -1,7 +1,8 @@
 <?php
 
-trait TR_SOW
+class SOW extends Country
 {
+  use Rgl,Rgl_Fool;
   private $cursewolf = [];
 
   function fetch_village()
@@ -87,11 +88,7 @@ trait TR_SOW
   }
   protected function fetch_wtmid()
   {
-    if(!$this->policy || !$this->village->policy)
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-    else
+    if($this->policy || $this->village->policy)
     {
       $wtmid = $this->fetch_win_message();
       if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
@@ -103,6 +100,10 @@ trait TR_SOW
         echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
       }
+    }
+    else
+    {
+      $this->village->wtmid = Data::TM_RP;
     }
   }
   protected function fetch_win_message()

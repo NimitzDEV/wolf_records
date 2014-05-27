@@ -1,12 +1,8 @@
 <?php
 
-class Chitose_RP extends Country
+class Chitose_RP extends SOW
 {
-  use TR_SOW,AR_SOW,TR_SOW_RGL,AR_Chitose;
-  private $RP_Chitose = [
-       'ようちえん'=>'KIDS'
-      ,'メトロポリスβ'=>'yETRO'
-    ];
+  use TRS_SOW,TRS_Chitose;
 
   function __construct()
   {

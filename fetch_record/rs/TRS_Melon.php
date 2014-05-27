@@ -1,6 +1,6 @@
 <?php
 
-trait AR_Melon
+trait TRS_Melon
 {
   protected $RGL_FREE = [
      '（ 村人: 5人 占い師: 1人 霊能者: 1人 狩人: 1人 聖痕者: 1人 ） （ 人狼: 2人 狂人: 2人 ）'=>Data::RGL_TES1

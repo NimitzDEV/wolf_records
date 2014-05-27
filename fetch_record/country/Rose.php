@@ -1,7 +1,7 @@
 <?php
-class Rose extends Country
+class Rose extends SOW
 {
-  use AR_Rose,TR_SOW,TR_SOW_RGL;
+  use TRS_Rose;
   function __construct()
   {
     $cid = 28;

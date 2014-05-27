@@ -1,7 +1,8 @@
 <?php
-class Dark extends Country
+class Dark extends SOW
 {
-  use AR_SOW,TR_SOW,TR_SOW_RGL;
+  use TRS_SOW;
+  private $rgl_name;
   protected $RP_PRO = [
      '平和なはず'=>'DARK'
     ,'　君はある'=>'OLD'
@@ -107,14 +108,15 @@ class Dark extends Country
   }
   protected function fetch_from_info()
   {
+    $this->rgl_name = '';
     $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
 
     $this->fetch_name();
     $this->fetch_nop();
-    $this->fetch_rglid();
     $this->fetch_days();
-
+    $this->fetch_rgl_name();
     $this->fetch_policy();
+
     $this->fetch->clear();
   }
   protected function fetch_from_pro()
@@ -124,7 +126,21 @@ class Dark extends Country
 
     $this->fetch_date();
     $this->fetch_rp();
+    $this->fetch_rglid();
+
     $this->fetch->clear();
+  }
+  protected function fetch_rgl_name()
+  {
+    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
+  }
+  protected function fetch_rglid()
+  {
+    $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
+    $replaces = ['\1','\1x\2 '];
+    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $rglid = mb_ereg_replace('町民','村人',$rglid);
+    $this->find_rglid($rglid);
   }
   protected function fetch_rp()
   {

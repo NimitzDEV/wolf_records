@@ -1,9 +1,8 @@
 <?php
 
-class Cherry extends Country
+class Cherry extends SOW
 {
-  use TR_SOW,AR_SOW,TR_SOW_RGL;
-
+  use TRS_SOW;
   function __construct()
   {
     $cid = 30;

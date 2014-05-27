@@ -1,8 +1,8 @@
 <?php
 
-class Melon extends Country
+class Melon extends SOW
 {
-  use AR_Melon,TR_SOW;
+  use TRS_Melon,Rgl_Auto;
   function __construct()
   {
     $cid = 26;
@@ -37,82 +37,8 @@ class Melon extends Country
           $this->village->rglid = Data::RGL_ETC;
         }
         break;
-      case "標準":
-      case "いつもの":
-      case "ふつー":
-      case "通常業務":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_F;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験壱型":
-      case "しけん１":
-      case "壱型？":
-      case "聖獣降臨":
-      case "業務１課":
-      case "テスト１式":
-        switch(true)
-        {
-          case ($this->village->nop  >= 13):
-            $this->village->rglid = Data::RGL_TES1;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験弐型":
-      case "しけん２":
-      case "屹度弐型":
-      case "猛烈信鬼":
-      case "業務２課":
-      case "テスト２式":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
-        break;
-      case "試験参型":
-      case "しけん３":
-      case "屹度参型":
-      case "絶叫狂鬼":
-      case "業務３課":
-      case "テスト３式":
-        switch(true)
-        {
-          case ($this->village->nop  >= 10):
-            $this->village->rglid = Data::RGL_TES3;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop  === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+      case "Ｇ国":
+        $this->check_rgl_g($this->village->nop);
         break;
       case "Ｃ国":
       case "ヒソヒソ":
@@ -120,24 +46,7 @@ class Melon extends Country
       case "闇の囁鬼":
       case "囁く補佐":
       case "魔術師の愛弟子は暗躍する":
-        switch(true)
-        {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_C;
-            break;
-          case ($this->village->nop  === 15):
-            $this->village->rglid = Data::RGL_S_C3;
-            break;
-          case ($this->village->nop <=14 && $this->village->nop >= 10):
-            $this->village->rglid = Data::RGL_S_C2;
-            break;
-          case ($this->village->nop  === 8 || $this->village->nop === 9):
-            $this->village->rglid = Data::RGL_S_2;
-            break;
-          default:
-            $this->village->rglid = Data::RGL_S_1;
-            break;
-        }
+        $this->check_rgl_c($this->village->nop);
         break;
       case "ハム入り":
       case "よーまだ":
@@ -162,16 +71,40 @@ class Melon extends Country
             break;
         }
         break;
-      case "Ｇ国":
+      case "標準":
+      case "いつもの":
+      case "ふつー":
+      case "通常業務":
+        $this->check_rgl_f($this->village->nop);
+        break;
+      case "試験壱型":
+      case "しけん１":
+      case "壱型？":
+      case "聖獣降臨":
+      case "業務１課":
+      case "テスト１式":
+        $this->check_rgl_tes1($this->village->nop);
+        break;
+      case "試験弐型":
+      case "しけん２":
+      case "屹度弐型":
+      case "猛烈信鬼":
+      case "業務２課":
+      case "テスト２式":
+        $this->check_rgl_tes2($this->village->nop);
+        break;
+      case "試験参型":
+      case "しけん３":
+      case "屹度参型":
+      case "絶叫狂鬼":
+      case "業務３課":
+      case "テスト３式":
         switch(true)
         {
-          case ($this->village->nop  >= 16):
-            $this->village->rglid = Data::RGL_G;
+          case ($this->village->nop  >= 10):
+            $this->village->rglid = Data::RGL_TES3;
             break;
-          case ($this->village->nop  <= 15 && $this->village->nop >= 13):
-            $this->village->rglid = Data::RGL_S_3;
-            break;
-          case ($this->village->nop <=12 && $this->village->nop >= 8):
+          case ($this->village->nop  === 8 || $this->village->nop  === 9):
             $this->village->rglid = Data::RGL_S_2;
             break;
           default:
@@ -335,7 +268,7 @@ class Melon extends Country
     $this->user->role = preg_replace('/\r\n.+/s','',$role);
     if($role === '--')
     {
-      $this->insert_onlooker($dtid);
+      $this->insert_onlooker_m($dtid);
     }
     else
     {
@@ -382,10 +315,10 @@ class Melon extends Country
         $this->user->tmid = $this->SKILL[0][1];
       }
       $this->fetch_dtid($dtid);
-      $this->fetch_rltid($person);
+      $this->fetch_rltid_m($person);
     }
   }
-  protected function insert_onlooker($dtid)
+  protected function insert_onlooker_m($dtid)
   {
     $this->user->dtid = Data::DES_ONLOOKER;
     $this->user->end = 1;
@@ -440,7 +373,7 @@ class Melon extends Country
       $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
   }
-  protected function fetch_rltid($person)
+  protected function fetch_rltid_m($person)
   {
     if(!$this->village->policy)
     {
