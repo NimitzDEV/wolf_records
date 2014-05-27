@@ -33,14 +33,14 @@ abstract class Giji_Old extends Country
 
     $this->fetch_name();
     $this->fetch_nop();
-    $this->fetch_rglid();
     $this->fetch_days();
-
     $this->fetch_rp();
     if(!isset($this->policy))
     {
       $this->fetch_policy();
     }
+    $this->fetch_rglid();
+
     $this->fetch->clear();
   }
 

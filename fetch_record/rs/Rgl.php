@@ -153,6 +153,10 @@ trait Rgl
 
   protected function find_rglid($arg_rgl)
   {
+    if($this->village->rp === 'FOOL')
+    {
+      $this->rgl_maxlen = $this->rgl_maxlen_fool;
+    }
     //指定文字数以上はリストに無い
     if(mb_strlen($arg_rgl) > $this->rgl_maxlen)
     {
@@ -165,6 +169,10 @@ trait Rgl
     sort($ary);
     $rgl = implode(',',$ary);
 
+    if($this->village->rp === 'FOOL')
+    {
+      $this->rgl = $this->rgl_fool;
+    }
     if(array_key_exists($rgl,$this->rgl))
     {
       $this->village->rglid = $this->rgl[$rgl];
