@@ -18,6 +18,11 @@ abstract class Giji extends Country
     $this->make_cast();
     $this->fetch_nop();
     $this->fetch_rglid();
+    
+    if(!isset($this->policy))
+    {
+      $this->fetch_policy();
+    }
     $this->fetch_wtmid();
   }
   protected function fetch_name()
@@ -37,7 +42,7 @@ abstract class Giji extends Country
   {
     $nop_all = count($this->cast);
     //見物人カウント
-    preg_match_all('/SOW_RECORD\.CABALA\.roles\[999\],/',$this->base,$onlooker);
+    preg_match_all('/giji\.potof\.roles\(999, -1\);.+/s',$this->base,$onlooker);
     $this->village->nop = $nop_all - count($onlooker[0]);
   }
   protected function fetch_rglid()
@@ -97,7 +102,7 @@ abstract class Giji extends Country
       $this->village->rglid = $this->RGL_SP[$rule];
       if($this->is_evil)
       {
-        echo $this->village->vno.' is '.$rule.".Should check evil team.".PHP_EOL;
+        echo $this->village->vno.' is '.$rule.".▼Should check evil team.".PHP_EOL;
       }
       return true;
     }
@@ -114,11 +119,7 @@ abstract class Giji extends Country
   }
   protected function fetch_wtmid()
   {
-    if(!$this->policy)
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-    else
+    if($this->policy || $this->village->policy)
     {
       $policy = preg_replace('/.+"rating": "([^"]*)".+/s',"$1",$this->base);
       switch($policy)
@@ -129,13 +130,17 @@ abstract class Giji extends Country
         case "[張] うっかりハリセン":
         case "[全] 大人も子供も初心者も、みんな安心":
         case "[危] 無茶ぶり上等":
-          $this->village->wtmid = $this->WTM[preg_replace('/.+SOW_RECORD.CABALA.winners\[(\d+)\],.+/s',"$1",$this->base)];
+          $this->village->wtmid = $this->WTM[preg_replace('/.+"winner": giji\.event\.winner\((\d+)\),.+/s',"$1",$this->base)];
           break;
         default:
           $this->village->wtmid = Data::TM_RP;
           echo $this->village->vno.' is guessed RP.'.PHP_EOL;
           break;
       }
+    }
+    else
+    {
+      $this->village->wtmid = Data::TM_RP;
     }
   }
   protected function make_cast()
