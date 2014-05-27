@@ -52,7 +52,7 @@ class Check_Village
 
   private function open_queue()
   {
-    $fname = __DIR__.'/queue.txt';
+    $fname = __DIR__.'../rs/queue.txt';
     if(is_writable($fname))
     {
       $this->fp = fopen($fname,'a+');
