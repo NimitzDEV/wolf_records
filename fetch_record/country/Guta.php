@@ -11,7 +11,8 @@ class Guta extends Giji_Old
   {
     $cid = 11;
     $url_vil = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?vid=";
-    $url_log = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog";
+    //村一覧が重いので取得数を減らす
+    $url_log = "http://www3.marimo.or.jp/~fgmaster/cabala/sow.cgi?cmd=oldlog&row=10";
     parent::__construct($cid,$url_vil,$url_log);
     $this->is_evil = true;
   }
