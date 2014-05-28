@@ -24,8 +24,8 @@ trait Rgl
     ,'恋愛天使'
     ,'恋愛天使'
   ];
-  protected $rgl_maxlen = 46;
-  protected $rgl =
+  protected $rgl_maxlen_n = 46;
+  protected $rgl_n =
   [
     //G4-20
      '人狼x1,占い師x1,村人x2'=>Data::RGL_S_1
@@ -155,10 +155,14 @@ trait Rgl
   {
     if($this->village->rp === 'FOOL')
     {
-      $this->rgl_maxlen = $this->rgl_maxlen_fool;
+      $prefix = 'fool';
+    }
+    else
+    {
+      $prefix = 'n';
     }
     //指定文字数以上はリストに無い
-    if(mb_strlen($arg_rgl) > $this->rgl_maxlen)
+    if(mb_strlen($arg_rgl) > $this->{'rgl_maxlen_'.$prefix})
     {
       $this->insert_etc($arg_rgl,'over maxlen');
       return;
@@ -169,13 +173,9 @@ trait Rgl
     sort($ary);
     $rgl = implode(',',$ary);
 
-    if($this->village->rp === 'FOOL')
+    if(array_key_exists($rgl,$this->{'rgl_'.$prefix}))
     {
-      $this->rgl = $this->rgl_fool;
-    }
-    if(array_key_exists($rgl,$this->rgl))
-    {
-      $this->village->rglid = $this->rgl[$rgl];
+      $this->village->rglid = $this->{'rgl_'.$prefix}[$rgl];
       echo $this->village->vno.' has '.$rgl.'=>'.$this->village->rglid.PHP_EOL;
     }
     else
