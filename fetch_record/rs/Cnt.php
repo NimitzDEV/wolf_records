@@ -24,5 +24,6 @@ class Cnt
   const Phantom= 47;
   const BW     = 48;
   const Dark   = 51;
+  const Dance  = 53;
   const Silence= 35;
 }

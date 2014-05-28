@@ -24,7 +24,7 @@ abstract class Country
   function insert()
   {
     $list = $this->check->get_village();
-    //$list = [11];
+    //$list = [59];
     if(!$list)
     {
       $this->check->remove_queue();
@@ -33,14 +33,14 @@ abstract class Country
     }
     $this->fetch = new simple_html_dom();
     //取得しない村番号
-    //$kick = [1];
+    $kick = [15,16,26,35,40,43];
     foreach($list as $vno)
     {
-      //if(array_search($vno,$kick)  !== false)
-      //{
-        //echo '※: '.$vno.' is kicked by $kick list.'.PHP_EOL;
-        //continue;
-      //}
+      if(array_search($vno,$kick)  !== false)
+      {
+        echo '※: '.$vno.' is kicked by $kick list.'.PHP_EOL;
+        continue;
+      }
       if($this->insert_village($vno))
       {
         //continue;
