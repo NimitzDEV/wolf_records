@@ -176,7 +176,7 @@ trait Rgl
     if(array_key_exists($rgl,$this->{'rgl_'.$prefix}))
     {
       $this->village->rglid = $this->{'rgl_'.$prefix}[$rgl];
-      echo $this->village->vno.' has '.$rgl.'=>'.$this->village->rglid.PHP_EOL;
+      //echo $this->village->vno.' has '.$rgl.'=>'.$this->village->rglid.PHP_EOL;
     }
     else
     {
