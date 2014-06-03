@@ -99,7 +99,7 @@ abstract class Country
 
   protected function fetch_policy()
   {
-    $rp = '/[^A-Z+]RP村|[^Ａ-Ｚ+]ＲＰ村|RP】|[^ァ-ヾ+]ネタ村|[^ァ-ヾ+]ランダ村|[^ァ-ヾ+]ラ神|[^ァ-ヾ+]ランダム/u';
+    $rp = '/[^A-Z+]RP村|[^Ａ-Ｚ+]ＲＰ村|RP】|[^ァ-ヾ+]ネタ村|[^ァ-ヾ+]ランダ村|[^ァ-ヾ+]ラ神|[^ァ-ヾ+]ランダム|[^ァ-ヾ+]グリード村/u';
     if(preg_match($rp,$this->village->name))
     {
       $this->village->policy = false;
