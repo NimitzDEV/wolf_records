@@ -19,11 +19,13 @@ class Cnt
   const Sea    = 45;
   const Sea_Old= 34;
   const Ivory  = 50;
-  const Crescent= 52;
+  const Crescent=52;
   const Sebas  = 31;
   const Phantom= 47;
   const BW     = 48;
   const Dark   = 51;
   const Dance  = 53;
+  const Love   = 54;
+  //const Mikan  = 55;
   const Silence= 35;
 }
