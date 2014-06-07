@@ -2,7 +2,7 @@
 
 class Sea extends Giji_Old
 {
-  private $SKL_SEA = [
+  private $SKL_SP = [
      "狼憑き"=>Data::SKL_LINEAGE
     ,"座敷童"=>Data::SKL_LUNAMIM
     ,"容疑者"=>Data::SKL_FUGITIVE
@@ -21,8 +21,18 @@ class Sea extends Giji_Old
     ,"仙狐"=>Data::SKL_OLDFOX
     ,"吸血鬼"=>Data::SKL_VAMPSEA
     ,"眷属"=>Data::SKL_SERVANT
+    ,"中身占い師"=>Data::SKL_IDSEER
+    ,"巫者"=>Data::SKL_WILD
+    ,"狼少年"=>Data::SKL_LIAR
+    ,"感応狂人"=>Data::SKL_LUNASIL
+    ,"瘴気狂人"=>Data::SKL_MIASMA
+    ,"コウモリ人間"=>Data::SKL_BAT
+    ,"サトリ"=>Data::SKL_SATORI
+    ,"コレクター"=>Data::SKL_COLLCTOR
+    ,"スナッチャー"=>Data::SKL_SSNATCHER
+    ,"ギャンブラー"=>Data::SKL_GAMBLER
     ];
-  private $WTM_SEA = [
+  private $WTM_SP = [
      "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
     ,"全ての希望を染めつくした。"=>Data::TM_WOLF
     ,"も、人狼も、妖孤でさえも、"=>Data::TM_LOVERS//誤字
@@ -49,8 +59,8 @@ class Sea extends Giji_Old
     $url_log = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
     $this->is_evil = true;
-    $this->SKILL = array_merge($this->SKILL,$this->SKL_SEA);
-    $this->WTM = array_merge($this->WTM,$this->WTM_SEA);
+    $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
+    $this->WTM = array_merge($this->WTM,$this->WTM_SP);
   }
 
   protected function fetch_nop()

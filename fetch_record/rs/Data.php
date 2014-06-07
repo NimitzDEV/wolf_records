@@ -11,14 +11,17 @@ class Data
   const TM_LWOLF     =  6; //一匹狼陣営
   const TM_PIPER     =  7; //笛吹き陣営
   const TM_EFB       =  8; //邪気陣営
+  const TM_VAMPIRE   = 15; //吸血鬼陣営
+  const TM_SEA       = 17; //深海団
+  //追加勝利
   const TM_EVIL      =  9; //裏切りの陣営
   const TM_FISH      = 10; //据え膳
   const TM_TERU      = 13; //照坊主
+  const TM_SLAVE     = 14; //奴隷陣営
+  const TM_YANDERE   = 16; //恋未練陣営
+  //その他
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
-  const TM_SLAVE     = 14; //奴隷陣営
-  const TM_VAMPIRE   = 15; //吸血鬼陣営
-  const TM_YANDERE   = 16; //悪霊陣営
     
 
   //編成 regulation
@@ -113,7 +116,7 @@ class Data
   const SKL_BAPTIST  = 78;  //洗礼者
   const SKL_SNIPER   = 79;  //狙撃手
   const SKL_JUDGE    = 84;  //審判者 おおまかな陣営占い
-  const SKL_IDSEER   = 85;  //魂魄師 中身占い師、呪殺能力はない
+  const SKL_IDSEER   = 85;  //中身占い師(魂魄師)
   const SKL_CONTACT  = 87;  //交信者 初日に一人と交信ログで会話可能にする
   const SKL_NOBLE    = 90;  //貴族 襲撃を受けると身代わりに奴隷全員が死ぬ
   const SKL_FUGITIVE = 92;  //容疑者 オーラなし狼血族
@@ -132,6 +135,7 @@ class Data
   const SKL_FFAIRY   =116;  //狐好き 思い込み狐
   const SKL_FCOURTS  =117;  //妄想家 思い込み求愛者
   const SKL_REINCRNT =118;  //転生者 死後三日後ランダムな役職で復活
+  const SKL_LIAR     =138;  //狼少年 でたらめな占結果が出る。呪殺は可能
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //囁き狂人
@@ -144,13 +148,13 @@ class Data
   const SKL_LUNASAGE = 40;  //魔術師
   const SKL_LUNAPRI  = 39;  //魔神官
   const SKL_SNATCH   = 60;  //宿借之民
-  const SKL_LUNASIL  = 62;  //聞き耳狂人 赤ログを覗けるが発言不可
+  const SKL_LUNASIL  = 62;  //感応狂人 赤ログを覗けるが発言不可
   const SKL_SEAL     = 71;  //封印狂人
   const SKL_STRSEER  = 72;  //辻占狂人 占い師 呪殺能力なし
   const SKL_LUNASEER = 55;  //狂神官 占い師
   const SKL_BLASPHEME= 81;  //冒涜者 狂信者+初日に一人を背信者にする
   const SKL_BETRAYER = 82;  //背信者 背信者、冒涜者同士で会話可能
-  const SKL_IDLUNASR = 86;  //呪魂者 中身占い師 呪殺能力あり
+  const SKL_IDLUNASR = 86;  //呪魂者 中身占い師 占われると呪殺できる
   const SKL_TEMPTER  = 88;  //誘惑者 囁き狂人+初日に一人を隷従者(恩恵)にする
   const SKL_SLEEPER  = 89;  //睡狼 役職自覚がない。被襲撃で人狼になる
   const SKL_DECOY    = 98;  //囮人形 占われると黒判定が出る
@@ -159,6 +163,7 @@ class Data
   const SKL_GEIST    =120;  //騒霊 墓下で投票できる
   const SKL_DAZZLE   =121;  //幻惑者 絆の内容を逆にする
   const SKL_PERVERT  =122;  //倒錯者 占霊判定を逆にする
+  const SKL_MIASMA   =139;  //瘴気狂人 2dに一人を無能状態にする
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -196,6 +201,7 @@ class Data
   const SKL_NINECRE  =130;  //九尾 三日月 野狐+全秘密ログ閲覧
   const SKL_HUNFAIRY =131;  //謀狐 護衛行使
   const SKL_SEALFAIRY=132;  //雪女 特殊能力封印
+  const SKL_SATORI   =140;  //サトリ 役職占いができる妖魔
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
@@ -212,6 +218,9 @@ class Data
   const SKL_PIPER    = 57;  //笛吹き
   const SKL_VAMPSEA  =106;  //吸血鬼 深海 2dに二人を眷属に変える
   const SKL_SERVANT  =107;  //眷属 眷属同士で会話可能
+  const SKL_COLLECTOR=141;  //コレクター 終了時狼+妖=1かつ生存で勝利 
+  const SKL_SSNATCHER=142;  //スナッチャー 毎日一人を無能状態にする+終了時全員無能+生存で勝利
+  const SKL_GAMBLER  =143;  //ギャンブラー 指定した二人と自分が生存で勝利
 
   const SKL_FISH     = 58;  //鱗魚人
   const SKL_TERU     = 76;  //照坊主
