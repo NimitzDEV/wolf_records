@@ -13,6 +13,7 @@ class Crescent extends Giji_Old
      "テルテル"=>Data::TM_TERU
     ,"物干し"=>Data::TM_TERU
     ,"悪霊"=>Data::TM_YANDERE
+    ,"市民"=>Data::TM_VILLAGER
   ];
   protected $RP_SP = 
   [
