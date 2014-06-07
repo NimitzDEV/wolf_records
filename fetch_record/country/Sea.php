@@ -3,7 +3,10 @@
 class Sea extends Giji_Old
 {
   private $SKL_SP = [
-     "狼憑き"=>Data::SKL_LINEAGE
+     "共有者"=>Data::SKL_MASON
+    ,"狩人"=>Data::SKL_HUNTER
+    ,"狼憑き"=>Data::SKL_LINEAGE
+    ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"座敷童"=>Data::SKL_LUNAMIM
     ,"容疑者"=>Data::SKL_FUGITIVE
     ,"獣化病"=>Data::SKL_LYCAN
@@ -75,7 +78,6 @@ class Sea extends Giji_Old
     {
       case 'とくになし':
       case 'ガチ推理':
-      case 'ゆるガチ':
       case '推理&RP':
         $this->village->policy = true;
         break;
