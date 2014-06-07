@@ -26,6 +26,6 @@ class Cnt
   const Dark   = 51;
   const Dance  = 53;
   const Love   = 54;
-  //const Mikan  = 55;
+  const Mikan  = 55;
   const Silence= 35;
 }

@@ -261,6 +261,7 @@ class Check_Village
       case Cnt::Sea_Old:
       case Cnt::Ivory:
       case Cnt::Crescent:
+      case Cnt::Love:
         $list_vno = (int)$this->html->find('tr.i_hover td',0)->plaintext;
         break;
       case Cnt::Plot:
@@ -279,6 +280,7 @@ class Check_Village
       case Cnt::Dark:
       case Cnt::BW:
       case Cnt::Dance:
+      case Cnt::Mikan:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
         break;
       case Cnt::Sebas:
