@@ -31,7 +31,7 @@ class Sea extends Giji_Old
     ,"瘴気狂人"=>Data::SKL_MIASMA
     ,"コウモリ人間"=>Data::SKL_BAT
     ,"サトリ"=>Data::SKL_SATORI
-    ,"コレクター"=>Data::SKL_COLLCTOR
+    ,"コレクター"=>Data::SKL_COLLECTOR
     ,"スナッチャー"=>Data::SKL_SSNATCHER
     ,"ギャンブラー"=>Data::SKL_GAMBLER
     ];
