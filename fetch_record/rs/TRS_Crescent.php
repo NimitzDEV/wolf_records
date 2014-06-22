@@ -5,13 +5,13 @@ trait TRS_Crescent
   public $SKL_BM = [
      "村人"=>Data::SKL_VILLAGER
     ,"聖痕者"=>Data::SKL_STIGMA
-    ,"結社員"=>Data::SKL_MASON
+    ,"共有者"=>Data::SKL_MASON
     ,"共鳴者"=>Data::SKL_TELEPATH
     ,"占い師"=>Data::SKL_SEER
     ,"信仰占師"=>Data::SKL_SEERWIN
     ,"気占師"=>Data::SKL_SEERAURA
     ,"賢者"=>Data::SKL_SAGE
-    ,"守護者"=>Data::SKL_HUNTER
+    ,"狩人"=>Data::SKL_HUNTER
     ,"霊能者"=>Data::SKL_MEDIUM
     ,"信仰霊能者"=>Data::SKL_MEDIWIN
     ,"導師"=>Data::SKL_PRIEST
