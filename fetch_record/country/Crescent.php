@@ -106,7 +106,7 @@ class Crescent extends Giji_Old
   }
   protected function fetch_role($role)
   {
-    $this->user->role = mb_ereg_replace('.+陣営：([^\r\n]+)\r\n　　.+','\\1',$role,'m');
+    $this->user->role = mb_ereg_replace('.+：([^\r\n]+)\r\n　　.+','\\1',$role,'m');
     $this->fetch_tmid(mb_substr($role,0,2));
   }
   protected function fetch_tmid($team)
