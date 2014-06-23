@@ -10,6 +10,7 @@ trait Doppel
   protected $d_Chitose =
     [
       'takano'    =>'takano&lt;千夜国&gt;'
+     ,'ferret'    =>'ferret&lt;千夜国&gt;'
     ];
   protected $d_Guta = 
     [
