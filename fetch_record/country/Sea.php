@@ -2,11 +2,12 @@
 
 class Sea extends Giji_Old
 {
-  private $SKL_SP = [
+  protected $SKL_SP = [
      "共有者"=>Data::SKL_MASON
     ,"狩人"=>Data::SKL_HUNTER
     ,"狼憑き"=>Data::SKL_LINEAGE
     ,"ハムスター人間"=>Data::SKL_FAIRY
+    ,"悔罪人"=>Data::SKL_TERU
     ,"座敷童"=>Data::SKL_LUNAMIM
     ,"容疑者"=>Data::SKL_FUGITIVE
     ,"獣化病"=>Data::SKL_LYCAN
@@ -35,13 +36,18 @@ class Sea extends Giji_Old
     ,"スナッチャー"=>Data::SKL_SSNATCHER
     ,"ギャンブラー"=>Data::SKL_GAMBLER
     ];
-  private $WTM_SP = [
+  protected $TM_SP = [
+     "贖罪"=>Data::TM_TERU
+    ,"吸血"=>Data::TM_VAMPIRE
+    ,"深海"=>Data::TM_SEA
+    ];
+  protected $WTM_SP = [
      "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
     ,"全ての希望を染めつくした。"=>Data::TM_WOLF
     ,"も、人狼も、妖孤でさえも、"=>Data::TM_LOVERS//誤字
     ,"の対立に終止符が打たれたと"=>Data::TM_VAMPIRE
   ];
-  private   $WTM_RP = [
+  protected   $WTM_RP = [
      "の人物が消え失せた時、其処"=>Data::TM_NONE
     ,"の魔が消滅し舞台はついに終"=>Data::TM_VILLAGER
     ,"侵食は進行しついに舞台の全"=>Data::TM_WOLF
@@ -55,14 +61,20 @@ class Sea extends Giji_Old
   protected $RP_SP = [
     "Role Play"=>'RP'
   ];
-  function __construct()
+  function set_village_data()
   {
     $cid = 45;
     $url_vil = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?vid=";
     $url_log = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?cmd=oldlog";
-    parent::__construct($cid,$url_vil,$url_log);
+    return ['cid'=>$cid,'url_vil'=>$url_vil,'url_log'=>$url_log];
+  }
+  function __construct()
+  {
+    $data = $this->set_village_data();
+    parent::__construct($data['cid'],$data['url_vil'],$data['url_log']);
     $this->is_evil = true;
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
+    $this->TEAM = array_merge($this->TEAM,$this->TM_SP);
     $this->WTM = array_merge($this->WTM,$this->WTM_SP);
   }
 
