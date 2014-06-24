@@ -161,14 +161,16 @@ trait Rgl
     {
       $prefix = 'n';
     }
+
+    //言い換え置換
+    $rgl = preg_replace($this->rgl_rpb,$this->rgl_rpa,$arg_rgl);
     //指定文字数以上はリストに無い
-    if(mb_strlen($arg_rgl) > $this->{'rgl_maxlen_'.$prefix})
+    if(mb_strlen($rgl) > $this->{'rgl_maxlen_'.$prefix})
     {
-      $this->insert_etc($arg_rgl,'over maxlen');
+      $this->insert_etc($rgl,'over maxlen');
       return;
     }
 
-    $rgl = preg_replace($this->rgl_rpb,$this->rgl_rpa,$arg_rgl);
     $ary = explode(' ',$rgl);
     sort($ary);
     $rgl = implode(',',$ary);
