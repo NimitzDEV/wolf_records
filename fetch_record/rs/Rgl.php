@@ -149,6 +149,18 @@ trait Rgl
     //霊ロラ
     ,'人狼x1,村人x4,狂信者x1'=>Data::RGL_HERO
     ,'人狼x1,村人x5,狂信者x1'=>Data::RGL_HERO
+    //試験参13-20
+    ,'人狼x2,占い師x1,叫迷狂人x1,村人x5,霊能者x1'=>Data::RGL_S_2 //10
+    ,'人狼x2,占い師x1,叫迷狂人x1,村人x5,狩人x1,霊能者x1'=>Data::RGL_S_2 //11
+    ,'人狼x2,占い師x1,叫迷狂人x1,村人x6,狩人x1,霊能者x1'=>Data::RGL_S_2 //12
+    ,'人狼x2,占い師x1,叫迷狂人x2,村人x5,狩人x1,聖痕者x1,霊能者x1'=>Data::RGL_TES3 //13
+    ,'人狼x2,占い師x1,叫迷狂人x2,村人x6,狩人x1,聖痕者x1,霊能者x1'=>Data::RGL_TES3
+    ,'人狼x3,占い師x1,叫迷狂人x1,村人x7,狩人x1,聖痕者x1,霊能者x1'=>Data::RGL_TES1
+    ,'人狼x3,占い師x1,叫迷狂人x1,村人x7,狩人x1,聖痕者x2,霊能者x1'=>Data::RGL_TES1
+    ,'人狼x3,占い師x1,叫迷狂人x1,村人x8,狩人x1,聖痕者x2,霊能者x1'=>Data::RGL_TES1
+    ,'人狼x3,占い師x1,叫迷狂人x1,村人x9,狩人x1,聖痕者x2,霊能者x1'=>Data::RGL_TES1
+    ,'人狼x3,共有者x2,占い師x1,叫迷狂人x2,村人x8,狩人x1,聖痕者x1,霊能者x1'=>Data::RGL_TES3
+    ,'人狼x3,共有者x2,占い師x1,叫迷狂人x2,村人x9,狩人x1,聖痕者x1,霊能者x1'=>Data::RGL_TES3
   ];
 
   protected function find_rglid($arg_rgl)

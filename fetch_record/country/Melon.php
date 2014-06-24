@@ -13,12 +13,20 @@ class Melon extends SOW
   protected function fetch_rglid()
   {
     $rglid_check = $this->fetch->find('p.multicolumn_right',1)->plaintext;
+
+    //役職言い換えなしの場合、汎用編成リストを使用
+    if(in_array($this->village->rp,['SOW','JUNA','WBBS','FOOL']))
+    {
+      $patterns = ['/.+　(（(.+)） ＋（.+|（(.+)）)/','/） （ /','/([^ ]+): (\d+)人 /'];
+      $replaces = ['\2','','\1x\2 '];
+      $rglid = trim(preg_replace($patterns,$replaces,$rglid_check));
+      $this->find_rglid($rglid);
+      return;
+    }
     $rglid = preg_replace('/^ ([^ ]+) .+/','\1',$rglid_check);
     switch($rglid)
     {
-      case "自由設定":
       case "いろいろ":
-      case "ごった煮":
       case "オリジナル":
       case "選択科目":
       case "フリーダム":
@@ -73,7 +81,6 @@ class Melon extends SOW
         break;
       case "標準":
       case "いつもの":
-      case "ふつー":
       case "通常業務":
         $this->check_rgl_f($this->village->nop);
         break;
@@ -114,6 +121,7 @@ class Melon extends SOW
         break;
       default:
         echo 'NOTICE: '.$this->village->vno.' has unknown regulation.->'.$rglid.PHP_EOL;
+        $this->village->rglid = Data::RGL_ETC;
         break;
     }
   }
