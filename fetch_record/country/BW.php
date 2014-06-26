@@ -177,17 +177,4 @@ class BW extends SOW
       $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
   }
-  protected function fetch_sklid()
-  {
-    if($this->village->rp === 'CLOCK')
-    {
-      $this->user->sklid = $this->SKL_CLOCK[$this->user->role][0];
-      $this->user->tmid = $this->SKL_CLOCK[$this->user->role][1];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role][0];
-      $this->user->tmid = $this->SKILL[$this->user->role][1];
-    }
-  }
 }
