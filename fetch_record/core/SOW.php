@@ -200,10 +200,10 @@ class SOW extends Country
   }
   protected function fetch_sklid()
   {
-    if($this->village->rp === 'FOOL')
+    if(!empty($this->{'SKL_'.$this->village->rp}))
     {
-      $this->user->sklid = $this->SKL_FOOL[$this->user->role][0];
-      $this->user->tmid = $this->SKL_FOOL[$this->user->role][1];
+      $this->user->sklid = $this->{'SKL_'.$this->village->rp}[$this->user->role][0];
+      $this->user->tmid = $this->{'SKL_'.$this->village->rp}[$this->user->role][1];
     }
     else
     {
