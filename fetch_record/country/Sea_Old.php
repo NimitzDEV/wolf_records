@@ -9,9 +9,4 @@ class Sea_Old extends Sea
     $url_log = "http://chaos-circle.versus.jp/wolf/abyss/sow.cgi?cmd=oldlog";
     return ['cid'=>$cid,'url_vil'=>$url_vil,'url_log'=>$url_log];
   }
-  //function __construct()
-  //{
-    //parent::__construct($cid,$url_vil,$url_log);
-  //}
-
 }
