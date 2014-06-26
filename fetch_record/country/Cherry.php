@@ -49,6 +49,6 @@ class Cherry extends SOW
   protected function fetch_role($person)
   {
     $role = $person->find('td',4)->plaintext;
-    $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
+    $this->user->role = mb_ereg_replace('\A(.+) \(.+を希望\)(.+|)','\1',$role,'m');
   }
 }
