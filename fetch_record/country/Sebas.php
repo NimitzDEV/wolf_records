@@ -5,7 +5,7 @@ class Sebas extends SOW
   protected $RP_SP = [
      '鬼ごっこ'=>'ONI'
     ,'無茶振り人狼'=>'JUNA'
-    ,'ガチっているフリ'=>'RANDOM'
+    ,'ガチっているフリ'=>'FOOL'
     ,'企画村用'=>'SP'
   ];
   protected $WTM_ONI = [
@@ -79,30 +79,6 @@ class Sebas extends SOW
       echo $this->village->vno.' is guessed RP.'.PHP_EOL;
     }
   }
-  protected function fetch_wtmid()
-  {
-    if($this->village->policy)
-    {
-      $wtmid = $this->fetch_win_message();
-      if($this->village->rp === 'RANDOM')
-      {
-        $this->village->wtmid = $this->WTM_FOOL[$wtmid];
-      }
-      else if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
-      {
-        $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
-      }
-      else
-      {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
-        $this->village->wtmid = Data::TM_RP;
-      }
-    }
-    else
-    {
-      $this->village->wtmid = Data::TM_RP;
-    }
-  }
   protected function fetch_win_message()
   {
     $wtmid = trim($this->fetch->find('div.info',-1)->plaintext);
@@ -155,19 +131,6 @@ class Sebas extends SOW
   {
     $role = $person->find('td',3)->plaintext;
     $this->user->role = trim(mb_ereg_replace('\A([^\r\n]+)(\r\n.+|)','\1',$role,'m'));
-  }
-  protected function fetch_sklid()
-  {
-    if($this->village->rp === 'FOOL')
-    {
-      $this->user->sklid = $this->SKL_FOOL[$this->user->role][0];
-      $this->user->tmid = $this->SKL_FOOL[$this->user->role][1];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role][0];
-      $this->user->tmid = $this->SKILL[$this->user->role][1];
-    }
   }
   protected function fetch_destiny($person)
   {

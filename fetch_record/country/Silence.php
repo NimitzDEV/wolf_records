@@ -41,18 +41,6 @@ class Silence extends SOW
     parent::__construct($cid,$url_vil,$url_log);
     $this->policy = true;
   }
-  protected function fetch_from_info()
-  {
-    $this->rgl_name = '';
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_days();
-    $this->fetch_rgl_name();
-
-    $this->fetch->clear();
-  }
   protected function fetch_name()
   {
     $this->village->name = $this->fetch->find('table.list tr td',1)->plaintext;
@@ -62,26 +50,12 @@ class Silence extends SOW
     $nop = $this->fetch->find('table.list tr',2)->find('td',1)->plaintext;
     $this->village->nop = (int)preg_replace('/(\d+)人.+/','\1',$nop);
   }
-  protected function fetch_rgl_name()
-  {
-    $this->rgl_name = trim($this->fetch->find('table.list tr',5)->find('td',1)->plaintext);
-  }
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch_rp();
-    $this->fetch_rglid();
-
-    $this->fetch->clear();
-  }
   protected function fetch_rglid()
   {
+    $rglid = trim($this->fetch->find('table.list tr',5)->find('td',1)->plaintext);
     $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
     $replaces = ['\1','\1x\2 '];
-    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $rglid = trim(preg_replace($patterns,$replaces,$rglid));
     $rglid = mb_ereg_replace('今週のトイレ当番','共有者',$rglid);
     $this->find_rglid($rglid);
   }
@@ -100,7 +74,7 @@ class Silence extends SOW
     else
     {
       echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'DARK';
+      $this->village->rp = 'SOW';
     }
   }
   protected function fetch_win_message()
@@ -123,35 +97,19 @@ class Silence extends SOW
     array_shift($cast);
     $this->cast = $cast;
   }
-  protected function fetch_users($person)
+  protected function fetch_sklid()
   {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->fetch_player($person);
-    $this->fetch_role($person);
-    $this->fetch_rltid();
-
-    if($person->find('td',2)->plaintext === '生存')
+    if(!empty($this->{'SKL_'.$this->village->rp}))
     {
-      $this->insert_alive();
-    }
-  }
-  protected function fetch_role($person)
-  {
-    $role = $person->find('td',3)->plaintext;
-    $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
-
-    if($this->village->rp === 'PO')
-    {
-      $this->user->sklid = $this->SKL_PO[$this->user->role][0];
-      $this->user->tmid = $this->SKL_PO[$this->user->role][1];
+      $this->user->sklid = $this->{'SKL_'.$this->village->rp}[$this->user->role][0];
+      $this->user->tmid = $this->{'SKL_'.$this->village->rp}[$this->user->role][1];
     }
     else
     {
       $this->user->sklid = $this->SKILL[$this->user->role][0];
       $this->user->tmid = $this->SKILL[$this->user->role][1];
     }
-
-    if(preg_match('/恋人/',$role))
+    if(preg_match('/恋人/',$this->user->role))
     {
       $this->user->tmid = Data::TM_LOVERS;
     }
@@ -160,44 +118,26 @@ class Silence extends SOW
   {
     $days = $this->village->days;
     $find = 'div.announce';
+
+    //言い換えの有無
+    if(!empty($this->{'DT_'.$this->village->rp}))
+    {
+      $rp = $this->village->rp;
+    }
+    else
+    {
+      $rp = 'NORMAL';
+    }
+
     for($i=2; $i<=$days; $i++)
     {
       $announce = $this->fetch_daily_url($i,$find);
       foreach($announce as $item)
       {
-        $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
-        $key= mb_substr(trim($item->plaintext),-6,6);
-        if($this->village->rp === 'PO')
-        {
-          if(!isset($this->DT_PO[$key]))
-          {
-            continue;
-          }
-          else
-          {
-            $persona = trim(mb_ereg_replace($this->DT_PO[$key][0],'\2',$destiny,'m'));
-            $key_u = array_search($persona,$list);
-            $dtid = $this->DT_PO[$key][1];
-          }
-        }
-        else if(!isset($this->DT_NORMAL[$key]))
+        $key_u = $this->fetch_key_u($list,$rp,$item);
+        if($key_u === false)
         {
           continue;
-        }
-        else
-        {
-          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
-          $key_u = array_search($persona,$list);
-          $dtid = $this->DT_NORMAL[$key][1];
-        }
-        //妖魔陣営の無残死は呪殺死にする
-        if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
-        {
-          $this->users[$key_u]->dtid = Data::DES_CURSED;
-        }
-        else
-        {
-          $this->users[$key_u]->dtid = $dtid;
         }
         $this->users[$key_u]->end = $i;
         $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
