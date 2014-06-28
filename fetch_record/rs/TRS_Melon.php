@@ -183,7 +183,6 @@ trait TRS_Melon
     ,[Data::SKL_FISH,Data::TM_FISH]
     ,[Data::SKL_TERU,Data::TM_TERU]
   ];
-  protected $RP_DEFAULT = ['WBBS','THEATER','TOUR','F2077','NEVER','VO8','MARKET'];
   protected $SKL_SOW = [
      '村人','占い師','霊能者','狩人','共有者','共鳴者','聖痕者','公証人','闇狩人'
      ,'人狼','呪狼','智狼','憑狼','狂人','狂信者','Ｃ国狂人','叫迷狂人','封印狂人','辻占狂人'

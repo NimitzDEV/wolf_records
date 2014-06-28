@@ -258,10 +258,6 @@ class Melon extends SOW
     $this->fetch_player($person);
     $this->fetch_role($person);
   }
-  protected function fetch_persona($person)
-  {
-    $this->user->persona = trim($person->find("td",0)->plaintext);
-  }
   protected function fetch_player($person)
   {
     $player = trim($person->find("td",1)->plaintext);
@@ -276,12 +272,16 @@ class Melon extends SOW
     $this->user->role = preg_replace('/\r\n.+/s','',$role);
     if($role === '--')
     {
-      $this->insert_onlooker_m($dtid);
+      $this->insert_onlooker();
+      $this->modify_onlooker($dtid);
     }
     else
     {
-      $rp = $this->village->rp;
-      if(array_search($rp,$this->RP_DEFAULT) !== false)
+      if(!empty($this->{'SKL_'.$this->village->rp}))
+      {
+        $rp = $this->village->rp;
+      }
+      else
       {
         $rp = 'SOW';
       }
@@ -326,13 +326,8 @@ class Melon extends SOW
       $this->fetch_rltid_m($person);
     }
   }
-  protected function insert_onlooker_m($dtid)
+  protected function modify_onlooker($dtid)
   {
-    $this->user->dtid = Data::DES_ONLOOKER;
-    $this->user->end = 1;
-    $this->user->tmid = Data::TM_ONLOOKER;
-    $this->user->life = 0.000;
-    $this->user->rltid = Data::RSL_ONLOOKER;
     if($dtid === '--')
     {
       $this->user->sklid = Data::SKL_OWNER;
@@ -348,7 +343,6 @@ class Melon extends SOW
     }
     else
     {
-      $this->user->sklid = Data::SKL_ONLOOKER;
       switch($this->village->rp)
       {
         case 'MELON':
