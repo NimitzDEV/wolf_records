@@ -121,17 +121,6 @@ class Rose extends SOW
       $this->user->rltid = Data::RSL_WIN;
     }
   }
-  protected function fetch_sklid()
-  {
-    if($this->village->rp === 'FOOL')
-    {
-      $this->user->sklid = $this->SKL_FOOL[$this->user->role];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role];
-    }
-  }
   protected function fetch_rltid()
   {
     if($this->user->rltid)
@@ -165,52 +154,25 @@ class Rose extends SOW
     $this->user->end = $this->village->days;
     $this->user->life = 1.000;
   }
-  protected function fetch_from_daily($list)
+  protected function fetch_key_u($list,$rp,$item)
   {
-    $days = $this->village->days;
-    $rp = $this->village->rp;
-    $find = 'p.info';
-    for($i=2; $i<=$days; $i++)
-    {
-      $announce = $this->fetch_daily_url($i,$find);
-      foreach($announce as $item)
+      $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
+      $key= mb_substr(trim($item->plaintext),-6,6);
+      if(!isset($this->{'DT_'.$rp}[$key]))
       {
-        $destiny = trim($item->plaintext);
-        $key= mb_substr($destiny,-6,6);
-        $destiny = preg_replace("/\r\n/","",$destiny);
-        if($rp === "FOOL")
-        {
-          if(!isset($this->DT_FOOL[$key]))
-          {
-            continue;
-          }
-          else if($key === "ったみたい。")
-          {
-            echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
-            continue;
-          }
-          else
-          {
-            $persona = trim(mb_ereg_replace($this->DT_FOOL[$key][0],'\2',$destiny,'m'));
-            $key_u = array_search($persona,$list);
-            $dtid = $this->DT_FOOL[$key][1];
-          }
-        }
-        else if(!isset($this->DT_NORMAL[$key]))
-        {
-          continue;
-        }
-        else
-        {
-          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
-          $key_u = array_search($persona,$list);
-          $dtid = $this->DT_NORMAL[$key][1];
-        }
-        $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
+        return false;
       }
-      $this->fetch->clear();
-    }
+      else
+      {
+        $persona = trim(mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\2',$destiny,'m'));
+      }
+
+      $key_u = array_search($persona,$list);
+      if($key_u === false)
+      {
+        return false;
+      }
+      return $key_u;
   }
   protected function insert_baptist($list)
   {
