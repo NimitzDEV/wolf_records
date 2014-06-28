@@ -40,82 +40,32 @@ class Mikan extends SOW
     $this->policy = false;
     $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_SP);
   }
-  protected function fetch_sklid()
+  protected function fetch_key_u($list,$rp,$item)
   {
-    if(!empty($this->{'SKL_'.$this->village->rp}))
-    {
-      $this->user->sklid = $this->{'SKL_'.$this->village->rp}[$this->user->role][0];
-      $this->user->tmid = $this->{'SKL_'.$this->village->rp}[$this->user->role][1];
-    }
-    else
-    {
-      $this->user->sklid = $this->SKILL[$this->user->role][0];
-      $this->user->tmid = $this->SKILL[$this->user->role][1];
-    }
-    //呪狼の名前をメモ
-    if($this->user->sklid === Data::SKL_CURSEWOLF)
-    {
-      $this->cursewolf[] = $this->user->persona;
-    }
-  }
-  protected function fetch_from_daily($list)
-  {
-    $days = $this->village->days;
-    $rp = $this->village->rp;
-    $find = 'p.info';
-    for($i=2; $i<=$days; $i++)
-    {
-      $announce = $this->fetch_daily_url($i,$find);
-      foreach($announce as $item)
+      $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
+      $key= mb_substr(trim($item->plaintext),-6,6);
+
+      if(mb_ereg_match('.+ 消えた。\z',$key))
       {
-        $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
-        $key= mb_substr(trim($item->plaintext),-6,6);
-        if(!empty($this->{'DT_'.$rp}))
-        {
-          //keyが六文字未満
-          if(mb_ereg_match('.+ 消えた。\z',$key))
-          {
-            $key = '  消えた。';
-          }
-          if(!isset($this->{'DT_'.$rp}[$key]))
-          {
-            continue;
-          }
-          else
-          {
-            $persona = trim(mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\2',$destiny,'m'));
-            $key_u = array_search($persona,$list);
-            $dtid = $this->{'DT_'.$rp}[$key][1];
-          }
-        }
-        else if(!isset($this->DT_NORMAL[$key]))
-        {
-          continue;
-        }
-        else
-        {
-          $persona = trim(mb_ereg_replace($this->DT_NORMAL[$key][0],'\2',$destiny,'m'));
-          $key_u = array_search($persona,$list);
-          $dtid = $this->DT_NORMAL[$key][1];
-        }
-        //妖魔陣営の無残死は呪殺死にする
-        if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
-        {
-          $this->users[$key_u]->dtid = Data::DES_CURSED;
-        }
-        //呪狼が存在する編成で、占い師が襲撃された場合別途チェック
-        else if(!empty($this->cursewolf) && $this->users[$key_u]->sklid === Data::SKL_SEER && $dtid === Data::DES_EATEN && $this->check_cursed_seer($persona,$key_u))
-        {
-          $this->users[$key_u]->dtid = Data::DES_CURSED;
-        }
-        else
-        {
-          $this->users[$key_u]->dtid = $dtid;
-        }
-        $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
+        $key = '  消えた。';
       }
-      $this->fetch->clear();
-    }
+
+      if(!isset($this->{'DT_'.$rp}[$key]))
+      {
+        return false;
+      }
+      else
+      {
+        $persona = trim(mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\2',$destiny,'m'));
+        $dtid = $this->{'DT_'.$rp}[$key][1];
+      }
+
+      $key_u = array_search($persona,$list);
+      if($key_u === false)
+      {
+        return false;
+      }
+      $this->fetch_dtid($key_u,$dtid,$persona);
+      return $key_u;
   }
 }
