@@ -20,7 +20,10 @@ class SOW extends Country
     $this->fetch_name();
     $this->fetch_nop();
     $this->fetch_days();
-    $this->fetch_rp();
+    if(empty($this->RP_PRO))
+    {
+      $this->fetch_rp();
+    }
     if(!isset($this->policy))
     {
       $this->fetch_policy();
@@ -53,16 +56,25 @@ class SOW extends Country
   }
   protected function fetch_rp()
   {
-    $rp = trim($this->fetch->find('p.multicolumn_left',7)->plaintext);
-    if(array_key_exists($rp,$this->RP_LIST))
+    if(empty($this->RP_PRO))
     {
-      $this->village->rp = $this->RP_LIST[$rp];
+      $rp = trim($this->fetch->find('p.multicolumn_left',7)->plaintext);
+      if(array_key_exists($rp,$this->RP_LIST))
+      {
+        $this->village->rp = $this->RP_LIST[$rp];
+        return;
+      }
     }
     else
     {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'SOW';
+      $rp = mb_substr($this->fetch->find('p.info',0)->plaintext,1,5);
+      if(array_key_exists($rp,$this->RP_PRO))
+      {
+        $this->village->rp = $this->RP_PRO[$rp];
+        return;
+      }
     }
+    $this->village->rp = 'SOW';
   }
   protected function fetch_from_pro()
   {
@@ -70,6 +82,10 @@ class SOW extends Country
     $this->fetch->load_file($url);
 
     $this->fetch_date();
+    if(!empty($this->RP_PRO))
+    {
+      $this->fetch_rp();
+    }
     $this->fetch->clear();
   }
   protected function fetch_date()
@@ -155,7 +171,7 @@ class SOW extends Country
   }
   protected function fetch_users($person)
   {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
+    $this->fetch_persona($person);
     $this->fetch_player($person);
     $this->fetch_role($person);
     $this->fetch_sklid();
@@ -165,6 +181,10 @@ class SOW extends Country
     {
       $this->insert_alive();
     }
+  }
+  protected function fetch_persona($person)
+  {
+    $this->user->persona = trim($person->find("td",0)->plaintext);
   }
   protected function fetch_player($person)
   {

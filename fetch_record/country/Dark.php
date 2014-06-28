@@ -2,7 +2,6 @@
 class Dark extends SOW
 {
   use TRS_SOW;
-  private $rgl_name;
   protected $RP_PRO = [
      '平和なはず'=>'DARK'
     ,'　君はある'=>'OLD'
@@ -121,69 +120,16 @@ class Dark extends SOW
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
     $this->DT_NORMAL = array_merge($this->DT_NORMAL,$this->DT_SP);
   }
-  protected function fetch_from_info()
-  {
-    $this->rgl_name = '';
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_days();
-    $this->fetch_rgl_name();
-    $this->fetch_policy();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch_rp();
-    $this->fetch_rglid();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_rgl_name()
-  {
-    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
-  }
   protected function fetch_rglid()
   {
+    $rglid = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
     $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
     $replaces = ['\1','\1x\2 '];
-    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $rglid = trim(preg_replace($patterns,$replaces,$rglid));
     $rglid = mb_ereg_replace('町民','村人',$rglid);
     $this->find_rglid($rglid);
   }
-  protected function fetch_rp()
-  {
-    $rp = mb_substr($this->fetch->find('p.info',0)->plaintext,1,5);
-    if(array_key_exists($rp,$this->RP_PRO))
-    {
-      $this->village->rp = $this->RP_PRO[$rp];
-    }
-    else
-    {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'DARK';
-    }
-  }
 
-  protected function fetch_users($person)
-  {
-    $this->fetch_persona($person);
-    $this->fetch_player($person);
-    $this->fetch_role($person);
-    $this->fetch_sklid();
-    $this->fetch_rltid();
-
-    if($person->find('td',2)->plaintext === '生存')
-    {
-      $this->insert_alive();
-    }
-  }
   protected function fetch_persona($person)
   {
     $persona = trim($person->find('td',0)->plaintext);

@@ -2,8 +2,7 @@
 class Phantom extends SOW
 {
   use TRS_SOW;
-  private  $is_ruined
-          ,$rgl_name;
+  private  $is_ruined;
   protected $RP_PRO = [
      'この村にも'=>'SOW'
     ,'なんか人狼'=>'FOOL'
@@ -41,61 +40,7 @@ class Phantom extends SOW
     parent::__construct($cid,$url_vil,$url_log);
     $this->SKILL = array_merge($this->SKILL,$this->SKL_SP);
     $this->policy = false;
-  }
-  protected function fetch_from_info()
-  {
-    $this->rgl_name = '';
     $this->is_ruined = false;
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_days();
-    $this->fetch_rgl_name();
-
-    $this->fetch->clear();
-  }
-  protected function fetch_rgl_name()
-  {
-    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',1)->plaintext);
-  }
-  protected function fetch_rglid()
-  {
-    $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
-    $replaces = ['\1','\1x\2 '];
-    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
-    $this->find_rglid($rglid);
-  }
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch_rp();
-    $this->fetch_rglid();
-    $this->fetch->clear();
-  }
-  protected function fetch_rp()
-  {
-    $rp = mb_substr($this->fetch->find('p.info',0)->plaintext,1,5);
-    if(array_key_exists($rp,$this->RP_PRO))
-    {
-      $this->village->rp = $this->RP_PRO[$rp];
-    }
-    else
-    {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'PHANTOM';
-    }
-  }
-  protected function fetch_from_epi()
-  {
-    $url = $this->url.$this->village->vno.'&turn='.$this->village->days.'&row=40&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_wtmid();
-    $this->make_cast();
   }
   protected function fetch_wtmid()
   {
@@ -153,71 +98,7 @@ class Phantom extends SOW
       $this->user->role = mb_ereg_replace('\A(.+) \(.+\)(.+|)','\1',$role,'m');
     }
   }
-  protected function fetch_from_daily($list)
-  {
-    $days = $this->village->days;
-    $rp = $this->village->rp;
-    if($rp !== 'FOOL' && $rp !== 'DREAM')
-    {
-      $rp = 'NORMAL';
-    }
-    $find = 'p.info';
-    for($i=2; $i<=$days; $i++)
-    {
-      $announce = $this->fetch_daily_url($i,$find);
-      foreach($announce as $item)
-      {
-        $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
-        $key= mb_substr(trim($item->plaintext),-6,6);
-        if($rp === 'FOOL')
-        {
-          if(!isset($this->DT_FOOL[$key]))
-          {
-            continue;
-          }
-          else if($key === "ったみたい。")
-          {
-            echo "NOTICE: day".$i."occured EATEN but cannot find who it is.".PHP_EOL;
-            continue;
-          }
-          else
-          {
-            $persona = trim(mb_ereg_replace($this->DT_FOOL[$key][0],'\2',$destiny,'m'));
-            $key_u = array_search($persona,$list);
-            $dtid = $this->DT_FOOL[$key][1];
-          }
-        }
-        else if(!isset($this->{'DT_'.$rp}[$key]))
-        {
-          continue;
-        }
-        else
-        {
-          $persona = trim(mb_ereg_replace($this->{'DT_'.$rp}[$key][0],'\2',$destiny,'m'));
-          $key_u = array_search($persona,$list);
-          $dtid = $this->{'DT_'.$rp}[$key][1];
-        }
-        //妖魔陣営の無残死は呪殺死にする
-        if($this->users[$key_u]->tmid === Data::TM_FAIRY && $dtid === Data::DES_EATEN)
-        {
-          $this->users[$key_u]->dtid = Data::DES_CURSED;
-        }
-        //呪狼が存在する編成で、占い師が襲撃された場合別途チェック
-        else if(!empty($this->cursewolf) && $this->users[$key_u]->sklid === Data::SKL_SEER && $dtid === Data::DES_EATEN && $this->check_cursed_seer($persona,$key_u))
-        {
-          $this->users[$key_u]->dtid = Data::DES_CURSED;
-        }
-        else
-        {
-          $this->users[$key_u]->dtid = $dtid;
-        }
-        $this->users[$key_u]->end = $i;
-        $this->users[$key_u]->life = round(($i-1) / $this->village->days,3);
-      }
-      $this->fetch->clear();
-    }
-  }
-  protected function check_cursed_seer($persona,$key_u)
+  protected function modify_cursed_seer($persona,$key_u)
   {
     if($this->village->rp === 'DREAM')
     {

@@ -2,7 +2,6 @@
 class BW extends SOW
 {
   use TRS_SOW;
-  private $rgl_name;
   protected $RP_PRO = [
      '影が忍び寄'=>'BW'
     ,'平和な日々'=>'FOREST'
@@ -56,19 +55,6 @@ class BW extends SOW
     $url_log = "http://wolf.nacht.jp/sw/?cmd=oldlog";
     parent::__construct($cid,$url_vil,$url_log);
   }
-  protected function fetch_from_info()
-  {
-    $this->rgl_name = '';
-    $this->fetch->load_file($this->url.$this->village->vno."&cmd=vinfo");
-
-    $this->fetch_name();
-    $this->fetch_nop();
-    $this->fetch_days();
-    $this->fetch_rgl_name();
-    $this->fetch_policy();
-
-    $this->fetch->clear();
-  }
   protected function fetch_policy()
   {
     parent::fetch_policy();
@@ -86,45 +72,19 @@ class BW extends SOW
       }
     }
   }
-  protected function fetch_rgl_name()
-  {
-    $this->rgl_name = trim($this->fetch->find('p.multicolumn_right',-1)->plaintext);
-  }
   protected function fetch_rglid()
   {
+    $rglid= trim($this->fetch->find('p.multicolumn_right',-1)->plaintext);
     $patterns = ['/.+\r\n （(.+)）/','/([^ ]+): (\d+)人 /'];
     $replaces = ['\1','\1x\2 '];
-    $rglid = trim(preg_replace($patterns,$replaces,$this->rgl_name));
+    $rglid = trim(preg_replace($patterns,$replaces,$rglid));
     $this->find_rglid($rglid);
-  }
-  protected function fetch_from_pro()
-  {
-    $url = $this->url.$this->village->vno.'&turn=0&row=10&mode=all&move=page&pageno=1';
-    $this->fetch->load_file($url);
-
-    $this->fetch_date();
-    $this->fetch_rp();
-    $this->fetch_rglid();
-    $this->fetch->clear();
   }
   protected function fetch_date()
   {
     $date = $this->fetch->find('td.time_info span',0)->plaintext;
     $date = mb_substr($date,0,10);
     $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
-  }
-  protected function fetch_rp()
-  {
-    $rp = mb_substr($this->fetch->find('p.info',0)->plaintext,1,5);
-    if(array_key_exists($rp,$this->RP_PRO))
-    {
-      $this->village->rp = $this->RP_PRO[$rp];
-    }
-    else
-    {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
-      $this->village->rp = 'BW';
-    }
   }
 
   protected function make_cast()
