@@ -22,6 +22,11 @@ class Data
   //その他
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
+  //輪廻
+  const TM_R_VIL     = 18; //村人
+  const TM_R_SEER    = 19; //占い師
+  const TM_R_MED     = 20; //霊能者
+  const TM_R_WOLF    = 21; //人狼
     
 
   //編成 regulation
@@ -56,6 +61,7 @@ class Data
   const RGL_TA   = 20;      //Trouble☆Aliens
   const RGL_MIST = 14;      //深い霧の夜
   const RGL_PLOT = 29;      //陰謀に集う胡蝶
+  const RGL_RINNE= 33;      //輪廻
   const RGL_ETC  = 24;      //特殊
 
 
@@ -227,6 +233,14 @@ class Data
   const SKL_SLAVE    = 91;  //奴隷
   const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
   const SKL_SUCKER   = 73;  //血人 陣営なし
+  //輪廻
+  const SKL_R_VIL    =144;  //村人
+  const SKL_R_HUN    =145;  //狩人
+  const SKL_R_SEER   =146;  //占い師
+  const SKL_R_USEE   =147;  //見習い占い師
+  const SKL_R_MED    =148;  //霊能者
+  const SKL_R_WOLF   =149;  //智狼
+  const SKL_R_WISEW  =150;  //智狼
 
   const SKL_ONLOOKER = 10;  //見物人
   const SKL_OWNER    = 77;  //支配人

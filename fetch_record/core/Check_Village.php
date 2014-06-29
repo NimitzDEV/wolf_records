@@ -277,6 +277,7 @@ class Check_Village
       case Cnt::Moon:
       case Cnt::Chitose:
       case Cnt::Chitose_RP:
+      case Cnt::Rinne:
       case Cnt::Phantom:
       case Cnt::Mikan:
       case Cnt::Dark:

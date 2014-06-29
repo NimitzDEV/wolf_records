@@ -20,6 +20,7 @@ class Cnt
   const Sea_Old= 34;
   const Crescent=52;
   const Moon   = 56;
+  const Rinne  = 57;
   const Ivory  = 50;
   const Sebas  = 31;
   const Phantom= 47;
