@@ -125,7 +125,7 @@ class SOW extends Country
   protected function fetch_win_message()
   {
     $wtmid = trim($this->fetch->find('p.info',-1)->plaintext);
-    if(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid))
+    if(preg_match("/延長されました|村の設定が変更/",$wtmid))
     {
       $do_i = -2;
       do
