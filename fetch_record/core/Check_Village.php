@@ -271,16 +271,17 @@ class Check_Village
         $list_vno = (int)preg_replace("/^(\d+) <a.+/","$1",$list_vno);
         break;
       case Cnt::Melon:
-      case Cnt::Real:
       case Cnt::Rose:
       case Cnt::Cherry:
+      case Cnt::Real:
+      case Cnt::Moon:
       case Cnt::Chitose:
       case Cnt::Chitose_RP:
       case Cnt::Phantom:
+      case Cnt::Mikan:
       case Cnt::Dark:
       case Cnt::BW:
       case Cnt::Dance:
-      case Cnt::Mikan:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('tbody td a',0)->plaintext);
         break;
       case Cnt::Sebas:

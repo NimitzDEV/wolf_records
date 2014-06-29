@@ -18,8 +18,9 @@ class Cnt
   const Chitose_RP = 33;
   const Sea    = 45;
   const Sea_Old= 34;
-  const Ivory  = 50;
   const Crescent=52;
+  const Moon   = 56;
+  const Ivory  = 50;
   const Sebas  = 31;
   const Phantom= 47;
   const BW     = 48;
