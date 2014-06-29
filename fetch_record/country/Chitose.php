@@ -18,7 +18,7 @@ class Chitose extends SOW
     ,'くことはなかった……'=>Data::TM_FAIRY
     ,'すすべがなかった……'=>Data::TM_FAIRY
   ];
-  protected $DT_KIDS = [//処刑と突然死は区別するために7文字取得
+  protected $DT_KIDS = [//処刑と突然死は区別するために8文字取得
      'り眠りについた。'=>['.+(\(ランダム投票\)|投票した。)(.+) は子ども達の手により眠りについた。',Data::DES_HANGED]
     ,'然眠りについた。'=>['^( ?)(.+) は、突然眠りについた。',Data::DES_RETIRED]
     ,'発見された。'=>['(.+)朝、 ?(.+) が、むざん.+',Data::DES_EATEN]
