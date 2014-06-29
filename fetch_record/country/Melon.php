@@ -322,7 +322,7 @@ class Melon extends SOW
         $this->user->sklid = $this->SKILL[0][0];
         $this->user->tmid = $this->SKILL[0][1];
       }
-      $this->fetch_dtid($dtid);
+      $this->fetch_end($dtid);
       $this->fetch_rltid_m($person);
     }
   }
@@ -360,7 +360,7 @@ class Melon extends SOW
       }
     }
   }
-  protected function fetch_dtid($dtid)
+  protected function fetch_end($dtid)
   {
     if($dtid === '生存')
     {
