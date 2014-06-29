@@ -26,4 +26,9 @@ class Moon extends SOW
     parent::__construct($cid,$url_vil,$url_log);
     $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_SP);
   }
+  protected function fetch_role($person)
+  {
+    $role = $person->find('td',4)->plaintext;
+    $this->user->role = mb_ereg_replace('\A(.+) \(.+を希望\)(.+|)','\1',$role,'m');
+  }
 }
