@@ -74,6 +74,7 @@ trait TRS_Crescent
     ,"野狐"=>Data::SKL_WITCHFOX
     ,"九尾"=>Data::SKL_NINECRE
     ,"囁き妖狐"=>Data::SKL_MIMIC
+    ,"響狐"=>Data::SKL_BAT
     ,"風花妖狐"=>Data::SKL_SNOW
     ,"悪戯妖狐"=>Data::SKL_PIXY
     ,"謀狐"=>Data::SKL_HUNFAIRY
