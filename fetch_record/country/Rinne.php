@@ -11,4 +11,12 @@ class Rinne extends SOW
     parent::__construct($cid,$url_vil,$url_log);
     $this->policy = true;
   }
+  protected function fetch_rglid()
+  {
+    $this->village->rglid = Data::RGL_RINNE;
+  }
+  protected function fetch_rp()
+  {
+    $this->village->rp = 'SOW';
+  }
 }
