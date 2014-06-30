@@ -27,6 +27,7 @@ trait Doppel
      ,"uni"       =>"uni&lt;F国&gt;"
      ,"maymay"    =>"maymay&lt;審問瓜&gt;"
      ,"barista"   =>"barista&lt;瓜科&gt;"
+     ,"dummy"     =>"dummy&lt;瓜科&gt;"
     ];
   protected $d_Ning = 
     [
@@ -57,5 +58,9 @@ trait Doppel
   protected $d_Rose = 
     [
       "motimoti"  =>"motimoti&lt;G薔薇国&gt;"
+    ];
+  protected $d_Sea_Old = 
+    [
+      "dummy"     =>"dummy&lt;旧深海&gt;"
     ];
 }
