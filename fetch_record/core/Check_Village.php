@@ -142,6 +142,16 @@ class Check_Village
     {
       return true;
     }
+    else if($this->cid === Cnt::Rinne)
+    {
+      $this->html->load_file($this->url_vil.$vno.'&cmd=vinfo');
+      $day = $this->html->find('p.multicolumn_role',0)->plaintext;
+      if($day === '短期')
+      {
+        return false;
+      }
+      $this->html->clear();
+    }
 
     $this->html->load_file($this->url_vil.$vno);
     switch($this->cid)
