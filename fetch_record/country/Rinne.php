@@ -2,7 +2,7 @@
 
 class Rinne extends SOW
 {
-  use TRS_SOW;
+  use TRS_Rinne;
   function __construct()
   {
     $cid = 57;

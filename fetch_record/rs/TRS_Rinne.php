@@ -1,6 +1,6 @@
 <?php
 
-trait TRS_SOW
+trait TRS_Rinne
 {
   protected $RP_LIST = [
      '人狼物語'=>'SOW'
@@ -16,12 +16,12 @@ trait TRS_SOW
     ,"狩人"=>[Data::SKL_R_HUN,Data::TM_R_VIL]
     ,"占い師"=>[Data::SKL_R_SEER,Data::TM_R_SEER]
     ,"見習い占い師"=>[Data::SKL_R_USEE,Data::TM_R_SEER]
-    ,"霊能者"=>[Data::SKL_r_MED,Data::TM_R_MED]
+    ,"霊能者"=>[Data::SKL_R_MED,Data::TM_R_MED]
     ,"人狼"=>[Data::SKL_R_WOLF,Data::TM_R_WOLF]
     ,"智狼"=>[Data::SKL_R_WISEW,Data::TM_R_WOLF]
     ];
   protected $DT_NORMAL = [
-     '処刑された。'=>['.+(\(ランダム投票\)|投票した。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
+     '処刑された。'=>['.+(\(ランダム投票\)|投票できた。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]
     ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
     ,'発見された。'=>['(.+)朝、 ?(.+) が無残.+',Data::DES_EATEN]
   ];
