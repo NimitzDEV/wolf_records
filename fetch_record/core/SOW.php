@@ -132,7 +132,7 @@ class SOW extends Country
       {
         $wtmid = trim($this->fetch->find('p.info',$do_i)->plaintext);
         $do_i--;
-      } while(preg_match("/村の更新日が延長|村の設定が変更/",$wtmid));
+      } while(preg_match("/延長されました|村の設定が変更/",$wtmid));
     }
     return mb_substr(preg_replace("/\r\n/","",$wtmid),-10);
   }
