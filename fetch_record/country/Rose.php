@@ -89,26 +89,24 @@ class Rose extends SOW
   }
   protected function fetch_users($person)
   {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
+    $this->fetch_persona($person);
     $this->fetch_player($person);
     $this->fetch_role($person);
     $this->user->tmid = $this->TEAM[$person->find('td',3)->plaintext];
 
-    if($this->user->tmid === Data::TM_ONLOOKER)
+    if($this->user->role === '見物人')
     {
       $this->insert_onlooker();
     }
     else
     {
       $this->user->dtid = $this->DESTINY[$person->find('td',2)->plaintext];
+      if($this->user->dtid === Data::DES_ALIVE)
+      {
+        $this->insert_alive();
+      }
       $this->fetch_sklid();
       $this->fetch_rltid();
-    }
-
-    if($this->user->dtid === Data::DES_ALIVE)
-    {
-      $this->insert_alive();
-      return;
     }
   }
   protected function fetch_role($person)

@@ -26,24 +26,16 @@ class Cherry extends SOW
     }
     $this->cast = $cast;
   }
-  protected function fetch_users($person)
+  protected function is_alive($person)
   {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
-    $this->fetch_player($person);
-    $this->fetch_role($person);
-
-    if($this->user->role === '見物人')
+    $status = $person->find('td',3)->plaintext;
+    if($status === '生存')
     {
-      $this->insert_onlooker();
+      return true;
     }
     else
     {
-      $this->fetch_sklid();
-      $this->fetch_rltid();
-      if($person->find('td',3)->plaintext === '生存')
-      {
-        $this->insert_alive();
-      }
+      return false;
     }
   }
   protected function fetch_role($person)

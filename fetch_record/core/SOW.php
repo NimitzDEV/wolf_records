@@ -174,12 +174,19 @@ class SOW extends Country
     $this->fetch_persona($person);
     $this->fetch_player($person);
     $this->fetch_role($person);
-    $this->fetch_sklid();
-    $this->fetch_rltid();
 
-    if($person->find('td',2)->plaintext === '生存')
+    if($this->user->role === '見物人')
     {
-      $this->insert_alive();
+      $this->insert_onlooker();
+    }
+    else
+    {
+      $this->fetch_sklid();
+      $this->fetch_rltid();
+      if($this->is_alive($person))
+      {
+        $this->insert_alive();
+      }
     }
   }
   protected function fetch_persona($person)
@@ -196,6 +203,18 @@ class SOW extends Country
     else
     {
       $this->user->player = $player;
+    }
+  }
+  protected function is_alive($person)
+  {
+    $status = $person->find('td',2)->plaintext;
+    if($status === '生存')
+    {
+      return true;
+    }
+    else
+    {
+      return false;
     }
   }
   protected function insert_onlooker()

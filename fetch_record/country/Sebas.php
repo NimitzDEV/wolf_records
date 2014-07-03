@@ -111,7 +111,7 @@ class Sebas extends SOW
   }
   protected function fetch_users($person)
   {
-    $this->user->persona = trim($person->find('td',0)->plaintext);
+    $this->fetch_persona($person);
     $this->fetch_player($person);
     $this->fetch_role($person);
 
