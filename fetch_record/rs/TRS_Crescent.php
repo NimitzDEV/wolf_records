@@ -71,6 +71,7 @@ trait TRS_Crescent
     ,"蛮狼"=>Data::SKL_RECKLESS
     ,"妖狐"=>Data::SKL_FAIRY
     ,"化狐"=>Data::SKL_SNAFAIRY
+    ,"念波妖狐"=>Data::SKL_BATPATH
     ,"野狐"=>Data::SKL_WITCHFOX
     ,"九尾"=>Data::SKL_NINECRE
     ,"囁き妖狐"=>Data::SKL_MIMIC
@@ -92,6 +93,8 @@ trait TRS_Crescent
     ,"恋未練"=>Data::SKL_YANDERE
     ,"決闘者"=>Data::SKL_DUEL
     ,"般若"=>Data::SKL_JEALOUSY
+    ,"狼気纏"=>Data::SKL_WOLFAURA
+    ,"狂学者"=>Data::SKL_MAD
     ];
   public $WTM_BM = [
      "村を照らす…"=>Data::TM_NONE

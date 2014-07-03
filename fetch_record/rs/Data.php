@@ -142,6 +142,9 @@ class Data
   const SKL_FCOURTS  =117;  //妄想家 思い込み求愛者
   const SKL_REINCRNT =118;  //転生者 死後三日後ランダムな役職で復活
   const SKL_LIAR     =138;  //狼少年 でたらめな占結果が出る。呪殺は可能
+  const SKL_WOLFAURA =152;  //狼気纏 霊判定では白が出る狼血族
+  const SKL_CAT      =154;  //猫又 錬金術師+狼判定+処刑されるとランダム道連れ
+  const SKL_DESTINY  =155;  //運命の子 被占いでランダムに役職変化
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //囁き狂人
@@ -170,6 +173,8 @@ class Data
   const SKL_DAZZLE   =121;  //幻惑者 絆の内容を逆にする
   const SKL_PERVERT  =122;  //倒錯者 占霊判定を逆にする
   const SKL_MIASMA   =139;  //瘴気狂人 2dに一人を無能状態にする
+  const SKL_MAD      =153;  //狂学者 2dに一人を人狼にする
+  const SKL_TEMPT    =156;  //誘惑者 初日に一人を半端者にする
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -208,6 +213,8 @@ class Data
   const SKL_HUNFAIRY =131;  //謀狐 護衛行使
   const SKL_SEALFAIRY=132;  //雪女 特殊能力封印
   const SKL_SATORI   =140;  //サトリ 役職占いができる妖魔
+  const SKL_BATPATH  =151;  //念波妖狐 狂人同士の囁きログに潜り込む
+  const SKL_MIAFOX   =157;  //瘴狐 2dに一人を無能状態にする
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
@@ -227,6 +234,7 @@ class Data
   const SKL_COLLECTOR=141;  //コレクター 終了時狼+妖=1かつ生存で勝利 
   const SKL_SSNATCHER=142;  //スナッチャー 毎日一人を無能状態にする+終了時全員無能+生存で勝利
   const SKL_GAMBLER  =143;  //ギャンブラー 指定した二人と自分が生存で勝利
+  const SKL_GRIM     =158;  //グリムリーパー 指定した二人死亡+自分生存で勝利
 
   const SKL_FISH     = 58;  //鱗魚人
   const SKL_TERU     = 76;  //照坊主

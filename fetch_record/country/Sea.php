@@ -30,11 +30,17 @@ class Sea extends Giji_Old
     ,"狼少年"=>Data::SKL_LIAR
     ,"感応狂人"=>Data::SKL_LUNASIL
     ,"瘴気狂人"=>Data::SKL_MIASMA
-    ,"コウモリ人間"=>Data::SKL_BAT
+    ,"コウモリ人間"=>Data::SKL_BATPATH
     ,"サトリ"=>Data::SKL_SATORI
     ,"コレクター"=>Data::SKL_COLLECTOR
     ,"スナッチャー"=>Data::SKL_SSNATCHER
     ,"ギャンブラー"=>Data::SKL_GAMBLER
+    ,"猫又"=>Data::SKL_CAT
+    ,"運命の子"=>Data::SKL_DESTINY
+    ,"誘惑者"=>Data::SKL_TEMPT
+    ,"狂科学者"=>Data::SKL_MAD
+    ,"瘴狐"=>Data::SKL_MIAFOX
+    ,"グリムリーパー"=>Data::SKL_GRIM
     ];
   protected $TM_SP = [
      "贖罪"=>Data::TM_TERU
