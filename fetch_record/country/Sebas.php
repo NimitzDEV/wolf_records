@@ -62,8 +62,8 @@ class Sebas extends SOW
     }
     else
     {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'SOW';
+      $this->output_comment('undefined',$rp);
     }
   }
   protected function fetch_policy()
@@ -76,7 +76,7 @@ class Sebas extends SOW
     else
     {
       $this->village->policy = false;
-      echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      $this->output_comment('rp');
     }
   }
   protected function fetch_win_message()
@@ -103,7 +103,7 @@ class Sebas extends SOW
       $this->fetch_users($person);
       if(!$this->user->is_valid())
       {
-        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
       //エラーでも歯抜けが起きないように入れる
       $this->users[] = $this->user;

@@ -23,7 +23,7 @@ class Rose extends SOW
       else
       {
         $this->village->policy = false;
-        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+        $this->output_comment('rp');
       }
     }
   }
@@ -47,8 +47,8 @@ class Rose extends SOW
       }
       else
       {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
+        $this->output_comment('undefined',$wtmid);
       }
     }
   }
@@ -83,7 +83,7 @@ class Rose extends SOW
     {
       if(!$user->is_valid())
       {
-        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
     }
   }

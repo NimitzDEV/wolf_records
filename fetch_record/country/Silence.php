@@ -73,8 +73,8 @@ class Silence extends SOW
     }
     else
     {
-      echo 'NOTICE: '.$this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'SOW';
+      $this->output_comment('undefined',$rp);
     }
   }
   protected function fetch_win_message()

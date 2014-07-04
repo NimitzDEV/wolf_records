@@ -116,7 +116,7 @@ class Ning extends Country
         $this->village->wtmid = Data::TM_WOLF;
         break;
       default:
-        echo 'NOTICE: unknown wtm.->'.$wtmid.PHP_EOL;
+        $this->output_comment('undefined',$wtmid);
         break;
     }
   }
@@ -144,7 +144,7 @@ class Ning extends Country
     {
       if(!$user->is_valid())
       {
-        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
     }
   }

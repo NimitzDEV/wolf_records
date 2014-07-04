@@ -99,11 +99,11 @@ class Check_Village
         else if($is_end)
         {
           $this->queue_del[] = (int)$vno;
-          echo $vno.' is ruined.'.PHP_EOL;
+          echo '※'.$vno.'>> ruined.'.PHP_EOL;
         }
         else
         {
-          echo $vno.' in queue is still proceeding.'.PHP_EOL;
+          //echo $vno.' in queue is still proceeding.'.PHP_EOL;
         }
       }
     }
@@ -239,7 +239,7 @@ class Check_Village
         }
         else if($is_end)
         {
-          echo $vno.' is ruined.'.PHP_EOL;
+          echo '※'.$vno.'>> ruined.'.PHP_EOL;
         }
         else
         {
@@ -247,7 +247,7 @@ class Check_Village
           if(!mb_strstr($this->queue,$this->cid.'_'.$vno))
           {
             fwrite($this->fp,$this->cid.'_'.$vno.',');
-            echo $vno.' is proceeding. Inserted queue.'.PHP_EOL;
+            //echo $vno.'>> proceeding. Inserted queue.'.PHP_EOL;
           }
         }
       }

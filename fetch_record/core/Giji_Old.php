@@ -75,14 +75,14 @@ abstract class Giji_Old extends Country
       $this->village->rglid = $this->RGL_SP[$rule];
       if($this->is_evil)
       {
-        echo $this->village->vno.' is '.$rule.".Should check evil team.".PHP_EOL;
+        $this->output_comment('evil',$rule);
       }
       return true;
     }
     else if(preg_match("/秘話/",$this->village->name))
     {
-      echo 'NOTICE: '.$this->village->vno.' may be 秘話村.'.PHP_EOL;
       $this->village->rglid = Data::RGL_SECRET;
+      $this->output_comment('evil','秘話村');
       return true;
     }
     else

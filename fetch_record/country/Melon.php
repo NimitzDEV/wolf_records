@@ -41,8 +41,8 @@ class Melon extends SOW
         }
         else
         {
-          echo $this->village->vno.'->'.$free.PHP_EOL;
           $this->village->rglid = Data::RGL_ETC;
+          $this->output_comment('free',$free);
         }
         break;
       case "Ｇ国":
@@ -120,8 +120,8 @@ class Melon extends SOW
         }
         break;
       default:
-        echo 'NOTICE: '.$this->village->vno.' has unknown regulation.->'.$rglid.PHP_EOL;
         $this->village->rglid = Data::RGL_ETC;
+        $this->output_comment('undefined',$rglid);
         break;
     }
   }
@@ -134,8 +134,8 @@ class Melon extends SOW
     }
     else
     {
-      echo $this->village->vno.' has undefined RP.'.PHP_EOL;
       $this->village->rp = 'SOW';
+      $this->output_comment('undefined',$rp);
     }
   }
   protected function fetch_policy()
@@ -148,7 +148,7 @@ class Melon extends SOW
     else
     {
       $this->village->policy = false;
-      echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      $this->output_comment('rp');
     }
   }
   protected function fetch_from_pro()
@@ -205,8 +205,8 @@ class Melon extends SOW
       }
       else
       {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
+        $this->output_comment('undefined',$wtmid);
       }
     }
   }
@@ -246,7 +246,7 @@ class Melon extends SOW
       $this->fetch_users($person);
       if(!$this->user->is_valid())
       {
-        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
       //エラーでも歯抜けが起きないように入れる
       $this->users[] = $this->user;
@@ -318,9 +318,9 @@ class Melon extends SOW
       else
       {
         //未定義の役職
-        echo 'NOTICE: '.$this->village->vno.'.'.$this->user->persona.' has undefined role.->'.$sklid.PHP_EOL;
         $this->user->sklid = $this->SKILL[0][0];
         $this->user->tmid = $this->SKILL[0][1];
+        $this->output_comment('undefined',$sklid);
       }
       $this->fetch_end($dtid);
       $this->fetch_rltid_m($person);

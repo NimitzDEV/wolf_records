@@ -113,8 +113,8 @@ class SOW extends Country
       }
       else
       {
-        echo 'NOTICE: '.$this->village->vno.' has undefined winners message.->'.$wtmid.PHP_EOL;
         $this->village->wtmid = Data::TM_RP;
+        $this->output_comment('undefined',$wtmid);
       }
     }
     else
@@ -165,7 +165,7 @@ class SOW extends Country
       //var_dump($user->get_vars());
       if(!$user->is_valid())
       {
-        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
     }
   }
@@ -289,7 +289,7 @@ class SOW extends Country
         $announce = $this->fetch->find($find);
         if($row >= 70)
         {
-          echo 'NOTICE: too deep row in fetch_daily_url'.PHP_EOL;
+          echo '>NOTICE: too deep row in fetch_daily_url'.PHP_EOL;
           break;
         }
       } while (count($announce) <= 1);

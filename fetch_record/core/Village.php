@@ -69,6 +69,6 @@ class Village
   }
   function invalid_error($key,$item)
   {
-    echo $key.' is invalid.->'.$item.PHP_EOL;
+    echo '>'.$key.' is invalid.->'.$item.PHP_EOL;
   }
 }

@@ -27,6 +27,6 @@ foreach($countries as $ctry)
   echo '---'.$ctry.' start-------'.PHP_EOL;
   ${$ctry} = new $ctry;
   ${$ctry}->insert();
-  echo '---'.$ctry.' end---------'.PHP_EOL;
+  //echo '---'.$ctry.' end---------'.PHP_EOL;
   unset(${$ctry});
 }

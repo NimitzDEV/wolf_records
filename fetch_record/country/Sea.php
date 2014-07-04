@@ -101,7 +101,7 @@ class Sea extends Giji_Old
         break;
       default:
         $this->village->policy = false;
-        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+        $this->output_comment('rp');
         break;
     }
   }

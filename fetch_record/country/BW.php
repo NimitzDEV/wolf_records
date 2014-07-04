@@ -68,7 +68,7 @@ class BW extends SOW
       else
       {
         $this->village->policy = false;
-        echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+        $this->output_comment('rp');
       }
     }
   }
@@ -102,7 +102,7 @@ class BW extends SOW
       $this->fetch_users($person);
       if(!$this->user->is_valid())
       {
-        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
       $this->users[] = $this->user;
     }

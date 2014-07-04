@@ -82,7 +82,7 @@ class Phantom extends SOW
     {
       if(!$user->is_valid())
       {
-        echo 'NOTICE: '.$user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
     }
   }

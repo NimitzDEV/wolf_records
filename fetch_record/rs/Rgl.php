@@ -206,7 +206,7 @@ trait Rgl
   protected function insert_etc($rgl,$message)
   {
     $this->village->rglid = Data::RGL_ETC;
-    echo $this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
+    echo '>'.$this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
     if(!empty($this->is_evil))
     {
       echo '　▼Should check evil team.'.PHP_EOL;

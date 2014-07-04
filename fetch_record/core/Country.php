@@ -28,11 +28,9 @@ abstract class Country
     if(!$list)
     {
       $this->check->remove_queue();
-      echo get_class($this).' has not new villages.'.PHP_EOL;
       return;
     }
     $this->fetch = new simple_html_dom();
-    //取得しない村番号
     //$kick = [15,16,26,35,40,43];
     foreach($list as $vno)
     {
@@ -90,7 +88,7 @@ abstract class Country
       $this->fetch_users($person);
       if(!$this->user->is_valid())
       {
-        echo 'NOTICE: '.$this->user->persona.'could not fetched.'.PHP_EOL;
+        $this->output_comment('n_user');
       }
       //エラーでも歯抜けが起きないように入れる
       $this->users[] = $this->user;
@@ -103,7 +101,7 @@ abstract class Country
     if(preg_match($rp,$this->village->name))
     {
       $this->village->policy = false;
-      echo $this->village->vno.' is guessed RP.'.PHP_EOL;
+      $this->output_comment('rp');
     }
     else
     {
@@ -115,7 +113,7 @@ abstract class Country
     $country = 'd_'.get_class($this);
     if(array_key_exists($player,$this->{$country}))
     {
-      echo 'NOTICE: '.$player.' is DOPPEL.->'.$this->{$country}[$player].PHP_EOL;
+      //echo '>NOTICE: '.$player.' is DOPPEL.->'.$this->{$country}[$player].PHP_EOL;
       return $this->{$country}[$player];
     }
     else
@@ -137,6 +135,28 @@ abstract class Country
     {
       $this->user->life = round(($this->user->end-1) / $this->village->days,3);
     }
+  }
+  protected function output_comment($type,$detail='')
+  {
+    switch($type)
+    {
+      case 'rp':
+        $str =  'is guessed RP.';
+        break;
+      case 'free':
+        $str = 'has '.$detail;
+        break;
+      case 'evil':
+        $str = '▼Check EVIL.->'.$detail;
+        break;
+      case 'undefined':
+        $str = 'has undefined ->'.$detail;
+        break;
+      case 'n_user':
+        $str = 'NOTICE:'.$this->user->persona.' could not fetched.';
+        break;
+    }
+    echo '>'.$this->village->vno.' '.$str.PHP_EOL;
   }
 
   abstract protected function fetch_village();
