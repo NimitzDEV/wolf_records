@@ -209,7 +209,7 @@ trait Rgl
     echo '>'.$this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
     if(!empty($this->is_evil))
     {
-      echo '　▼Should check evil team.'.PHP_EOL;
+      echo '>▼Should check evil team.'.PHP_EOL;
     }
   }
 }
