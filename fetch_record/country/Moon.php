@@ -7,10 +7,15 @@ class Moon extends SOW
      '月狼'=>'MOON'
     ,'人狼署'=>'POLICE'
   ];
+  protected $WTM_POLICE= [
+     //'。めでたしめでたし。'=>Data::TM_VILLAGER
+     'の遠吠えが響くのみ。'=>Data::TM_WOLF
+    //,'が残っていたのです。'=>Data::TM_FAIRY
+  ];
   protected $WTM_MOON= [
-     '。めでたしめでたし。'=>Data::TM_VILLAGER
-    ,'達の楽園なのだ――！'=>Data::TM_WOLF
-    ,'が残っていたのです。'=>Data::TM_FAIRY
+     //'。めでたしめでたし。'=>Data::TM_VILLAGER
+     '達の楽園なのだ――！'=>Data::TM_WOLF
+    //,'が残っていたのです。'=>Data::TM_FAIRY
   ];
   protected $DT_MOON = [
      '儚く散った。'=>['.+(\(ランダム投票\)|置いた。)(.+) の命が儚く散った。',Data::DES_HANGED]
