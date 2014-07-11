@@ -31,6 +31,19 @@ class Moon extends SOW
     parent::__construct($cid,$url_vil,$url_log);
     $this->RP_LIST = array_merge($this->RP_LIST,$this->RP_SP);
   }
+  protected function fetch_policy()
+  {
+    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',12)->plaintext,'推理');
+    if($policy !== false)
+    {
+      $this->village->policy = true;
+    }
+    else
+    {
+      $this->village->policy = false;
+      $this->output_comment('rp');
+    }
+  }
   protected function fetch_role($person)
   {
     $role = $person->find('td',4)->plaintext;
