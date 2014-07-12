@@ -8,8 +8,8 @@ class Moon extends SOW
     ,'人狼署'=>'POLICE'
   ];
   protected $WTM_POLICE= [
-     //'。めでたしめでたし。'=>Data::TM_VILLAGER
-     'の遠吠えが響くのみ。'=>Data::TM_WOLF
+     '平和は守られたのだ！'=>Data::TM_VILLAGER
+    ,'の遠吠えが響くのみ。'=>Data::TM_WOLF
     //,'が残っていたのです。'=>Data::TM_FAIRY
   ];
   protected $WTM_MOON= [
