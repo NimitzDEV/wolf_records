@@ -11,6 +11,11 @@ class Check_Village
           ,$html
           ,$fp
           ;
+  private  $ruin_57 = 191
+          ,$ruin_51 = 37
+          ,$ruin_55 = 21
+          ,$ruin_35 = 113
+          ;
 
   function __construct($cid,$url_vil,$url_log)
   {
@@ -223,6 +228,19 @@ class Check_Village
   {
     $list_vno = $this->check_endlist();
     $db_vno = $this->check_db();
+
+    //廃村が連続している国は最新村番号をチェック
+    if(isset($this->{'ruin_'.$this->cid}))
+    {
+      if($this->{'ruin_'.$this->cid} === $list_vno)
+      {
+        return;
+      }
+      else
+      {
+        echo '▼ruin clear.'.PHP_EOL;
+      }
+    }
 
     if($list_vno > $db_vno)
     {
