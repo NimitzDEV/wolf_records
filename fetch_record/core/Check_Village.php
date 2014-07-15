@@ -15,6 +15,7 @@ class Check_Village
           ,$ruin_51 = 37
           ,$ruin_55 = 21
           ,$ruin_35 = 113
+          ,$ruin_34 = 43
           ;
 
   function __construct($cid,$url_vil,$url_log)
