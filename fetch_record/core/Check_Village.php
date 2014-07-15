@@ -2,6 +2,7 @@
 
 class Check_Village
 {
+  use Ruins;
   private  $cid
           ,$url_log
           ,$url_vil
@@ -10,12 +11,6 @@ class Check_Village
           ,$village = []
           ,$html
           ,$fp
-          ;
-  private  $ruin_57 = 191
-          ,$ruin_51 = 37
-          ,$ruin_55 = 21
-          ,$ruin_35 = 113
-          ,$ruin_34 = 43
           ;
 
   function __construct($cid,$url_vil,$url_log)
