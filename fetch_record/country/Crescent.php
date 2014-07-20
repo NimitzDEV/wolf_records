@@ -44,6 +44,10 @@ class Crescent extends Giji_Old
     $date = mb_substr($date,mb_strpos($date,"2"),10);
     $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
   }
+  protected function fetch_policy()
+  {
+    parent::fetch_policy();
+  }
   protected function fetch_wtmid()
   {
     if($this->village->policy)
