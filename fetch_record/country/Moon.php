@@ -33,7 +33,7 @@ class Moon extends SOW
   }
   protected function fetch_policy()
   {
-    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',12)->plaintext,'推理');
+    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',11)->plaintext,'推理');
     if($policy !== false)
     {
       $this->village->policy = true;
