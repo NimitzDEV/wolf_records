@@ -145,6 +145,7 @@ class Data
   const SKL_WOLFAURA =152;  //狼気纏 霊判定では白が出る狼血族
   const SKL_CAT      =154;  //猫又 錬金術師+狼判定+処刑されるとランダム道連れ
   const SKL_DESTINY  =155;  //運命の子 被占いでランダムに役職変化
+  const SKL_BUTTERFLY=159;  //胡蝶 襲撃されると囁き狂人に変化
 
   const SKL_LUNATIC  =  6;  //狂人
   const SKL_LUNAWHS  =  8;  //囁き狂人
@@ -175,6 +176,7 @@ class Data
   const SKL_MIASMA   =139;  //瘴気狂人 2dに一人を無能状態にする
   const SKL_MAD      =153;  //狂学者 2dに一人を人狼にする
   const SKL_TEMPT    =156;  //誘惑者 初日に一人を半端者にする
+  const SKL_DEPEND   =160;  //従狼 人カウントも狼カウントもしない
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士

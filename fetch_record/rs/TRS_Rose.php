@@ -118,6 +118,8 @@ trait TRS_Rose
     ,"貴族"=>Data::SKL_NOBLE
     ,"奴隷"=>Data::SKL_SLAVE
     ,"落胤"=>Data::SKL_PRINCE
+    ,"胡蝶"=>Data::SKL_BUTTERFLY
+    ,"従狼"=>Data::SKL_DEPEND
     ];
   protected $SKL_FOOL = [
      "ただの人"=>Data::SKL_VILLAGER
