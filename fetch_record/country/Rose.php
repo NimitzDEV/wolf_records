@@ -39,7 +39,7 @@ class Rose extends SOW
       if(array_key_exists($wtmid,$this->{'WTM_'.$this->village->rp}))
       {
         $this->village->wtmid = $this->{'WTM_'.$this->village->rp}[$wtmid];
-        if($wtmid === Data::TM_SLAVE)
+        if($this->village->wtmid === Data::TM_SLAVE)
         {
           $this->village->wtmid = Data::TM_VILLAGER;
           $this->village->add_winner = Data::TM_SLAVE;
