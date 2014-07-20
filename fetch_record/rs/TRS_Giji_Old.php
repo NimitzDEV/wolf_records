@@ -17,7 +17,6 @@ trait TRS_Giji_Old
     ,"--"  =>Data::TM_NONE //2d突然死の片想い
     ,"勝利"=>Data::TM_NONE
     ];
-  public $EVIL = [Data::RGL_E,Data::RGL_S_E,Data::RGL_ETC];
   public $SKILL = [
      "村人"=>Data::SKL_VILLAGER
     ,"聖痕者"=>Data::SKL_STIGMA

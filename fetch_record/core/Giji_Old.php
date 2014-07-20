@@ -62,11 +62,6 @@ abstract class Giji_Old extends Country
     }
     $rglid = trim($this->fetch->find('dl.mes_text_report dd',3)->plaintext);
     $this->find_rglid($rglid);
-
-    if(in_array($this->village->rglid,$this->EVIL))
-    {
-      $this->village->evil_rgl = true;
-    }
   }
   protected function check_sprule($rule)
   {
@@ -162,6 +157,34 @@ abstract class Giji_Old extends Country
   {
     $this->cast = $this->fetch->find('tbody tr.i_active');
   }
+  protected function insert_users()
+  {
+    $this->users = [];
+    foreach($this->cast as $person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      if(!$this->user->is_valid())
+      {
+        $this->output_comment('n_user');
+      }
+      $this->users[] = $this->user;
+    }
+    if($this->is_evil === true && $this->village->evil_rgl !== true)
+    {
+      $this->change_evil_team();
+    }
+  }
+  protected function change_evil_team()
+  {
+    foreach($this->users as $key=>$user)
+    {
+      if($user->tmid === Data::TM_EVIL)
+      {
+        $this->users[$key]->tmid = Data::TM_WOLF;
+      }
+    }
+  }
   protected function fetch_users($person)
   {
     $this->fetch_persona($person);
@@ -256,9 +279,9 @@ abstract class Giji_Old extends Country
   }
   protected function check_evil_team()
   {
-    if($this->user->tmid === Data::TM_EVIL && $this->village->evil_rgl !== true)
+    if($this->user->tmid >= Data::TM_FAIRY && $this->user->tmid !== Data::TM_LOVERS && $this->user->tmid !== Data::TM_EVIL)
     {
-      $this->user->tmid = Data::TM_WOLF;
+      $this->village->evil_rgl = true;
     }
   }
   protected function fetch_rltid($result)
