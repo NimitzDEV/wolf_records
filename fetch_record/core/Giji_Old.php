@@ -107,22 +107,26 @@ abstract class Giji_Old extends Country
     parent::fetch_policy();
     if($this->village->policy === true)
     {
-      $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-      switch($policy)
-      {
-        case "とくになし":
-        case "[言] 殺伐、暴言あり":
-        case "[遖] あっぱれネタ風味":
-        case "[張] うっかりハリセン":
-        case "[暢] のんびり雑談":
-        case "[全] 大人も子供も初心者も、みんな安心":
-          $this->village->policy = true;
-          break;
-        default:
-          $this->village->policy = false;
-          $this->output_comment('rp');
-          break;
-      }
+      $this->fetch_policy_detail();
+    }
+  }
+  protected function fetch_policy_detail()
+  {
+    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    switch($policy)
+    {
+      case "とくになし":
+      case "[言] 殺伐、暴言あり":
+      case "[遖] あっぱれネタ風味":
+      case "[張] うっかりハリセン":
+      case "[暢] のんびり雑談":
+      case "[全] 大人も子供も初心者も、みんな安心":
+        $this->village->policy = true;
+        break;
+      default:
+        $this->village->policy = false;
+        $this->output_comment('rp');
+        break;
     }
   }
   protected function fetch_from_pro()

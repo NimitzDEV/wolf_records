@@ -89,24 +89,20 @@ class Sea extends Giji_Old
     $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
     $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
   }
-  protected function fetch_policy()
+  protected function fetch_policy_detail()
   {
-    parent::fetch_policy();
-    if($this->village->policy === true)
+    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    switch($policy)
     {
-      $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-      switch($policy)
-      {
-        case 'とくになし':
-        case 'ガチ推理':
-        case '推理&RP':
-          $this->village->policy = true;
-          break;
-        default:
-          $this->village->policy = false;
-          $this->output_comment('rp');
-          break;
-      }
+      case 'とくになし':
+      case 'ガチ推理':
+      case '推理&RP':
+        $this->village->policy = true;
+        break;
+      default:
+        $this->village->policy = false;
+        $this->output_comment('rp');
+        break;
     }
   }
 }

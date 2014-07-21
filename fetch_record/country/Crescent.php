@@ -44,9 +44,14 @@ class Crescent extends Giji_Old
     $date = mb_substr($date,mb_strpos($date,"2"),10);
     $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
   }
-  protected function fetch_policy()
+  protected function fetch_policy_detail()
   {
-    parent::fetch_policy();
+    $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
+    if(mb_ereg_match("真剣勝負",$policy) !== false && mb_ereg_match("ネタ重視|ストーリー重視",$policy))
+    {
+      $this->village->policy = false;
+      $this->output_comment('rp');
+    }
   }
   protected function fetch_wtmid()
   {
