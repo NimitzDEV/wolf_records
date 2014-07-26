@@ -134,7 +134,7 @@ class Get_DB
     foreach($this->doppel as $table)
     {
       $doppel[$table['base']] = $table['doppel'];
-      $url = preg_replace('/'.$table['base'].'/',$table['doppel'],$url_base);
+      $url = mb_ereg_replace(urlencode($table['base']),urlencode($table['doppel']),$url_base);
       $url_list[] = '<a href="result.php?'.$url.'">'.htmlentities($table['doppel']).'</a>';
     }
     $string .= implode(" | ",$url_list);
@@ -143,7 +143,7 @@ class Get_DB
     {
       foreach($doppel as $before=>$after)
       {
-        $url_base =  preg_replace('/'.$before.'/',$after,$url_base);
+        $url_base =  preg_replace('/'.urlencode($before).'/',urlencode($after),$url_base);
       }
       $string .= ' | <a href="result.php?'.$url_base.'">全部変えて試す</a>';
     }
