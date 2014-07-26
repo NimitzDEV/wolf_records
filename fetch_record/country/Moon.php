@@ -13,8 +13,8 @@ class Moon extends SOW
     //,'が残っていたのです。'=>Data::TM_FAIRY
   ];
   protected $WTM_MOON= [
-     //'。めでたしめでたし。'=>Data::TM_VILLAGER
-     '達の楽園なのだ――！'=>Data::TM_WOLF
+     'は終わったのだ――！'=>Data::TM_VILLAGER
+    ,'達の楽園なのだ――！'=>Data::TM_WOLF
     //,'が残っていたのです。'=>Data::TM_FAIRY
   ];
   protected $DT_MOON = [
@@ -23,6 +23,13 @@ class Moon extends SOW
     ,'ていた……。'=>['(.+)朝、(.+) の姿が消.+',Data::DES_EATEN]
     ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
   ];
+  protected $DESTINY = [
+     "突然死"=>Data::DES_RETIRED
+    ,"処刑死"=>Data::DES_HANGED
+    ,"襲撃死"=>Data::DES_EATEN
+    ,"呪殺"=>Data::DES_CURSED
+    ,"後追死"=>Data::DES_SUICIDE
+    ];
   function __construct()
   {
     $cid = 56;
@@ -33,7 +40,7 @@ class Moon extends SOW
   }
   protected function fetch_policy()
   {
-    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',11)->plaintext,'推理');
+    $policy= mb_strstr($this->fetch->find('p.multicolumn_left',12)->plaintext,'推理');
     if($policy !== false)
     {
       $this->village->policy = true;
@@ -44,9 +51,56 @@ class Moon extends SOW
       $this->output_comment('rp');
     }
   }
+  protected function insert_users()
+  {
+    $this->users = [];
+    foreach($this->cast as $person)
+    {
+      $this->user = new User();
+      $this->fetch_users($person);
+      if(!$this->user->is_valid())
+      {
+        $this->output_comment('n_user');
+      }
+      $this->users[] = $this->user;
+    }
+  }
+  protected function fetch_users($person)
+  {
+    $this->fetch_persona($person);
+    $this->fetch_player($person);
+    $this->fetch_role($person);
+
+    if($this->user->role === '見物人')
+    {
+      $this->insert_onlooker();
+    }
+    else
+    {
+      $this->fetch_sklid();
+      $this->fetch_rltid();
+      $this->fetch_end($person);
+    }
+  }
   protected function fetch_role($person)
   {
     $role = $person->find('td',4)->plaintext;
     $this->user->role = mb_ereg_replace('\A(.+) \(.+を希望\)(.+|)','\1',$role,'m');
+  }
+  protected function fetch_end($person)
+  {
+    $destiny = trim($person->find('td',2)->plaintext);
+    if($destiny === '生存')
+    {
+      $this->user->dtid = Data::DES_ALIVE;
+      $this->user->end = $this->village->days;
+      $this->user->life = 1.000;
+    }
+    else
+    {
+      $this->user->dtid = $this->DESTINY[mb_ereg_replace('\d+日(.+)','\1',$destiny)];
+      $this->user->end = (int)mb_ereg_replace('(\d+)日.+','\1',$destiny);
+      $this->user->life = round(($this->user->end-1) / $this->village->days,3);
+    }
   }
 }
