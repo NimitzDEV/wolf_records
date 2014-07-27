@@ -167,6 +167,8 @@ trait TRS_Rose
     ,"おえらいさん"=>Data::SKL_NOBLE
     ,"ゲボク根性"=>Data::SKL_SLAVE
     ,"ボンボン"=>Data::SKL_PRINCE
+    ,"夢見がち"=>Data::SKL_BUTTERFLY
+    ,"従狼"=>Data::SKL_DEPEND
     ];
   protected $SKL_JR = [
      "白薔薇兵士"=>Data::SKL_VILLAGER
