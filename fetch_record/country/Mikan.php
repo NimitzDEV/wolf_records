@@ -21,7 +21,7 @@ class Mikan extends SOW
   protected $DT_RP = [
      ' は消えた。'=>['.+(\(ランダム投票\)|投票した。)(.+) は消えた。',Data::DES_HANGED]
     ,'突然死した。'=>['^( ?)(.+) は、突然死した。',Data::DES_RETIRED]
-    ,'  消えた。'=>['()(.+) 消えた。',Data::DES_EATEN]
+    ,' が消えた。'=>['()(.+) が消えた。',Data::DES_EATEN]
     ,'後を追った。'=>['^( ?)(.+) は(絆に引きずられるように|哀しみに暮れて) .+ の後を追った。',Data::DES_SUICIDE]
   ];
   protected $DT_HAPI = [
