@@ -102,10 +102,6 @@ class Check_Village
           $this->queue_del[] = (int)$vno;
           echo '※'.$vno.'>> ruined.'.PHP_EOL;
         }
-        else
-        {
-          //echo $vno.' in queue is still proceeding.'.PHP_EOL;
-        }
       }
     }
     else
@@ -117,14 +113,21 @@ class Check_Village
   private function check_end($vno)
   {
     $this->html->load_file($this->url_vil.$vno);
-
-    if($this->cid === Cnt::Ning)
+    switch($this->cid)
     {
-      $last_page = trim($this->html->find('span.time',0)->plaintext);
-    }
-    else
-    {
-      $last_page = mb_substr($this->html->find('title',0)->plaintext,0,2);
+      case Cnt::Ning:
+        $last_page = trim($this->html->find('span.time',0)->plaintext);
+        break;
+      case Cnt::Reason:
+        $last_page = $this->html->find('a',0)->plaintext;
+        if($last_page === '')
+        {
+          $last_page = '終了';
+        }
+        break;
+      default:
+        $last_page = mb_substr($this->html->find('title',0)->plaintext,0,2);
+        break;
     }
     $this->html->clear();
 
@@ -139,7 +142,7 @@ class Check_Village
   }
   private function check_not_ruined($vno)
   {
-    if($this->cid === Cnt::Ning || $this->cid === Cnt::Phantom)
+    if($this->cid === Cnt::Ning || $this->cid === Cnt::Phantom || $this->cid === Cnt::Reason)
     {
       return true;
     }
@@ -261,7 +264,6 @@ class Check_Village
           if(!mb_strstr($this->queue,$this->cid.'_'.$vno))
           {
             fwrite($this->fp,$this->cid.'_'.$vno.',');
-            //echo $vno.'>> proceeding. Inserted queue.'.PHP_EOL;
           }
         }
       }
@@ -314,6 +316,10 @@ class Check_Village
         break;
       case Cnt::Silence:
         $list_vno = (int)preg_replace('/^(\d+) .+/','\1',$this->html->find('td a',0)->plaintext);
+        break;
+      case Cnt::Reason:
+        $list_vno = $this->html->find('a',3)->plaintext;
+        $list_vno =(int) mb_ereg_replace('A(\d+) .+','\\1',$list_vno);
         break;
     }
     $this->html->clear();

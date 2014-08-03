@@ -29,5 +29,6 @@ class Cnt
   const Dance  = 53;
   const Love   = 54;
   const Mikan  = 55;
+  const Reason = 59;
   const Silence= 35;
 }
