@@ -9,7 +9,7 @@ class Reason extends Country
        ,"占い師"=>Data::SKL_SEER
        ,"霊能者"=>Data::SKL_MEDIUM
        ,"狩人"  =>Data::SKL_HUNTER
-       ,"共有者"  =>Data::SKL_MASON
+       ,"共有者"=>Data::SKL_MASON
        ,"人狼"  =>Data::SKL_WOLF
        ,"狂人"  =>Data::SKL_LUNATIC
     ]; 
@@ -26,7 +26,7 @@ class Reason extends Country
   {
     $this->fetch_from_pro();
     $this->fetch_from_epi();
-    var_dump($this->village->get_vars());
+    //var_dump($this->village->get_vars());
   }
 
   protected function fetch_from_pro()
@@ -45,13 +45,29 @@ class Reason extends Country
   }
   protected function fetch_date()
   {
-    $date = $this->fetch->find('span.character_name',0)->id;
-    $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1','\\1',$date));
+    if($this->village->vno >= 11)
+    {
+      $date = $this->fetch->find('span.character_name',0)->id;
+      $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1',"\\1",$date));
+    }
+    else
+    {
+      $date = $this->fetch->find('span.character_name a',0)->name;
+      $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1',"\\1",$date));
+    }
   }
   protected function fetch_days()
   {
-    $this->url_epi = $this->fetch->find('div#NaviDay a',-1)->href;
-    $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)/.+", "\\1", $this->url_epi);
+    $url = $this->fetch->find('div#NaviDay a',-1)->href;
+    if($this->village->vno >= 7)
+    {
+      $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)/.+", "\\1", $url);
+    }
+    else
+    {
+      $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)", "\\1", $url);
+    }
+    $this->url_epi = $this->url.$this->village->vno.'/'.$this->village->days;
   }
 
   protected function fetch_from_epi()
@@ -69,10 +85,7 @@ class Reason extends Country
   protected function make_cast()
   {
     $cast = $this->fetch->find('div.systemmessage p',-1)->plaintext;
-    //simple_html_domを抜けてきたタグを削除(IDに{}があるとbrやaが残る)
-    //$cast = preg_replace([ '/<br \/>/','/<a href=[^>]+>/','/<\/a>/' ],['','',''],$cast);
     $cast = explode("だった。\r",$cast);
-    //最後のスペース削除
     array_pop($cast);
     $this->cast = $cast;
   }
@@ -124,7 +137,6 @@ class Reason extends Country
       $this->user = new User();
       $this->fetch_users($person);
       $this->users[] = $this->user;
-      //生存者を除く名前リストを作る
       $list[] = $this->user->persona;
       if($this->user->dtid === Data::DES_ALIVE)
       {
@@ -132,10 +144,10 @@ class Reason extends Country
       }
     }
     $this->fetch_from_daily($list);
-    $this->fetch_life();
 
     foreach($this->users as $user)
     {
+      //var_dump($user->get_vars());
       if(!$user->is_valid())
       {
         $this->output_comment('n_user');
@@ -144,81 +156,67 @@ class Reason extends Country
   }
   protected function fetch_users($person)
   {
-    $person = preg_replace("/ ?(.+) （(.+)）、(生存|死亡)。(.+)$/", "$1#SP#$2#SP#$3#SP#$4", $person);
-    $person = explode('#SP#',$person);
-    //末尾に半角スペースがある場合は、読み込めるように変換する
-    if(mb_substr($person[1],-1,1)==' ')
-    {
-      $person[1] = preg_replace("/ /","&amp;nbsp;",$person[1]);
-    }
-    $person[1] = $this->check_doppel($person[1]);
-
-    $this->user->persona = $person[0];
-    $this->user->player  = $person[1];
-    $this->user->role    = $person[3]; 
+    $life = $this->fetch_person(trim($person));
 
     $this->fetch_sklid();
     $this->fetch_tmid();
     $this->fetch_rltid();
 
-    if($person[2] === '生存')
+    if($life === '生存')
     {
       $this->user->dtid = Data::DES_ALIVE;
       $this->user->end = $this->village->days;
       $this->user->life = 1.000;
     }
   }
+  protected function fetch_person($person)
+  {
+    $pattern = "([^（]+)（(.+)）、(生存|死亡)。(.+)$";
+
+    $player = mb_ereg_replace($pattern,'\\2',$person);
+    $this->user->player =$this->check_doppel($player);
+
+    $this->user->persona = mb_ereg_replace($pattern,'\\1',$person);
+    $this->user->role = mb_ereg_replace($pattern,'\\4',$person);
+
+    return mb_ereg_replace($pattern,'\\3',$person);;
+  }
 
   protected function fetch_from_daily($list)
   {
-    $days = $this->village->days -1; //初日=0
-    for($i=1; $i<=$days; $i++)
+    $days = $this->village->days;
+    for($i=2; $i<=$days; $i++)
     {
-      $this->fetch->load_file($this->make_daily_url($i));
-      $announce = $this->fetch->find('div.announce');
+      $this->fetch->load_file($this->url.$this->village->vno.'/'.$i);
+      $announce = $this->fetch->find('div.systemmessage_white');
       foreach($announce as $item)
       {
-        $destiny = mb_substr(trim($item->plaintext),-6,6);
-        $destiny = preg_replace("/\r\n/","",$destiny);
-
-        switch($destiny)
+        $destiny = trim(preg_replace("/\r\n/",'',$item->plaintext));
+        switch(mb_substr($destiny,-6,6))
         {
           case "突然死した。":
-            $persona = preg_replace("/^ ?(.+) は、突然死した。 ?/", "$1", $item->plaintext);
+            $persona = mb_ereg_replace("^(.+)は突然死した。", "\\1", $destiny);
             $key = array_search($persona,$list);
             $this->users[$key]->dtid = Data::DES_RETIRED;
             break;
           case "処刑された。":
-            $persona = preg_replace("/(.+\r\n){1,}\r\n(.+) は村人達の手により処刑された。 ?/", "$2", $item->plaintext);
+            $persona = mb_ereg_replace(".+投票した。(.+) は 村.+", "\\1", $destiny,'m');
             $key = array_search($persona,$list);
             $this->users[$key]->dtid = Data::DES_HANGED;
             break;
           case "発見された。":
-            $persona = preg_replace("/.+朝、(.+) が無残.+\r\n ?/", "$1", $item->plaintext);
+            $persona = mb_ereg_replace("翌朝、(.+)が無残.+", "\\1", $destiny);
             $key = array_search($persona,$list);
             $this->users[$key]->dtid = Data::DES_EATEN;
             break;
           default:
             continue;
         }   
-        $this->users[$key]->end = $i+1;
+        $this->users[$key]->end = $i;
+        $this->users[$key]->life = round(($i-1) / $this->village->days,3);
       }
       $this->fetch->clear();
     }
-  }
-  protected function make_daily_url($day)
-  {
-    if($day === $this->village->days-1)
-    {
-      $suffix = '_party';
-    }
-    else
-    {
-      $suffix = '_progress';
-    }
-    $day = str_pad($day,3,"0",STR_PAD_LEFT);
-
-    return $this->url.$this->village->vno.'&meslog='.$day.$suffix;
   }
   protected function fetch_sklid()
   {
@@ -233,16 +231,6 @@ class Reason extends Country
     else
     {
       $this->user->tmid = Data::TM_VILLAGER;
-    }
-  }
-  protected function fetch_life()
-  {
-    foreach($this->users as $key=>$user)
-    {
-      if(!$this->users[$key]->life)
-      {
-        $this->users[$key]->life = round(($this->users[$key]->end-1) / $this->village->days,3);
-      }
     }
   }
   protected function fetch_rltid()

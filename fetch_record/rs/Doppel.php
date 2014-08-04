@@ -63,4 +63,11 @@ trait Doppel
     [
       "dummy"     =>"dummy&lt;旧深海&gt;"
     ];
+  protected $d_Reason = 
+    [
+       "aki"     =>"aki&lt;推理説得&gt;"
+      ,"cosmos"  =>"cosmos&lt;推理説得&gt;"
+      ,"shinobu" =>"shinobu&lt;推理説得&gt;"
+      ,"suzu"    =>"suzu&lt;推理説得&gt;"
+    ];
 }
