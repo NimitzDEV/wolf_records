@@ -69,5 +69,6 @@ trait Doppel
       ,"cosmos"  =>"cosmos&lt;推理説得&gt;"
       ,"shinobu" =>"shinobu&lt;推理説得&gt;"
       ,"suzu"    =>"suzu&lt;推理説得&gt;"
+      ,"ruin"    =>"ruin&lt;推理説得&gt;"
     ];
 }
