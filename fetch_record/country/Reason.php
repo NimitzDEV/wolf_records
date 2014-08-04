@@ -45,28 +45,13 @@ class Reason extends Country
   }
   protected function fetch_date()
   {
-    if($this->village->vno >= 11)
-    {
-      $date = $this->fetch->find('span.character_name',0)->id;
-      $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1',"\\1",$date));
-    }
-    else
-    {
-      $date = $this->fetch->find('span.character_name a',0)->name;
-      $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1',"\\1",$date));
-    }
+    $date = $this->fetch->find('span.character_name',0)->id;
+    $this->village->date = date("y-m-d",mb_ereg_replace('mes(.+)c1',"\\1",$date));
   }
   protected function fetch_days()
   {
     $url = $this->fetch->find('div#NaviDay a',-1)->href;
-    if($this->village->vno >= 7)
-    {
-      $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)/.+", "\\1", $url);
-    }
-    else
-    {
-      $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)", "\\1", $url);
-    }
+    $this->village->days = (int)mb_ereg_replace(".+view_kako/\d+/(\d+)/.+", "\\1", $url);
     $this->url_epi = $this->url.$this->village->vno.'/'.$this->village->days;
   }
 
