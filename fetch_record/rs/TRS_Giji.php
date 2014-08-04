@@ -100,6 +100,8 @@ trait TRS_Giji
     ,90=>[Data::SKL_EFB,'邪気悪魔']
     ,91=>[Data::SKL_QP,'恋愛天使']
     ,92=>[Data::SKL_PASSION,'片想い']
+    ,93=>[Data::SKL_PUPIL,'弟子']
+    ,94=>[Data::SKL_THIEF,'盗賊']
     ,96=>[Data::SKL_LWOLF,'一匹狼']
     ,97=>[Data::SKL_PIPER,'笛吹き']
     ,98=>[Data::SKL_FISH,'鱗魚人']

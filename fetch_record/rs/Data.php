@@ -243,6 +243,8 @@ class Data
   const SKL_SLAVE    = 91;  //奴隷
   const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
   const SKL_SUCKER   = 73;  //血人 陣営なし
+  const SKL_PUPIL    =128;  //弟子 黒幕見物人によって2d前に死んでいる場合、能力発動しない
+  const SKL_THIEF    =161;  //盗賊 黒幕見物人によって2d前に死んでいる場合、能力発動しない
   //輪廻
   const SKL_R_VIL    =144;  //村人
   const SKL_R_HUN    =145;  //狩人
