@@ -79,6 +79,12 @@ class Sebas extends SOW
       $this->output_comment('rp');
     }
   }
+  protected function fetch_date()
+  {
+    $date = $this->fetch->find('div.mes_date',0)->plaintext;
+    $date = mb_substr(preg_replace('/ /','0',$date),mb_strpos($date,"2"),10);
+    $this->village->date = preg_replace('/(\d{4})\/(\d{2})\/(\d{2})/','\1-\2-\3',$date);
+  }
   protected function fetch_win_message()
   {
     $wtmid = trim($this->fetch->find('div.info',-1)->plaintext);
