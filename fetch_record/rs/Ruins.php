@@ -3,7 +3,7 @@
 trait Ruins
 {
   protected  $ruin_57 = 191
-            ,$ruin_51 = 37
+            ,$ruin_51 = 38
             ,$ruin_34 = 43
             ;
 }
