@@ -6,15 +6,11 @@ class Sebas extends SOW
      '鬼ごっこ'=>'ONI'
     ,'無茶振り人狼'=>'JUNA'
     ,'ガチっているフリ'=>'FOOL'
-    ,'企画村用'=>'SP'
   ];
   protected $WTM_ONI = [
      'した……！ぜぇはぁ。'=>Data::TM_VILLAGER
     ,'テープを切りました。'=>Data::TM_WOLF
     ,'時代が到来しました。'=>Data::TM_FAIRY
-  ];
-  protected $WTM_SP = [
-     'でした。(村人勝利)'=>Data::TM_VILLAGER
   ];
   protected $SKL_SP = [
      "鬼（人狼）"=>[Data::SKL_WOLF,Data::TM_WOLF]
