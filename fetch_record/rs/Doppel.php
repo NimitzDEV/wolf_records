@@ -17,6 +17,10 @@ trait Doppel
       "yuki"      =>"yuki&lt;ぐた&gt;"
      ,"tokei"     =>"tokei&lt;ぐた&gt;"
     ];
+  protected $d_Ivory = 
+    [
+      "Neon"     =>"Neon&lt;象牙&gt;"
+    ];
   protected $d_Melon = 
     [
       "siro"      =>"siro&lt;瓜科&gt;"
@@ -59,10 +63,6 @@ trait Doppel
     [
       "motimoti"  =>"motimoti&lt;G薔薇国&gt;"
     ];
-  protected $d_Sea_Old = 
-    [
-      "dummy"     =>"dummy&lt;旧深海&gt;"
-    ];
   protected $d_Reason = 
     [
        "aki"     =>"aki&lt;推理説得&gt;"
@@ -70,5 +70,9 @@ trait Doppel
       ,"shinobu" =>"shinobu&lt;推理説得&gt;"
       ,"suzu"    =>"suzu&lt;推理説得&gt;"
       ,"ruin"    =>"ruin&lt;推理説得&gt;"
+    ];
+  protected $d_Sea_Old = 
+    [
+      "dummy"     =>"dummy&lt;深海サポ&gt;"
     ];
 }
