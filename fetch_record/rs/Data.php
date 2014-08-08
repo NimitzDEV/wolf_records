@@ -177,6 +177,7 @@ class Data
   const SKL_MAD      =153;  //狂学者 2dに一人を人狼にする
   const SKL_TEMPT    =156;  //誘惑者 初日に一人を半端者にする
   const SKL_DEPEND   =160;  //従狼 人カウントも狼カウントもしない
+  const SKL_LUNACURS =163;  //呪術師 一人に襲撃無効・被呪殺能力を付与
 
   const SKL_WOLF     =  7;  //人狼
   const SKL_HEADLESS = 41;  //首無騎士
@@ -217,6 +218,11 @@ class Data
   const SKL_SATORI   =140;  //サトリ 役職占いができる妖魔
   const SKL_BATPATH  =151;  //念波妖狐 狂人同士の囁きログに潜り込む
   const SKL_MIAFOX   =157;  //瘴狐 2dに一人を無能状態にする
+  const SKL_YASHA    =162;  //夜叉 50%の確率でランダムに襲撃
+  const SKL_ECHO     =164;  //木霊 被呪殺時一人を道連れ
+  const SKL_SENRI    =165;  //仙狸 猫又の妖魔版。襲撃は無効で襲撃者だけを殺す
+  const SKL_CURFAIRY =166;  //鏡狐 一人に襲撃無効・被呪殺能力を付与
+  const SKL_TATARI   =170;  //祟狐 被呪殺・襲撃・処刑時に相手を道連れ
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
@@ -230,21 +236,26 @@ class Data
   const SKL_JEALOUSY =137;  //般若 恋陣営が誰かを知る
 
   const SKL_LWOLF    = 56;  //一匹狼
+  const SKL_TIGER    =169;  //人虎 襲撃を受けると、二回襲撃可能になる
   const SKL_PIPER    = 57;  //笛吹き
   const SKL_VAMPSEA  =106;  //吸血鬼 深海 2dに二人を眷属に変える
   const SKL_SERVANT  =107;  //眷属 眷属同士で会話可能
-  const SKL_COLLECTOR=141;  //コレクター 終了時狼+妖=1かつ生存で勝利 
-  const SKL_SSNATCHER=142;  //スナッチャー 毎日一人を無能状態にする+終了時全員無能+生存で勝利
-  const SKL_GAMBLER  =143;  //ギャンブラー 指定した二人と自分が生存で勝利
-  const SKL_GRIM     =158;  //グリムリーパー 指定した二人死亡+自分生存で勝利
 
   const SKL_FISH     = 58;  //鱗魚人
   const SKL_TERU     = 76;  //照坊主
   const SKL_SLAVE    = 91;  //奴隷
   const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
   const SKL_SUCKER   = 73;  //血人 陣営なし
+
   const SKL_PUPIL    =128;  //弟子 黒幕見物人によって2d前に死んでいる場合、能力発動しない
   const SKL_THIEF    =161;  //盗賊 黒幕見物人によって2d前に死んでいる場合、能力発動しない
+  //深海 生存勝利前提
+  const SKL_COLLECTOR=141;  //コレクター 終了時狼+妖=1
+  const SKL_SSNATCHER=142;  //スナッチャー 毎日一人を無能状態にする+終了時全員無能
+  const SKL_GAMBLER  =143;  //ギャンブラー 指定した二人が生存
+  const SKL_GRIM     =158;  //グリムリーパー 指定した二人死亡
+  const SKL_REGION   =167;  //レギオン 村か狼陣営を指定、指定した陣営勝利
+  const SKL_PANAGIA  =168;  //パナギア 指定した二人に襲撃無効・被呪殺付与、二人呪詛死
   //輪廻
   const SKL_R_VIL    =144;  //村人
   const SKL_R_HUN    =145;  //狩人

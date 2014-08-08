@@ -3,6 +3,7 @@
 trait TRS_Crescent
 {
   public $SKL_BM = [
+    //村
      "村人"=>Data::SKL_VILLAGER
     ,"聖痕者"=>Data::SKL_STIGMA
     ,"共有者"=>Data::SKL_MASON
@@ -42,6 +43,8 @@ trait TRS_Crescent
     ,"狐好き"=>Data::SKL_FFAIRY
     ,"妄想家"=>Data::SKL_FCOURTS
     ,"転生者"=>Data::SKL_REINCRNT
+    ,"狼気纏"=>Data::SKL_WOLFAURA
+    //裏切り
     ,"邪魔之民"=>Data::SKL_JAMMER
     ,"宿借之民"=>Data::SKL_SNATCH
     ,"念波之民"=>Data::SKL_LUNAPATH
@@ -56,6 +59,8 @@ trait TRS_Crescent
     ,"騒霊"=>Data::SKL_GEIST
     ,"幻惑者"=>Data::SKL_DAZZLE
     ,"倒錯者"=>Data::SKL_PERVERT
+    ,"狂学者"=>Data::SKL_MAD
+    //人狼
     ,"凶狼"=>Data::SKL_HEADLESS
     ,"人狼"=>Data::SKL_WOLF
     ,"智狼"=>Data::SKL_WISEWOLF
@@ -69,6 +74,7 @@ trait TRS_Crescent
     ,"嗅狼"=>Data::SKL_SMELL
     ,"擬狼"=>Data::SKL_DISGUISE
     ,"蛮狼"=>Data::SKL_RECKLESS
+    //妖魔
     ,"妖狐"=>Data::SKL_FAIRY
     ,"化狐"=>Data::SKL_SNAFAIRY
     ,"念波妖狐"=>Data::SKL_BATPATH
@@ -79,22 +85,25 @@ trait TRS_Crescent
     ,"風花妖狐"=>Data::SKL_SNOW
     ,"悪戯妖狐"=>Data::SKL_PIXY
     ,"謀狐"=>Data::SKL_HUNFAIRY
+    ,"祟狐"=>Data::SKL_TATARI
     ,"雪女"=>Data::SKL_SEALFAIRY
-    ,"邪気悪魔"=>Data::SKL_EFB
+    //恋
     ,"恋愛天使"=>Data::SKL_QP
     ,"片想い"=>Data::SKL_PASSION
-    ,"一匹狼"=>Data::SKL_LWOLF
-    ,"笛吹き"=>Data::SKL_PIPER
-    ,"鱗魚人"=>Data::SKL_FISH
-    ,"渋柿人"=>Data::SKL_TERU
     ,"遊び人"=>Data::SKL_PLAYBOY
     ,"求愛者"=>Data::SKL_COURTSHIP
     ,"狂愛者"=>Data::SKL_CRAZY
-    ,"恋未練"=>Data::SKL_YANDERE
+    //邪気
+    ,"邪気悪魔"=>Data::SKL_EFB
     ,"決闘者"=>Data::SKL_DUEL
     ,"般若"=>Data::SKL_JEALOUSY
-    ,"狼気纏"=>Data::SKL_WOLFAURA
-    ,"狂学者"=>Data::SKL_MAD
+    //その他
+    ,"一匹狼"=>Data::SKL_LWOLF
+    ,"人虎"=>Data::SKL_TIGER
+    ,"笛吹き"=>Data::SKL_PIPER
+    ,"鱗魚人"=>Data::SKL_FISH
+    ,"渋柿人"=>Data::SKL_TERU
+    ,"恋未練"=>Data::SKL_YANDERE
     ];
   public $WTM_BM = [
      "村を照らす…"=>Data::TM_NONE
@@ -180,7 +189,7 @@ trait TRS_Crescent
     ,"少女"=>Data::SKL_GIRL
     ,"生贄"=>Data::SKL_SG
     ,"長老"=>Data::SKL_ELDER
-    ,"退魔師"=>Data::SKL_LYCAN
+    ,"悪魔祓い"=>Data::SKL_LYCAN
     ,"狂人"=>Data::SKL_LUNATIC
     ,"狂信者"=>Data::SKL_FANATIC
     ,"囁き狂人"=>Data::SKL_LUNAWHS

@@ -1,0 +1,81 @@
+<?php
+
+trait TRS_Sea
+{
+  protected $SKL_SP = [
+    //村
+     "共有者"=>Data::SKL_MASON
+    ,"狩人"=>Data::SKL_HUNTER
+    ,"狼憑き"=>Data::SKL_LINEAGE
+    ,"容疑者"=>Data::SKL_FUGITIVE
+    ,"獣化病"=>Data::SKL_LYCAN
+    ,"陰陽師"=>Data::SKL_ONMYO
+    ,"暗殺者"=>Data::SKL_ASSASSIN
+    ,"見習い占い師"=>Data::SKL_SEERUNSKL
+    ,"傾奇者"=>Data::SKL_KABUKI
+    ,"中身占い師"=>Data::SKL_IDSEER
+    ,"巫者"=>Data::SKL_WILD
+    ,"狼少年"=>Data::SKL_LIAR
+    ,"猫又"=>Data::SKL_CAT
+    ,"運命の子"=>Data::SKL_DESTINY
+    ,"星詠み"=>Data::SKL_FORTUNE
+    ,"交信者"=>Data::SKL_SPIRIT
+    //裏切り
+    ,"悔罪人"=>Data::SKL_TERU
+    ,"座敷童"=>Data::SKL_LUNAMIM
+    ,"囮人形"=>Data::SKL_DECOY
+    ,"悟られ狂人"=>Data::SKL_SUSPECT
+    ,"感応狂人"=>Data::SKL_LUNASIL
+    ,"瘴気狂人"=>Data::SKL_MIASMA
+    ,"誘惑者"=>Data::SKL_TEMPT
+    ,"狂科学者"=>Data::SKL_MAD
+    ,"呪術師"=>Data::SKL_LUNACURS
+    //狼
+    ,"賢狼"=>Data::SKL_MEDIWOLF
+    ,"霊狼"=>Data::SKL_NECROWOLF
+    //妖魔
+    ,"ハムスター人間"=>Data::SKL_FAIRY
+    ,"九尾"=>Data::SKL_NINETALES
+    ,"呪狐"=>Data::SKL_CURSEFOX
+    ,"半妖"=>Data::SKL_HALFFOX
+    ,"仙狐"=>Data::SKL_OLDFOX
+    ,"コウモリ人間"=>Data::SKL_BATPATH
+    ,"サトリ"=>Data::SKL_SATORI
+    ,"瘴狐"=>Data::SKL_MIAFOX
+    ,"夜叉"=>Data::SKL_YASHA
+    ,'木霊'=>Data::SKL_ECHO
+    ,'仙狸'=>Data::SKL_SENRI
+    ,'鏡狐'=>Data::SKL_CURFAIRY
+    //他
+    ,"吸血鬼"=>Data::SKL_VAMPSEA
+    ,"眷属"=>Data::SKL_SERVANT
+    ,"コレクター"=>Data::SKL_COLLECTOR
+    ,"スナッチャー"=>Data::SKL_SSNATCHER
+    ,"ギャンブラー"=>Data::SKL_GAMBLER
+    ,"グリムリーパー"=>Data::SKL_GRIM
+    ,"レギオン"=>Data::SKL_REGION
+    ,"パナギア"=>Data::SKL_PANAGIA
+    ];
+  protected $TM_SP = [
+     "贖罪"=>Data::TM_TERU
+    ,"吸血"=>Data::TM_VAMPIRE
+    ,"深海"=>Data::TM_SEA
+    ];
+  protected $WTM_SP = [
+     "らかな光が降り注ぐ。全ての"=>Data::TM_VILLAGER
+    ,"全ての希望を染めつくした。"=>Data::TM_WOLF
+    ,"も、人狼も、妖孤でさえも、"=>Data::TM_LOVERS//誤字
+    ,"の対立に終止符が打たれたと"=>Data::TM_VAMPIRE
+  ];
+  protected   $WTM_RP = [
+     "の人物が消え失せた時、其処"=>Data::TM_NONE
+    ,"の魔が消滅し舞台はついに終"=>Data::TM_VILLAGER
+    ,"侵食は進行しついに舞台の全"=>Data::TM_WOLF
+    ,"して全ての魔は滅された。た"=>Data::TM_FAIRY
+    ,"して魔は舞台の全てを覆い尽"=>Data::TM_FAIRY
+    ,"な困難の果てに勝ち残ったの"=>Data::TM_LOVERS
+    ,"して舞台は終焉に近づく。誰"=>Data::TM_LWOLF
+    ,"の静寂が舞台を包む。立場の"=>Data::TM_PIPER
+    ,"はたった独りだけを選んだ。"=>Data::TM_EFB
+  ];
+}
