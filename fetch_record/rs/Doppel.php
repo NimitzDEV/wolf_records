@@ -16,6 +16,7 @@ trait Doppel
     [
       "yuki"      =>"yuki&lt;ぐた&gt;"
      ,"tokei"     =>"tokei&lt;ぐた&gt;"
+     ,"nora"      =>"nora&lt;Cぐた&gt;"
     ];
   protected $d_Ivory = 
     [
@@ -46,6 +47,7 @@ trait Doppel
       ,"takano"   =>"takano&lt;G国&gt;"
       ,"kino"     =>"kino&lt;G国&gt;"
       ,"tokei"    =>"tokei&lt;G国&gt;"
+      ,"yomogi"   =>"yomogi&lt;G国&gt;"
     ];
   protected $d_Perjury = 
     [
