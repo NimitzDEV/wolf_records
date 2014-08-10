@@ -48,6 +48,7 @@ trait Doppel
       ,"kino"     =>"kino&lt;G国&gt;"
       ,"tokei"    =>"tokei&lt;G国&gt;"
       ,"yomogi"   =>"yomogi&lt;G国&gt;"
+      ,"waku"     =>"waku&lt;G国&gt;"
     ];
   protected $d_Perjury = 
     [
