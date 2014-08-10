@@ -218,6 +218,7 @@ class Data
   const SKL_SATORI   =140;  //サトリ 役職占いができる妖魔
   const SKL_BATPATH  =151;  //念波妖狐 狂人同士の囁きログに潜り込む
   const SKL_MIAFOX   =157;  //瘴狐 2dに一人を無能状態にする
+  const SKL_CONFUSE  =171;  //惑狐 2dに一人を妖精の子にする
   const SKL_YASHA    =162;  //夜叉 50%の確率でランダムに襲撃
   const SKL_ECHO     =164;  //木霊 被呪殺時一人を道連れ
   const SKL_SENRI    =165;  //仙狸 猫又の妖魔版。襲撃は無効で襲撃者だけを殺す

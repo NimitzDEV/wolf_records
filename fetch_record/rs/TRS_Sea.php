@@ -42,6 +42,7 @@ trait TRS_Sea
     ,"コウモリ人間"=>Data::SKL_BATPATH
     ,"サトリ"=>Data::SKL_SATORI
     ,"瘴狐"=>Data::SKL_MIAFOX
+    ,"惑狐"=>Data::SKL_CONFUSE
     ,"夜叉"=>Data::SKL_YASHA
     ,'木霊'=>Data::SKL_ECHO
     ,'仙狸'=>Data::SKL_SENRI
