@@ -9,8 +9,8 @@ class Sea extends Giji_Old
   function set_village_data()
   {
     $cid = 45;
-    $url_vil = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?vid=";
-    $url_log = "http://chaos-circle.xsrv.jp/abyss/sow/sow.cgi?cmd=oldlog";
+    $url_vil = "http://chaos-circle.sakura.ne.jp/sow/sow.cgi?vid=";
+    $url_log = "http://chaos-circle.sakura.ne.jp/sow/sow.cgi?cmd=oldlog";
     return ['cid'=>$cid,'url_vil'=>$url_vil,'url_log'=>$url_log];
   }
   function __construct()
