@@ -11,6 +11,7 @@ trait Doppel
     [
       'takano'    =>'takano&lt;千夜国&gt;'
      ,'ferret'    =>'ferret&lt;千夜国&gt;'
+     ,'maki'      =>'maki&lt;千夜国&gt;'
     ];
   protected $d_Guta = 
     [
