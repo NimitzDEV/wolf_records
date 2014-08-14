@@ -56,6 +56,7 @@ trait TRS_Sea
     ,"グリムリーパー"=>Data::SKL_GRIM
     ,"レギオン"=>Data::SKL_REGION
     ,"パナギア"=>Data::SKL_PANAGIA
+    ,"カロン"=>Data::SKL_CHARON
     ];
   protected $TM_SP = [
      "贖罪"=>Data::TM_TERU

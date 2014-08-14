@@ -257,6 +257,7 @@ class Data
   const SKL_GRIM     =158;  //グリムリーパー 指定した二人死亡
   const SKL_REGION   =167;  //レギオン 村か狼陣営を指定、指定した陣営勝利
   const SKL_PANAGIA  =168;  //パナギア 指定した二人に襲撃無効・被呪殺付与、二人呪詛死
+  const SKL_CHARON   =172;  //カロン 3dと5dに毒殺/蘇生できる。終了時四人で勝利
   //輪廻
   const SKL_R_VIL    =144;  //村人
   const SKL_R_HUN    =145;  //狩人
