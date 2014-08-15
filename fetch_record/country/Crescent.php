@@ -69,7 +69,7 @@ class Crescent extends Giji_Old
       }
 
       //照・据え膳勝利メッセージがあったら削除
-      $wtmid = mb_ereg_replace('そして、天に召された魚料理.+|そして、お日様をたっぷり浴びた.+|明日の遠足、大丈夫かなあ。','',$wtmid,'m');
+      $wtmid = mb_ereg_replace('そして、天に.+|そして、お日.+|明日の遠足.+|そして、死の.+','',$wtmid,'m');
       //特定の言い換えだけ取得文字部分を変更
       if($this->village->rp === 'BM' || $this->village->rp === 'CLOSED')
       {

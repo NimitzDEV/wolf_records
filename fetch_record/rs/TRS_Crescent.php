@@ -40,6 +40,7 @@ trait TRS_Crescent
     ,"霊感少年"=>Data::SKL_SPIRIT
     ,"暗殺者"=>Data::SKL_ASSCRES
     ,"運命読み"=>Data::SKL_FORTUNE
+    ,"猫又"=>Data::SKL_CAT
     ,"狐好き"=>Data::SKL_FFAIRY
     ,"妄想家"=>Data::SKL_FCOURTS
     ,"転生者"=>Data::SKL_REINCRNT

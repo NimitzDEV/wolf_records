@@ -143,7 +143,7 @@ class Data
   const SKL_REINCRNT =118;  //転生者 死後三日後ランダムな役職で復活
   const SKL_LIAR     =138;  //狼少年 でたらめな占結果が出る。呪殺は可能
   const SKL_WOLFAURA =152;  //狼気纏 霊判定では白が出る狼血族
-  const SKL_CAT      =154;  //猫又 錬金術師+狼判定+処刑されるとランダム道連れ
+  const SKL_CAT      =154;  //猫又 錬金術師+処刑されるとランダム道連れ
   const SKL_DESTINY  =155;  //運命の子 被占いでランダムに役職変化
   const SKL_BUTTERFLY=159;  //胡蝶 襲撃されると囁き狂人に変化
 
