@@ -94,7 +94,7 @@ class Rose extends SOW
     $this->fetch_role($person);
     $this->user->tmid = $this->TEAM[$person->find('td',3)->plaintext];
 
-    if($this->user->role === '見物人')
+    if(mb_ereg_match('見物人|やじうま',$this->user->role))
     {
       $this->insert_onlooker();
     }
