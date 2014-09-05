@@ -88,6 +88,8 @@ trait TRS_Crescent
     ,"謀狐"=>Data::SKL_HUNFAIRY
     ,"祟狐"=>Data::SKL_TATARI
     ,"雪女"=>Data::SKL_SEALFAIRY
+    ,"妖兎"=>Data::SKL_FRABBIT
+    ,"月兎"=>Data::SKL_MRABBIT
     //恋
     ,"恋愛天使"=>Data::SKL_QP
     ,"片想い"=>Data::SKL_PASSION
@@ -105,6 +107,10 @@ trait TRS_Crescent
     ,"鱗魚人"=>Data::SKL_FISH
     ,"渋柿人"=>Data::SKL_TERU
     ,"恋未練"=>Data::SKL_YANDERE
+    ,"盲信者"=>Data::SKL_BLIND
+    ,"背徳者"=>Data::SKL_IMMORAL
+    ,"月下氷人"=>Data::SKL_MMAKER
+    ,"介在人"=>Data::SKL_WITNESS
     ];
   public $WTM_BM = [
      "村を照らす…"=>Data::TM_NONE

@@ -18,7 +18,8 @@ class Data
   const TM_FISH      = 10; //据え膳
   const TM_TERU      = 13; //照坊主
   const TM_SLAVE     = 14; //奴隷陣営
-  const TM_YANDERE   = 16; //恋未練陣営
+  const TM_YANDERE   = 16; //悪霊陣営
+  const TM_MARTYR    = 22; //殉教者陣営
   //その他
   const TM_NONE      = 11; //陣営なし
   const TM_ONLOOKER  = 12; //見物人  
@@ -205,7 +206,7 @@ class Data
   const SKL_JAMFAIRY = 64;  //邪魔妖精
   const SKL_SNAFAIRY = 65;  //宿借妖精
   const SKL_VAMPIRE  = 74;  //吸血鬼 瓜科
-  const SKL_RABBIT   = 75;  //夜兎
+  const SKL_RABBIT   = 75;  //夜兎 赤窓閲覧
   const SKL_NIGHTMARE= 83;  //夢魔 絆の有無を占う(呪殺不可)
   const SKL_NINETALES=102;  //九尾 呪殺されない、襲撃行使、被襲撃で相手を道連れ
   const SKL_CURSEFOX =103;  //呪狐 被呪殺時相手を道連れ
@@ -224,6 +225,8 @@ class Data
   const SKL_SENRI    =165;  //仙狸 猫又の妖魔版。襲撃は無効で襲撃者だけを殺す
   const SKL_CURFAIRY =166;  //鏡狐 一人に襲撃無効・被呪殺能力を付与
   const SKL_TATARI   =170;  //祟狐 被呪殺・襲撃・処刑時に相手を道連れ
+  const SKL_FRABBIT  =173;  //妖兎 全秘密ログ閲覧
+  const SKL_MRABBIT  =174;  //月兎 妖兎+処刑突然死以外の死因を一度だけ防ぐ
 
   const SKL_QP       = 52;  //恋愛天使
   const SKL_PASSION  = 53;  //片想い
@@ -246,6 +249,10 @@ class Data
   const SKL_TERU     = 76;  //照坊主
   const SKL_SLAVE    = 91;  //奴隷
   const SKL_YANDERE  =135;  //恋未練 指定先と自分が死ねば追加勝利、墓下投票可
+  const SKL_BLIND    =175;  //盲信者 人狼が勝てば勝利、人狼全員が死ぬと後追死する
+  const SKL_IMMORAL  =176;  //背徳者 妖精が勝てば勝利、妖精全員が死ぬと後追死する
+  const SKL_MMAKER   =177;  //月下氷人 恋人が勝てば勝利、恋人全員が死ぬと後追死する
+  const SKL_WITNESS  =178;  //介在人 邪気が勝てば勝利、邪気全員が死ぬと後追死する
   const SKL_SUCKER   = 73;  //血人 陣営なし
 
   const SKL_PUPIL    =128;  //弟子 黒幕見物人によって2d前に死んでいる場合、能力発動しない
