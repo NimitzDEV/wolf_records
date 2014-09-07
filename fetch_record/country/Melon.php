@@ -17,8 +17,8 @@ class Melon extends SOW
     //役職言い換えなしの場合、汎用編成リストを使用
     if(in_array($this->village->rp,['SOW','JUNA','WBBS','FOOL']))
     {
-      $patterns = ['/.+　(（(.+)） ＋（.+|（(.+)）)/','/） （ /','/([^ ]+): (\d+)人 /'];
-      $replaces = ['\2','','\1x\2 '];
+      $patterns = ['/＋（.+/','/.+　（(.+)）/','/） （ /','/([^ ]+): (\d+)人 /'];
+      $replaces = ['','\1','','\1x\2 '];
       $rglid = trim(preg_replace($patterns,$replaces,$rglid_check));
       $this->find_rglid($rglid);
       return;
