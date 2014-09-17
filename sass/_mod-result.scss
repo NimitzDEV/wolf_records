@@ -249,10 +249,16 @@ nav {
       background: #0a9092; //空
     }
     .yandere {
-      background: #0a9092; //赤紫
+      color: #f066c7;
+      background: #ffd7f3; //赤紫
+    }
+    .martyr {
+      color: #2b4e4e; //緑
+      background: #6dc2c3;
     }
     .none {
-      background: #333; //灰
+      color: #333; //灰
+      background: #fdfdfd;
     }
   }
 }
