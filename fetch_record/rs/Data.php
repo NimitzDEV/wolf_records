@@ -137,13 +137,14 @@ class Data
   const SKL_ASSASSIN        = 95; //暗殺者 襲撃行使、占われると溶ける
   const SKL_ASS_CRESCENT    =114; //暗殺者(三日月) 襲撃行使、狼や妖魔も殺害可
   const SKL_READ_W          = 31; //少女
-  const SKL_READ_G          =113; //霊感少年 死者と話せる
+  const SKL_READ_G          =113; //霊感少年 交信者(深海) 墓ログ閲覧
   const SKL_IRON            =110; //鉄人 襲撃を受けない
   const SKL_IRON_ONCE_SICK  = 33; //長老
   const SKL_MISTAKE_GRD     = 69; //闇狩人
   const SKL_MISTAKE_FRY     =116; //狐好き 思い込み狐
   const SKL_MISTAKE_LOVE    =117; //妄想家 思い込み求愛者
   const SKL_MISTAKE_SEER    =138; //狼少年 でたらめな占結果が出る。呪殺は可能
+  const SKL_MISTAKE_MEDI    =179; //月酔い でたらめな霊結果が出る
   const SKL_RANDOM_EATEN    = 97; //傾奇者 被襲撃でランダムに役職変化
   const SKL_RANDOM_DEAD     =118; //転生者 死後三日後ランダムな役職で復活
   const SKL_RANDOM_TOLD     =155; //運命の子 被占いでランダムに役職変化
@@ -184,7 +185,7 @@ class Data
   const SKL_HEADLESS        = 41; //首無騎士
   const SKL_WISEWOLF        = 42; //智狼
   const SKL_WHITEWOLF       = 44; //白狼
-  const SKL_WWOLF_CRESCENT  =126; //擬狼 死ぬと真判定になる白狼
+  const SKL_WWOLF_BLACK_G   =126; //擬狼 大狼 死ぬと真判定になる白狼
   const SKL_CHILDWOLF       = 45; //仔狼
   const SKL_RECKLESS        =127; //蛮狼 自分を犠牲に護衛貫通襲撃が可能
   const SKL_SLEEPER_BLACK   =124; //忘狼 占いでも覚醒する睡狼
@@ -198,6 +199,9 @@ class Data
   const SKL_WOLF_HUNGRY     =123; //餓狼 二日連続襲撃できないと死ぬ
   const SKL_WOLF_FAN        =125; //嗅狼 半狼や狼血族が分かる
   const SKL_WOLF_DEPEND     =160; //従狼 人カウントも狼カウントもしない
+  const SKL_WOLF_ELDER      =151; //古狼 襲撃耐性を貫通するが、6割の確率で襲撃失敗する
+  const SKL_WOLF_DELAY      =165; //蠱狼 襲撃した一日後に対象が死ぬ。襲撃返り討ち耐性を無効化
+  const SKL_WOLF_PRINCE     =180; //群狼 LWにならない限り処刑されない
   //妖魔陣営
   const SKL_FAIRY           =  9; //妖魔
   const SKL_PIXY            = 50; //悪戯妖精

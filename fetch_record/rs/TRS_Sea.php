@@ -20,6 +20,7 @@ trait TRS_Sea
     ,"運命の子"=>Data::SKL_RANDOM_TOLD
     ,"星詠み"=>Data::SKL_SEER_BAND
     ,"交信者"=>Data::SKL_READ_G
+    ,"月酔い"=>Data::SKL_MISTAKE_MEDI
     //裏切り
     ,"悔罪人"=>Data::SKL_TERU
     ,"座敷童"=>Data::SKL_LUNA_MIMIC_FM
@@ -33,6 +34,8 @@ trait TRS_Sea
     //狼
     ,"賢狼"=>Data::SKL_WOLF_MEDI_ROLE
     ,"霊狼"=>Data::SKL_WOLF_MR_READ_G
+    ,"大狼"=>Data::SKL_WWOLF_BLACK_G
+    ,"群狼"=>Data::SKL_WOLF_PRINCE
     //妖魔
     ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"九尾"=>Data::SKL_FRY_ASS_COUNTER

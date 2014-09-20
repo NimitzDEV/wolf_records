@@ -73,8 +73,10 @@ trait TRS_Crescent
     ,"餓狼"=>Data::SKL_WOLF_HUNGRY
     ,"忘狼"=>Data::SKL_SLEEPER_BLACK
     ,"嗅狼"=>Data::SKL_WOLF_FAN
-    ,"擬狼"=>Data::SKL_WWOLF_CRESCENT
+    ,"擬狼"=>Data::SKL_WWOLF_BLACK_G
     ,"蛮狼"=>Data::SKL_RECKLESS
+    ,"古狼"=>Data::SKL_WOLF_ELDER
+    ,"蠱狼"=>Data::SKL_WOLF_DELAY
     //妖魔
     ,"妖狐"=>Data::SKL_FAIRY
     ,"化狐"=>Data::SKL_FRY_SNATCH
