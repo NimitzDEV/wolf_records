@@ -8,7 +8,7 @@ class Ning extends Country
         "村人"  =>Data::SKL_VILLAGER
        ,"占い師"=>Data::SKL_SEER
        ,"霊能者"=>Data::SKL_MEDIUM
-       ,"狩人"  =>Data::SKL_HUNTER
+       ,"狩人"  =>Data::SKL_GUARD
        ,"人狼"  =>Data::SKL_WOLF
        ,"狂人"  =>Data::SKL_LUNATIC
     ]; 

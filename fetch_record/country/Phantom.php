@@ -21,7 +21,7 @@ class Phantom extends SOW
     ];
   protected $SKL_SP = [
      "妖狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"天狐"=>[Data::SKL_BAT,Data::TM_FAIRY]
+    ,"天狐"=>[Data::SKL_FRY_WIS,Data::TM_FAIRY]
     ,"冥狐"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"幻魔"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"--"=>[Data::SKL_NULL,Data::TM_NONE]

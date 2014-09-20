@@ -10,12 +10,12 @@ class Mikan extends SOW
   protected $SKL_HAPI = [
      "食いしん坊"=>[Data::SKL_VILLAGER,Data::TM_VILLAGER]
     ,"お菓子族"=>[Data::SKL_WOLF,Data::TM_WOLF]
-    ,"電波ティシエ"=>[Data::SKL_TELEPATH,Data::TM_VILLAGER]
+    ,"電波ティシエ"=>[Data::SKL_FM_WIS,Data::TM_VILLAGER]
     ,"コウモリ"=>[Data::SKL_PIXY,Data::TM_FAIRY]
-    ,"マイフレ"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
-    ,"ハムスター"=>[Data::SKL_BAT,Data::TM_FAIRY]
-    ,"ひそひそパティシエ"=>[Data::SKL_BAT,Data::TM_FAIRY]
-    ,"お菓子族儲"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"マイフレ"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"ハムスター"=>[Data::SKL_FRY_WIS,Data::TM_FAIRY]
+    ,"ひそひそパティシエ"=>[Data::SKL_FRY_WIS,Data::TM_FAIRY]
+    ,"お菓子族儲"=>[Data::SKL_WOLF_CURSED,Data::TM_WOLF]
     ];
 
   protected $DT_RP = [

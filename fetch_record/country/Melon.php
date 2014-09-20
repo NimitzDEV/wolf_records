@@ -303,7 +303,7 @@ class Melon extends SOW
         if($this->user->tmid !== Data::TM_LOVERS)
         {
           $this->user->tmid = $this->SKILL[$skl_key][1];
-          if($this->user->sklid === Data::SKL_LOVER && preg_match('/(失恋|片思い|孤独)★/',$role))
+          if($this->user->sklid === Data::SKL_QP_SELF_MELON && preg_match('/(失恋|片思い|孤独)★/',$role))
           {
             $this->user->tmid = Data::TM_VILLAGER;
           }

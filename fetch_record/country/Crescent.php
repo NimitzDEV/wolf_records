@@ -6,7 +6,7 @@ class Crescent extends Giji_Old
   protected $SKL_SP = 
   [
      "テルテル"=>Data::SKL_TERU
-    ,"求愛者"=>Data::SKL_COURTSHIP
+    ,"求愛者"=>Data::SKL_QP_SELF
   ];
   protected $TM_SP = 
   [

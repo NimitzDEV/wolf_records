@@ -4,20 +4,20 @@ class Ivory extends Giji_Old
 {
   use TRS_Ivory;
   private $SKL_SP = [
-     "審問官"=>Data::SKL_SEERWIN
-    ,"隠秘学者"=>Data::SKL_SEERAURA
-    ,"登記役人"=>Data::SKL_SAGE
-    ,"聴罪師"=>Data::SKL_MEDIWIN
-    ,"検死官"=>Data::SKL_PRIEST
+     "審問官"=>Data::SKL_SEER_TM
+    ,"隠秘学者"=>Data::SKL_SEER_AURA
+    ,"登記役人"=>Data::SKL_SEER_ROLE
+    ,"聴罪師"=>Data::SKL_MEDI_TM
+    ,"検死官"=>Data::SKL_MEDI_ROLE
     ,"貴族"=>Data::SKL_PRINCE
     ,"目隠し妖怪"=>Data::SKL_JAMMER
     ,"取替え妖怪"=>Data::SKL_SNATCH
-    ,"古狸"=>Data::SKL_LUNAPATH
+    ,"古狸"=>Data::SKL_LUNA_WIS
     ,"傀儡師"=>Data::SKL_MUPPETER
     ,"悪魔"=>Data::SKL_EFB
     ,"天使"=>Data::SKL_QP
     ,"誓約者"=>Data::SKL_PASSION
-    ,"二枚舌"=>Data::SKL_PLAYBOY
+    ,"二枚舌"=>Data::SKL_BITCH
     ,"宣教師"=>Data::SKL_PIPER
     ];
   protected $RP_SP = [

@@ -250,7 +250,7 @@ class SOW extends Country
       $this->user->tmid = $this->SKILL[$this->user->role][1];
     }
     //呪狼の名前をメモ
-    if($this->user->sklid === Data::SKL_CURSEWOLF)
+    if($this->user->sklid === Data::SKL_WOLF_CURSED)
     {
       $this->cursewolf[] = $this->user->persona;
     }

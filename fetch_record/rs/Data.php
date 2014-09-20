@@ -106,19 +106,19 @@ class Data
   const SKL_WILD            =109; //野生児 残狼人数が分かる
   const SKL_GUARD           =  4; //狩人
   const SKL_GRD_BLACK       = 54; //守護獣
-  const SKL_GRD_ALCHEMIST   = 79; //狙撃手
+  const SKL_GRD_ALCH        = 79; //狙撃手
   const SKL_GRD_G           =112; //守護霊 死んでから護衛できる
   const SKL_FM              =  5; //共有者
   const SKL_FM_WIS          = 12; //共鳴者
   const SKL_STIGMA          = 11; //聖痕者
-  const SKL_FOLLOW          = 19; //追従者
+  const SKL_FOLLOWER        = 19; //追従者
   const SKL_AGITATOR        = 20; //扇動者
   const SKL_HUNTER          = 21; //賞金稼
   const SKL_DOG             = 22; //人犬
   const SKL_PRINCE          = 23; //王子様
   const SKL_LINEAGE         = 24; //狼血族
   const SKL_SUSPECT         = 92; //容疑者 占判定は黒、霊判定は白、自覚あり
-  const SKL_SUSPECT_LINEAGE =152; //狼気纏 霊判定では白が出る狼血族
+  const SKL_SUS_LINEAGE     =152; //狼気纏 霊判定では白が出る狼血族
   const SKL_DOCTOR          = 25; //医師
   const SKL_CURSED          = 26; //呪人
   const SKL_DYING           = 27; //預言者
@@ -155,12 +155,12 @@ class Data
   const SKL_LUNA_WIS_LINEAGE=159; //胡蝶 襲撃されると囁き狂人に変化
   const SKL_JAMMER          = 34; //邪魔之民
   const SKL_FANATIC         = 36; //狂信者
-  const SKL_MUPPETING       = 37; //人形使い
+  const SKL_MUPPETER        = 37; //人形使い
   const SKL_HALFWOLF        = 38; //半狼
   const SKL_SNATCH          = 60; //宿借之民
   const SKL_SEAL            = 71; //封印狂人
   const SKL_SLEEPER         = 89; //睡狼 役職自覚がない。被襲撃で人狼になる
-  const SKL_DECOY           = 99; //悟られ狂人 逆狂信者
+  const SKL_REALIZED        = 99; //悟られ狂人 逆狂信者
   const SKL_DAZZLE          =121; //幻惑者 絆の内容を逆にする
   const SKL_PERVERT         =122; //倒錯者 占霊判定を逆にする
   const SKL_LUNA_BLACK      = 98; //囮人形 占われると黒判定が出る
@@ -182,7 +182,7 @@ class Data
   //人狼陣営
   const SKL_WOLF            =  7; //人狼
   const SKL_HEADLESS        = 41; //首無騎士
-  const SKL_INTWOLF         = 42; //智狼
+  const SKL_WISEWOLF        = 42; //智狼
   const SKL_WHITEWOLF       = 44; //白狼
   const SKL_WWOLF_CRESCENT  =126; //擬狼 死ぬと真判定になる白狼
   const SKL_CHILDWOLF       = 45; //仔狼

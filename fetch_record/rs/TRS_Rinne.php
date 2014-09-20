@@ -12,13 +12,13 @@ trait TRS_Rinne
     ,'なり得なかった……。'=>Data::TM_R_WOLF
   ];
   protected $SKILL = [
-     "村人"=>[Data::SKL_R_VIL,Data::TM_R_VIL]
-    ,"狩人"=>[Data::SKL_R_HUN,Data::TM_R_VIL]
+     "村人"=>[Data::SKL_R_VILLAGER,Data::TM_R_VIL]
+    ,"狩人"=>[Data::SKL_R_GUARD,Data::TM_R_VIL]
     ,"占い師"=>[Data::SKL_R_SEER,Data::TM_R_SEER]
-    ,"見習い占い師"=>[Data::SKL_R_USEE,Data::TM_R_SEER]
-    ,"霊能者"=>[Data::SKL_R_MED,Data::TM_R_MED]
+    ,"見習い占い師"=>[Data::SKL_R_SEER_UNSKILL,Data::TM_R_SEER]
+    ,"霊能者"=>[Data::SKL_R_MEDIUM,Data::TM_R_MED]
     ,"人狼"=>[Data::SKL_R_WOLF,Data::TM_R_WOLF]
-    ,"智狼"=>[Data::SKL_R_WISEW,Data::TM_R_WOLF]
+    ,"智狼"=>[Data::SKL_R_WOLF_WISE,Data::TM_R_WOLF]
     ];
   protected $DT_NORMAL = [
      '処刑された。'=>['.+(\(ランダム投票\)|投票できた。)(.+) は村人達の手により処刑された。',Data::DES_HANGED]

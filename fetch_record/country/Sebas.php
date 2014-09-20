@@ -15,8 +15,8 @@ class Sebas extends SOW
   protected $SKL_SP = [
      "鬼（人狼）"=>[Data::SKL_WOLF,Data::TM_WOLF]
     ,"狐"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"天狗"=>[Data::SKL_BAT,Data::TM_FAIRY]
-    ,"呪鬼"=>[Data::SKL_CURSEWOLF,Data::TM_WOLF]
+    ,"天狗"=>[Data::SKL_FRY_WIS,Data::TM_FAIRY]
+    ,"呪鬼"=>[Data::SKL_WOLF_CURSED,Data::TM_WOLF]
     ,"智鬼"=>[Data::SKL_WISEWOLF,Data::TM_WOLF]
     ,"悪戯っ子"=>[Data::SKL_PIXY,Data::TM_FAIRY]
   ];

@@ -20,10 +20,10 @@ class Silence extends SOW
     ,"おやすみなサイ"=>[Data::SKL_SEER,Data::TM_VILLAGER]
     ,"ただいマンボウ"=>[Data::SKL_MEDIUM,Data::TM_VILLAGER]
     ,"あいさつ坊や"=>[Data::SKL_LUNATIC,Data::TM_WOLF]
-    ,"スタッフ"=>[Data::SKL_HUNTER,Data::TM_VILLAGER]
-    ,"AC"=>[Data::SKL_MASON,Data::TM_VILLAGER]
+    ,"スタッフ"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
+    ,"AC"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"いただきマウス"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"あいさつガール"=>[Data::SKL_LUNAWHS,Data::TM_WOLF]
+    ,"あいさつガール"=>[Data::SKL_WISPER,Data::TM_WOLF]
     ,"ごちそうさマウス"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"ありがとウサギ"=>[Data::SKL_QP,Data::TM_LOVERS]
   ];
