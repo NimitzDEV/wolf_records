@@ -21,8 +21,8 @@ class Data
   const TM_YANDERE   = 16; //悪霊陣営
   const TM_MARTYR    = 22; //殉教者陣営
   //その他
-  const TM_NONE      = 11; //陣営なし
-  const TM_ONLOOKER  = 12; //見物人  
+  const TM_NONE      = 99; //陣営なし
+  const TM_ONLOOKER  = 98; //見物人  
   //輪廻
   const TM_R_VIL     = 18; //村人
   const TM_R_SEER    = 19; //占い師
