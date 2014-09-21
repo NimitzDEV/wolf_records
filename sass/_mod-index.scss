@@ -35,6 +35,10 @@ h2 {
   display: none;
 }
 
+p + p {
+  margin-top: 1em;
+}
+
 
 @include tablet {
   form {
