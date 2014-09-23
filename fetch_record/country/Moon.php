@@ -51,6 +51,19 @@ class Moon extends SOW
       $this->output_comment('rp');
     }
   }
+  protected function fetch_rp()
+  {
+    $rp = trim($this->fetch->find('p.multicolumn_left',8)->plaintext);
+    if(array_key_exists($rp,$this->RP_LIST))
+    {
+      $this->village->rp = $this->RP_LIST[$rp];
+    }
+    else
+    {
+      $this->village->rp = 'SOW';
+      $this->output_comment('undefined',$rp);
+    }
+  }
   protected function insert_users()
   {
     $this->users = [];
