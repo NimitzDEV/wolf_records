@@ -35,6 +35,10 @@ trait Doppel
      ,"barista"   =>"barista&lt;瓜科&gt;"
      ,"dummy"     =>"dummy&lt;瓜科&gt;"
     ];
+  protected $d_Morphe = 
+    [
+      "nana"      =>"nana&lt;morphe&gt;"
+    ];
   protected $d_Ning = 
     [
        "asaki"    =>"asaki&lt;G国&gt;"
