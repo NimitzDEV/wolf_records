@@ -264,6 +264,7 @@ class Data
   const SKL_MRT_EFB         =178; //介在人 邪気が勝てば勝利、邪気全員が死ぬと後追死する
   //その他追加勝利陣営
   const SKL_FISH            = 58; //鱗魚人
+  const SKL_FISH_DOG        =181; //大魚人 襲撃されても一日だけ生き長らえる魚
   const SKL_TERU            = 76; //照坊主
   const SKL_SLAVE           = 91; //奴隷
   const SKL_YANDERE         =135; //恋未練 指定先と自分が死ねば追加勝利、墓下投票可

@@ -107,6 +107,7 @@ trait TRS_Crescent
     ,"人虎"=>Data::SKL_LONE_TWICE
     ,"笛吹き"=>Data::SKL_PIPER
     ,"鱗魚人"=>Data::SKL_FISH
+    ,"大魚人"=>Data::SKL_FISH_DOG
     ,"渋柿人"=>Data::SKL_TERU
     ,"恋未練"=>Data::SKL_YANDERE
     ,"盲信者"=>Data::SKL_MRT_WOLF
