@@ -77,8 +77,8 @@ trait TRS_Rose
     ,"結社員"=>Data::SKL_FM
     ,"妖魔"=>Data::SKL_FAIRY
     ,"ハムスター人間"=>Data::SKL_FAIRY
-    ,"囁き狂人"=>Data::SKL_WISPER
-    ,"Ｃ国狂人"=>Data::SKL_WISPER
+    ,"囁き狂人"=>Data::SKL_WHISPER
+    ,"Ｃ国狂人"=>Data::SKL_WHISPER
     ,"聖痕者"=>Data::SKL_STIGMA
     ,"狂信者"=>Data::SKL_FANATIC
     ,"共鳴者"=>Data::SKL_FM_WIS
@@ -130,7 +130,7 @@ trait TRS_Rose
     ,"ストーカー"=>Data::SKL_GUARD
     ,"夫婦"=>Data::SKL_FM
     ,"ハム"=>Data::SKL_FAIRY
-    ,"人狼教神官"=>Data::SKL_WISPER
+    ,"人狼教神官"=>Data::SKL_WHISPER
     ,"痣もち"=>Data::SKL_STIGMA
     ,"人狼教信者"=>Data::SKL_FANATIC
     ,"おしどり夫婦"=>Data::SKL_FM_WIS
@@ -177,7 +177,7 @@ trait TRS_Rose
     ,"サイゾー"=>Data::SKL_SEER
     ,"看護士"=>Data::SKL_MEDIUM
     ,"熱血の騎士"=>Data::SKL_GUARD
-    ,"事務員"=>Data::SKL_WISPER
+    ,"事務員"=>Data::SKL_WHISPER
     ,"痣の保持者"=>Data::SKL_STIGMA
     ,"粘着テロリスト"=>Data::SKL_WOLF_CURSED
     ,"ニヨリスト"=>Data::SKL_PIXY

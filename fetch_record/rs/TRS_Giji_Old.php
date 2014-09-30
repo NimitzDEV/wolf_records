@@ -52,7 +52,7 @@ trait TRS_Giji_Old
     ,"狂人"=>Data::SKL_LUNATIC
     ,"狂信者"=>Data::SKL_FANATIC
     ,"人形使い"=>Data::SKL_MUPPETER
-    ,"囁き狂人"=>Data::SKL_WISPER
+    ,"囁き狂人"=>Data::SKL_WHISPER
     ,"半狼"=>Data::SKL_HALFWOLF
     ,"魔神官"=>Data::SKL_LUNA_MEDI
     ,"魔術師"=>Data::SKL_LUNA_SEER_ROLE
@@ -79,7 +79,7 @@ trait TRS_Giji_Old
     ,"共有者"=>Data::SKL_FM
     ,"狩人"=>Data::SKL_GUARD
     ,"コウモリ人間"=>Data::SKL_LUNA_WIS
-    ,"Ｃ国狂人"=>Data::SKL_WISPER
+    ,"Ｃ国狂人"=>Data::SKL_WHISPER
     ,"首なし騎士"=>Data::SKL_HEADLESS
     ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"ピクシー"=>Data::SKL_PIXY

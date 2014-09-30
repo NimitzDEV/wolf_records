@@ -31,7 +31,7 @@ class BW extends SOW
     ,"贋作師"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
     ,"『クロノス』ギルド員"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"時の精霊"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"共犯者"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"共犯者"=>[Data::SKL_WHISPER,Data::TM_WOLF]
     ,"『クロノス』ギルド員見習い"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
     ,"時間泥棒の協力者"=>[Data::SKL_FANATIC,Data::TM_WOLF]
     ,"『クロノス』上級ギルド員"=>[Data::SKL_FM_WIS,Data::TM_VILLAGER]

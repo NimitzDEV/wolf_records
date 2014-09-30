@@ -53,7 +53,7 @@ trait TRS_Ivory
     ,"密通者"=>Data::SKL_LUNATIC
     ,"鉄砲玉"=>Data::SKL_FANATIC
     ,"人形使い"=>Data::SKL_MUPPETER
-    ,"内通者"=>Data::SKL_WISPER
+    ,"内通者"=>Data::SKL_WHISPER
     ,"不良"=>Data::SKL_HALFWOLF
     ,"葬儀屋"=>Data::SKL_LUNA_MEDI
     ,"便利屋"=>Data::SKL_LUNA_SEER_ROLE

@@ -49,7 +49,7 @@ trait TRS_Guta
     ,"悪徳琥珀商人"=>Data::SKL_LUNATIC
     ,"魔術師を目撃した者"=>Data::SKL_FANATIC
     ,"死人遣い"=>Data::SKL_MUPPETER
-    ,"魔術師の愛弟子"=>Data::SKL_WISPER
+    ,"魔術師の愛弟子"=>Data::SKL_WHISPER
     ,"見習い魔術師"=>Data::SKL_HALFWOLF
     ,"故売屋"=>Data::SKL_LUNA_MEDI
     ,"見通す目"=>Data::SKL_LUNA_SEER_ROLE

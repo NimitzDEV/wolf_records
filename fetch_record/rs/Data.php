@@ -150,7 +150,7 @@ class Data
   const SKL_RANDOM_TOLD     =155; //運命の子 被占いでランダムに役職変化
   //裏切りの陣営
   const SKL_LUNATIC         =  6; //狂人
-  const SKL_WISPER          =  8; //囁き狂人
+  const SKL_WHISPER         =  8; //囁き狂人
   const SKL_LUNA_WIS        = 35; //叫迷狂人
   const SKL_LUNA_WIS_TEMPT  = 88; //誘惑者 囁き狂人+初日に一人を隷従者(恩恵)にする
   const SKL_LUNA_WIS_LINEAGE=159; //胡蝶 襲撃されると囁き狂人に変化

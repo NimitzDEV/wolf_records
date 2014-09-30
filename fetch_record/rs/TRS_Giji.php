@@ -81,7 +81,7 @@ trait TRS_Giji
     ,41=>[Data::SKL_LUNATIC,'狂人']
     ,42=>[Data::SKL_FANATIC,'狂信者']
     ,43=>[Data::SKL_MUPPETER,'人形使い']
-    ,44=>[Data::SKL_WISPER,'囁き狂人']
+    ,44=>[Data::SKL_WHISPER,'囁き狂人']
     ,45=>[Data::SKL_HALFWOLF,'半狼']
     ,47=>[Data::SKL_LUNA_MEDI,'魔神官']
     ,48=>[Data::SKL_LUNA_SEER_ROLE,'魔術師']

@@ -55,7 +55,7 @@ class Dark extends SOW
     ,"守護者"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
     ,"報告者"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"古きもの"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"入信者"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"入信者"=>[Data::SKL_WHISPER,Data::TM_WOLF]
     ,"協力者"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
     ,"狂信者"=>[Data::SKL_FANATIC,Data::TM_WOLF]
     ,"感応者"=>[Data::SKL_FM_WIS,Data::TM_VILLAGER]
@@ -75,7 +75,7 @@ class Dark extends SOW
     ,"守護者"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
     ,"報告者"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"ショゴス"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"入信者"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"入信者"=>[Data::SKL_WHISPER,Data::TM_WOLF]
     ,"協力者"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
     ,"狂信者"=>[Data::SKL_FANATIC,Data::TM_WOLF]
     ,"感応者"=>[Data::SKL_FM_WIS,Data::TM_VILLAGER]
@@ -95,7 +95,7 @@ class Dark extends SOW
     ,"カミナリさん"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
     ,"担任"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"裏番"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"面白がり"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"面白がり"=>[Data::SKL_WHISPER,Data::TM_WOLF]
     ,"すご担"=>[Data::SKL_STIGMA,Data::TM_VILLAGER]
     ];
   protected $DT_SP = [

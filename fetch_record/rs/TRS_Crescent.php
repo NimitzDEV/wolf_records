@@ -52,7 +52,7 @@ trait TRS_Crescent
     ,"狂人"=>Data::SKL_LUNATIC
     ,"狂信者"=>Data::SKL_FANATIC
     ,"人形使い"=>Data::SKL_MUPPETER
-    ,"囁き狂人"=>Data::SKL_WISPER
+    ,"囁き狂人"=>Data::SKL_WHISPER
     ,"半狼"=>Data::SKL_HALFWOLF
     ,"魔神官"=>Data::SKL_LUNA_MEDI
     ,"魔術師"=>Data::SKL_LUNA_SEER_ROLE
@@ -138,7 +138,7 @@ trait TRS_Crescent
     ,"レイヤー"=>Data::SKL_SNATCH
     ,"ムッツリ"=>Data::SKL_LUNATIC
     ,"ドールオタ"=>Data::SKL_MUPPETER
-    ,"潜伏変態"=>Data::SKL_WISPER
+    ,"潜伏変態"=>Data::SKL_WHISPER
     ,"完全変態"=>Data::SKL_HEADLESS
     ,"変態"=>Data::SKL_WOLF
     ,"変態紳士"=>Data::SKL_WISEWOLF
@@ -201,7 +201,7 @@ trait TRS_Crescent
     ,"悪魔祓い"=>Data::SKL_COUNTER
     ,"狂人"=>Data::SKL_LUNATIC
     ,"狂信者"=>Data::SKL_FANATIC
-    ,"囁き狂人"=>Data::SKL_WISPER
+    ,"囁き狂人"=>Data::SKL_WHISPER
     ,"半狼"=>Data::SKL_HALFWOLF
     ,"魔神官"=>Data::SKL_LUNA_MEDI
     ,"魔術師"=>Data::SKL_LUNA_SEER_ROLE

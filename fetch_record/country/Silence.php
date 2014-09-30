@@ -23,7 +23,7 @@ class Silence extends SOW
     ,"スタッフ"=>[Data::SKL_GUARD,Data::TM_VILLAGER]
     ,"AC"=>[Data::SKL_FM,Data::TM_VILLAGER]
     ,"いただきマウス"=>[Data::SKL_FAIRY,Data::TM_FAIRY]
-    ,"あいさつガール"=>[Data::SKL_WISPER,Data::TM_WOLF]
+    ,"あいさつガール"=>[Data::SKL_WHISPER,Data::TM_WOLF]
     ,"ごちそうさマウス"=>[Data::SKL_PIXY,Data::TM_FAIRY]
     ,"ありがとウサギ"=>[Data::SKL_QP,Data::TM_LOVERS]
   ];
