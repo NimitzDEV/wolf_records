@@ -196,7 +196,6 @@ trait Rgl
     if(array_key_exists($rgl,$this->{'rgl_'.$prefix}))
     {
       $this->village->rglid = $this->{'rgl_'.$prefix}[$rgl];
-      //echo $this->village->vno.' has '.$rgl.'=>'.$this->village->rglid.PHP_EOL;
     }
     else
     {
@@ -207,10 +206,10 @@ trait Rgl
   protected function insert_etc($rgl,$message)
   {
     $this->village->rglid = Data::RGL_ETC;
-    echo '>'.$this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
+    //echo '>'.$this->village->vno.' has '.$rgl.'=>FREE =>'.$message.PHP_EOL;
     if(!empty($this->is_evil))
     {
-      echo '>▼Should check evil team.'.PHP_EOL;
+      //echo '>▼Should check evil team.'.PHP_EOL;
     }
   }
 }
