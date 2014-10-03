@@ -63,8 +63,8 @@ trait TRS_Guta
     ,"新人魔術師"=>Data::SKL_WOLF_NOTALK
     ,"琥珀妖精"=>Data::SKL_FAIRY
     ,"欺く琥珀妖精"=>Data::SKL_FRY_MIMIC_W
-    ,"年老いた妖精"=>Data::SKL_FRY_DYING
-    ,"悪意ある妖精"=>Data::SKL_PIXY
+    ,"年老いた琥珀妖精"=>Data::SKL_FRY_DYING
+    ,"悪意ある琥珀妖精"=>Data::SKL_PIXY
     ,"賭博屋"=>Data::SKL_EFB
     ,"占星術師"=>Data::SKL_QP
     ,"懸想する者"=>Data::SKL_PASSION
