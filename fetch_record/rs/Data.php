@@ -180,6 +180,7 @@ class Data
   const SKL_LUNA_ADD_FRY    =163; //呪術師 一人に襲撃無効・被呪殺能力を付与
   const SKL_NONE            =139; //瘴気狂人 2Dに一人を無能状態にする
   const SKL_MAD             =153; //狂学者 2Dに一人を人狼にする
+  const SKL_LUNA_WITCH      =183; //南瓜提灯 毒殺+蘇生薬
   //人狼陣営
   const SKL_WOLF            =  7; //人狼
   const SKL_HEADLESS        = 41; //首無騎士
@@ -230,6 +231,7 @@ class Data
   const SKL_FRY_ADD_FRY     =166; //鏡狐 一人に襲撃無効・被呪殺能力を付与
   const SKL_FRY_CAT         =170; //祟狐 被呪殺・襲撃・処刑時に相手を道連れ
   const SKL_FRY_TEMPT       =171; //惑狐 2Dに一人を妖精の子にする
+  const SKL_FRY_ADD_SICK    =182; //管狐 能力被行使で無能化する恩恵を付与
   //一匹狼陣営
   const SKL_LONEWOLF        = 56; //一匹狼
   const SKL_LONE_TWICE      =169; //人虎 襲撃を受けると、二回襲撃可能になる

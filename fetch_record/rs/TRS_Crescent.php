@@ -61,6 +61,7 @@ trait TRS_Crescent
     ,"幻惑者"=>Data::SKL_DAZZLE
     ,"倒錯者"=>Data::SKL_PERVERT
     ,"狂学者"=>Data::SKL_MAD
+    ,"南瓜提灯"=>Data::SKL_LUNA_WITCH
     //人狼
     ,"凶狼"=>Data::SKL_HEADLESS
     ,"人狼"=>Data::SKL_WOLF
@@ -89,6 +90,7 @@ trait TRS_Crescent
     ,"悪戯妖狐"=>Data::SKL_PIXY
     ,"謀狐"=>Data::SKL_FRY_GRD
     ,"祟狐"=>Data::SKL_FRY_CAT
+    ,"管狐"=>Data::SKL_FRY_ADD_SICK
     ,"雪女"=>Data::SKL_FRY_SEAL
     ,"妖兎"=>Data::SKL_FRY_READ_G
     ,"月兎"=>Data::SKL_FRY_READ_G_DOG
