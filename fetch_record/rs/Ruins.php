@@ -6,5 +6,6 @@ trait Ruins
             ,$ruin_51 = 40
             ,$ruin_55 = 24
             ,$ruin_53 = 61
+            ,$ruin_34 = 46
             ;
 }
