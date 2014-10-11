@@ -12,6 +12,7 @@ trait TRS_Crescent
     ,"信仰占師"=>Data::SKL_SEER_TM
     ,"気占師"=>Data::SKL_SEER_AURA
     ,"賢者"=>Data::SKL_SEER_ROLE
+    ,"啓示者"=>Data::SKL_SEER_DELAY
     ,"狩人"=>Data::SKL_GUARD
     ,"霊能者"=>Data::SKL_MEDIUM
     ,"信仰霊能者"=>Data::SKL_MEDI_TM
@@ -62,6 +63,7 @@ trait TRS_Crescent
     ,"倒錯者"=>Data::SKL_PERVERT
     ,"狂学者"=>Data::SKL_MAD
     ,"南瓜提灯"=>Data::SKL_LUNA_WITCH
+    ,"祈祷師"=>Data::SKL_LUNA_SEER_DELAY
     //人狼
     ,"凶狼"=>Data::SKL_HEADLESS
     ,"人狼"=>Data::SKL_WOLF
@@ -94,6 +96,7 @@ trait TRS_Crescent
     ,"雪女"=>Data::SKL_FRY_SEAL
     ,"妖兎"=>Data::SKL_FRY_READ_G
     ,"月兎"=>Data::SKL_FRY_READ_G_DOG
+    ,"妖花"=>Data::SKL_FRY_ADD_MRT
     //恋
     ,"恋愛天使"=>Data::SKL_QP
     ,"片想い"=>Data::SKL_PASSION

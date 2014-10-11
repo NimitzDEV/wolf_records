@@ -99,6 +99,7 @@ class Data
   const SKL_SEER_ID         = 85; //中身占い師(魂魄師)
   const SKL_SEER_ONCE       = 66; //夢占師
   const SKL_SEER_FUZZ       = 96; //見習い占い師 たまに結果が見えない占師
+  const SKL_SEER_DELAY      =184; //啓示者 一日遅れで役職と陣営を占う
   const SKL_MEDIUM          =  3; //霊能者
   const SKL_MEDI_TM         = 16; //信仰霊能者
   const SKL_MEDI_ROLE       = 17; //導師
@@ -169,6 +170,7 @@ class Data
   const SKL_LUNA_SEER_ROLE  = 40; //魔術師
   const SKL_LUNA_SEER_MELON = 72; //辻占狂人 占い師 呪殺能力なし
   const SKL_LUNA_SEER_ID    = 86; //呪魂者 中身占い師 占われると呪殺できる
+  const SKL_LUNA_SEER_DELAY =185; //祈祷師 一日遅れで役職と陣営を占う
   const SKL_LUNA_MEDI       = 39; //魔神官
   const SKL_LUNA_READ_W     = 62; //感応狂人 赤ログを覗けるが発言不可
   const SKL_LUNA_MIMIC_FM   = 63; //狂鳴者 共鳴ログに紛れ込む
@@ -232,6 +234,7 @@ class Data
   const SKL_FRY_CAT         =170; //祟狐 被呪殺・襲撃・処刑時に相手を道連れ
   const SKL_FRY_TEMPT       =171; //惑狐 2Dに一人を妖精の子にする
   const SKL_FRY_ADD_SICK    =182; //管狐 能力被行使で無能化する恩恵を付与
+  const SKL_FRY_ADD_MRT     =186; //妖花 2dに一人を殉教者陣営にする
   //一匹狼陣営
   const SKL_LONEWOLF        = 56; //一匹狼
   const SKL_LONE_TWICE      =169; //人虎 襲撃を受けると、二回襲撃可能になる
