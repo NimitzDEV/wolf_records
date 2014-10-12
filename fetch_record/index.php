@@ -26,6 +26,16 @@ foreach($countries as $ctry)
 {
   echo '---'.$ctry.'-------'.PHP_EOL;
   ${$ctry} = new $ctry;
-  ${$ctry}->insert();
+  try
+  {
+    ${$ctry}->insert();
+  }
+  catch(Exception $e)
+  {
+    echo 'Caught Error->Skip'.PHP_EOL;
+    unset(${$ctry});
+    continue;
+  }
   unset(${$ctry});
 }
+echo '>>>END<<<'.PHP_EOL;

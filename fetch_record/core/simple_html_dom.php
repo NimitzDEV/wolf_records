@@ -1044,15 +1044,14 @@ class simple_html_dom
     }
 
     // load html from string
-    function load($str, $lowercase=true, $http_response_header,$stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    function load($str, $lowercase=true, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
     {
         if($str === false)
         {
-          list($version,$status_code,$msg) = explode(' ',$http_response_header[0],3);
-          throw new Exception($msg);
+          throw new Exception();
         }
 
-        $list = 'UTF-8,EUC-JP,SJIS,EUC-JP,JIS,ASCII';
+        $list = 'UTF-8,EUC-JP,SJIS,JIS,ASCII';
         $str_encoding = mb_detect_encoding($str,$list);
         //SJIS対策
         if($str_encoding !== 'UTF-8')
@@ -1097,20 +1096,7 @@ class simple_html_dom
     function load_file()
     {
         $args = func_get_args();
-        //$this->load(call_user_func_array('file_get_contents', $args), true,$http_response_header);
-        try
-        {
-          $this->load(call_user_func_array('file_get_contents', $args), true,$http_response_header);
-        }
-        catch(Exception $e)
-        {
-          echo 'ERROR: '.$e->getMessage().PHP_EOL;
-          if($e->getMessage() === 'Internal Server Error')
-          {
-            sleep(5); //遅延
-            $this->load(call_user_func_array('file_get_contents', $args), true,$http_response_header);
-          }
-        }
+        $this->load(call_user_func_array('file_get_contents', $args), true);
         // Throw an error if we can't properly load the dom.
         // http://sourceforge.net/p/simplehtmldom/bugs/42/
         //if (($error=error_get_last())!==null) {
