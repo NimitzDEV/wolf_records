@@ -38,4 +38,4 @@ foreach($countries as $ctry)
   }
   unset(${$ctry});
 }
-echo '>>>END<<<'.PHP_EOL;
+echo '----------------------'.PHP_EOL.'>>>END<<<'.PHP_EOL;
