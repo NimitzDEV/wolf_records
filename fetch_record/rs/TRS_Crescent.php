@@ -12,7 +12,7 @@ trait TRS_Crescent
     ,"信仰占師"=>Data::SKL_SEER_TM
     ,"気占師"=>Data::SKL_SEER_AURA
     ,"賢者"=>Data::SKL_SEER_ROLE
-    ,"啓示者"=>Data::SKL_SEER_DELAY
+    ,"天啓者"=>Data::SKL_SEER_DELAY
     ,"狩人"=>Data::SKL_GUARD
     ,"霊能者"=>Data::SKL_MEDIUM
     ,"信仰霊能者"=>Data::SKL_MEDI_TM
