@@ -113,6 +113,7 @@ class Data
   const SKL_FM_WIS          = 12; //共鳴者
   const SKL_STIGMA          = 11; //聖痕者
   const SKL_FOLLOWER        = 19; //追従者
+  const SKL_LEONARD         =187; //決定者
   const SKL_AGITATOR        = 20; //扇動者
   const SKL_HUNTER          = 21; //賞金稼
   const SKL_DOG             = 22; //人犬
