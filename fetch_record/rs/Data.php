@@ -104,6 +104,7 @@ class Data
   const SKL_MEDI_TM         = 16; //信仰霊能者
   const SKL_MEDI_ROLE       = 17; //導師
   const SKL_MEDI_READ_G     = 18; //降霊者
+  const SKL_MEDI_ID         =188; //霊媒師 中身霊能者
   const SKL_WILD            =109; //野生児 残狼人数が分かる
   const SKL_GUARD           =  4; //狩人
   const SKL_GRD_BLACK       = 54; //守護獣
