@@ -122,7 +122,8 @@ class Data
   const SKL_LINEAGE         = 24; //狼血族
   const SKL_SUSPECT         = 92; //容疑者 占判定は黒、霊判定は白、自覚あり
   const SKL_SUS_LINEAGE     =152; //狼気纏 霊判定では白が出る狼血族
-  const SKL_DOCTOR          = 25; //医師
+  const SKL_DOCTOR          = 25; //医師 とらエリルールの感染を解除
+  const SKL_DISPEL          =190; //解呪師 各種呪いと誘惑状態の解除
   const SKL_CURSED          = 26; //呪人
   const SKL_DYING           = 27; //預言者
   const SKL_SICK            = 28; //病人
@@ -147,7 +148,8 @@ class Data
   const SKL_MISTAKE_FRY     =116; //狐好き 思い込み狐
   const SKL_MISTAKE_LOVE    =117; //妄想家 思い込み求愛者
   const SKL_MISTAKE_SEER    =138; //狼少年 でたらめな占結果が出る。呪殺は可能
-  const SKL_MISTAKE_MEDI    =179; //月酔い でたらめな霊結果が出る
+  const SKL_MISTAKE_MEDI    =179; //月酔 でたらめな霊結果が出る
+  const SKL_MOON            =189; //月族 被占被護衛で行使者を裏切り陣営にする
   const SKL_RANDOM_EATEN    = 97; //傾奇者 被襲撃でランダムに役職変化
   const SKL_RANDOM_DEAD     =118; //転生者 死後三日後ランダムな役職で復活
   const SKL_RANDOM_TOLD     =155; //運命の子 被占いでランダムに役職変化
@@ -159,6 +161,7 @@ class Data
   const SKL_LUNA_WIS_LINEAGE=159; //胡蝶 襲撃されると囁き狂人に変化
   const SKL_JAMMER          = 34; //邪魔之民
   const SKL_FANATIC         = 36; //狂信者
+  const SKL_FANATIC_MOON    =191; //月従者 月系役職を把握する
   const SKL_MUPPETER        = 37; //人形使い
   const SKL_HALFWOLF        = 38; //半狼
   const SKL_SNATCH          = 60; //宿借之民
@@ -207,6 +210,7 @@ class Data
   const SKL_WOLF_ELDER      =151; //古狼 襲撃耐性を貫通するが、6割の確率で襲撃失敗する
   const SKL_WOLF_DELAY      =165; //蠱狼 襲撃した一日後に対象が死ぬ。襲撃返り討ち耐性を無効化
   const SKL_WOLF_PRINCE     =180; //群狼 LWにならない限り処刑されない
+  const SKL_WOLF_MOON       =192; //月狼 被占被護衛で行使者を裏切り陣営にする
   //妖魔陣営
   const SKL_FAIRY           =  9; //妖魔
   const SKL_PIXY            = 50; //悪戯妖精
@@ -237,6 +241,7 @@ class Data
   const SKL_FRY_TEMPT       =171; //惑狐 2Dに一人を妖精の子にする
   const SKL_FRY_ADD_SICK    =182; //管狐 能力被行使で無能化する恩恵を付与
   const SKL_FRY_ADD_MRT     =186; //妖花 2dに一人を殉教者陣営にする
+  const SKL_FRY_MOON        =193; //月夜霊 被占被護衛で行使者を裏切り陣営にする
   //一匹狼陣営
   const SKL_LONEWOLF        = 56; //一匹狼
   const SKL_LONE_TWICE      =169; //人虎 襲撃を受けると、二回襲撃可能になる

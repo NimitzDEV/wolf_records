@@ -20,7 +20,9 @@ trait TRS_Sea
     ,"運命の子"=>Data::SKL_RANDOM_TOLD
     ,"星詠み"=>Data::SKL_SEER_BAND
     ,"交信者"=>Data::SKL_READ_G
-    ,"月酔い"=>Data::SKL_MISTAKE_MEDI
+    ,"月酔"=>Data::SKL_MISTAKE_MEDI
+    ,"月族"=>Data::SKL_MOON
+    ,"解呪師"=>Data::SKL_DISPEL
     //裏切り
     ,"悔罪人"=>Data::SKL_TERU
     ,"座敷童"=>Data::SKL_LUNA_MIMIC_FM
@@ -31,11 +33,13 @@ trait TRS_Sea
     ,"誘惑者"=>Data::SKL_LUNA_TEMPT_SEA
     ,"狂科学者"=>Data::SKL_MAD
     ,"呪術師"=>Data::SKL_LUNA_ADD_FRY
+    ,"月従者"=>Data::SKL_FANATIC_MOON
     //狼
     ,"賢狼"=>Data::SKL_WOLF_MEDI_ROLE
     ,"霊狼"=>Data::SKL_WOLF_MR_READ_G
     ,"大狼"=>Data::SKL_WWOLF_BLACK_G
     ,"群狼"=>Data::SKL_WOLF_PRINCE
+    ,"月狼"=>Data::SKL_WOLF_MOON
     //妖魔
     ,"ハムスター人間"=>Data::SKL_FAIRY
     ,"九尾"=>Data::SKL_FRY_ASS_COUNTER
@@ -48,7 +52,7 @@ trait TRS_Sea
     ,"惑狐"=>Data::SKL_FRY_TEMPT
     ,"夜叉"=>Data::SKL_YASHA
     ,'木霊'=>Data::SKL_FRY_COUNTER
-    ,'仙狸'=>Data::SKL_FRY_CAT
+    ,'犬神'=>Data::SKL_FRY_CAT
     ,'鏡狐'=>Data::SKL_FRY_ADD_FRY
     //他
     ,"吸血鬼"=>Data::SKL_VAMPIRE_SEA
