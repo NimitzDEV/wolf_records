@@ -18,6 +18,7 @@ class Cnt
   const Chitose_RP = 33;
   const Sea    = 45;
   const Sea_Old= 34;
+  //const Sea_Blue=67;
   const Crescent=52;
   const Moon   = 56;
   const Rinne  = 57;
@@ -27,7 +28,7 @@ class Cnt
   const BW     = 48;
   const Dark   = 51;
   const Dance  = 53;
-  const Love   = 54;
+  const Love   = 68;
   const Mikan  = 55;
   const Reason = 59;
   const Silence= 35;
