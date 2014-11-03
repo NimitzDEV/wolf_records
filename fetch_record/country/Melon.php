@@ -15,7 +15,7 @@ class Melon extends SOW
     $rglid_check = $this->fetch->find('p.multicolumn_right',1)->plaintext;
 
     //役職言い換えなしの場合、汎用編成リストを使用
-    if(in_array($this->village->rp,['SOW','JUNA','WBBS','FOOL']))
+    if(in_array($this->village->rp,['SOW','JUNA','WBBS','FOOL','THEATER']))
     {
       $patterns = ['/＋（.+/','/.+　（(.+)）/','/） （ /','/([^ ]+): (\d+)人 /'];
       $replaces = ['','\1','','\1x\2 '];
