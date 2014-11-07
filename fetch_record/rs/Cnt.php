@@ -15,8 +15,8 @@ class Cnt
   const Rose   = 28;
   const Cherry = 30;
   const Chitose= 32;
-  const Chitose_RP = 33;
-  const Sea    = 45;
+  const Chitose_RP=33;
+  const Sea_Red= 45;
   const Sea_Old= 34;
   //const Sea_Blue=67;
   const Crescent=52;

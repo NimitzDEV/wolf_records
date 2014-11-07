@@ -1,18 +1,12 @@
 <?php
 
-class Sea extends Giji_Old
+abstract class Sea extends Giji_Old
 {
   use TRS_Sea;
   protected $RP_SP = [
-    "Role Play"=>'RP'
+    "RolePlay"=>'RP'
   ];
-  function set_village_data()
-  {
-    $cid = 45;
-    $url_vil = "http://chaos-circle.xsrv.jp/abyss/soe/sow.cgi?vid=";
-    $url_log = "http://chaos-circle.xsrv.jp/abyss/soe/sow.cgi?cmd=oldlog";
-    return ['cid'=>$cid,'url_vil'=>$url_vil,'url_log'=>$url_log];
-  }
+  abstract function set_village_data();
   function __construct()
   {
     $data = $this->set_village_data();
@@ -26,6 +20,10 @@ class Sea extends Giji_Old
   protected function fetch_nop()
   {
     $nop = $this->fetch->find('p.multicolumn_left',7)->plaintext;
+    if(!mb_ereg_match('\d+人.+',$nop))
+    {
+      $nop = $this->fetch->find('p.multicolumn_left',8)->plaintext;
+    }
     $this->village->nop = (int)mb_substr($nop,0,mb_strpos($nop,'人'));
   }
   protected function fetch_policy_detail()

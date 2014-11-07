@@ -283,7 +283,7 @@ class Check_Village
       case Cnt::Xebec:
       case Cnt::Crazy:
       case Cnt::Guta:
-      case Cnt::Sea:
+      case Cnt::Sea_Red:
       case Cnt::Sea_Old:
       case Cnt::Ivory:
       case Cnt::Crescent:
