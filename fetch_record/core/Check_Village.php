@@ -284,6 +284,7 @@ class Check_Village
       case Cnt::Crazy:
       case Cnt::Guta:
       case Cnt::Sea_Red:
+      case Cnt::Sea_Blue:
       case Cnt::Sea_Old:
       case Cnt::Ivory:
       case Cnt::Crescent:
