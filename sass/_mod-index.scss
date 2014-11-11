@@ -39,6 +39,10 @@ p + p {
   margin-top: 1em;
 }
 
+#document ul {
+  margin: .5em 0 1em 7.3em;
+}
+
 
 @include tablet {
   form {
