@@ -263,7 +263,16 @@ class Get_DB
         $destiny = $row['end'].'d'.$row['destiny'];
       }
 
-      $url = preg_replace('/%n/',$row['vno'],$row['url']);
+      //URLがnullの場合リンクを貼らない
+      if(!empty($row['url']))
+      {
+        $url = preg_replace('/%n/',$row['vno'],$row['url']);
+        $village = '<a href="'.$url.'"'.$tip_v.$vname.'</a>';
+      }
+      else
+      {
+        $village = $vname;
+      }
       $date = date("Y/m/d",strtotime($row['date']));
       if($row['wtmid'] != 0)
       {
@@ -276,7 +285,7 @@ class Get_DB
       $string.= <<<EOF
         <td>$date</td>
         <td>{$row['country']}{$row['vno']}</td>
-        <td><span class="$icon"></span><a href="$url"$tip_v$vname</a></td>
+        <td><span class="$icon"></span>$village</td>
         <td>{$row['rgl']}</td>
         <td>$tip_p</td>
         <td>{$row['role']}</td>
