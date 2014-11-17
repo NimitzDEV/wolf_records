@@ -7,7 +7,7 @@ class Get_DB
          ,$players
          ,$holder
          ,$join
-         ,$doppel
+         ,$dialog
          ,$record
          ,$teams
          ;
@@ -31,9 +31,10 @@ class Get_DB
   function start_fetch()
   {
     $this->connect();
+    $this->fetch_doppel();
+    $this->fetch_censored();
     if($this->fetch_count())
     {
-      $this->fetch_doppel();
       $this->make_table($this->get_record());
       $this->make_teams($this->fetch_team_table());
     }
@@ -55,6 +56,79 @@ class Get_DB
   private function disconnect()
   {
     $this->pdo = null;
+  }
+  function view_title($id)
+  {
+    if(!empty($this->dialog))
+    {
+      echo '<h1 class="doppel">'.$id.'</h1><div>'.$this->dialog.'</div>';
+    }
+    else
+    {
+      echo '<h1>'.$id.'</h1>';
+    }
+  }
+  private function fetch_doppel()
+  {
+    $stmt = $this->pdo->prepare("
+      SELECT base,doppel FROM doppel WHERE base IN (".$this->holder.");
+    ");
+    $stmt = $this->exe_stmt($stmt);
+    $table = $stmt->fetchALL();
+    if(!empty($table))
+    {
+      $this->make_doppel($table);
+    }
+  }
+  private function make_doppel($doppels)
+  {
+    $string = 'もしかして: ';
+    $url_base = '';
+
+    //URL作成
+    foreach($this->players as $key=>$player)
+    {
+      if($key>0)
+      {
+        $no = '&id_'.$key;
+      }
+      else
+      {
+        $no = 'id_'.$key;
+      }
+      $url_base .= $no.'='.urlencode($player);
+    }
+
+    foreach($doppels as $table)
+    {
+      $doppel[$table['base']] = $table['doppel'];
+      $url = mb_ereg_replace(urlencode($table['base']),urlencode($table['doppel']),$url_base);
+      $url_list[] = '<a href="result.php?'.$url.'">'.htmlentities($table['doppel']).'</a>';
+    }
+    $string .= implode(" | ",$url_list);
+
+    if(count($doppel) > 1)
+    {
+      foreach($doppel as $before=>$after)
+      {
+        $url_base =  preg_replace('/'.urlencode($before).'/',urlencode($after),$url_base);
+      }
+      $string .= ' | <a href="result.php?'.$url_base.'">全部変えて試す</a>';
+    }
+    $this->dialog .= $string;
+  }
+  private function fetch_censored()
+  {
+    $stmt = $this->pdo->prepare("
+      SELECT player FROM censored WHERE player IN (".$this->holder.");
+    ");
+    $stmt = $this->exe_stmt($stmt);
+    $table = $stmt->fetchALL();
+    var_dump($table);
+    //if(!empty($table))
+    //{
+      //$this->doppel = $table;
+    //}
   }
   private function make_nodata()
   {
@@ -103,7 +177,7 @@ class Get_DB
       $this->join = new Join_Count();
       return false;
     }
-  }
+  } 
   private function exe_stmt(&$stmt)
   {
     foreach($this->players as $k =>$id)
@@ -114,41 +188,6 @@ class Get_DB
     return $stmt;
   }
 
-  private function fetch_doppel()
-  {
-    $stmt = $this->pdo->prepare("
-      SELECT base,doppel FROM doppel WHERE base IN (".$this->holder.");
-    ");
-    $stmt = $this->exe_stmt($stmt);
-    $table = $stmt->fetchALL();
-    if(!empty($table))
-    {
-      $this->doppel = $table;
-    }
-  }
-  function make_doppel($url_base)
-  {
-    $url_base = preg_replace('/.+result.php\?/',"","$url_base");
-    $string = 'もしかして: ';
-
-    foreach($this->doppel as $table)
-    {
-      $doppel[$table['base']] = $table['doppel'];
-      $url = mb_ereg_replace(urlencode($table['base']),urlencode($table['doppel']),$url_base);
-      $url_list[] = '<a href="result.php?'.$url.'">'.htmlentities($table['doppel']).'</a>';
-    }
-    $string .= implode(" | ",$url_list);
-
-    if(count($doppel) > 1)
-    {
-      foreach($doppel as $before=>$after)
-      {
-        $url_base =  preg_replace('/'.urlencode($before).'/',urlencode($after),$url_base);
-      }
-      $string .= ' | <a href="result.php?'.$url_base.'">全部変えて試す</a>';
-    }
-    return $string;
-  }
 
   private function get_record()
   {

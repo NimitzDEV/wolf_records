@@ -47,16 +47,7 @@ EOF;
   <body>
     <header>
       <div class="container">
-<?php
-if($db->doppel !== null)
-{
-  echo '<h1 class="doppel">'.$id->view_name.'</h1><div>'.$db->make_doppel(htmlspecialchars($_SERVER["REQUEST_URI"])).'</div>';
-}
-else
-{
-  echo '<h1>'.$id->view_name.'</h1>';
-}
-?>
+        <?= $db->view_title($id->view_name); ?>
         <dl>
           <dt>総合参加数</dt>
           <dd>
