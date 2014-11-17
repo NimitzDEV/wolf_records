@@ -7,10 +7,10 @@ class Get_DB
          ,$players
          ,$holder
          ,$join
-         ,$dialog
          ,$record
          ,$teams
          ;
+  private $dialog = [];
 
   function __construct($players)
   {
@@ -61,7 +61,8 @@ class Get_DB
   {
     if(!empty($this->dialog))
     {
-      echo '<h1 class="doppel">'.$id.'</h1><div>'.$this->dialog.'</div>';
+      $dialog = implode('<br>',$this->dialog);
+      echo '<h1 class="doppel">'.$id.'</h1><div>'.$dialog.'</div>';
     }
     else
     {
@@ -115,7 +116,7 @@ class Get_DB
       }
       $string .= ' | <a href="result.php?'.$url_base.'">全部変えて試す</a>';
     }
-    $this->dialog .= $string;
+    $this->dialog[] = $string;
   }
   private function fetch_censored()
   {
@@ -124,14 +125,34 @@ class Get_DB
     ");
     $stmt = $this->exe_stmt($stmt);
     $table = $stmt->fetchALL();
-    var_dump($table);
-    //if(!empty($table))
-    //{
-      //$this->doppel = $table;
-    //}
+    if(!empty($table))
+    {
+      $this->make_censored($table);
+    }
+  }
+  private function make_censored($censored)
+  {
+    foreach($censored as $id)
+    {
+      $key = array_search($id['player'],$this->players);
+      unset($this->players[$key]);
+      $this->dialog[] = 'ID: '.$id['player'].' は本人の希望により非表示に設定されています。';
+    }
+    if(empty($this->players))
+    {
+      $this->players[0] = '###########';
+    }
+    else
+    {
+      //添字を振り直す
+      $this->players = array_values($this->players);
+    }
+    //holderを作り直す
+    $this->make_holder();
   }
   private function make_nodata()
   {
+    //dynatableの仕様上、colspanが使えない
     $string = '<tr>';
     for($i=1;$i<=8;$i++)
     {
