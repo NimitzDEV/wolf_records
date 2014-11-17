@@ -38,4 +38,11 @@ foreach($countries as $ctry)
   }
   unset(${$ctry});
 }
-echo '----------------------'.PHP_EOL.'>>>END<<<'.PHP_EOL;
+echo '----------------------'.PHP_EOL;
+//queue取得
+$fname = __DIR__.'/rs/queue.txt';
+$fp = fopen($fname,'r');
+echo 'Queue: '.fgets($fp).PHP_EOL;
+fclose($fp);
+
+echo '>>>END<<<'.PHP_EOL;
