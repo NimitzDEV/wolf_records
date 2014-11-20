@@ -53,7 +53,7 @@ class Moon extends SOW
   }
   protected function fetch_rp()
   {
-    $rp = trim($this->fetch->find('p.multicolumn_left',8)->plaintext);
+    $rp = trim($this->fetch->find('div.paragraph',2)->find('p.multicolumn_left',3)->plaintext);
     if(array_key_exists($rp,$this->RP_LIST))
     {
       $this->village->rp = $this->RP_LIST[$rp];
