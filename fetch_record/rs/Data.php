@@ -91,18 +91,18 @@ class Data
   //村人陣営
   const SKL_VILLAGER        =  1; //村人
   const SKL_SEER            =  2; //占い師
-  const SKL_SEER_TM         = 13; //信仰占師
+  const SKL_SEER_TM         = 35; //信仰占師
   const SKL_SEER_TM_FUZZ    = 84; //審判者 おおまかな陣営占い
-  const SKL_SEER_AURA       = 14; //気占師
-  const SKL_SEER_ROLE       = 15; //賢者
+  const SKL_SEER_AURA       = 36; //気占師
+  const SKL_SEER_ROLE       = 52; //賢者
   const SKL_SEER_BAND       =115; //運命読み 絆の有無と種類を占う
   const SKL_SEER_ID         = 85; //中身占い師(魂魄師)
   const SKL_SEER_ONCE       = 66; //夢占師
   const SKL_SEER_FUZZ       = 96; //見習い占い師 たまに結果が見えない占師
   const SKL_SEER_DELAY      =184; //啓示者 一日遅れで役職と陣営を占う
   const SKL_MEDIUM          =  3; //霊能者
-  const SKL_MEDI_TM         = 16; //信仰霊能者
-  const SKL_MEDI_ROLE       = 17; //導師
+  const SKL_MEDI_TM         = 67; //信仰霊能者
+  const SKL_MEDI_ROLE       =133; //導師
   const SKL_MEDI_READ_G     = 18; //降霊者
   const SKL_MEDI_ID         =188; //霊媒師 中身霊能者
   const SKL_WILD            =109; //野生児 残狼人数が分かる
@@ -156,11 +156,11 @@ class Data
   //裏切りの陣営
   const SKL_LUNATIC         =  6; //狂人
   const SKL_WHISPER         =  8; //囁き狂人
-  const SKL_LUNA_WIS        = 35; //叫迷狂人
+  const SKL_LUNA_WIS        = 14; //叫迷狂人
   const SKL_LUNA_WIS_TEMPT  = 88; //誘惑者 囁き狂人+初日に一人を隷従者(恩恵)にする
   const SKL_LUNA_WIS_LINEAGE=159; //胡蝶 襲撃されると囁き狂人に変化
   const SKL_JAMMER          = 34; //邪魔之民
-  const SKL_FANATIC         = 36; //狂信者
+  const SKL_FANATIC         = 13; //狂信者
   const SKL_FANATIC_MOON    =191; //月従者 月系役職を把握する
   const SKL_MUPPETER        = 37; //人形使い
   const SKL_HALFWOLF        = 38; //半狼
@@ -248,9 +248,9 @@ class Data
   //笛吹き陣営
   const SKL_PIPER           = 57; //笛吹き
   //恋陣営
-  const SKL_QP              = 52; //恋愛天使
-  const SKL_QP_SELF         =133; //求愛者
-  const SKL_QP_SELF_MELON   = 67; //求婚者
+  const SKL_QP              = 15; //恋愛天使
+  const SKL_QP_SELF         = 17; //求愛者
+  const SKL_QP_SELF_MELON   = 16; //求婚者
   const SKL_PASSION         = 53; //片想い
   const SKL_BITCH           = 59; //遊び人
   const SKL_MISTAKE_QP      =134; //狂愛者 絆を結んだと思い込む。無自覚かつランダムに襲撃する
