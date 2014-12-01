@@ -48,7 +48,7 @@ class Crescent extends Giji_Old
   protected function fetch_policy()
   {
     $policy = $this->fetch->find('p.multicolumn_left',1)->plaintext;
-    if(mb_strpos("真剣勝負",$policy) === true)
+    if(mb_strpos($policy,"真剣勝負") !== false)
     {
       $this->village->policy = true;
     }
